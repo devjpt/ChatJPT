@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.1
+  Version 1.1.1
 -->
 
 
@@ -1611,7 +1611,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 25 mai 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 1 juin 2026</span>
     </div>
     <div class="config-row">
         <div class="config-group">
@@ -1673,6 +1673,24 @@
             <div class="select-group">
                 <label data-i18n="lblImageModel">Modèle Image</label>
                 <select id="image-model-select" aria-label="Modèle image"></select>
+            </div>
+            <div class="select-group" id="image-quality-group">
+                <label data-i18n="lblImageQuality">Qualité</label>
+                <select id="image-quality-select" aria-label="Qualité image">
+                    <option value="low" data-i18n="imgQualLow">Basse (rapide)</option>
+                    <option value="medium" selected data-i18n="imgQualMedium">Moyenne</option>
+                    <option value="high" data-i18n="imgQualHigh">Haute (lente)</option>
+                    <option value="auto" data-i18n="imgQualAuto">Auto</option>
+                </select>
+            </div>
+            <div class="select-group" id="image-size-group">
+                <label data-i18n="lblImageSize">Taille</label>
+                <select id="image-size-select" aria-label="Taille image">
+                    <option value="1024x1024" selected data-i18n="imgSizeSquare">Carré (1024×1024)</option>
+                    <option value="1536x1024" data-i18n="imgSizeLandscape">Paysage (1536×1024)</option>
+                    <option value="1024x1536" data-i18n="imgSizePortrait">Portrait (1024×1536)</option>
+                    <option value="auto" data-i18n="imgSizeAuto">Auto</option>
+                </select>
             </div>
         </div>
     </div>
@@ -1803,6 +1821,10 @@
     const imageTab = $('image-tab');
     const imageConfigPanel = $('image-config-panel');
     const imageModelSelect = $('image-model-select');
+    const imageQualitySelect = $('image-quality-select');
+    const imageQualityGroup = $('image-quality-group');
+    const imageSizeSelect = $('image-size-select');
+    const imageSizeGroup = $('image-size-group');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
     const videoModelSelect = $('video-model-select');
@@ -1873,8 +1895,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.1 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 25 mai 2026",
+            creditVersion: "Version 1.1.1 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 1 juin 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -1884,13 +1906,23 @@
             tableCols: "cols",
             tableStreaming: "⏳ en cours...",
             lblImageModel: "Modèle Image",
+            lblImageQuality: "Qualité",
+            imgQualLow: "Basse (rapide)",
+            imgQualMedium: "Moyenne",
+            imgQualHigh: "Haute (lente)",
+            imgQualAuto: "Auto",
+            lblImageSize: "Taille",
+            imgSizeSquare: "Carré (1024×1024)",
+            imgSizeLandscape: "Paysage (1536×1024)",
+            imgSizePortrait: "Portrait (1024×1536)",
+            imgSizeAuto: "Auto",
             tabVideo: "🎬 Vidéo",
             placeholderVideo: "Décrivez la vidéo que vous souhaitez générer...",
             lblVideoModel: "Modèle Vidéo",
             lblAspectRatio: "Ratio",
             lblDuration: "Durée",
             videoGenerating: "Génération de la vidéo en cours...",
-            videoPolling: "Traitement en cours, veuillez patienter (~1-3 min)...",
+            videoPolling: "Traitement en cours (peut prendre plusieurs minutes, surtout en Pro)...",
             videoReady: "Vidéo générée avec succès !",
             videoError: "Erreur lors de la génération vidéo",
             videoStoppedMsg: "🛑 Génération vidéo interrompue par l'utilisateur.",
@@ -1963,8 +1995,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.1 - Latest version: ",
-            appUpdated: "📅 Updated: May 25, 2026",
+            creditVersion: "Version 1.1.1 - Latest version: ",
+            appUpdated: "📅 Updated: June 1, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -1974,13 +2006,23 @@
             tableCols: "cols",
             tableStreaming: "⏳ streaming...",
             lblImageModel: "Image Model",
+            lblImageQuality: "Quality",
+            imgQualLow: "Low (fast)",
+            imgQualMedium: "Medium",
+            imgQualHigh: "High (slow)",
+            imgQualAuto: "Auto",
+            lblImageSize: "Size",
+            imgSizeSquare: "Square (1024×1024)",
+            imgSizeLandscape: "Landscape (1536×1024)",
+            imgSizePortrait: "Portrait (1024×1536)",
+            imgSizeAuto: "Auto",
             tabVideo: "🎬 Video",
             placeholderVideo: "Describe the video you want to generate...",
             lblVideoModel: "Video Model",
             lblAspectRatio: "Ratio",
             lblDuration: "Duration",
             videoGenerating: "Generating video...",
-            videoPolling: "Processing, please wait (~1-3 min)...",
+            videoPolling: "Processing (can take several minutes, especially on Pro)...",
             videoReady: "Video generated successfully!",
             videoError: "Error during video generation",
             videoStoppedMsg: "🛑 Video generation stopped by user.",
@@ -2040,7 +2082,8 @@
             { id: 'o4-mini', name: { fr: 'o4-mini (Raisonnement rapide)', en: 'o4-mini (Fast Reasoning)' } },
         ],
         claude: [
-            { id: 'claude-opus-4-7', name: { fr: 'Claude Opus 4.7 (Dernier)', en: 'Claude Opus 4.7 (Latest)' } },
+            { id: 'claude-opus-4-8', name: { fr: 'Claude Opus 4.8 (Dernier)', en: 'Claude Opus 4.8 (Latest)' } },
+            { id: 'claude-opus-4-7', name: { fr: 'Claude Opus 4.7', en: 'Claude Opus 4.7' } },
             { id: 'claude-opus-4-6', name: { fr: 'Claude Opus 4.6', en: 'Claude Opus 4.6' } },
             { id: 'claude-sonnet-4-6', name: { fr: 'Claude Sonnet 4.6', en: 'Claude Sonnet 4.6' } },
             { id: 'claude-haiku-4-5-20251001', name: { fr: 'Claude Haiku 4.5', en: 'Claude Haiku 4.5' } },
@@ -2087,6 +2130,13 @@
             { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast', en: 'Veo 3.1 Fast' } },
             { id: 'veo-2.0-generate-001', name: { fr: 'Veo 2.0', en: 'Veo 2.0' } }
         ]
+    };
+
+    // Allowed clip durations (seconds) per provider. Sora only accepts 8/12/16/20;
+    // Gemini Veo accepts shorter clips. Mismatched values are rejected by the API.
+    const VIDEO_DURATIONS = {
+        openai: ['8', '12', '16', '20'],
+        gemini: ['8', '6', '4']
     };
 
     // ===== SYSTEM PROMPTS =====
@@ -2295,7 +2345,7 @@ Your absolute directives:
     // Build an inline error/abort message span (escapes input)
     function buildErrorHTML(message, isAborted) {
         const cls = isAborted ? 'dp-warning-text' : 'dp-error-text';
-        return `<span class="${cls}">${escapeHtml(message)}</span>`;
+        return `<span class="${cls}">${escapeHtml(message).replace(/\n/g, '<br>')}</span>`;
     }
 
     // Remove the loading dots from a message div (idempotent)
@@ -2374,9 +2424,18 @@ Your absolute directives:
     // Render a uniform error message inside a video result container
     function showVideoError(contentDiv, error) {
         const isAborted = error.name === 'AbortError';
-        const errorMsg = isAborted
-            ? (I18N[currentLang].videoStoppedMsg || "🛑 Video generation stopped by user.")
-            : `❌ ${I18N[currentLang].videoError} : ${translateApiError(error)}`;
+        let errorMsg;
+        if (isAborted) {
+            errorMsg = I18N[currentLang].videoStoppedMsg || "🛑 Video generation stopped by user.";
+        } else {
+            const raw = (error && error.message) ? error.message : String(error);
+            const friendly = translateApiError(error);
+            console.error('[Video generation error]', raw);
+            errorMsg = `❌ ${I18N[currentLang].videoError} : ${friendly}`;
+            // When we replaced the provider's message with a generic one, also show
+            // the raw text so the user can see the exact reason (policy, parameter…).
+            if (friendly !== raw) errorMsg += `\n↳ ${raw}`;
+        }
         contentDiv.innerHTML = buildErrorHTML(errorMsg, isAborted);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
@@ -2475,7 +2534,10 @@ Your absolute directives:
                     signal,
                     headers: { 'Authorization': `Bearer ${key}` }
                 });
-                if (!res.ok) return null;
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    return { httpError: err.error?.message || `HTTP Error ${res.status}` };
+                }
                 const data = await res.json();
                 return {
                     done: data.status === 'completed',
@@ -2499,7 +2561,9 @@ Your absolute directives:
                 };
             },
             pollIntervalMs: 10000,
-            maxPolls: 120
+            // Sora 2 Pro renders are materially slower than the fast model,
+            // so give Pro a longer ceiling (~40 min) vs ~20 min for sora-2.
+            maxPolls: (model) => model === 'sora-2-pro' ? 240 : 120
         },
         gemini: {
             async submit(prompt, params, key, signal) {
@@ -2822,16 +2886,9 @@ Your absolute directives:
             populateModels();
         }
 
-        // Update video config selects language
+        // Update video config selects language (populateVideoModels also rebuilds
+        // the duration options with localized labels for the active provider).
         if (videoModelSelect) populateVideoModels();
-        if (videoDurationSelect) {
-            const durOpts = videoDurationSelect.options;
-            if (durOpts.length >= 3) {
-                durOpts[0].textContent = I18N[currentLang].dur8s;
-                durOpts[1].textContent = I18N[currentLang].dur6s;
-                durOpts[2].textContent = I18N[currentLang].dur4s;
-            }
-        }
         if (videoAspectSelect) {
             const arOpts = videoAspectSelect.options;
             if (arOpts.length >= 2) {
@@ -3153,10 +3210,44 @@ Your absolute directives:
 
     function populateVideoModels() {
         populateSelect(videoModelSelect, VIDEO_MODELS[providerSelect.value] || [], currentLang);
+        populateVideoDurations();
+    }
+
+    // Rebuild the duration dropdown with the values the active provider's API accepts,
+    // preserving the current selection when it is still valid.
+    function populateVideoDurations() {
+        if (!videoDurationSelect) return;
+        const list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
+        const prev = videoDurationSelect.value;
+        const unit = currentLang === 'fr' ? 'secondes' : 'seconds';
+        videoDurationSelect.innerHTML = '';
+        list.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v;
+            opt.textContent = `${v} ${unit}`;
+            videoDurationSelect.appendChild(opt);
+        });
+        if (list.includes(prev)) videoDurationSelect.value = prev;
     }
 
     function populateImageModels() {
         populateSelect(imageModelSelect, IMAGE_MODELS[providerSelect.value] || [], currentLang);
+        // Quality and size only apply to OpenAI's gpt-image models; Gemini ignores them.
+        const isOpenAI = providerSelect.value === 'openai';
+        if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
+        if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
+        if (imageQualitySelect) {
+            const saved = localStorage.getItem('ai_image_quality');
+            if (saved && [...imageQualitySelect.options].some(o => o.value === saved)) {
+                imageQualitySelect.value = saved;
+            }
+        }
+        if (imageSizeSelect) {
+            const saved = localStorage.getItem('ai_image_size');
+            if (saved && [...imageSizeSelect.options].some(o => o.value === saved)) {
+                imageSizeSelect.value = saved;
+            }
+        }
     }
 
     // ===== EVENT LISTENERS =====
@@ -3175,6 +3266,18 @@ Your absolute directives:
             localStorage.setItem('ai_model', modelSelect.value);
             updateThinkingUI();
         });
+
+        if (imageQualitySelect) {
+            imageQualitySelect.addEventListener('change', () => {
+                localStorage.setItem('ai_image_quality', imageQualitySelect.value);
+            });
+        }
+
+        if (imageSizeSelect) {
+            imageSizeSelect.addEventListener('change', () => {
+                localStorage.setItem('ai_image_size', imageSizeSelect.value);
+            });
+        }
 
         document.querySelectorAll('.mode-tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -4096,8 +4199,8 @@ Your absolute directives:
                 model: selectedModel,
                 prompt,
                 n: 1,
-                size: '1024x1024',
-                quality: 'high'
+                size: (imageSizeSelect && imageSizeSelect.value) ? imageSizeSelect.value : '1024x1024',
+                quality: (imageQualitySelect && imageQualitySelect.value) ? imageQualitySelect.value : 'medium'
             })
         });
 
@@ -4229,8 +4332,13 @@ Your absolute directives:
 
             let pollCount = 0;
             let lastStatus = null;
+            let consecutiveErrors = 0;
+            const MAX_CONSECUTIVE_ERRORS = 3;
+            const maxPolls = typeof adapter.maxPolls === 'function'
+                ? adapter.maxPolls(params.model)
+                : adapter.maxPolls;
 
-            while (pollCount < adapter.maxPolls) {
+            while (pollCount < maxPolls) {
                 if (signal.aborted) {
                     throw new DOMException('Aborted', 'AbortError');
                 }
@@ -4243,9 +4351,21 @@ Your absolute directives:
                     status = await adapter.poll(handle, key, signal);
                 } catch (e) {
                     if (e.name === 'AbortError') throw e;
-                    continue; // transient network error — retry on next tick
+                    // Transient network error — retry, but bail out if it persists
+                    // instead of silently spinning until the timeout.
+                    if (++consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) throw e;
+                    continue;
                 }
-                if (status === null) continue; // non-OK response — retry
+                if (status === null) continue; // non-OK response (legacy) — retry
+
+                // Surface a persistent API error instead of hanging until timeout.
+                if (status.httpError) {
+                    if (++consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+                        throw new Error(status.httpError);
+                    }
+                    continue;
+                }
+                consecutiveErrors = 0;
 
                 if (status.progress != null && progressFill) {
                     progressFill.classList.remove('indeterminate');

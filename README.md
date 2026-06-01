@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.1
+  Version 1.1.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -15,16 +15,17 @@ from your browser — no installation required.
 FEATURES
 --------
   - Multi-provider support:
-      • OpenAI     (GPT-4, GPT-4o, o1, o3, etc.)
-      • Anthropic  (Claude 3.5, Claude 3 Opus, etc.)
-      • Google     (Gemini 1.5, Gemini 2.0, etc.)
+      • OpenAI     (GPT-5.x, GPT-4.1, o-series, etc.)
+      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Google     (Gemini 3.x, Gemini 2.5, etc.)
 
   - Conversation modes:
       • Chat       : general conversation
       • Code       : development assistance, syntax highlighting,
                      code block download
-      • Image      : image generation (DALL-E, Gemini)
-      • Video      : video generation (Gemini)
+      • Image      : image generation (OpenAI GPT Image with adjustable
+                     quality and size, Google Gemini)
+      • Video      : video generation (OpenAI Sora 2, Google Veo)
 
   - Agent Mode: forces the AI to respond step-by-step in English,
     optimized for automated coding tools (Claude Code, Cursor, etc.)
@@ -43,7 +44,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_1.html
+  1. Download the file ChatJPT_1_1_1.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -75,7 +76,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.1
+  Version 1.1.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -91,16 +92,17 @@ votre navigateur, sans installation requise.
 FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
-      • OpenAI     (GPT-4, GPT-4o, o1, o3, etc.)
-      • Anthropic  (Claude 3.5, Claude 3 Opus, etc.)
-      • Google     (Gemini 1.5, Gemini 2.0, etc.)
+      • OpenAI     (GPT-5.x, GPT-4.1, série o, etc.)
+      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Google     (Gemini 3.x, Gemini 2.5, etc.)
 
   - Modes de conversation :
       • Chat       : conversation générale
       • Code       : assistance au développement, coloration syntaxique,
                      téléchargement des blocs de code
-      • Image      : génération d'images (DALL-E, Gemini)
-      • Vidéo      : génération de vidéos (Gemini)
+      • Image      : génération d'images (OpenAI GPT Image avec qualité
+                     et taille ajustables, Google Gemini)
+      • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo)
 
   - Mode Agent : force l'IA à répondre étape par étape en anglais,
     optimisé pour les outils de codage automatisés (Claude Code, Cursor, etc.)
@@ -119,7 +121,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_1.html
+  1. Téléchargez le fichier ChatJPT_1_1_1.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
