@@ -36,6 +36,9 @@ FEATURES
 
   - Bilingual interface: English and French
 
+  - Rate AI responses (👍 / 👎), saved with your conversation. Export the
+    full conversation, or only your 👍 responses (each with its prompt).
+
   - Your API keys and preferences are saved locally in your browser
     (no server, no data transmitted to the author)
 
@@ -112,6 +115,10 @@ FONCTIONNALITÉS
   - Thème clair / sombre
 
   - Interface bilingue : français et anglais
+
+  - Notez les réponses de l'IA (👍 / 👎), sauvegardées avec votre conversation.
+    Exportez la conversation complète, ou seulement vos réponses 👍
+    (chacune avec sa question).
 
   - Vos clés API et préférences sont sauvegardées localement
     dans votre navigateur (aucun serveur, aucune donnée transmise à l'auteur)

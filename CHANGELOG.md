@@ -18,6 +18,12 @@
     - Image size selector for OpenAI (Square/Landscape/Portrait/Auto),
       replacing the hardcoded 1024×1024. Both quality and size are saved
       and only shown for OpenAI.
+    - Per-message thumbs up/down rating on AI responses, saved with the
+      conversation and restored on reload.
+    - A dismissible "buy me a coffee" banner, shown at most once per
+      session and only after a 👍 (never after a 👎).
+    - Export of 👍-rated responses only (each preceded by its prompt),
+      alongside the existing full-conversation export.
   Fixed
     - OpenAI (Sora) video generation: the duration menu now offers the
       values the Sora API actually accepts (8/12/16/20 s) instead of the
@@ -61,6 +67,12 @@
     - Sélecteur de taille d'image pour OpenAI (Carré/Paysage/Portrait/Auto),
       remplaçant le 1024×1024 figé. La qualité et la taille sont sauvegardées
       et affichées uniquement pour OpenAI.
+    - Notation pouce haut/bas par réponse IA, sauvegardée avec la
+      conversation et restaurée au rechargement.
+    - Un bandeau « offrez-moi un café » fermable, affiché au plus une fois
+      par session et uniquement après un 👍 (jamais après un 👎).
+    - Export des seules réponses notées 👍 (chacune précédée de sa
+      question), en plus de l'export complet de la conversation.
   Corrigé
     - Génération vidéo OpenAI (Sora) : le menu Durée propose maintenant
       les valeurs réellement acceptées par l'API Sora (8/12/16/20 s) au
