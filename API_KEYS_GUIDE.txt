@@ -1,0 +1,152 @@
+================================================================
+  API KEYS GUIDE
+  ChatJPT by Jean-Philippe Theriault — https://www.devjpt.com/
+================================================================
+
+API keys allow ChatJPT to communicate with AI services. Each key
+is personal and free to create (usage-based billing depending on
+your plan).
+
+
+----------------------------------------------------------------
+  1. ANTHROPIC (Claude)
+     Key looks like: sk-ant-api03-...
+----------------------------------------------------------------
+
+  1. Go to: https://console.anthropic.com/
+  2. Create an account or sign in.
+  3. In the left menu, click "API Keys".
+  4. Click "Create Key" and give it a name.
+  5. Copy the key immediately — it will not be shown again.
+
+  Note: Anthropic offers free credits to get started.
+
+
+----------------------------------------------------------------
+  2. OPENAI (ChatGPT / DALL-E)
+     Key looks like: sk-proj-...
+----------------------------------------------------------------
+
+  1. Go to: https://platform.openai.com/
+  2. Create an account or sign in.
+  3. Click your profile (top right) > "API Keys".
+  4. Click "Create new secret key" and give it a name.
+  5. Copy the key immediately — it will not be shown again.
+
+  Note: OpenAI requires a minimum credit deposit to use the API.
+        New accounts sometimes receive free credits.
+
+
+----------------------------------------------------------------
+  3. GOOGLE (Gemini)
+     Key looks like: AIzaSy...
+----------------------------------------------------------------
+
+  1. Go to: https://aistudio.google.com/
+  2. Sign in with your Google account.
+  3. Click "Get API Key" in the top left.
+  4. Click "Create API key in new project" (or an existing project).
+  5. Copy the key displayed.
+
+  Note: Google offers a generous free tier for Gemini via AI Studio.
+
+
+----------------------------------------------------------------
+  HOW TO ENTER YOUR KEYS IN CHATJPT
+----------------------------------------------------------------
+
+  1. Open ChatJPT_1_1.html in your browser.
+  2. In the left panel, locate the fields:
+       🟢 OpenAI   → paste your sk-proj-... key
+       🟠 Claude   → paste your sk-ant-... key
+       🔵 Gemini   → paste your AIzaSy... key
+  3. Keys are saved locally in your browser.
+     They are never sent anywhere other than to the respective service.
+
+
+----------------------------------------------------------------
+  SECURITY
+----------------------------------------------------------------
+
+  - Never share your API keys publicly.
+  - Do not include them in code you publish on GitHub.
+  - If a key is compromised, revoke it immediately from
+    the service's dashboard.
+
+
+================================================================
+  GUIDE — OBTENIR VOS CLÉS API
+  ChatJPT par Jean-Philippe Theriault — https://www.devjpt.com/
+================================================================
+
+Les clés API permettent à ChatJPT de communiquer avec les services
+d'intelligence artificielle. Chaque clé est personnelle et gratuite
+à créer (facturation à l'usage selon votre plan).
+
+
+----------------------------------------------------------------
+  1. ANTHROPIC (Claude)
+     Clé ressemble à : sk-ant-api03-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://console.anthropic.com/
+  2. Créez un compte ou connectez-vous.
+  3. Dans le menu de gauche, cliquez sur "API Keys".
+  4. Cliquez sur "Create Key", donnez-lui un nom.
+  5. Copiez la clé immédiatement — elle ne sera plus affichée.
+
+  Note : Anthropic offre un crédit gratuit pour débuter.
+
+
+----------------------------------------------------------------
+  2. OPENAI (ChatGPT / DALL-E)
+     Clé ressemble à : sk-proj-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://platform.openai.com/
+  2. Créez un compte ou connectez-vous.
+  3. Cliquez sur votre profil (en haut à droite) > "API Keys".
+  4. Cliquez sur "Create new secret key", donnez-lui un nom.
+  5. Copiez la clé immédiatement — elle ne sera plus affichée.
+
+  Note : OpenAI exige un dépôt de crédit minimum pour utiliser l'API.
+         Les nouveaux comptes reçoivent parfois du crédit gratuit.
+
+
+----------------------------------------------------------------
+  3. GOOGLE (Gemini)
+     Clé ressemble à : AIzaSy...
+----------------------------------------------------------------
+
+  1. Allez sur : https://aistudio.google.com/
+  2. Connectez-vous avec votre compte Google.
+  3. Cliquez sur "Get API Key" en haut à gauche.
+  4. Cliquez sur "Create API key in new project" (ou un projet existant).
+  5. Copiez la clé affichée.
+
+  Note : Google offre un niveau gratuit généreux pour Gemini via AI Studio.
+
+
+----------------------------------------------------------------
+  COMMENT ENTRER VOS CLÉS DANS CHATJPT
+----------------------------------------------------------------
+
+  1. Ouvrez ChatJPT_1_1.html dans votre navigateur.
+  2. Dans le panneau de gauche, repérez les champs :
+       🟢 OpenAI   → collez votre clé sk-proj-...
+       🟠 Claude   → collez votre clé sk-ant-...
+       🔵 Gemini   → collez votre clé AIzaSy...
+  3. Les clés sont sauvegardées localement dans votre navigateur.
+     Elles ne sont jamais envoyées ailleurs que vers le service concerné.
+
+
+----------------------------------------------------------------
+  SÉCURITÉ
+----------------------------------------------------------------
+
+  - Ne partagez jamais vos clés API publiquement.
+  - Ne les incluez pas dans du code que vous publiez sur GitHub.
+  - Si une clé est compromise, révoquez-la immédiatement depuis
+    le tableau de bord du service concerné.
+
+================================================================
