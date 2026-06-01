@@ -18,6 +18,10 @@
     - Image size selector for OpenAI (Square/Landscape/Portrait/Auto),
       replacing the hardcoded 1024×1024. Both quality and size are saved
       and only shown for OpenAI.
+    - Image format (aspect ratio) and resolution (1K/2K/4K) selectors for
+      Gemini, applied to both Nano Banana and Imagen 4. Saved and only
+      shown for Gemini. (Gemini has no Low/Medium/High "quality" knob;
+      resolution is its equivalent lever.)
     - Per-message thumbs up/down rating on AI responses, saved with the
       conversation and restored on reload.
     - A dismissible "buy me a coffee" banner, shown at most once per
@@ -67,6 +71,10 @@
     - Sélecteur de taille d'image pour OpenAI (Carré/Paysage/Portrait/Auto),
       remplaçant le 1024×1024 figé. La qualité et la taille sont sauvegardées
       et affichées uniquement pour OpenAI.
+    - Sélecteurs de format (ratio) et de résolution (1K/2K/4K) pour les
+      images Gemini, appliqués à Nano Banana et Imagen 4. Sauvegardés et
+      affichés uniquement pour Gemini. (Gemini n'a pas de réglage de
+      « qualité » Basse/Moyenne/Haute ; la résolution en est l'équivalent.)
     - Notation pouce haut/bas par réponse IA, sauvegardée avec la
       conversation et restaurée au rechargement.
     - Un bandeau « offrez-moi un café » fermable, affiché au plus une fois

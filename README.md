@@ -23,8 +23,9 @@ FEATURES
       • Chat       : general conversation
       • Code       : development assistance, syntax highlighting,
                      code block download
-      • Image      : image generation (OpenAI GPT Image with adjustable
-                     quality and size, Google Gemini)
+      • Image      : image generation — OpenAI GPT Image (adjustable
+                     quality and size) and Google Gemini (adjustable
+                     format and resolution)
       • Video      : video generation (OpenAI Sora 2, Google Veo)
 
   - Agent Mode: forces the AI to respond step-by-step in English,
@@ -103,8 +104,9 @@ FONCTIONNALITÉS
       • Chat       : conversation générale
       • Code       : assistance au développement, coloration syntaxique,
                      téléchargement des blocs de code
-      • Image      : génération d'images (OpenAI GPT Image avec qualité
-                     et taille ajustables, Google Gemini)
+      • Image      : génération d'images — OpenAI GPT Image (qualité et
+                     taille ajustables) et Google Gemini (format et
+                     résolution ajustables)
       • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo)
 
   - Mode Agent : force l'IA à répondre étape par étape en anglais,

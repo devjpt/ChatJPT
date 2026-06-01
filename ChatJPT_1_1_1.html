@@ -1763,6 +1763,24 @@
                     <option value="auto" data-i18n="imgSizeAuto">Auto</option>
                 </select>
             </div>
+            <div class="select-group" id="image-format-group">
+                <label data-i18n="lblImageFormat">Format</label>
+                <select id="image-format-select" aria-label="Format image">
+                    <option value="1:1" selected data-i18n="imgFmtSquare">Carré (1:1)</option>
+                    <option value="16:9" data-i18n="imgFmtLandscape">Paysage (16:9)</option>
+                    <option value="9:16" data-i18n="imgFmtPortrait">Portrait (9:16)</option>
+                    <option value="4:3" data-i18n="imgFmtClassic">Classique (4:3)</option>
+                    <option value="3:4" data-i18n="imgFmtClassicPortrait">Portrait (3:4)</option>
+                </select>
+            </div>
+            <div class="select-group" id="image-resolution-group">
+                <label data-i18n="lblImageResolution">Résolution</label>
+                <select id="image-resolution-select" aria-label="Résolution image">
+                    <option value="1K" selected data-i18n="imgRes1K">1K (rapide)</option>
+                    <option value="2K">2K</option>
+                    <option value="4K" data-i18n="imgRes4K">4K (lent)</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -1896,6 +1914,10 @@
     const imageQualityGroup = $('image-quality-group');
     const imageSizeSelect = $('image-size-select');
     const imageSizeGroup = $('image-size-group');
+    const imageFormatSelect = $('image-format-select');
+    const imageFormatGroup = $('image-format-group');
+    const imageResolutionSelect = $('image-resolution-select');
+    const imageResolutionGroup = $('image-resolution-group');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
     const videoModelSelect = $('video-model-select');
@@ -1995,6 +2017,15 @@
             imgSizeLandscape: "Paysage (1536×1024)",
             imgSizePortrait: "Portrait (1024×1536)",
             imgSizeAuto: "Auto",
+            lblImageFormat: "Format",
+            imgFmtSquare: "Carré (1:1)",
+            imgFmtLandscape: "Paysage (16:9)",
+            imgFmtPortrait: "Portrait (9:16)",
+            imgFmtClassic: "Classique (4:3)",
+            imgFmtClassicPortrait: "Portrait (3:4)",
+            lblImageResolution: "Résolution",
+            imgRes1K: "1K (rapide)",
+            imgRes4K: "4K (lent)",
             tabVideo: "🎬 Vidéo",
             placeholderVideo: "Décrivez la vidéo que vous souhaitez générer...",
             lblVideoModel: "Modèle Vidéo",
@@ -2102,6 +2133,15 @@
             imgSizeLandscape: "Landscape (1536×1024)",
             imgSizePortrait: "Portrait (1024×1536)",
             imgSizeAuto: "Auto",
+            lblImageFormat: "Format",
+            imgFmtSquare: "Square (1:1)",
+            imgFmtLandscape: "Landscape (16:9)",
+            imgFmtPortrait: "Portrait (9:16)",
+            imgFmtClassic: "Classic (4:3)",
+            imgFmtClassicPortrait: "Portrait (3:4)",
+            lblImageResolution: "Resolution",
+            imgRes1K: "1K (fast)",
+            imgRes4K: "4K (slow)",
             tabVideo: "🎬 Video",
             placeholderVideo: "Describe the video you want to generate...",
             lblVideoModel: "Video Model",
@@ -3318,22 +3358,24 @@ Your absolute directives:
 
     function populateImageModels() {
         populateSelect(imageModelSelect, IMAGE_MODELS[providerSelect.value] || [], currentLang);
-        // Quality and size only apply to OpenAI's gpt-image models; Gemini ignores them.
+        // Quality/size apply to OpenAI's gpt-image models; format/resolution apply
+        // to Gemini. Each set is shown only for its provider.
         const isOpenAI = providerSelect.value === 'openai';
+        const isGemini = providerSelect.value === 'gemini';
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
-        if (imageQualitySelect) {
-            const saved = localStorage.getItem('ai_image_quality');
-            if (saved && [...imageQualitySelect.options].some(o => o.value === saved)) {
-                imageQualitySelect.value = saved;
-            }
-        }
-        if (imageSizeSelect) {
-            const saved = localStorage.getItem('ai_image_size');
-            if (saved && [...imageSizeSelect.options].some(o => o.value === saved)) {
-                imageSizeSelect.value = saved;
-            }
-        }
+        if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
+        if (imageResolutionGroup) imageResolutionGroup.style.display = isGemini ? '' : 'none';
+
+        const restore = (sel, storageKey) => {
+            if (!sel) return;
+            const saved = localStorage.getItem(storageKey);
+            if (saved && [...sel.options].some(o => o.value === saved)) sel.value = saved;
+        };
+        restore(imageQualitySelect, 'ai_image_quality');
+        restore(imageSizeSelect, 'ai_image_size');
+        restore(imageFormatSelect, 'ai_image_format');
+        restore(imageResolutionSelect, 'ai_image_resolution');
     }
 
     // ===== EVENT LISTENERS =====
@@ -3362,6 +3404,18 @@ Your absolute directives:
         if (imageSizeSelect) {
             imageSizeSelect.addEventListener('change', () => {
                 localStorage.setItem('ai_image_size', imageSizeSelect.value);
+            });
+        }
+
+        if (imageFormatSelect) {
+            imageFormatSelect.addEventListener('change', () => {
+                localStorage.setItem('ai_image_format', imageFormatSelect.value);
+            });
+        }
+
+        if (imageResolutionSelect) {
+            imageResolutionSelect.addEventListener('change', () => {
+                localStorage.setItem('ai_image_resolution', imageResolutionSelect.value);
             });
         }
 
@@ -4317,8 +4371,10 @@ Your absolute directives:
 
     async function generateImageGemini(prompt, key) {
         const selectedModel = imageModelSelect ? imageModelSelect.value : 'gemini-3.1-flash-image-preview';
+        const aspectRatio = (imageFormatSelect && imageFormatSelect.value) ? imageFormatSelect.value : '1:1';
+        const resolution = (imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K';
 
-        // Legacy Imagen 4.0 uses the :predict endpoint
+        // Legacy Imagen 4.0 uses the :predict endpoint (supports 1K/2K only — clamp 4K)
         if (selectedModel === 'imagen-4.0-generate-001') {
             const res = await fetchWithRetry(
                 `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:predict?key=${key}`,
@@ -4328,7 +4384,11 @@ Your absolute directives:
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         instances: [{ prompt }],
-                        parameters: { sampleCount: 1 }
+                        parameters: {
+                            sampleCount: 1,
+                            aspectRatio,
+                            sampleImageSize: resolution === '4K' ? '2K' : resolution
+                        }
                     })
                 }
             );
@@ -4357,7 +4417,8 @@ Your absolute directives:
                         parts: [{ text: prompt }]
                     }],
                     generationConfig: {
-                        responseModalities: ['IMAGE']
+                        responseModalities: ['IMAGE'],
+                        imageConfig: { aspectRatio, imageSize: resolution }
                     }
                 })
             }
