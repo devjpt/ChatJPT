@@ -31,13 +31,13 @@ Le script suit ce découpage logique :
 
 ## Modèle de données / fournisseurs
 
-Fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google), `deepseek` (compatible OpenAI). Quatre modes : `chat`, `code`, `image`, `video` (DeepSeek et Claude = texte seul, pas d'image/vidéo — géré dans `updateProviderUI`).
+Fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google), `deepseek` + `qwen` (compatibles OpenAI). Quatre modes : `chat`, `code`, `image`, `video` (Claude, DeepSeek et Qwen = texte seul, pas d'image/vidéo — géré dans `updateProviderUI`).
 
 Endpoints appelés directement depuis le navigateur :
 - OpenAI : `https://api.openai.com/v1/chat/completions`, `/v1/responses` (modèles `RESPONSES_API_MODELS`), `/v1/images/generations`, `/v1/videos`.
 - Anthropic : `https://api.anthropic.com/v1/messages` — nécessite les en-têtes `anthropic-version: 2023-06-01` **et** `anthropic-dangerous-direct-browser-access: true`.
 - Gemini : `https://generativelanguage.googleapis.com/v1beta/...` (clé passée en query param `?key=`).
-- DeepSeek (et futurs compatibles OpenAI) : URL dans `OPENAI_COMPATIBLE_ENDPOINTS` ; appelé par `callOpenAICompatibleStream(endpoint, ...)`.
+- DeepSeek / Qwen (compatibles OpenAI) : endpoint **résolu à l'exécution** par `OPENAI_COMPATIBLE_ENDPOINTS[provider]()` (valeurs = fonctions), appelé par `callOpenAICompatibleStream(endpoint, ...)`. Qwen a 2 régions DashScope (`QWEN_REGIONS` : intl/mainland) ; le choix utilisateur est dans `ai_qwen_region` et le sélecteur n'apparaît que pour Qwen.
 
 `formatHistory()` + `HISTORY_STRATEGIES` convertissent `conversationHistory` au format propre à chaque fournisseur. Le streaming a une fonction par fournisseur : `callOpenAIStream`, `callOpenAICompatibleStream` (DeepSeek/Qwen…), `callOpenAIResponsesStream`, `callClaudeStream`, `callGeminiStream`, toutes consommées par `readStream()`.
 
@@ -50,6 +50,7 @@ Endpoints appelés directement depuis le navigateur :
 - `ai_provider`, `ai_model`, `ai_agent_mode`, `ai_theme`, `chatjpt_lang`.
 - `ai_thinking_enabled`, `ai_thinking_budget`, `ai_thinking_level`.
 - `ai_image_quality`, `ai_image_size` (OpenAI), `ai_image_format`, `ai_image_resolution` (Gemini).
+- `ai_qwen_region` — région DashScope pour Qwen (`intl` | `mainland`, défaut `intl`).
 - Historique de conversation (persisté par `saveHistory()`, qui **retire les images** ; repli `_pruneAndRetrySaveHistory()` si quota dépassé).
 
 ## Carte des fonctions clés
