@@ -292,6 +292,49 @@
 
         .api-key-input.valid { border-color: var(--success); box-shadow: 0 0 0 2px var(--success-dim); }
 
+        /* ===== KEYS PANEL (collapsible) ===== */
+        .keys-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .keys-toggle:hover { background: var(--surface-hover); border-color: var(--border-light); }
+        .keys-toggle-title { white-space: nowrap; }
+        .keys-status {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            flex-wrap: wrap;
+        }
+        .keys-status .key-pill.unset { opacity: 0.4; }
+        .keys-chevron { transition: transform 0.2s ease; color: var(--text-muted); }
+        .keys-panel.collapsed .keys-chevron { transform: rotate(-90deg); }
+        .keys-body {
+            overflow: hidden;
+            max-height: 600px;
+            opacity: 1;
+            margin-top: 8px;
+            transition: max-height 0.25s ease, opacity 0.2s ease, margin-top 0.2s ease;
+        }
+        .keys-panel.collapsed .keys-body {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            pointer-events: none;
+        }
+
         /* ===== SELECTOR ROW ===== */
         .selector-row {
             display: flex;
@@ -1683,18 +1726,27 @@
         <h1 class="app-title">🤖 ChatJPT</h1>
         <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 1 juin 2026</span>
     </div>
-    <div class="config-row">
-        <div class="config-group">
-            <label class="openai-label">🟢 OpenAI</label>
-            <input type="password" class="api-key-input" id="key-openai" placeholder="sk-..." autocomplete="off" aria-label="Clé API OpenAI">
-        </div>
-        <div class="config-group">
-            <label class="claude-label">🟠 Claude</label>
-            <input type="password" class="api-key-input" id="key-claude" placeholder="sk-ant-..." autocomplete="off" aria-label="Clé API Claude">
-        </div>
-        <div class="config-group">
-            <label class="gemini-label">🔵 Gemini</label>
-            <input type="password" class="api-key-input" id="key-gemini" placeholder="AIza..." autocomplete="off" aria-label="Clé API Gemini">
+    <div class="keys-panel" id="keys-panel">
+        <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
+            <span class="keys-toggle-title">🔑 <span data-i18n="lblApiKeys">Clés API</span></span>
+            <span class="keys-status" id="keys-status" aria-hidden="true"></span>
+            <span class="keys-chevron" id="keys-chevron">▾</span>
+        </button>
+        <div class="keys-body" id="keys-body">
+            <div class="config-row">
+                <div class="config-group">
+                    <label class="openai-label">🟢 OpenAI</label>
+                    <input type="password" class="api-key-input" id="key-openai" placeholder="sk-..." autocomplete="off" aria-label="Clé API OpenAI">
+                </div>
+                <div class="config-group">
+                    <label class="claude-label">🟠 Claude</label>
+                    <input type="password" class="api-key-input" id="key-claude" placeholder="sk-ant-..." autocomplete="off" aria-label="Clé API Claude">
+                </div>
+                <div class="config-group">
+                    <label class="gemini-label">🔵 Gemini</label>
+                    <input type="password" class="api-key-input" id="key-gemini" placeholder="AIza..." autocomplete="off" aria-label="Clé API Gemini">
+                </div>
+            </div>
         </div>
     </div>
     
@@ -1931,12 +1983,18 @@
     const imageModal = $('image-modal');
     const modalImg = $('modal-img');
     const welcome = $('welcome');
+    const keysPanelEl = $('keys-panel');
+    const keysToggleBtn = $('keys-toggle');
+    const keysStatusEl = $('keys-status');
 
     const keyInputs = {
         openai: $('key-openai'),
         claude: $('key-claude'),
         gemini: $('key-gemini')
     };
+
+    // Provider → status pill emoji (mirrors the colored labels in the keys panel)
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -1951,6 +2009,7 @@
     // ===== TRADUCTIONS (i18n) =====
     const I18N = {
         fr: {
+            lblApiKeys: "Clés API",
             lblProvider: "Fournisseur",
             lblModel: "Modèle",
             tabChat: "💬 Chat",
@@ -2067,6 +2126,7 @@
             generationAborted: "🛑 Génération interrompue par l'utilisateur."
         },
         en: {
+            lblApiKeys: "API Keys",
             lblProvider: "Provider",
             lblModel: "Model",
             tabChat: "💬 Chat",
@@ -3092,6 +3152,11 @@ Your absolute directives:
         initTheme();
         updateLanguageUI();
         await loadKeys();
+        updateKeysStatus();
+        // Returning users (≥1 key saved) get a clean, collapsed panel;
+        // first-time users see it open to prompt key entry.
+        const anyKeySet = Object.keys(keyInputs).some(p => keyInputs[p].value.trim().length > 5);
+        setKeysCollapsed(anyKeySet);
         updateProviderUI();
         populateModels();
         initThinking();
@@ -3217,6 +3282,26 @@ Your absolute directives:
     function getActiveKey() {
         const provider = providerSelect.value;
         return keyInputs[provider].value.trim();
+    }
+
+    // Render the per-provider status pills (🟢✓ = key set, dimmed — = not set)
+    // shown in the collapsed keys-panel header.
+    function updateKeysStatus() {
+        if (!keysStatusEl) return;
+        keysStatusEl.innerHTML = '';
+        Object.keys(keyInputs).forEach(provider => {
+            const isSet = keyInputs[provider].value.trim().length > 5;
+            const pill = document.createElement('span');
+            pill.className = 'key-pill' + (isSet ? '' : ' unset');
+            pill.textContent = `${PROVIDER_PILLS[provider] || '⚪'}${isSet ? '✓' : '—'}`;
+            keysStatusEl.appendChild(pill);
+        });
+    }
+
+    function setKeysCollapsed(collapsed) {
+        if (!keysPanelEl || !keysToggleBtn) return;
+        keysPanelEl.classList.toggle('collapsed', collapsed);
+        keysToggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
     }
 
     // ===== UI UPDATES =====
@@ -3381,8 +3466,17 @@ Your absolute directives:
     // ===== EVENT LISTENERS =====
     function setupEventListeners() {
         Object.keys(keyInputs).forEach(provider => {
-            keyInputs[provider].addEventListener('input', () => saveKey(provider));
+            keyInputs[provider].addEventListener('input', () => {
+                saveKey(provider);
+                updateKeysStatus();
+            });
         });
+
+        if (keysToggleBtn) {
+            keysToggleBtn.addEventListener('click', () => {
+                setKeysCollapsed(!keysPanelEl.classList.contains('collapsed'));
+            });
+        }
 
         providerSelect.addEventListener('change', () => {
             updateProviderUI();
