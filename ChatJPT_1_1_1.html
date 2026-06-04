@@ -38,6 +38,7 @@
             --openai: #10a37f;
             --claude: #d97706;
             --gemini: #4285f4;
+            --deepseek: #4d6bfe;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -270,6 +271,7 @@
         .config-group label.openai-label { color: var(--openai); }
         .config-group label.claude-label { color: var(--claude); }
         .config-group label.gemini-label { color: var(--gemini); }
+        .config-group label.deepseek-label { color: var(--deepseek); }
 
         .api-key-input {
             flex: 1;
@@ -392,6 +394,7 @@
         .provider-indicator.openai { background: var(--openai); box-shadow: 0 0 8px var(--openai); }
         .provider-indicator.claude { background: var(--claude); box-shadow: 0 0 8px var(--claude); }
         .provider-indicator.gemini { background: var(--gemini); box-shadow: 0 0 8px var(--gemini); }
+        .provider-indicator.deepseek { background: var(--deepseek); box-shadow: 0 0 8px var(--deepseek); }
 
         .mode-tabs {
             display: flex;
@@ -500,6 +503,7 @@
         .model-badge.openai { background: rgba(16, 163, 127, 0.15); color: var(--openai); }
         .model-badge.claude { background: rgba(217, 119, 6, 0.15); color: var(--claude); }
         .model-badge.gemini { background: rgba(66, 133, 244, 0.15); color: var(--gemini); }
+        .model-badge.deepseek { background: rgba(77, 107, 254, 0.15); color: var(--deepseek); }
 
         .message .msg-content { white-space: pre-wrap; }
 
@@ -1746,6 +1750,10 @@
                     <label class="gemini-label">🔵 Gemini</label>
                     <input type="password" class="api-key-input" id="key-gemini" placeholder="AIza..." autocomplete="off" aria-label="Clé API Gemini">
                 </div>
+                <div class="config-group">
+                    <label class="deepseek-label">🔷 DeepSeek</label>
+                    <input type="password" class="api-key-input" id="key-deepseek" placeholder="sk-..." autocomplete="off" aria-label="Clé API DeepSeek">
+                </div>
             </div>
         </div>
     </div>
@@ -1766,6 +1774,7 @@
                 <option value="openai">OpenAI</option>
                 <option value="claude">Anthropic (Claude)</option>
                 <option value="gemini">Google (Gemini)</option>
+                <option value="deepseek">DeepSeek</option>
             </select>
         </div>
         <div class="select-group">
@@ -1990,11 +1999,12 @@
     const keyInputs = {
         openai: $('key-openai'),
         claude: $('key-claude'),
-        gemini: $('key-gemini')
+        gemini: $('key-gemini'),
+        deepseek: $('key-deepseek')
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', deepseek: '🔷' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -2287,6 +2297,10 @@
             { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro', en: 'Gemini 2.5 Pro' } },
             { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash', en: 'Gemini 2.5 Flash' } },
             { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
+        ],
+        deepseek: [
+            { id: 'deepseek-chat', name: { fr: 'DeepSeek V3 (Chat)', en: 'DeepSeek V3 (Chat)' } },
+            { id: 'deepseek-reasoner', name: { fr: 'DeepSeek R1 (Raisonnement)', en: 'DeepSeek R1 (Reasoning)' } },
         ]
     };
 
@@ -2412,11 +2426,21 @@ RULES:
                 'gemini-2.5-pro',              // Gemini 2.5: configurable via thinkingBudget
                 'gemini-2.5-flash'
             ]
+        },
+        deepseek: {
+            native: ['deepseek-reasoner'],  // R1 : raisonnement toujours actif (reasoning_content streamé)
+            configurable: []
         }
     };
 
     // Modèles OpenAI qui nécessitent l'API Responses (/v1/responses) au lieu de Chat Completions
     const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro'];
+
+    // Fournisseurs « compatibles OpenAI » (même format Chat Completions + SSE) → endpoint.
+    // On les route vers callOpenAICompatibleStream (SANS reasoning_effort, propre à OpenAI).
+    const OPENAI_COMPATIBLE_ENDPOINTS = {
+        deepseek: 'https://api.deepseek.com/v1/chat/completions'
+    };
 
     // Budget tokens pour Claude et Gemini 2.5
     const THINKING_BUDGETS = [
@@ -2590,6 +2614,9 @@ Your absolute directives:
             return { role, parts };
         }
     };
+    // DeepSeek (et autres fournisseurs compatibles OpenAI) : même format de messages
+    // que l'API Chat Completions d'OpenAI.
+    HISTORY_STRATEGIES.deepseek = HISTORY_STRATEGIES.openai;
     function formatHistory(historyMessages, provider) {
         return historyMessages.map(HISTORY_STRATEGIES[provider]);
     }
@@ -3309,7 +3336,8 @@ Your absolute directives:
         const provider = providerSelect.value;
         providerDot.className = `provider-indicator ${provider}`;
 
-        if (provider === 'claude') {
+        if (provider === 'claude' || provider === 'deepseek') {
+            // Fournisseurs texte seul (pas de génération image/vidéo)
             imageTab.classList.add('disabled');
             videoTab.classList.add('disabled');
             imageConfigPanel.classList.remove('show');
@@ -4089,6 +4117,8 @@ Your absolute directives:
                 await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
             } else if (provider === 'openai') {
                 await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+            } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
+                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider], model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
             } else if (provider === 'claude') {
                 await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
             } else {
@@ -4211,6 +4241,35 @@ Your absolute directives:
                 'Authorization': `Bearer ${key}`
             },
             body: JSON.stringify(bodyParams)
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+        }
+
+        await readStream(res, onChunk, 'openai', onThinkingChunk);
+    }
+
+    // ===== Fournisseurs compatibles OpenAI (DeepSeek, Qwen, ...) =====
+    // Même protocole que callOpenAIStream (rôle 'system', SSE delta.content +
+    // delta.reasoning_content déjà géré par readStream), MAIS sans reasoning_effort
+    // (paramètre propre à OpenAI, rejeté par ces API). L'endpoint est paramétré.
+    async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk) {
+        const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const messages = [
+            { role: 'system', content: systemPrompt },
+            ...formatHistory(conversationHistory, 'openai')
+        ];
+
+        const res = await fetchWithRetry(endpoint, {
+            method: 'POST',
+            signal: currentAbortController.signal,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            },
+            body: JSON.stringify({ model, messages, stream: true, max_tokens: 8192 })
         });
 
         if (!res.ok) {

@@ -31,14 +31,17 @@ Le script suit ce découpage logique :
 
 ## Modèle de données / fournisseurs
 
-Trois fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google). Quatre modes : `chat`, `code`, `image`, `video`.
+Fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google), `deepseek` (compatible OpenAI). Quatre modes : `chat`, `code`, `image`, `video` (DeepSeek et Claude = texte seul, pas d'image/vidéo — géré dans `updateProviderUI`).
 
 Endpoints appelés directement depuis le navigateur :
 - OpenAI : `https://api.openai.com/v1/chat/completions`, `/v1/responses` (modèles `RESPONSES_API_MODELS`), `/v1/images/generations`, `/v1/videos`.
 - Anthropic : `https://api.anthropic.com/v1/messages` — nécessite les en-têtes `anthropic-version: 2023-06-01` **et** `anthropic-dangerous-direct-browser-access: true`.
 - Gemini : `https://generativelanguage.googleapis.com/v1beta/...` (clé passée en query param `?key=`).
+- DeepSeek (et futurs compatibles OpenAI) : URL dans `OPENAI_COMPATIBLE_ENDPOINTS` ; appelé par `callOpenAICompatibleStream(endpoint, ...)`.
 
-`formatHistory()` + `HISTORY_STRATEGIES` convertissent `conversationHistory` au format propre à chaque fournisseur. Le streaming a une fonction par fournisseur : `callOpenAIStream`, `callOpenAIResponsesStream`, `callClaudeStream`, `callGeminiStream`, toutes consommées par `readStream()`.
+`formatHistory()` + `HISTORY_STRATEGIES` convertissent `conversationHistory` au format propre à chaque fournisseur. Le streaming a une fonction par fournisseur : `callOpenAIStream`, `callOpenAICompatibleStream` (DeepSeek/Qwen…), `callOpenAIResponsesStream`, `callClaudeStream`, `callGeminiStream`, toutes consommées par `readStream()`.
+
+**Ajouter un fournisseur compatible OpenAI** (même format Chat Completions + SSE, ex. Qwen) : ① champ de clé dans le markup + `<option>` ; ② `keyInputs` + `PROVIDER_PILLS` ; ③ tableau dans `MODELS` ; ④ alias `HISTORY_STRATEGIES.<p> = HISTORY_STRATEGIES.openai` ; ⑤ `THINKING_SUPPORT.<p>` (modèles à `reasoning_content` → `native`) ; ⑥ une ligne dans `OPENAI_COMPATIBLE_ENDPOINTS` (le routage et le stream sont déjà génériques) ; ⑦ `updateProviderUI` (texte seul → brancher avec `claude`) ; ⑧ couleur CSS `--<p>` + `.provider-indicator`/`.model-badge`/`.label`. ⚠️ Ne PAS envoyer `reasoning_effort` (propre à OpenAI).
 
 ## Clés localStorage
 
