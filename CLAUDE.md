@@ -4,6 +4,8 @@ Guide pour travailler dans ce dépôt. ChatJPT est une interface de chat IA mult
 
 Auteur : Jean-Philippe Theriault (https://www.devjpt.com/). Licence CC BY-ND 4.0 (modification/redistribution de versions modifiées interdites — voir [LICENSE](LICENSE)).
 
+**État du projet & prochaines étapes** (mode comparaison à venir, conclusions CORS, gotchas) : voir [ROADMAP.md](ROADMAP.md).
+
 ## Architecture du fichier unique
 
 Tout vit dans `ChatJPT_1_1_1.html`, dans cet ordre :
