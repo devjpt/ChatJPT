@@ -1713,6 +1713,87 @@
         .dp-error-text      { color: var(--error); }
         .dp-warning-text    { color: var(--warning); }
         .dp-mt-sm           { margin-top: 8px; }
+        /* ===== MODE COMPARAISON ===== */
+        /* Interrupteur on/off style iOS */
+        .compare-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+            user-select: none;
+        }
+        .compare-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+        .compare-slider {
+            position: relative;
+            width: 38px;
+            height: 22px;
+            background: var(--border);
+            border-radius: 999px;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .compare-slider::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+        }
+        .compare-switch input:checked + .compare-slider { background: var(--accent); }
+        .compare-switch input:checked + .compare-slider::before { transform: translateX(16px); }
+        .compare-switch input:focus-visible + .compare-slider { outline: 2px solid var(--accent-light); outline-offset: 2px; }
+
+        /* Rangée 2 colonnes côte à côte (les bulles perdent leur max-width 82%) */
+        .compare-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .compare-row .message {
+            max-width: none;
+            flex: 1 1 0;
+            min-width: 0;
+            margin: 0;
+        }
+        /* Réponse non retenue : grisée, lecture seule */
+        .compare-col-discarded {
+            opacity: 0.55;
+            filter: grayscale(0.55);
+        }
+        .compare-keep-btn {
+            margin-top: 10px;
+            padding: 6px 14px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .compare-keep-btn:hover { background: var(--accent); color: #fff; }
+        .compare-kept-badge {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Mobile : colonnes empilées */
+        @media (max-width: 720px) {
+            .compare-row { flex-direction: column; }
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1775,7 +1856,7 @@
     </div>
 
     <div class="selector-row">
-        <div class="select-group">
+        <div class="select-group" id="provider-group">
             <span class="provider-indicator" id="provider-dot"></span>
             <label data-i18n="lblProvider">Fournisseur</label>
             <select id="provider-select" aria-label="Fournisseur IA">
@@ -1786,9 +1867,26 @@
                 <option value="qwen">Qwen (Alibaba)</option>
             </select>
         </div>
-        <div class="select-group">
+        <div class="select-group" id="model-group">
             <label data-i18n="lblModel">Modèle</label>
             <select id="model-select" aria-label="Modèle IA"></select>
+        </div>
+        <!-- Comparaison : sélecteurs « tous modèles » (groupés par fournisseur), masqués hors comparaison -->
+        <div class="select-group compare-only dp-hidden" id="compare-a-group">
+            <label data-i18n="lblCompareA">Modèle A</label>
+            <select id="compare-model-a" aria-label="Modèle A (comparaison)"></select>
+        </div>
+        <div class="select-group compare-only dp-hidden" id="compare-b-group">
+            <label data-i18n="lblCompareB">Modèle B</label>
+            <select id="compare-model-b" aria-label="Modèle B (comparaison)"></select>
+        </div>
+        <!-- Interrupteur on/off : bascule chat unique ↔ comparaison 2 modèles -->
+        <div class="select-group" id="compare-switch-group">
+            <label class="compare-switch" title="Comparer 2 modèles côte à côte" data-i18n-title="compareTitle">
+                <input type="checkbox" id="compare-cb" role="switch" aria-label="Comparer 2 modèles">
+                <span class="compare-slider"></span>
+                <span class="compare-switch-text" data-i18n="lblCompare">⚖️ Comparer 2 modèles</span>
+            </label>
         </div>
         <div class="select-group dp-hidden" id="qwen-region-group">
             <label data-i18n="lblQwenRegion">Région</label>
@@ -2023,6 +2121,14 @@
     const keysStatusEl = $('keys-status');
     const qwenRegionGroup = $('qwen-region-group');
     const qwenRegionSelect = $('qwen-region-select');
+    const providerGroup = $('provider-group');
+    const modelGroup = $('model-group');
+    const compareCb = $('compare-cb');
+    const compareSwitchGroup = $('compare-switch-group');
+    const compareModelA = $('compare-model-a');
+    const compareModelB = $('compare-model-b');
+    const compareAGroup = $('compare-a-group');
+    const compareBGroup = $('compare-b-group');
 
     const keyInputs = {
         openai: $('key-openai'),
@@ -2044,6 +2150,8 @@
     let currentLang = localStorage.getItem('chatjpt_lang') || 'fr';
     let thinkingEnabled = localStorage.getItem('ai_thinking_enabled') === 'true';
     let thinkingBudget = parseInt(localStorage.getItem('ai_thinking_budget')) || 10000;
+    let compareMode = localStorage.getItem('ai_compare_on') === 'true';
+    let currentCompareControllers = [];  // 1 AbortController par colonne en mode comparaison
 
     // ===== TRADUCTIONS (i18n) =====
     const I18N = {
@@ -2051,6 +2159,14 @@
             lblApiKeys: "Clés API",
             lblProvider: "Fournisseur",
             lblModel: "Modèle",
+            lblCompare: "⚖️ Comparer 2 modèles",
+            compareTitle: "Comparer 2 modèles côte à côte sur le même prompt",
+            lblCompareA: "Modèle A",
+            lblCompareB: "Modèle B",
+            compareKeep: "✓ Garder celle-ci",
+            compareKept: "✓ Gardée",
+            compareNeedTwoKeys: "Entrez les clés API des 2 fournisseurs comparés.",
+            compareSameModel: "Choisissez 2 modèles différents à comparer.",
             lblQwenRegion: "Région",
             qwenRegionIntl: "International",
             qwenRegionMainland: "Chine continentale",
@@ -2171,6 +2287,14 @@
             lblApiKeys: "API Keys",
             lblProvider: "Provider",
             lblModel: "Model",
+            lblCompare: "⚖️ Compare 2 models",
+            compareTitle: "Compare 2 models side by side on the same prompt",
+            lblCompareA: "Model A",
+            lblCompareB: "Model B",
+            compareKeep: "✓ Keep this one",
+            compareKept: "✓ Kept",
+            compareNeedTwoKeys: "Enter API keys for both compared providers.",
+            compareSameModel: "Pick 2 different models to compare.",
             lblQwenRegion: "Region",
             qwenRegionIntl: "International",
             qwenRegionMainland: "Mainland China",
@@ -3166,6 +3290,9 @@ Your absolute directives:
         if (typeof populateModels === 'function' && document.getElementById('model-select').options.length > 0) {
             populateModels();
         }
+        if (compareModelA && compareModelA.options.length > 0) {
+            populateCompareSelectors();
+        }
 
         // Update video config selects language (populateVideoModels also rebuilds
         // the duration options with localized labels for the active provider).
@@ -3254,6 +3381,8 @@ Your absolute directives:
         setKeysCollapsed(anyKeySet);
         updateProviderUI();
         populateModels();
+        populateCompareSelectors();
+        applyCompareUI();
         initThinking();
         setupEventListeners();
         autoResizeTextarea();
@@ -3451,6 +3580,86 @@ Your absolute directives:
         }
     }
 
+    // ===== MODE COMPARAISON =====
+    const PROVIDER_LABELS = {
+        openai: 'OpenAI',
+        claude: 'Anthropic (Claude)',
+        gemini: 'Google (Gemini)',
+        deepseek: 'DeepSeek',
+        qwen: 'Qwen (Alibaba)'
+    };
+
+    // Clé API d'un fournisseur arbitraire (≠ getActiveKey qui lit le fournisseur courant).
+    function getKeyForProvider(provider) {
+        return keyInputs[provider] ? keyInputs[provider].value.trim() : '';
+    }
+
+    // "provider::modelId" → { provider, model }
+    function parseCompareValue(val) {
+        const idx = (val || '').indexOf('::');
+        if (idx < 0) return { provider: '', model: '' };
+        return { provider: val.slice(0, idx), model: val.slice(idx + 2) };
+    }
+
+    // Remplit un <select> avec TOUS les modèles texte, groupés par fournisseur (<optgroup>).
+    // value = "provider::modelId" pour encoder les deux dans l'option.
+    function populateAllModels(selectEl) {
+        if (!selectEl) return;
+        const prev = selectEl.value;
+        selectEl.innerHTML = '';
+        Object.keys(MODELS).forEach(provider => {
+            const og = document.createElement('optgroup');
+            og.label = PROVIDER_LABELS[provider] || provider;
+            MODELS[provider].forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = `${provider}::${m.id}`;
+                opt.textContent = m.name[currentLang] || m.name.fr;
+                og.appendChild(opt);
+            });
+            selectEl.appendChild(og);
+        });
+        if (prev && [...selectEl.options].some(o => o.value === prev)) selectEl.value = prev;
+    }
+
+    // (Re)peuple les 2 sélecteurs de comparaison, en restaurant la sélection sauvegardée
+    // ou en proposant 2 modèles différents par défaut (modèle courant vs 1er d'un autre fournisseur).
+    function populateCompareSelectors() {
+        if (!compareModelA || !compareModelB) return;
+        populateAllModels(compareModelA);
+        populateAllModels(compareModelB);
+
+        const savedA = localStorage.getItem('ai_compare_a');
+        const savedB = localStorage.getItem('ai_compare_b');
+        const has = (v) => v && [...compareModelA.options].some(o => o.value === v);
+
+        const curProvider = providerSelect.value;
+        const curModel = modelSelect.value || (MODELS[curProvider][0] && MODELS[curProvider][0].id);
+        const defaultA = `${curProvider}::${curModel}`;
+        const otherProvider = Object.keys(MODELS).find(p => p !== curProvider) || curProvider;
+        const defaultB = `${otherProvider}::${MODELS[otherProvider][0].id}`;
+
+        compareModelA.value = has(savedA) ? savedA : (has(defaultA) ? defaultA : compareModelA.options[0].value);
+        compareModelB.value = has(savedB) ? savedB : (has(defaultB) ? defaultB : compareModelB.options[compareModelB.options.length - 1].value);
+    }
+
+    // Affiche/masque les contrôles selon l'état comparaison.
+    // OFF : provider + modèle uniques visibles. ON : masqués, 2 sélecteurs « tous modèles » visibles.
+    // La comparaison ne vaut qu'en texte (chat/code) : le switch est masqué en image/vidéo.
+    function applyCompareUI() {
+        const textMode = currentMode === 'chat' || currentMode === 'code';
+        if (compareSwitchGroup) compareSwitchGroup.classList.toggle('dp-hidden', !textMode);
+        if (compareCb) compareCb.checked = compareMode;
+
+        const on = compareMode && textMode;
+        if (providerGroup) providerGroup.classList.toggle('dp-hidden', on);
+        if (modelGroup) modelGroup.classList.toggle('dp-hidden', on);
+        if (compareAGroup) compareAGroup.classList.toggle('dp-hidden', !on);
+        if (compareBGroup) compareBGroup.classList.toggle('dp-hidden', !on);
+
+        // Région Qwen : visible seulement en chat unique avec Qwen sélectionné.
+        if (qwenRegionGroup) qwenRegionGroup.classList.toggle('dp-hidden', on || providerSelect.value !== 'qwen');
+    }
+
     function switchMode(mode, skipRender = false) {
         currentMode = mode;
         if (!skipRender) {
@@ -3503,6 +3712,8 @@ Your absolute directives:
             imageConfigPanel.classList.remove('show');
             updateThinkingUI();
         }
+
+        applyCompareUI();
     }
 
     function populateVideoModels() {
@@ -3584,6 +3795,24 @@ Your absolute directives:
             updateThinkingUI();
         });
 
+        if (compareCb) {
+            compareCb.addEventListener('change', () => {
+                compareMode = compareCb.checked;
+                localStorage.setItem('ai_compare_on', compareMode);
+                applyCompareUI();
+            });
+        }
+        if (compareModelA) {
+            compareModelA.addEventListener('change', () => {
+                localStorage.setItem('ai_compare_a', compareModelA.value);
+            });
+        }
+        if (compareModelB) {
+            compareModelB.addEventListener('change', () => {
+                localStorage.setItem('ai_compare_b', compareModelB.value);
+            });
+        }
+
         if (imageQualitySelect) {
             imageQualitySelect.addEventListener('change', () => {
                 localStorage.setItem('ai_image_quality', imageQualitySelect.value);
@@ -3626,6 +3855,8 @@ Your absolute directives:
             if (currentAbortController) {
                 currentAbortController.abort();
             }
+            // Mode comparaison : annuler les 2 flux parallèles.
+            currentCompareControllers.forEach(c => { try { c.abort(); } catch (e) { /* déjà fini */ } });
         });
         regenBtn.addEventListener('click', handleRegenerate);
         if (agentModeCb) {
@@ -3961,10 +4192,24 @@ Your absolute directives:
 
         if (!text && uploadedFiles.length === 0) return;
 
-        const key = getActiveKey();
-        if (!key) {
-            showToast(I18N[currentLang].toastNoKey, 'error');
-            return;
+        // Comparaison active uniquement en texte (chat/code).
+        const isCompare = compareMode && (currentMode === 'chat' || currentMode === 'code');
+
+        let key = null;
+        if (isCompare) {
+            const a = parseCompareValue(compareModelA.value);
+            const b = parseCompareValue(compareModelB.value);
+            // Les 2 fournisseurs comparés doivent avoir une clé.
+            if (!getKeyForProvider(a.provider) || !getKeyForProvider(b.provider)) {
+                showToast(I18N[currentLang].compareNeedTwoKeys, 'error');
+                return;
+            }
+        } else {
+            key = getActiveKey();
+            if (!key) {
+                showToast(I18N[currentLang].toastNoKey, 'error');
+                return;
+            }
         }
 
         if (welcome) welcome.style.display = 'none';
@@ -4031,13 +4276,17 @@ Your absolute directives:
             if (displayText !== fullPrompt) historyEntry.display = displayText;
             conversationHistory.push(historyEntry);
             saveHistory();
-            await handleTextGeneration(provider, model, key);
+            if (isCompare) {
+                await handleCompareGeneration();
+            } else {
+                await handleTextGeneration(provider, model, key);
+            }
         }
 
         userInput.value = '';
         autoResizeTextarea();
         isProcessing = false;
-        setBusyUI(false, currentMode !== 'image' && currentMode !== 'video');
+        setBusyUI(false, !isCompare && currentMode !== 'image' && currentMode !== 'video');
         currentAbortController = null;
     }
 
@@ -4060,6 +4309,82 @@ Your absolute directives:
             attachRatingButtons(loadingDiv, entry);
         }
         return result;
+    }
+
+    // ===== GÉNÉRATION COMPARÉE (2 modèles côte à côte) =====
+    // Streame 2 réponses en parallèle (1 AbortController chacune) dans une rangée
+    // 2 colonnes. Aucune n'entre dans l'historique : l'utilisateur tranche ensuite
+    // via « Garder celle-ci » (pick-winner). Le prompt utilisateur est déjà dans
+    // conversationHistory (poussé par handleSend).
+    async function handleCompareGeneration() {
+        const a = parseCompareValue(compareModelA.value);
+        const b = parseCompareValue(compareModelB.value);
+        const keyA = getKeyForProvider(a.provider);
+        const keyB = getKeyForProvider(b.provider);
+
+        // Rangée 2 colonnes. addMessage ajoute les bulles au chatContainer ; on les
+        // déplace ensuite dans la rangée (appendChild = déplacement).
+        const row = document.createElement('div');
+        row.className = 'compare-row';
+        const loadingA = addMessage("", 'ai', a.provider, a.model, true);
+        const loadingB = addMessage("", 'ai', b.provider, b.model, true);
+        chatContainer.appendChild(row);
+        row.appendChild(loadingA);
+        row.appendChild(loadingB);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // 1 AbortController par flux ; le bouton Stop annule les deux.
+        const ctrlA = new AbortController();
+        const ctrlB = new AbortController();
+        currentCompareControllers = [ctrlA, ctrlB];
+
+        const [resA, resB] = await Promise.all([
+            streamInto(loadingA, a.provider, a.model, keyA, ctrlA.signal),
+            streamInto(loadingB, b.provider, b.model, keyB, ctrlB.signal)
+        ]);
+
+        currentCompareControllers = [];
+
+        // L'historisation n'a lieu qu'au clic sur « Garder celle-ci ».
+        setupCompareKeep(
+            { div: loadingA, meta: a, res: resA },
+            { div: loadingB, meta: b, res: resB }
+        );
+    }
+
+    // Pose un bouton « Garder celle-ci » sous chaque colonne ayant une réponse.
+    // Au clic : pousse la seule réponse choisie dans conversationHistory + notes 👍/👎,
+    // grise la non retenue (lecture seule, NON persistée), et retire les 2 boutons.
+    function setupCompareKeep(colA, colB) {
+        const cols = [colA, colB];
+        const buttons = [];
+
+        function keep(chosen, other) {
+            const entry = { role: 'assistant', content: chosen.res.fullResponse, provider: chosen.meta.provider, model: chosen.meta.model };
+            conversationHistory.push(entry);
+            saveHistory();
+
+            buttons.forEach(btn => { if (btn && btn.parentNode) btn.remove(); });
+            if (other && other.div) other.div.classList.add('compare-col-discarded');
+
+            const badge = document.createElement('div');
+            badge.className = 'compare-kept-badge';
+            badge.textContent = I18N[currentLang].compareKept;
+            chosen.div.appendChild(badge);
+
+            attachRatingButtons(chosen.div, entry);
+        }
+
+        cols.forEach((col, i) => {
+            if (!col.res || !col.res.fullResponse) { buttons.push(null); return; }
+            const btn = document.createElement('button');
+            btn.className = 'compare-keep-btn';
+            btn.textContent = I18N[currentLang].compareKeep;
+            const other = cols[1 - i];
+            btn.addEventListener('click', () => keep(col, other));
+            col.div.appendChild(btn);
+            buttons.push(btn);
+        });
     }
 
     // ===== STREAM BAS NIVEAU (réutilisé par le mode normal ET la comparaison) =====
