@@ -4042,8 +4042,31 @@ Your absolute directives:
     }
 
     // ===== GÉNÉRATION DE TEXTE (STREAMING) =====
-    async function handleTextGeneration(provider, model, key) {
+    // Wrapper de haut niveau pour le mode normal : crée la bulle, streame via
+    // streamInto(), puis pousse la réponse dans conversationHistory + attache les
+    // notes 👍/👎. Le mode comparaison appelle streamInto() directement (il décide
+    // lui-même quoi historiser via le bouton « Garder cette réponse »).
+    async function handleTextGeneration(provider, model, key, signal) {
+        signal = signal || (currentAbortController && currentAbortController.signal);
         const loadingDiv = addMessage("", 'ai', provider, model, true);
+        const result = await streamInto(loadingDiv, provider, model, key, signal);
+
+        // Historise + note la réponse, en conservant exactement l'ancien comportement :
+        // succès → toujours poussé ; erreur → poussé seulement s'il y a un contenu partiel.
+        if (!result.error || result.fullResponse) {
+            const entry = { role: 'assistant', content: result.fullResponse, provider, model };
+            conversationHistory.push(entry);
+            saveHistory();
+            attachRatingButtons(loadingDiv, entry);
+        }
+        return result;
+    }
+
+    // ===== STREAM BAS NIVEAU (réutilisé par le mode normal ET la comparaison) =====
+    // Streame une réponse dans `loadingDiv` et gère TOUT le rendu (thinking, charts,
+    // bouton copier, erreurs/abort). NE TOUCHE PAS à conversationHistory ni aux notes :
+    // l'appelant décide quoi historiser. Retourne { fullResponse, error }.
+    async function streamInto(loadingDiv, provider, model, key, signal) {
         const contentDiv = loadingDiv.querySelector('.msg-content');
         
         let fullResponse = "";
@@ -4187,20 +4210,16 @@ Your absolute directives:
 
         try {
             if (provider === 'openai' && RESPONSES_API_MODELS.includes(model)) {
-                await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+                await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
             } else if (provider === 'openai') {
-                await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+                await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
             } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
-                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
             } else if (provider === 'claude') {
-                await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+                await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
             } else {
-                await callGeminiStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null);
+                await callGeminiStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
             }
-
-            const assistantEntry = { role: 'assistant', content: fullResponse, provider, model };
-            conversationHistory.push(assistantEntry);
-            saveHistory();
 
             // Final render — cancel any pending RAF before to avoid race condition
             cancelStreamRender();
@@ -4214,7 +4233,8 @@ Your absolute directives:
             if (copyBtn) {
                 copyBtn.setAttribute('data-raw-content-b64', b64encode(fullResponse));
             }
-            attachRatingButtons(loadingDiv, assistantEntry);
+
+            return { fullResponse, error: null };
 
         } catch (error) {
             removeLoader(loadingDiv);
@@ -4228,15 +4248,13 @@ Your absolute directives:
                 responseContentDiv.innerHTML = formatResponse(fullResponse);
                 responseContentDiv.innerHTML += `<br>${errorHTML}`;
                 lastRenderLen = fullResponse.length;
-                const partialEntry = { role: 'assistant', content: fullResponse, provider, model };
-                conversationHistory.push(partialEntry);
-                saveHistory();
-                attachRatingButtons(loadingDiv, partialEntry);
             } else {
                 // If no response container in DOM yet, use contentDiv
                 const target = responseContentDiv.parentNode ? responseContentDiv : contentDiv;
                 target.innerHTML = errorHTML;
             }
+
+            return { fullResponse, error };
         }
     }
 
@@ -4265,7 +4283,7 @@ Your absolute directives:
 
     // ===== API CALLS =====
 
-    async function callOpenAIStream(model, key, onChunk, onThinkingChunk) {
+    async function callOpenAIStream(model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const isNativeReasoning = THINKING_SUPPORT.openai.native.some(m => model.startsWith(m));
         const isConfigurableReasoning = THINKING_SUPPORT.openai.configurable.some(m => model === m);
@@ -4308,7 +4326,7 @@ Your absolute directives:
 
         const res = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
-            signal: currentAbortController.signal,
+            signal,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
@@ -4328,7 +4346,7 @@ Your absolute directives:
     // Même protocole que callOpenAIStream (rôle 'system', SSE delta.content +
     // delta.reasoning_content déjà géré par readStream), MAIS sans reasoning_effort
     // (paramètre propre à OpenAI, rejeté par ces API). L'endpoint est paramétré.
-    async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk) {
+    async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const messages = [
             { role: 'system', content: systemPrompt },
@@ -4337,7 +4355,7 @@ Your absolute directives:
 
         const res = await fetchWithRetry(endpoint, {
             method: 'POST',
-            signal: currentAbortController.signal,
+            signal,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
@@ -4354,7 +4372,7 @@ Your absolute directives:
     }
 
     // ===== OpenAI Responses API (pour gpt-5.4-pro et futurs modèles Responses-only) =====
-    async function callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk) {
+    async function callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
 
         // Responses API uses 'input' array with roles: user, assistant, developer
@@ -4388,7 +4406,7 @@ Your absolute directives:
 
         const res = await fetchWithRetry('https://api.openai.com/v1/responses', {
             method: 'POST',
-            signal: currentAbortController.signal,
+            signal,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
@@ -4404,7 +4422,7 @@ Your absolute directives:
         await readStream(res, onChunk, 'openai-responses', onThinkingChunk);
     }
 
-    async function callClaudeStream(model, key, onChunk, onThinkingChunk) {
+    async function callClaudeStream(model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         // P1-2: Use multimodal formatter for image support
         const messages = formatHistory(conversationHistory, 'claude');
@@ -4435,7 +4453,7 @@ Your absolute directives:
 
         const res = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
             method: 'POST',
-            signal: currentAbortController.signal,
+            signal,
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': key,
@@ -4453,7 +4471,7 @@ Your absolute directives:
         await readStream(res, onChunk, 'claude', onThinkingChunk);
     }
 
-    async function callGeminiStream(model, key, onChunk, onThinkingChunk) {
+    async function callGeminiStream(model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
 
         // P1-2: Use multimodal formatter for image support
@@ -4489,7 +4507,7 @@ Your absolute directives:
             `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
             {
                 method: 'POST',
-                signal: currentAbortController.signal,
+                signal,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     system_instruction: { parts: [{ text: systemPrompt }] },
