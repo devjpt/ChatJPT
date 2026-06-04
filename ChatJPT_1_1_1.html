@@ -1858,6 +1858,14 @@
                     <option value="4K" data-i18n="imgRes4K">4K (lent)</option>
                 </select>
             </div>
+            <div class="select-group" id="image-qwen-size-group">
+                <label data-i18n="lblImageSize">Taille</label>
+                <select id="image-qwen-size-select" aria-label="Taille image Qwen">
+                    <option value="1024*1024" selected data-i18n="imgSizeSquare">Carré (1024×1024)</option>
+                    <option value="1536*1024" data-i18n="imgSizeLandscape">Paysage (1536×1024)</option>
+                    <option value="1024*1536" data-i18n="imgSizePortrait">Portrait (1024×1536)</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -1995,6 +2003,8 @@
     const imageFormatGroup = $('image-format-group');
     const imageResolutionSelect = $('image-resolution-select');
     const imageResolutionGroup = $('image-resolution-group');
+    const imageQwenSizeSelect = $('image-qwen-size-select');
+    const imageQwenSizeGroup = $('image-qwen-size-group');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
     const videoModelSelect = $('video-model-select');
@@ -2350,6 +2360,11 @@
             { id: 'gemini-3-pro-image-preview', name: { fr: 'Nano Banana Pro', en: 'Nano Banana Pro' } },
             { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)' } },
             { id: 'imagen-4.0-generate-001', name: { fr: 'Imagen 4.0 (Legacy)', en: 'Imagen 4.0 (Legacy)' } }
+        ],
+        qwen: [
+            // Synchrone via multimodal-generation/generation (renvoie l'URL directement, sans polling)
+            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max (Dernier)', en: 'Qwen Image Max (Latest)' } },
+            { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } }
         ]
     };
 
@@ -2476,18 +2491,22 @@ RULES:
     const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro'];
 
     // Qwen (Alibaba DashScope) expose 2 régions ; la clé est liée à UNE région.
-    // L'utilisateur choisit la sienne (sauvegardée dans ai_qwen_region).
+    // L'utilisateur choisit la sienne (sauvegardée dans ai_qwen_region). On stocke le
+    // host : le chat (compatible-mode) et l'image (api/v1/services/aigc) en dérivent.
     const QWEN_REGIONS = {
-        intl:     { url: 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions', label: { fr: 'International', en: 'International' } },
-        mainland: { url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',      label: { fr: 'Chine continentale', en: 'Mainland China' } }
+        intl:     { host: 'https://dashscope-intl.aliyuncs.com', label: { fr: 'International', en: 'International' } },
+        mainland: { host: 'https://dashscope.aliyuncs.com',      label: { fr: 'Chine continentale', en: 'Mainland China' } }
     };
+    function getQwenHost() {
+        return (QWEN_REGIONS[localStorage.getItem('ai_qwen_region') || 'intl'] || QWEN_REGIONS.intl).host;
+    }
 
     // Fournisseurs « compatibles OpenAI » (même format Chat Completions + SSE) → résolveur d'endpoint.
     // Routés vers callOpenAICompatibleStream (SANS reasoning_effort, propre à OpenAI).
     // Valeur = fonction (l'endpoint Qwen dépend de la région choisie, lue à l'exécution).
     const OPENAI_COMPATIBLE_ENDPOINTS = {
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
-        qwen: () => (QWEN_REGIONS[localStorage.getItem('ai_qwen_region') || 'intl'] || QWEN_REGIONS.intl).url
+        qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions'
     };
 
     // Budget tokens pour Claude et Gemini 2.5
@@ -3391,48 +3410,32 @@ Your absolute directives:
         // Sélecteur de région DashScope : visible uniquement pour Qwen
         if (qwenRegionGroup) qwenRegionGroup.classList.toggle('dp-hidden', provider !== 'qwen');
 
-        if (provider === 'claude' || provider === 'deepseek' || provider === 'qwen') {
-            // Fournisseurs texte seul (pas de génération image/vidéo)
-            imageTab.classList.add('disabled');
-            videoTab.classList.add('disabled');
-            imageConfigPanel.classList.remove('show');
-            videoConfigPanel.classList.remove('show');
-            if (currentMode === 'image' || currentMode === 'video') {
-                switchMode('chat');
-            }
-        } else if (provider === 'openai') {
-            imageTab.classList.remove('disabled');
-            videoTab.classList.remove('disabled');
-            // Show config panels if currently in relevant mode
-            if (currentMode === 'image') {
-                imageConfigPanel.classList.add('show');
-                populateImageModels();
-            } else {
-                imageConfigPanel.classList.remove('show');
-            }
-            if (currentMode === 'video') {
-                videoConfigPanel.classList.add('show');
-                populateVideoModels();
-            } else {
-                videoConfigPanel.classList.remove('show');
-            }
+        // Capacités pilotées par les tables : un fournisseur supporte l'image/vidéo
+        // s'il a une entrée dans IMAGE_MODELS / VIDEO_MODELS.
+        // (ex. Qwen = image seule ; Claude/DeepSeek = texte seul ; OpenAI/Gemini = les deux.)
+        const supportsImage = !!IMAGE_MODELS[provider];
+        const supportsVideo = !!VIDEO_MODELS[provider];
+
+        imageTab.classList.toggle('disabled', !supportsImage);
+        videoTab.classList.toggle('disabled', !supportsVideo);
+
+        // Si le mode courant n'est plus supporté par ce fournisseur, repli sur chat
+        if ((currentMode === 'image' && !supportsImage) || (currentMode === 'video' && !supportsVideo)) {
+            switchMode('chat');
+        }
+
+        // Afficher les panneaux de config selon le mode courant
+        if (currentMode === 'image' && supportsImage) {
+            imageConfigPanel.classList.add('show');
+            populateImageModels();
         } else {
-            // gemini — supports image and video
-            imageTab.classList.remove('disabled');
-            videoTab.classList.remove('disabled');
-            // Show config panels if currently in relevant mode
-            if (currentMode === 'image') {
-                imageConfigPanel.classList.add('show');
-                populateImageModels();
-            } else {
-                imageConfigPanel.classList.remove('show');
-            }
-            if (currentMode === 'video') {
-                videoConfigPanel.classList.add('show');
-                populateVideoModels();
-            } else {
-                videoConfigPanel.classList.remove('show');
-            }
+            imageConfigPanel.classList.remove('show');
+        }
+        if (currentMode === 'video' && supportsVideo) {
+            videoConfigPanel.classList.add('show');
+            populateVideoModels();
+        } else {
+            videoConfigPanel.classList.remove('show');
         }
 
         localStorage.setItem('ai_provider', provider);
@@ -3530,10 +3533,12 @@ Your absolute directives:
         // to Gemini. Each set is shown only for its provider.
         const isOpenAI = providerSelect.value === 'openai';
         const isGemini = providerSelect.value === 'gemini';
+        const isQwen = providerSelect.value === 'qwen';
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
         if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
         if (imageResolutionGroup) imageResolutionGroup.style.display = isGemini ? '' : 'none';
+        if (imageQwenSizeGroup) imageQwenSizeGroup.style.display = isQwen ? '' : 'none';
 
         const restore = (sel, storageKey) => {
             if (!sel) return;
@@ -3544,6 +3549,7 @@ Your absolute directives:
         restore(imageSizeSelect, 'ai_image_size');
         restore(imageFormatSelect, 'ai_image_format');
         restore(imageResolutionSelect, 'ai_image_resolution');
+        restore(imageQwenSizeSelect, 'ai_qwen_image_size');
     }
 
     // ===== EVENT LISTENERS =====
@@ -3599,6 +3605,12 @@ Your absolute directives:
         if (imageResolutionSelect) {
             imageResolutionSelect.addEventListener('change', () => {
                 localStorage.setItem('ai_image_resolution', imageResolutionSelect.value);
+            });
+        }
+
+        if (imageQwenSizeSelect) {
+            imageQwenSizeSelect.addEventListener('change', () => {
+                localStorage.setItem('ai_qwen_image_size', imageQwenSizeSelect.value);
             });
         }
 
@@ -4506,9 +4518,15 @@ Your absolute directives:
                 imageData = await generateImageOpenAI(prompt, key);
             } else if (provider === 'gemini') {
                 imageData = await generateImageGemini(prompt, key);
+            } else if (provider === 'qwen') {
+                imageData = await generateImageQwen(prompt, key);
             } else {
                 throw new Error("Image generation is not available for this provider.");
             }
+
+            // Qwen renvoie une URL (OSS) ; OpenAI/Gemini renvoient du base64.
+            // Afficher via <img src="url"> ne nécessite aucun CORS.
+            const isUrl = typeof imageData === 'string' && /^https?:\/\//i.test(imageData);
 
             const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
             content.innerHTML = '';
@@ -4518,7 +4536,7 @@ Your absolute directives:
             content.appendChild(p);
 
             const img = document.createElement('img');
-            img.src = `data:image/png;base64,${imageData}`;
+            img.src = isUrl ? imageData : `data:image/png;base64,${imageData}`;
             img.className = 'generated-image';
             img.alt = 'Generated image';
             img.addEventListener('click', () => {
@@ -4530,11 +4548,27 @@ Your absolute directives:
             const dlBtn = document.createElement('button');
             dlBtn.className = 'copy-btn dp-mt-sm';
             dlBtn.innerHTML = '💾 Télécharger';
-            dlBtn.addEventListener('click', () => {
-                const a = document.createElement('a');
-                a.href = img.src;
-                a.download = `image_${Date.now()}.png`;
-                a.click();
+            dlBtn.addEventListener('click', async () => {
+                if (isUrl) {
+                    // URL distante (OSS) : tenter fetch→blob ; repli sur ouverture si CORS bloque
+                    try {
+                        const r = await fetch(imageData, { signal: currentAbortController?.signal });
+                        const blob = await r.blob();
+                        const objUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = objUrl;
+                        a.download = `image_${Date.now()}.png`;
+                        a.click();
+                        URL.revokeObjectURL(objUrl);
+                    } catch (e) {
+                        window.open(imageData, '_blank');
+                    }
+                } else {
+                    const a = document.createElement('a');
+                    a.href = img.src;
+                    a.download = `image_${Date.now()}.png`;
+                    a.click();
+                }
             });
             content.appendChild(dlBtn);
 
@@ -4655,6 +4689,44 @@ Your absolute directives:
             }
         }
         throw new Error("No image generated. Check your prompt and API key.");
+    }
+
+    // Qwen image (DashScope) — endpoint multimodal-generation/generation, SYNCHRONE :
+    // l'image (URL OSS) revient directement dans output.choices[0].message.content,
+    // sans task_id ni polling (le polling /tasks est bloqué par CORS — d'où ce choix).
+    // Renvoie une URL (pas du base64) ; handleImageGeneration l'affiche via <img src>.
+    async function generateImageQwen(prompt, key) {
+        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'qwen-image-max';
+        const size = (imageQwenSizeSelect && imageQwenSizeSelect.value) ? imageQwenSizeSelect.value : '1024*1024';
+        const endpoint = getQwenHost() + '/api/v1/services/aigc/multimodal-generation/generation';
+
+        const res = await fetchWithRetry(endpoint, {
+            method: 'POST',
+            signal: currentAbortController.signal,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${key}`
+            },
+            body: JSON.stringify({
+                model: selectedModel,
+                input: { messages: [{ role: 'user', content: [{ text: prompt }] }] },
+                parameters: { n: 1, size, watermark: false }
+            })
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            // DashScope renvoie { code, message } au niveau racine
+            throw new Error(err.message || err.error?.message || `HTTP Error ${res.status}`);
+        }
+
+        const data = await res.json();
+        const content = data.output?.choices?.[0]?.message?.content;
+        if (Array.isArray(content)) {
+            const imgItem = content.find(c => c.image);
+            if (imgItem?.image) return imgItem.image;  // URL OSS
+        }
+        throw new Error(data.message || "No image generated. Check your prompt and API key.");
     }
 
     // ===== GÉNÉRATION DE VIDÉO (unified P2 refactor) =====

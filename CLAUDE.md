@@ -31,7 +31,7 @@ Le script suit ce découpage logique :
 
 ## Modèle de données / fournisseurs
 
-Fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google), `deepseek` + `qwen` (compatibles OpenAI). Quatre modes : `chat`, `code`, `image`, `video` (Claude, DeepSeek et Qwen = texte seul, pas d'image/vidéo — géré dans `updateProviderUI`).
+Fournisseurs : `openai`, `claude` (Anthropic), `gemini` (Google), `deepseek` + `qwen` (compatibles OpenAI). Quatre modes : `chat`, `code`, `image`, `video`. Les capacités sont **pilotées par les tables** : `updateProviderUI` active l'onglet Image/Vidéo selon la présence du fournisseur dans `IMAGE_MODELS` / `VIDEO_MODELS`. Donc : OpenAI/Gemini = image+vidéo ; **Qwen = chat + image** (pas de vidéo) ; Claude/DeepSeek = texte seul.
 
 Endpoints appelés directement depuis le navigateur :
 - OpenAI : `https://api.openai.com/v1/chat/completions`, `/v1/responses` (modèles `RESPONSES_API_MODELS`), `/v1/images/generations`, `/v1/videos`.
@@ -51,6 +51,7 @@ Endpoints appelés directement depuis le navigateur :
 - `ai_thinking_enabled`, `ai_thinking_budget`, `ai_thinking_level`.
 - `ai_image_quality`, `ai_image_size` (OpenAI), `ai_image_format`, `ai_image_resolution` (Gemini).
 - `ai_qwen_region` — région DashScope pour Qwen (`intl` | `mainland`, défaut `intl`).
+- `ai_qwen_image_size` — taille image Qwen (ex. `1024*1024`, format `largeur*hauteur`).
 - Historique de conversation (persisté par `saveHistory()`, qui **retire les images** ; repli `_pruneAndRetrySaveHistory()` si quota dépassé).
 
 ## Carte des fonctions clés
