@@ -2648,14 +2648,19 @@
             { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite', en: 'Veo 3.1 Lite' } },
             { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast', en: 'Veo 3.1 Fast' } },
             { id: 'veo-2.0-generate-001', name: { fr: 'Veo 2.0', en: 'Veo 2.0' } }
+        ],
+        grok: [
+            { id: 'grok-imagine-video', name: { fr: 'Grok Imagine Vidéo', en: 'Grok Imagine Video' } }
         ]
     };
 
     // Allowed clip durations (seconds) per provider. Sora only accepts 8/12/16/20;
     // Gemini Veo accepts shorter clips. Mismatched values are rejected by the API.
+    // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
     const VIDEO_DURATIONS = {
         openai: ['8', '12', '16', '20'],
-        gemini: ['8', '6', '4']
+        gemini: ['8', '6', '4'],
+        grok: ['10']
     };
 
     // ===== SYSTEM PROMPTS =====
@@ -3201,6 +3206,64 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 return {
                     src: `${uri}${uri.includes('?') ? '&' : '?'}key=${key}`,
                     filename: `video_${Date.now()}.mp4`,
+                    openInNewTab: true
+                };
+            },
+            pollIntervalMs: 5000,
+            maxPolls: 120
+        },
+        grok: {
+            // xAI Grok Imagine — submit POST /v1/videos/generations → { request_id },
+            // poll GET /v1/videos/{request_id} → { status, video:{url} }. CORS OK sur api.x.ai.
+            async submit(prompt, params, key, signal) {
+                const res = await fetchWithRetry('https://api.x.ai/v1/videos/generations', {
+                    method: 'POST',
+                    signal,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                    body: JSON.stringify({
+                        model: params.model,
+                        prompt,
+                        duration: parseInt(params.duration, 10),
+                        aspect_ratio: params.aspectRatio,
+                        resolution: '720p'
+                    })
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
+                    throw new Error(msg);
+                }
+                const data = await res.json();
+                if (!data.request_id) throw new Error("No request_id returned by the xAI video API.");
+                return { handle: data.request_id };
+            },
+            async poll(handle, key, signal) {
+                const res = await fetch(`https://api.x.ai/v1/videos/${handle}`, {
+                    method: 'GET',
+                    signal,
+                    headers: { 'Authorization': `Bearer ${key}` }
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
+                    return { httpError: msg };
+                }
+                const data = await res.json();
+                const st = data.status;
+                return {
+                    done: st === 'done',
+                    failed: st === 'failed' || st === 'expired',
+                    error: st === 'expired' ? 'Video request expired.' : (data.error?.message || data.error || null),
+                    progress: null,
+                    _videoUrl: data.video?.url
+                };
+            },
+            async finalize(handle, key, signal, lastStatus) {
+                const url = lastStatus && lastStatus._videoUrl;
+                if (!url) throw new Error("Video was generated but no download URL was found.");
+                return {
+                    src: url,
+                    filename: `grok_video_${Date.now()}.mp4`,
                     openInNewTab: true
                 };
             },
@@ -5024,7 +5087,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+            // xAI (Grok) renvoie l'erreur en STRING (err.error) ; OpenAI/DeepSeek/Qwen en objet { message }.
+            const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
+            throw new Error(msg);
         }
 
         await readStream(res, onChunk, 'openai', onThinkingChunk);
@@ -5434,7 +5499,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+            // xAI renvoie l'erreur en STRING (err.error), pas en objet { message } → gérer les deux.
+            const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
+            throw new Error(msg);
         }
 
         const data = await res.json();
