@@ -1789,6 +1789,25 @@
             font-weight: 600;
             color: var(--accent);
         }
+        /* Barre « Aucune des deux » sous la rangée 2 colonnes */
+        .compare-resolve {
+            display: flex;
+            justify-content: center;
+            margin-top: -6px;
+        }
+        .compare-ignore-btn {
+            padding: 5px 14px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary, var(--text));
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        .compare-ignore-btn:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
 
         /* Mobile : colonnes empilées */
         @media (max-width: 720px) {
@@ -2152,6 +2171,7 @@
     let thinkingBudget = parseInt(localStorage.getItem('ai_thinking_budget')) || 10000;
     let compareMode = localStorage.getItem('ai_compare_on') === 'true';
     let currentCompareControllers = [];  // 1 AbortController par colonne en mode comparaison
+    let pendingCompareChoice = false;    // une comparaison attend que l'utilisateur tranche (garde/ignore)
 
     // ===== TRADUCTIONS (i18n) =====
     const I18N = {
@@ -2165,6 +2185,8 @@
             lblCompareB: "Modèle B",
             compareKeep: "✓ Garder celle-ci",
             compareKept: "✓ Gardée",
+            compareIgnore: "✕ Aucune des deux",
+            compareMustChoose: "Choisissez d'abord quelle réponse garder (ou « Aucune des deux »).",
             compareNeedTwoKeys: "Entrez les clés API des 2 fournisseurs comparés.",
             compareSameModel: "Choisissez 2 modèles différents à comparer.",
             lblQwenRegion: "Région",
@@ -2293,6 +2315,8 @@
             lblCompareB: "Model B",
             compareKeep: "✓ Keep this one",
             compareKept: "✓ Kept",
+            compareIgnore: "✕ Keep neither",
+            compareMustChoose: "Pick which response to keep first (or « Keep neither »).",
             compareNeedTwoKeys: "Enter API keys for both compared providers.",
             compareSameModel: "Pick 2 different models to compare.",
             lblQwenRegion: "Region",
@@ -4183,6 +4207,13 @@ Your absolute directives:
     async function handleSend() {
         if (isProcessing) return;
 
+        // Comparaison non tranchée : forcer un choix (garder l'une, ou « Aucune des deux »)
+        // avant tout nouvel envoi. Garde l'historique linéaire et cohérent.
+        if (pendingCompareChoice) {
+            showToast(I18N[currentLang].compareMustChoose, 'error');
+            return;
+        }
+
         let text = userInput.value.trim();
         
         if (currentMode === 'code' && agentModeCb && agentModeCb.checked) {
@@ -4346,25 +4377,47 @@ Your absolute directives:
         currentCompareControllers = [];
 
         // L'historisation n'a lieu qu'au clic sur « Garder celle-ci ».
-        setupCompareKeep(
+        setupCompareKeep(row,
             { div: loadingA, meta: a, res: resA },
             { div: loadingB, meta: b, res: resB }
         );
     }
 
-    // Pose un bouton « Garder celle-ci » sous chaque colonne ayant une réponse.
-    // Au clic : pousse la seule réponse choisie dans conversationHistory + notes 👍/👎,
-    // grise la non retenue (lecture seule, NON persistée), et retire les 2 boutons.
-    function setupCompareKeep(colA, colB) {
+    // Pose un bouton « Garder celle-ci » sous chaque colonne exploitable, plus une
+    // barre « Aucune des deux » sous la rangée. Tant qu'aucune n'est tranchée,
+    // pendingCompareChoice bloque tout nouvel envoi (cf. handleSend).
+    //  - Garder : pousse la seule réponse choisie + notes 👍/👎, grise l'autre.
+    //  - Aucune : rien n'entre dans l'historique, les 2 colonnes se grisent.
+    // Si les 2 réponses ont échoué (rien à garder) : aucun blocage.
+    function setupCompareKeep(row, colA, colB) {
         const cols = [colA, colB];
+        const keepable = cols.filter(c => c.res && c.res.fullResponse);
+        if (keepable.length === 0) return;  // 2 erreurs : aucune décision à prendre
+
+        pendingCompareChoice = true;
         const buttons = [];
+
+        // Barre de résolution sous la rangée (échappatoire « Aucune des deux »).
+        const resolveBar = document.createElement('div');
+        resolveBar.className = 'compare-resolve';
+        const ignoreBtn = document.createElement('button');
+        ignoreBtn.className = 'compare-ignore-btn';
+        ignoreBtn.textContent = I18N[currentLang].compareIgnore;
+        resolveBar.appendChild(ignoreBtn);
+        row.insertAdjacentElement('afterend', resolveBar);
+
+        // Retire tous les contrôles et débloque les envois.
+        function resolve() {
+            buttons.forEach(btn => { if (btn && btn.parentNode) btn.remove(); });
+            if (resolveBar.parentNode) resolveBar.remove();
+            pendingCompareChoice = false;
+        }
 
         function keep(chosen, other) {
             const entry = { role: 'assistant', content: chosen.res.fullResponse, provider: chosen.meta.provider, model: chosen.meta.model };
             conversationHistory.push(entry);
             saveHistory();
-
-            buttons.forEach(btn => { if (btn && btn.parentNode) btn.remove(); });
+            resolve();
             if (other && other.div) other.div.classList.add('compare-col-discarded');
 
             const badge = document.createElement('div');
@@ -4374,6 +4427,19 @@ Your absolute directives:
 
             attachRatingButtons(chosen.div, entry);
         }
+
+        // « Aucune des deux » : rien gardé, on grise les 2 et on débloque.
+        // L'échange n'ayant rien produit, on retire aussi le prompt utilisateur de
+        // l'historique (pendingCompareChoice garantit qu'il est encore le dernier).
+        ignoreBtn.addEventListener('click', () => {
+            resolve();
+            const last = conversationHistory[conversationHistory.length - 1];
+            if (last && last.role === 'user') {
+                conversationHistory.pop();
+                saveHistory();
+            }
+            cols.forEach(c => c.div.classList.add('compare-col-discarded'));
+        });
 
         cols.forEach((col, i) => {
             if (!col.res || !col.res.fullResponse) { buttons.push(null); return; }
