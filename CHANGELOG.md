@@ -8,6 +8,38 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.2.0] — 2026-06-04
+  Added
+    - DeepSeek provider (DeepSeek V3 chat, DeepSeek R1 reasoning),
+      OpenAI-compatible streaming.
+    - Qwen provider (Alibaba DashScope): chat (qwen-max/plus/turbo,
+      qwen3-max, qwen3-coder-plus) and image generation, with a selectable
+      DashScope region (International / Mainland China).
+    - Collapsible API-keys panel with per-provider status pills (saved key /
+      missing key), now showing each provider's name next to its colour dot.
+    - Compare Mode: run the same prompt on two models side by side (any
+      providers, grouped by provider), with both responses streamed in
+      parallel. Keep the answer you prefer in one click — or discard both;
+      only the kept answer enters the conversation history. Available in
+      Chat and Code modes.
+    - Vibe Coder mode: a beginner-oriented mode for non-coders. A patient
+      mentor that detects your language, asks one clarifying question at a
+      time, presents a plain-language action plan and WAITS for your approval
+      before building, then guides you step by step — pointing to the in-app
+      preview/download buttons, offering concrete next steps, and pre-empting
+      common mistakes.
+    - Live HTML preview: any complete HTML page shows a 👁 preview button
+      that renders it instantly in a sandboxed iframe (allow-scripts only, no
+      same-origin access — the previewed code cannot read your stored API
+      keys), plus an "open in a new tab" option. Available in every mode.
+  Fixed
+    - Large outputs (complete single-file HTML pages) are no longer truncated
+      on Gemini and the OpenAI-compatible providers (DeepSeek, Qwen): their
+      output-token budget is raised for code-heavy modes.
+  Changed
+    - Source file renamed from ChatJPT_1_1_1.html to ChatJPT_1_2_0.html.
+    - Version string updated to 1.2.0 (header and footer, FR/EN).
+
 [1.1.1] — 2026-06-01
   Added
     - Claude Opus 4.8 (claude-opus-4-8) — now the default and most
@@ -59,6 +91,41 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.2.0] — 2026-06-04
+  Ajouté
+    - Fournisseur DeepSeek (DeepSeek V3 chat, DeepSeek R1 raisonnement),
+      streaming compatible OpenAI.
+    - Fournisseur Qwen (Alibaba DashScope) : chat (qwen-max/plus/turbo,
+      qwen3-max, qwen3-coder-plus) et génération d'images, avec une région
+      DashScope au choix (International / Chine continentale).
+    - Panneau de clés API repliable avec pastilles de statut par fournisseur
+      (clé enregistrée / manquante), affichant désormais le nom de chaque
+      fournisseur à côté de sa pastille de couleur.
+    - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte
+      (tous fournisseurs, groupés par fournisseur), les deux réponses étant
+      streamées en parallèle. Gardez celle que vous préférez en un clic — ou
+      ignorez les deux ; seule la réponse gardée entre dans l'historique.
+      Disponible en modes Chat et Code.
+    - Mode Vibe Coder : un mode pour débutants (non-codeurs). Un mentor
+      patient qui détecte votre langue, pose une question de clarification à
+      la fois, présente un plan d'action en langage simple et ATTEND votre
+      accord avant de construire, puis vous guide pas à pas — en pointant les
+      boutons aperçu/téléchargement de l'app, en proposant des étapes
+      suivantes concrètes et en anticipant les erreurs courantes.
+    - Aperçu HTML en direct : toute page HTML complète affiche un bouton 👁
+      qui la rend instantanément dans une iframe sandboxée (allow-scripts
+      uniquement, sans accès same-origin — le code prévisualisé ne peut pas
+      lire vos clés API stockées), avec une option « ouvrir dans un onglet ».
+      Disponible dans tous les modes.
+  Corrigé
+    - Les grosses sorties (pages HTML complètes en un seul fichier) ne sont
+      plus tronquées sur Gemini ni sur les fournisseurs compatibles OpenAI
+      (DeepSeek, Qwen) : leur budget de tokens de sortie est relevé pour les
+      modes générant beaucoup de code.
+  Modifié
+    - Fichier source renommé de ChatJPT_1_1_1.html à ChatJPT_1_2_0.html.
+    - Numéro de version mis à jour à 1.2.0 (en-tête et pied de page, FR/EN).
 
 [1.1.1] — 2026-06-01
   Ajouté

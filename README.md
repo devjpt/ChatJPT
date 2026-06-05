@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.1.1
+  Version 1.2.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -18,15 +18,31 @@ FEATURES
       • OpenAI     (GPT-5.x, GPT-4.1, o-series, etc.)
       • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
+      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 reasoning)
+      • Qwen       (Alibaba — chat and image; selectable DashScope region)
 
   - Conversation modes:
       • Chat       : general conversation
+      • Vibe Coder : beginner-friendly mode for non-coders — asks one
+                     question at a time, proposes a plan and waits for your
+                     approval before building, then guides you step by step.
+                     Generated web pages can be previewed live, right in the chat.
       • Code       : development assistance, syntax highlighting,
                      code block download
       • Image      : image generation — OpenAI GPT Image (adjustable
-                     quality and size) and Google Gemini (adjustable
-                     format and resolution)
+                     quality and size), Google Gemini (adjustable format and
+                     resolution), and Qwen
       • Video      : video generation (OpenAI Sora 2, Google Veo)
+
+  - Compare Mode: run the same prompt on two models side by side, then keep
+    the answer you prefer (one click). Works in Chat and Code modes.
+
+  - Live HTML preview: complete HTML pages get a 👁 preview button that
+    renders them instantly in a secure sandbox (works in any mode); a 💾
+    button saves the file. Available wherever the AI returns a full page.
+
+  - Collapsible API-keys panel with per-provider status (saved key /
+    missing key) shown at a glance.
 
   - Agent Mode: forces the AI to respond step-by-step in English,
     optimized for automated coding tools (Claude Code, Cursor, etc.)
@@ -48,7 +64,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_1_1.html
+  1. Download the file ChatJPT_1_2_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -80,7 +96,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.1.1
+  Version 1.2.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -99,15 +115,32 @@ FONCTIONNALITÉS
       • OpenAI     (GPT-5.x, GPT-4.1, série o, etc.)
       • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
+      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 raisonnement)
+      • Qwen       (Alibaba — chat et image ; région DashScope au choix)
 
   - Modes de conversation :
       • Chat       : conversation générale
+      • Vibe Coder : mode pour débutants (non-codeurs) — pose une question à
+                     la fois, propose un plan et attend votre accord avant de
+                     construire, puis vous guide pas à pas. Les pages web
+                     générées peuvent être prévisualisées en direct dans le chat.
       • Code       : assistance au développement, coloration syntaxique,
                      téléchargement des blocs de code
       • Image      : génération d'images — OpenAI GPT Image (qualité et
-                     taille ajustables) et Google Gemini (format et
-                     résolution ajustables)
+                     taille ajustables), Google Gemini (format et résolution
+                     ajustables) et Qwen
       • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo)
+
+  - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
+    puis gardez la réponse que vous préférez (en un clic). Disponible en
+    modes Chat et Code.
+
+  - Aperçu HTML en direct : les pages HTML complètes affichent un bouton 👁
+    qui les rend instantanément dans un bac à sable sécurisé (dans tous les
+    modes) ; un bouton 💾 enregistre le fichier.
+
+  - Panneau de clés API repliable, avec le statut de chaque fournisseur
+    (clé enregistrée / manquante) visible d'un coup d'œil.
 
   - Mode Agent : force l'IA à répondre étape par étape en anglais,
     optimisé pour les outils de codage automatisés (Claude Code, Cursor, etc.)
@@ -130,7 +163,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_1_1.html
+  1. Téléchargez le fichier ChatJPT_1_2_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
