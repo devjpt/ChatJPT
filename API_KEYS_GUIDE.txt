@@ -52,14 +52,50 @@ your plan).
 
 
 ----------------------------------------------------------------
+  4. DEEPSEEK
+     Key looks like: sk-...
+----------------------------------------------------------------
+
+  1. Go to: https://platform.deepseek.com/
+  2. Create an account or sign in (email, GitHub, or Google).
+  3. In the dashboard sidebar, click "API Keys".
+  4. Click "Create API Key" and give it a name.
+  5. Copy the key immediately — it will not be shown again.
+
+  Note: DeepSeek is pay-as-you-go and requires adding a small
+        amount of credit (pricing is very low).
+
+
+----------------------------------------------------------------
+  5. QWEN (Alibaba Cloud)
+     Key looks like: sk-...
+----------------------------------------------------------------
+
+  1. Go to Alibaba Cloud Model Studio and see "How to get an API Key":
+       https://www.alibabacloud.com/help/en/model-studio/get-api-key
+  2. Create an Alibaba Cloud account or sign in.
+  3. Open Model Studio (DashScope), then "API Keys".
+  4. Click "Create API Key" and copy it.
+
+  Note: Qwen keys are REGION-SPECIFIC. The International (Singapore)
+        and Mainland China (Beijing) regions are NOT interchangeable —
+        a key only works with its own region.
+        In ChatJPT, pick the matching region in the "Region" dropdown
+        next to the model selector (default: International).
+        New Alibaba Cloud accounts usually get a free quota to start.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_1_1.html in your browser.
+  1. Open ChatJPT_1_2_0.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
+       🔷 DeepSeek → paste your sk-... key
+       🟣 Qwen     → paste your sk-... key
   3. Keys are saved locally in your browser.
      They are never sent anywhere other than to the respective service.
 
@@ -128,14 +164,51 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  4. DEEPSEEK
+     Clé ressemble à : sk-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://platform.deepseek.com/
+  2. Créez un compte ou connectez-vous (e-mail, GitHub ou Google).
+  3. Dans le menu latéral du tableau de bord, cliquez sur "API Keys".
+  4. Cliquez sur "Create API Key", donnez-lui un nom.
+  5. Copiez la clé immédiatement — elle ne sera plus affichée.
+
+  Note : DeepSeek fonctionne au paiement à l'usage et nécessite
+         d'ajouter un petit crédit (tarifs très bas).
+
+
+----------------------------------------------------------------
+  5. QWEN (Alibaba Cloud)
+     Clé ressemble à : sk-...
+----------------------------------------------------------------
+
+  1. Allez sur Alibaba Cloud Model Studio, rubrique "How to get an API Key" :
+       https://www.alibabacloud.com/help/en/model-studio/get-api-key
+  2. Créez un compte Alibaba Cloud ou connectez-vous.
+  3. Ouvrez Model Studio (DashScope), puis "API Keys".
+  4. Cliquez sur "Create API Key" et copiez-la.
+
+  Note : Les clés Qwen sont SPÉCIFIQUES À UNE RÉGION. Les régions
+         International (Singapour) et Chine continentale (Pékin) ne sont
+         PAS interchangeables — une clé ne fonctionne qu'avec sa région.
+         Dans ChatJPT, choisissez la région correspondante dans le menu
+         "Région" à côté du sélecteur de modèle (défaut : International).
+         Les nouveaux comptes Alibaba Cloud ont en général un quota
+         gratuit pour démarrer.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_1_1.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_2_0.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
+       🔷 DeepSeek → collez votre clé sk-...
+       🟣 Qwen     → collez votre clé sk-...
   3. Les clés sont sauvegardées localement dans votre navigateur.
      Elles ne sont jamais envoyées ailleurs que vers le service concerné.
 
