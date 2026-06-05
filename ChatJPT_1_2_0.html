@@ -39,6 +39,7 @@
             --claude: #d97706;
             --gemini: #4285f4;
             --deepseek: #4d6bfe;
+            --grok: #c9d1d9;
             --qwen: #9d4edd;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
@@ -273,6 +274,7 @@
         .config-group label.claude-label { color: var(--claude); }
         .config-group label.gemini-label { color: var(--gemini); }
         .config-group label.deepseek-label { color: var(--deepseek); }
+        .config-group label.grok-label { color: var(--grok); }
         .config-group label.qwen-label { color: var(--qwen); }
 
         .api-key-input {
@@ -398,6 +400,7 @@
         .provider-indicator.claude { background: var(--claude); box-shadow: 0 0 8px var(--claude); }
         .provider-indicator.gemini { background: var(--gemini); box-shadow: 0 0 8px var(--gemini); }
         .provider-indicator.deepseek { background: var(--deepseek); box-shadow: 0 0 8px var(--deepseek); }
+        .provider-indicator.grok { background: var(--grok); box-shadow: 0 0 8px var(--grok); }
         .provider-indicator.qwen { background: var(--qwen); box-shadow: 0 0 8px var(--qwen); }
 
         .mode-tabs {
@@ -508,6 +511,7 @@
         .model-badge.claude { background: rgba(217, 119, 6, 0.15); color: var(--claude); }
         .model-badge.gemini { background: rgba(66, 133, 244, 0.15); color: var(--gemini); }
         .model-badge.deepseek { background: rgba(77, 107, 254, 0.15); color: var(--deepseek); }
+        .model-badge.grok { background: rgba(201, 209, 217, 0.15); color: var(--grok); }
         .model-badge.qwen { background: rgba(157, 78, 221, 0.15); color: var(--qwen); }
 
         .message .msg-content { white-space: pre-wrap; }
@@ -1920,6 +1924,10 @@
                     <input type="password" class="api-key-input" id="key-gemini" placeholder="AIza..." autocomplete="off" aria-label="Clé API Gemini">
                 </div>
                 <div class="config-group">
+                    <label class="grok-label">⚫ Grok</label>
+                    <input type="password" class="api-key-input" id="key-grok" placeholder="xai-..." autocomplete="off" aria-label="Clé API Grok">
+                </div>
+                <div class="config-group">
                     <label class="deepseek-label">🔷 DeepSeek</label>
                     <input type="password" class="api-key-input" id="key-deepseek" placeholder="sk-..." autocomplete="off" aria-label="Clé API DeepSeek">
                 </div>
@@ -1947,6 +1955,7 @@
                 <option value="openai">OpenAI</option>
                 <option value="claude">Anthropic (Claude)</option>
                 <option value="gemini">Google (Gemini)</option>
+                <option value="grok">xAI (Grok)</option>
                 <option value="deepseek">DeepSeek</option>
                 <option value="qwen">Qwen (Alibaba)</option>
             </select>
@@ -2222,14 +2231,15 @@
         openai: $('key-openai'),
         claude: $('key-claude'),
         gemini: $('key-gemini'),
+        grok: $('key-grok'),
         deepseek: $('key-deepseek'),
         qwen: $('key-qwen')
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', deepseek: '🔷', qwen: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', deepseek: '🔷', qwen: '🟣' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', deepseek: 'DeepSeek', qwen: 'Qwen' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', deepseek: 'DeepSeek', qwen: 'Qwen' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -2562,6 +2572,12 @@
             { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash', en: 'Gemini 2.5 Flash' } },
             { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
         ],
+        grok: [
+            { id: 'grok-4.3', name: { fr: 'Grok 4.3 (Dernier)', en: 'Grok 4.3 (Latest)' } },
+            { id: 'grok-4.20-0309-reasoning', name: { fr: 'Grok 4.20 (Raisonnement)', en: 'Grok 4.20 (Reasoning)' } },
+            { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)' } },
+            { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)' } },
+        ],
         deepseek: [
             { id: 'deepseek-chat', name: { fr: 'DeepSeek V3 (Chat)', en: 'DeepSeek V3 (Chat)' } },
             { id: 'deepseek-reasoner', name: { fr: 'DeepSeek R1 (Raisonnement)', en: 'DeepSeek R1 (Reasoning)' } },
@@ -2713,6 +2729,11 @@ RULES:
             // Qwen3 supporte le thinking mais via enable_thinking (non envoyé ici) → désactivé pour l'instant
             native: [],
             configurable: []
+        },
+        grok: {
+            // Grok 4.20 a une variante « reasoning » ; exposition de reasoning_content non vérifiée → off pour l'instant
+            native: [],
+            configurable: []
         }
     };
 
@@ -2735,7 +2756,8 @@ RULES:
     // Valeur = fonction (l'endpoint Qwen dépend de la région choisie, lue à l'exécution).
     const OPENAI_COMPATIBLE_ENDPOINTS = {
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
-        qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions'
+        qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions',
+        grok: () => 'https://api.x.ai/v1/chat/completions'
     };
 
     // Budget tokens pour Claude et Gemini 2.5
@@ -2940,6 +2962,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // que l'API Chat Completions d'OpenAI.
     HISTORY_STRATEGIES.deepseek = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.qwen = HISTORY_STRATEGIES.openai;
+    HISTORY_STRATEGIES.grok = HISTORY_STRATEGIES.openai;
     function formatHistory(historyMessages, provider) {
         return historyMessages.map(HISTORY_STRATEGIES[provider]);
     }
@@ -3719,6 +3742,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         openai: 'OpenAI',
         claude: 'Anthropic (Claude)',
         gemini: 'Google (Gemini)',
+        grok: 'xAI (Grok)',
         deepseek: 'DeepSeek',
         qwen: 'Qwen (Alibaba)'
     };
