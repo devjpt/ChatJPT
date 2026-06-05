@@ -671,6 +671,65 @@
         .dl-btn:hover, .table-csv-btn:hover { background: var(--surface-hover); color: var(--text); }
         .dl-btn.downloaded, .table-csv-btn.downloaded { color: var(--success); border-color: var(--success); }
 
+        /* ===== APERÇU LIVE (Vibe Coder) ===== */
+        .preview-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .preview-btn:hover { background: var(--surface-hover); color: var(--text); }
+        .preview-btn.active { color: var(--accent-light); border-color: var(--accent-light); }
+        .vibe-preview {
+            width: 100%;
+            height: 420px;
+            border: 0;
+            border-top: 1px solid var(--border);
+            background: #fff;
+            display: block;
+        }
+        .preview-newtab-btn {
+            display: block;
+            margin: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .preview-newtab-btn:hover { background: var(--surface-hover); color: var(--text); }
+
+        /* Chips d'exemples (écran d'accueil, mode Vibe Coder) */
+        .vibe-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+        .vibe-chip {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .vibe-chip:hover { border-color: var(--accent); color: var(--accent); }
+
         .streaming-indicator {
             font-size: 0.7rem;
             color: var(--warning);
@@ -1660,8 +1719,8 @@
                 background: white; 
                 color: black; 
             }
-            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge { 
-                display: none !important; 
+            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview {
+                display: none !important;
             }
             #chat-container { 
                 overflow: visible; 
@@ -1920,6 +1979,7 @@
             <button class="mode-tab" data-mode="code" title="Génération de code" data-i18n="tabCode" role="tab" aria-selected="false">👨‍💻 Code</button>
             <button class="mode-tab" data-mode="image" title="Génération d'image" id="image-tab" data-i18n="tabImage" role="tab" aria-selected="false">🎨 Image</button>
             <button class="mode-tab" data-mode="video" title="Génération de vidéo" id="video-tab" data-i18n="tabVideo" role="tab" aria-selected="false">🎬 Vidéo</button>
+            <button class="mode-tab" data-mode="vibecoder" title="Pour débutants : crée des pages, scripts, apps en langage simple" id="vibecoder-tab" data-i18n="tabVibeCoder" role="tab" aria-selected="false">✨ Vibe Coder</button>
         </div>
         <div class="header-actions">
             <button class="lang-toggle" id="lang-toggle" title="Basculer la langue / Toggle Language" aria-label="Basculer la langue">EN</button>
@@ -2028,6 +2088,8 @@
             <span class="shortcut"><kbd>Maj+Entrée</kbd> <span data-i18n="lblNewline">Nouvelle ligne</span></span>
             <span class="shortcut"><kbd>📎</kbd> <span data-i18n="lblFile">Joindre fichier</span></span>
         </div>
+        <!-- Exemples cliquables, visibles seulement en mode Vibe Coder -->
+        <div class="vibe-chips dp-hidden" id="vibe-chips"></div>
     </div>
 </div>
 
@@ -2136,6 +2198,7 @@
     const imageModal = $('image-modal');
     const modalImg = $('modal-img');
     const welcome = $('welcome');
+    const vibeChips = $('vibe-chips');
     const keysPanelEl = $('keys-panel');
     const keysToggleBtn = $('keys-toggle');
     const keysStatusEl = $('keys-status');
@@ -2270,6 +2333,11 @@
             imgRes4K: "4K (lent)",
             tabVideo: "🎬 Vidéo",
             placeholderVideo: "Décrivez la vidéo que vous souhaitez générer...",
+            tabVibeCoder: "✨ Vibe Coder",
+            placeholderVibeCoder: "Décris ton idée en mots simples — je m'occupe du reste...",
+            previewBtn: "👁 Aperçu",
+            previewHide: "🙈 Masquer l'aperçu",
+            previewNewTab: "↗ Ouvrir dans un onglet",
             lblVideoModel: "Modèle Vidéo",
             lblAspectRatio: "Ratio",
             lblDuration: "Durée",
@@ -2400,6 +2468,11 @@
             imgRes4K: "4K (slow)",
             tabVideo: "🎬 Video",
             placeholderVideo: "Describe the video you want to generate...",
+            tabVibeCoder: "✨ Vibe Coder",
+            placeholderVibeCoder: "Describe your idea in plain words — I'll handle the rest...",
+            previewBtn: "👁 Preview",
+            previewHide: "🙈 Hide preview",
+            previewNewTab: "↗ Open in new tab",
             lblVideoModel: "Video Model",
             lblAspectRatio: "Ratio",
             lblDuration: "Duration",
@@ -2679,7 +2752,7 @@ RULES:
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
     const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.5-flash', 'gemini-3-flash-preview'];
 
-    const THINKING_MODES = ['chat', 'code'];  // Modes où thinking est pertinent
+    const THINKING_MODES = ['chat', 'code', 'vibecoder'];  // Modes où thinking est pertinent
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -2692,8 +2765,26 @@ Your absolute directives:
 4. ROBUSTNESS: Systematically include necessary imports, error handling (try/catch/except), and input data validation.
 5. FORMATTING: Use precise Markdown code blocks (\`\`\`python, \`\`\`typescript, etc.). Add concise comments explaining complex parts, and always write these comments in the same language the user used in their prompt.
 6. POST-CODE EXPLANATIONS: After the code block, provide only the strict instructions to execute it (e.g., dependency installation commands). Do not write long conclusions.
-7. SECURITY: Anticipate and prevent common vulnerabilities (SQL injections, XSS, memory leaks).` + CHART_SYSTEM_INSTRUCTION
+7. SECURITY: Anticipate and prevent common vulnerabilities (SQL injections, XSS, memory leaks).` + CHART_SYSTEM_INSTRUCTION,
+        vibecoder: `You are "Vibe Coder", a warm, patient mentor who helps absolute beginners — people who have never written a line of code — turn their ideas into working things (web pages, small Python programs, simple scripts, automations).
+
+LANGUAGE: Detect the language of the user's message and reply ENTIRELY in that same language. These instructions are in English, but never answer in English unless the user wrote in English.
+
+WHO YOU ARE TALKING TO: Assume zero technical background. Never assume they know what a "terminal", "directory", "dependency", "repository", or "IDE" is. If you must use a technical word, immediately explain it in one short plain sentence the first time. Prefer everyday words over jargon.
+
+HOW YOU WORK — ONE QUESTION AT A TIME:
+1. When the request is even slightly unclear or could be built several ways, ask EXACTLY ONE short, friendly clarifying question, then STOP and wait. Do not ask a list. Do not start building yet. Offer 2-3 concrete example answers so the user can just pick one.
+2. Once you have enough to proceed, build it. If the request is already clear and simple, skip straight to building.
+
+HOW YOU BUILD:
+- For anything VISUAL or web-based (page, form, game, calculator, portfolio, animation): output ONE COMPLETE, SELF-CONTAINED HTML document in a single \`\`\`html block. It must start with \`<!DOCTYPE html>\` and include the CSS inside a <style> tag and the JavaScript inside a <script> tag — so the user can save it as one file, double-click it, and it just works. Never split across files. Never leave "..." or "your code here" placeholders — write the whole thing.
+- For NON-WEB languages (Python, shell, etc.), give complete ready-to-run code in the right block, then copy-paste, click-by-click beginner setup steps: exactly what to install (describe the official download link in words), how to save and name the file, the exact command to run it, and what they should SEE when it works.
+
+ALWAYS: explain in plain language what the thing does and how to use it; give concrete click-by-click instructions; be encouraging and reassure that mistakes are normal; invite the next step (change colors, add a feature). Keep it short and friendly.` + CHART_SYSTEM_INSTRUCTION
     };
+
+    // Modes qui produisent de gros livrables (fichiers complets) → budget de tokens élargi
+    function isBigOutputMode() { return currentMode === 'code' || currentMode === 'vibecoder'; }
 
     // ===== UTILITY HELPERS (P1 + P5 + P3 + P2 refactor) =====
     // Quick reference for helpers defined in this section:
@@ -3320,6 +3411,7 @@ Your absolute directives:
         if (compareModelA && compareModelA.options.length > 0) {
             populateCompareSelectors();
         }
+        renderVibeChips();
 
         // Update video config selects language (populateVideoModels also rebuilds
         // the duration options with localized labels for the active provider).
@@ -3410,6 +3502,7 @@ Your absolute directives:
         populateModels();
         populateCompareSelectors();
         applyCompareUI();
+        renderVibeChips();
         initThinking();
         setupEventListeners();
         autoResizeTextarea();
@@ -3688,6 +3781,32 @@ Your absolute directives:
         if (qwenRegionGroup) qwenRegionGroup.classList.toggle('dp-hidden', on || providerSelect.value !== 'qwen');
     }
 
+    // Exemples cliquables proposés dans l'écran d'accueil en mode Vibe Coder (bilingue).
+    const VIBE_CHIPS = [
+        { fr: '🌐 Une page web « À propos de moi »', en: '🌐 An "About me" web page',
+          pf: 'Je veux créer une page web simple « À propos de moi » avec mon nom, une photo et un petit texte de présentation.',
+          pe: 'I want to create a simple "About me" web page with my name, a photo and a short bio.' },
+        { fr: '🧮 Une calculatrice de pourboire', en: '🧮 A tip calculator',
+          pf: "Je veux une petite calculatrice de pourboire : j'entre le montant de l'addition et le pourcentage, et elle affiche le pourboire et le total.",
+          pe: 'I want a small tip calculator: I enter the bill amount and the percentage, and it shows the tip and the total.' },
+        { fr: '🐍 Un script qui renomme mes photos', en: '🐍 A script that renames my photos',
+          pf: "Je veux un petit programme qui renomme toutes les photos d'un dossier en ajoutant la date devant le nom.",
+          pe: 'I want a small program that renames all the photos in a folder by adding the date in front of the name.' }
+    ];
+
+    function renderVibeChips() {
+        if (!vibeChips) return;
+        vibeChips.innerHTML = '';
+        VIBE_CHIPS.forEach(c => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'vibe-chip';
+            btn.textContent = currentLang === 'fr' ? c.fr : c.en;
+            btn.dataset.prompt = currentLang === 'fr' ? c.pf : c.pe;
+            vibeChips.appendChild(btn);
+        });
+    }
+
     function switchMode(mode, skipRender = false) {
         currentMode = mode;
         if (!skipRender) {
@@ -3732,6 +3851,13 @@ Your absolute directives:
             videoConfigPanel.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             updateThinkingUI();
+        } else if (mode === 'vibecoder') {
+            userInput.placeholder = I18N[currentLang].placeholderVibeCoder;
+            if (conversationHistory.length > 0) regenBtn.style.display = 'flex';
+            agentModeContainer.classList.remove('show');   // agent-mode reste code-only
+            videoConfigPanel.classList.remove('show');
+            imageConfigPanel.classList.remove('show');
+            updateThinkingUI();
         } else {
             userInput.placeholder = I18N[currentLang].placeholderChat;
             if (conversationHistory.length > 0) regenBtn.style.display = 'flex';
@@ -3742,6 +3868,7 @@ Your absolute directives:
         }
 
         applyCompareUI();
+        if (vibeChips) vibeChips.classList.toggle('dp-hidden', mode !== 'vibecoder');
     }
 
     function populateVideoModels() {
@@ -3838,6 +3965,17 @@ Your absolute directives:
         if (compareModelB) {
             compareModelB.addEventListener('change', () => {
                 localStorage.setItem('ai_compare_b', compareModelB.value);
+            });
+        }
+
+        // Chips d'exemples (mode Vibe Coder) : remplissent la zone de saisie sans envoyer.
+        if (vibeChips) {
+            vibeChips.addEventListener('click', (e) => {
+                const chip = e.target.closest('.vibe-chip');
+                if (!chip) return;
+                userInput.value = chip.dataset.prompt || chip.textContent;
+                autoResizeTextarea();
+                userInput.focus();
             });
         }
 
@@ -4013,6 +4151,46 @@ Your absolute directives:
                 if (textToCopy) {
                     copyToClipboard(textToCopy, chartDataBtn, I18N[currentLang].tableCopied, I18N[currentLang].tableCopy);
                 }
+                return;
+            }
+
+            // Handle Live Preview toggle (Vibe Coder — pages HTML complètes)
+            const prevBtn = e.target.closest('.preview-btn');
+            if (prevBtn) {
+                const wrapper = prevBtn.closest('.code-block-wrapper');
+                if (!wrapper) return;
+                let frame = wrapper.querySelector('.vibe-preview');
+                if (frame) {                                  // re-clic → masquer l'aperçu
+                    frame.remove();
+                    const ob = wrapper.querySelector('.preview-newtab-btn');
+                    if (ob) ob.remove();
+                    prevBtn.textContent = I18N[currentLang].previewBtn;
+                    prevBtn.classList.remove('active');
+                    return;
+                }
+                const raw = b64decode(wrapper.getAttribute('data-raw-code-b64'));
+                if (raw === null) return;
+                frame = document.createElement('iframe');
+                frame.className = 'vibe-preview';
+                // SÉCURITÉ CRITIQUE : allow-scripts + allow-forms UNIQUEMENT.
+                // PAS de allow-same-origin → origine opaque → le code prévisualisé ne peut
+                //   PAS lire le localStorage parent (clés API chiffrées AES) ni le DOM parent.
+                // PAS de allow-top-navigation → ne peut pas rediriger l'onglet.
+                frame.setAttribute('sandbox', 'allow-scripts allow-forms');
+                frame.srcdoc = raw;                           // RAW (non-DOMPurifié) : doit s'exécuter comme une vraie page
+                // « Ouvrir dans un onglet » via blob URL (vrai onglet, comme double-cliquer le fichier)
+                const openBtn = document.createElement('button');
+                openBtn.className = 'preview-newtab-btn';
+                openBtn.textContent = I18N[currentLang].previewNewTab;
+                openBtn.addEventListener('click', () => {
+                    const url = URL.createObjectURL(new Blob([raw], { type: 'text/html' }));
+                    window.open(url, '_blank', 'noopener');
+                    setTimeout(() => URL.revokeObjectURL(url), 60000);
+                });
+                wrapper.appendChild(openBtn);
+                wrapper.appendChild(frame);
+                prevBtn.textContent = I18N[currentLang].previewHide;
+                prevBtn.classList.add('active');
                 return;
             }
 
@@ -4703,7 +4881,7 @@ Your absolute directives:
             stream: true 
         };
 
-        bodyParams.max_completion_tokens = currentMode === 'code' ? 16384 : 8192;
+        bodyParams.max_completion_tokens = isBigOutputMode() ? 16384 : 8192;
 
         if (isConfigurableReasoning && thinkingEnabled) {
             // GPT-5.x models: map thinking budget tokens to reasoning_effort level
@@ -4755,7 +4933,7 @@ Your absolute directives:
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             },
-            body: JSON.stringify({ model, messages, stream: true, max_tokens: 8192 })
+            body: JSON.stringify({ model, messages, stream: true, max_tokens: isBigOutputMode() ? 16384 : 8192 })
         });
 
         if (!res.ok) {
@@ -4782,7 +4960,7 @@ Your absolute directives:
         };
 
         // gpt-5.4-pro has 128K max output tokens; give it more room for reasoning + response
-        bodyParams.max_output_tokens = currentMode === 'code' ? 32768 : 16384;
+        bodyParams.max_output_tokens = isBigOutputMode() ? 32768 : 16384;
 
         // Reasoning effort for Responses API models
         // gpt-5.4-pro supports: medium, high, xhigh only (no 'none' or 'low')
@@ -4841,9 +5019,9 @@ Your absolute directives:
                 budget_tokens: budget
             };
             // max_tokens must accommodate both thinking and response
-            bodyParams.max_tokens = budget + (currentMode === 'code' ? 16384 : 8192);
+            bodyParams.max_tokens = budget + (isBigOutputMode() ? 16384 : 8192);
         } else {
-            bodyParams.max_tokens = currentMode === 'code' ? 8192 : 4096;
+            bodyParams.max_tokens = isBigOutputMode() ? 8192 : 4096;
         }
 
         const res = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
@@ -4877,7 +5055,7 @@ Your absolute directives:
         const useThinking = (isNativeThinking || (isConfigurableThinking && thinkingEnabled)) && onThinkingChunk;
         const isGemini3 = GEMINI3_MODELS.includes(model);
 
-        const generationConfig = { maxOutputTokens: 8192 };
+        const generationConfig = { maxOutputTokens: isBigOutputMode() ? 16384 : 8192 };
         if (useThinking || isNativeThinking) {
             const thinkingConfig = {
                 includeThoughts: true  // Required to receive thought summaries in stream
@@ -6535,6 +6713,13 @@ Your absolute directives:
         `;
     }
 
+    // Vrai quand un bloc de code est une page HTML complète et autonome
+    // (donc sûre à rendre dans un iframe sandboxé pour l'aperçu live).
+    function isFullHtmlDocument(lang, code) {
+        if ((lang || '').toLowerCase() !== 'html') return false;
+        return /<!doctype\s+html|<html[\s>]/i.test(code);
+    }
+
     function buildCodeBlock(lang, code) {
         const highlighted = highlightCode(code, lang);
         const rawEncoded = b64encode(code);
@@ -6542,11 +6727,16 @@ Your absolute directives:
         const dlBtn = dlInfo
             ? `<button class="dl-btn" data-ext="${dlInfo.ext}" data-mime="${dlInfo.mime}" title="Télécharger .${dlInfo.ext}">💾 .${dlInfo.ext}</button>`
             : '';
+        // Bouton « Aperçu » uniquement pour une vraie page HTML complète (tous modes confondus).
+        const previewBtn = isFullHtmlDocument(lang, code)
+            ? `<button class="preview-btn">${I18N[currentLang].previewBtn}</button>`
+            : '';
         return `
             <div class="code-block-wrapper" data-raw-code-b64="${rawEncoded}">
                 <div class="code-block-header">
                     <span class="code-lang">${escapeHtml(lang)}</span>
                     <div class="code-actions">
+                        ${previewBtn}
                         ${dlBtn}
                         <button class="copy-btn">📋 Copier</button>
                     </div>
