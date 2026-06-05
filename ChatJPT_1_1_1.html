@@ -688,11 +688,16 @@
         }
         .preview-btn:hover { background: var(--surface-hover); color: var(--text); }
         .preview-btn.active { color: var(--accent-light); border-color: var(--accent-light); }
+        .vibe-preview-wrap {
+            margin: 8px 0 4px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
         .vibe-preview {
             width: 100%;
             height: 420px;
             border: 0;
-            border-top: 1px solid var(--border);
             background: #fff;
             display: block;
         }
@@ -1719,7 +1724,7 @@
                 background: white; 
                 color: black; 
             }
-            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview {
+            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview, .vibe-preview-wrap {
                 display: none !important;
             }
             #chat-container { 
@@ -4160,23 +4165,28 @@ AFTER BUILDING: explain in plain language what the thing does and how to use it;
             if (prevBtn) {
                 const wrapper = prevBtn.closest('.code-block-wrapper');
                 if (!wrapper) return;
-                let frame = wrapper.querySelector('.vibe-preview');
-                if (frame) {                                  // re-clic → masquer l'aperçu
-                    frame.remove();
-                    const ob = wrapper.querySelector('.preview-newtab-btn');
-                    if (ob) ob.remove();
+                // L'aperçu vit APRÈS le bloc de code (hors du conteneur overflow:hidden).
+                let box = wrapper.nextElementSibling;
+                if (box && box.classList.contains('vibe-preview-wrap')) {  // re-clic → masquer
+                    box.remove();
                     prevBtn.textContent = I18N[currentLang].previewBtn;
                     prevBtn.classList.remove('active');
                     return;
                 }
-                const raw = b64decode(wrapper.getAttribute('data-raw-code-b64'));
-                if (raw === null) return;
-                frame = document.createElement('iframe');
+                // Code source : data-raw-code-b64, avec repli sur le texte affiché du <code>.
+                let raw = b64decode(wrapper.getAttribute('data-raw-code-b64'));
+                if (!raw) {
+                    const codeEl = wrapper.querySelector('code');
+                    raw = codeEl ? codeEl.textContent : '';
+                }
+                if (!raw) return;
+                box = document.createElement('div');
+                box.className = 'vibe-preview-wrap';
+                const frame = document.createElement('iframe');
                 frame.className = 'vibe-preview';
                 // SÉCURITÉ CRITIQUE : allow-scripts + allow-forms UNIQUEMENT.
                 // PAS de allow-same-origin → origine opaque → le code prévisualisé ne peut
                 //   PAS lire le localStorage parent (clés API chiffrées AES) ni le DOM parent.
-                // PAS de allow-top-navigation → ne peut pas rediriger l'onglet.
                 frame.setAttribute('sandbox', 'allow-scripts allow-forms');
                 frame.srcdoc = raw;                           // RAW (non-DOMPurifié) : doit s'exécuter comme une vraie page
                 // « Ouvrir dans un onglet » via blob URL (vrai onglet, comme double-cliquer le fichier)
@@ -4188,10 +4198,12 @@ AFTER BUILDING: explain in plain language what the thing does and how to use it;
                     window.open(url, '_blank', 'noopener');
                     setTimeout(() => URL.revokeObjectURL(url), 60000);
                 });
-                wrapper.appendChild(openBtn);
-                wrapper.appendChild(frame);
+                box.appendChild(openBtn);
+                box.appendChild(frame);
+                wrapper.insertAdjacentElement('afterend', box);
                 prevBtn.textContent = I18N[currentLang].previewHide;
                 prevBtn.classList.add('active');
+                frame.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 return;
             }
 
