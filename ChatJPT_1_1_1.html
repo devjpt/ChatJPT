@@ -322,6 +322,7 @@
             letter-spacing: 0.04em;
             flex-wrap: wrap;
         }
+        .keys-status .key-pill { white-space: nowrap; }
         .keys-status .key-pill.unset { opacity: 0.4; }
         .keys-chevron { transition: transform 0.2s ease; color: var(--text-muted); }
         .keys-panel.collapsed .keys-chevron { transform: rotate(-90deg); }
@@ -2159,6 +2160,8 @@
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
     const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', deepseek: '🔷', qwen: '🟣' };
+    // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', deepseek: 'DeepSeek', qwen: 'Qwen' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3535,7 +3538,7 @@ Your absolute directives:
         return keyInputs[provider].value.trim();
     }
 
-    // Render the per-provider status pills (🟢✓ = key set, dimmed — = not set)
+    // Render the per-provider status pills (🟢 OpenAI ✓ = key set, dimmed — = not set)
     // shown in the collapsed keys-panel header.
     function updateKeysStatus() {
         if (!keysStatusEl) return;
@@ -3544,7 +3547,8 @@ Your absolute directives:
             const isSet = keyInputs[provider].value.trim().length > 5;
             const pill = document.createElement('span');
             pill.className = 'key-pill' + (isSet ? '' : ' unset');
-            pill.textContent = `${PROVIDER_PILLS[provider] || '⚪'}${isSet ? '✓' : '—'}`;
+            const name = PROVIDER_SHORT_NAMES[provider] || provider;
+            pill.textContent = `${PROVIDER_PILLS[provider] || '⚪'} ${name} ${isSet ? '✓' : '—'}`;
             keysStatusEl.appendChild(pill);
         });
     }
