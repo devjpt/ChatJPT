@@ -105,7 +105,7 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_3_0.html in your browser.
+  1. Open ChatJPT_1_4_0.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -236,7 +236,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_3_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_4_0.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...

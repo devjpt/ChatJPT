@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.3.0
+  Version 1.4.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -38,6 +38,18 @@ FEATURES
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
 
+  - Multiple conversations: a left drawer (☰) to create, switch between,
+    delete, and export all your conversations. Stored locally; the oldest are
+    never silently deleted — you are asked to free space if storage gets full.
+
+  - In-conversation search: a 🔍 bar that highlights matches and lets you
+    jump between them (case- and accent-insensitive).
+
+  - Edit a sent message (✎) and have the AI answer the corrected prompt; or
+    regenerate any AI response with a different model (🔀).
+
+  - Keyboard: Esc stops the current generation.
+
   - Live HTML preview: complete HTML pages get a 👁 preview button that
     renders them instantly in a secure sandbox (works in any mode); a 💾
     button saves the file. Available wherever the AI returns a full page.
@@ -66,7 +78,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_3_0.html
+  1. Download the file ChatJPT_1_4_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -98,7 +110,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.3.0
+  Version 1.4.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -138,6 +150,19 @@ FONCTIONNALITÉS
     puis gardez la réponse que vous préférez (en un clic). Disponible en
     modes Chat et Code.
 
+  - Conversations multiples : un panneau latéral (☰) pour créer, basculer,
+    supprimer et tout exporter. Stockées localement ; les plus anciennes ne
+    sont jamais effacées en silence — on vous demande de faire de la place si
+    le stockage est plein.
+
+  - Recherche dans la conversation : une barre 🔍 qui surligne les
+    correspondances et permet d'y naviguer (insensible à la casse/aux accents).
+
+  - Édition d'un message envoyé (✎) : l'IA répond au prompt corrigé ; ou
+    régénération d'une réponse avec un autre modèle (🔀).
+
+  - Clavier : Échap arrête la génération en cours.
+
   - Aperçu HTML en direct : les pages HTML complètes affichent un bouton 👁
     qui les rend instantanément dans un bac à sable sécurisé (dans tous les
     modes) ; un bouton 💾 enregistre le fichier.
@@ -168,7 +193,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_3_0.html
+  1. Téléchargez le fichier ChatJPT_1_4_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle

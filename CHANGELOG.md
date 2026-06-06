@@ -8,6 +8,27 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.4.0] — 2026-06-06
+  Added
+    - Multiple conversations: a left drawer (☰) to create, switch between,
+      delete, and export all conversations. Key-per-conversation storage with
+      automatic migration of the previous single conversation. The oldest are
+      never silently deleted: generation is blocked with a clear message
+      (delete/export) before the browser storage limit is reached.
+    - In-conversation search (🔍): highlights matches with previous/next
+      navigation; case- and accent-insensitive.
+    - Edit a sent message (✎): the conversation is truncated from that point
+      and the AI answers the corrected prompt.
+    - Regenerate a response with another model (🔀): same prompt, different
+      model, for quick comparison.
+    - Keyboard shortcut: Esc stops the current generation.
+  Changed / Improved
+    - Streaming: sticky auto-scroll — scrolling up to re-read no longer fights
+      the auto-scroll; syntax highlighting is deferred to the final render
+      (much smoother streaming on large code blocks).
+    - Charts now scale down to fit small screens (no overflow); each chart
+      canvas has an accessible name (role=img + aria-label).
+
 [1.3.0] — 2026-06-05
   Added
     - Grok (xAI) provider — placed between Gemini and DeepSeek (American
@@ -114,6 +135,28 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.4.0] — 2026-06-06
+  Ajouté
+    - Conversations multiples : un panneau latéral (☰) pour créer, basculer,
+      supprimer et tout exporter. Stockage clé-par-conversation avec migration
+      automatique de l'ancienne conversation unique. Les plus anciennes ne
+      sont jamais effacées en silence : la génération est bloquée avec un
+      message clair (supprimer/exporter) avant d'atteindre la limite du
+      navigateur.
+    - Recherche dans la conversation (🔍) : surligne les correspondances avec
+      navigation précédent/suivant ; insensible à la casse et aux accents.
+    - Édition d'un message envoyé (✎) : la conversation est tronquée à partir
+      de ce point et l'IA répond au prompt corrigé.
+    - Régénérer une réponse avec un autre modèle (🔀) : même prompt, modèle
+      différent, pour comparer rapidement.
+    - Raccourci clavier : Échap arrête la génération en cours.
+  Modifié / Amélioré
+    - Streaming : auto-défilement « collant » — remonter lire ne se bat plus
+      avec le défilement ; la coloration syntaxique est différée au rendu
+      final (streaming bien plus fluide sur les gros blocs de code).
+    - Les graphiques se réduisent pour tenir sur petit écran (plus de
+      débordement) ; chaque canvas a un nom accessible (role=img + aria-label).
 
 [1.3.0] — 2026-06-05
   Ajouté
