@@ -4909,8 +4909,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
             // Update thinking text periodically
             if (thinkingChunkCount % 3 === 0 || text.includes('\n')) {
+                const stick = isChatNearBottom();
                 thinkingContentDiv.textContent = fullThinking;
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                if (stick) chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         };
 
@@ -4930,8 +4931,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 renderRafId = 0;
                 if (fullResponse.length === lastRenderLen) return;
                 lastRenderLen = fullResponse.length;
+                const stick = isChatNearBottom();
+                deferHighlight = true;
                 responseContentDiv.innerHTML = formatResponse(fullResponse);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                deferHighlight = false;
+                if (stick) chatContainer.scrollTop = chatContainer.scrollHeight;
             });
         }
 
@@ -4998,11 +5002,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
             // Final render — cancel any pending RAF before to avoid race condition
             cancelStreamRender();
+            const stickFinal = isChatNearBottom();
             responseContentDiv.innerHTML = formatResponse(fullResponse);
             lastRenderLen = fullResponse.length;
             initTableOverflowDetection(responseContentDiv);
             renderAllCharts(responseContentDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            if (stickFinal) chatContainer.scrollTop = chatContainer.scrollHeight;
 
             const copyBtn = loadingDiv.querySelector('.msg-copy-btn');
             if (copyBtn) {
@@ -5798,6 +5803,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== FORMATAGE DES RÉPONSES =====
+    // Sticky auto-scroll (#1) : on ne re-colle au bas que si l'utilisateur y est
+    // déjà ~présent. Permet de remonter relire pendant le streaming sans être
+    // ramené de force vers le bas à chaque frame.
+    function isChatNearBottom(threshold = 120) {
+        return chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight < threshold;
+    }
+
+    // Highlight différé (#2) : pendant le streaming, formatResponse() est rappelé
+    // à chaque frame. On évite de re-passer tout le code dans highlight.js (coûteux
+    // sur gros blocs) en affichant le code brut échappé ; le rendu final (flag à
+    // false) recolore tout une seule fois. La structure HTML est identique → aucune
+    // saute de layout au moment de la coloration.
+    let deferHighlight = false;
+
     function formatResponse(text) {
         if (!text) return '';
 
@@ -6997,6 +7016,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // ===== COLORATION SYNTAXIQUE (Highlight.js) =====
     function highlightCode(code, lang) {
+        // Pendant le streaming, on saute la coloration syntaxique (recolorée au
+        // rendu final). Le code reste lisible en monospace, échappé.
+        if (deferHighlight) return escapeHtml(code);
         if (!lang) lang = 'plaintext';
         const langMap = { 'js': 'javascript', 'ts': 'typescript', 'py': 'python', 'sh': 'bash', 'html': 'xml', 'vue': 'xml' };
         lang = langMap[lang.toLowerCase()] || lang.toLowerCase();
