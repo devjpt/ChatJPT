@@ -365,6 +365,64 @@
             background: var(--error-dim);
         }
 
+        /* ===== RECHERCHE DANS LA CONVERSATION ===== */
+        .search-bar {
+            display: none;
+            position: fixed;
+            top: 64px;
+            right: 18px;
+            z-index: 60;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 8px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+        }
+        .search-bar.open { display: flex; }
+        .search-bar .search-icon { font-size: 0.85rem; opacity: 0.7; }
+        .search-input {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: var(--radius-sm);
+            padding: 5px 8px;
+            font-size: 0.85rem;
+            width: 180px;
+            outline: none;
+        }
+        .search-input:focus { border-color: var(--accent); }
+        .search-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            min-width: 42px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .search-nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 6px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .search-nav-btn:hover { background: var(--bg); color: var(--text); }
+        .search-close:hover { color: var(--error); }
+        mark.search-hit {
+            background: rgba(255, 213, 0, 0.40);
+            color: inherit;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
+        mark.search-hit.active {
+            background: #ff9800;
+            color: #1a1a2e;
+        }
+
         /* ===== SELECTOR ROW ===== */
         .selector-row {
             display: flex;
@@ -2024,6 +2082,7 @@
             <button class="theme-toggle" id="theme-toggle" title="Basculer mode clair/sombre" data-i18n-title="titleTheme" aria-label="Basculer mode clair/sombre">
                 <span class="theme-icon" id="theme-icon">🌙</span>
             </button>
+            <button class="icon-btn" id="search-toggle-btn" title="Rechercher dans la conversation" data-i18n-title="titleSearch" aria-label="Rechercher dans la conversation">🔍</button>
             <button class="icon-btn" id="pdf-btn" title="Exporter en PDF" data-i18n-title="titlePdf" aria-label="Exporter en PDF">📄</button>
             <button class="icon-btn" id="export-btn" title="Exporter l'historique complet" data-i18n-title="titleExport" aria-label="Exporter l'historique complet">📥</button>
             <button class="icon-btn" id="export-liked-btn" title="Exporter les réponses 👍" data-i18n-title="titleExportLiked" aria-label="Exporter les réponses aimées">👍📥</button>
@@ -2133,6 +2192,16 @@
 </div>
 
 <!-- ===== CHAT CONTAINER ===== -->
+<!-- ===== BARRE DE RECHERCHE (conversation courante) ===== -->
+<div class="search-bar" id="search-bar" role="search" aria-label="Recherche dans la conversation">
+    <span class="search-icon" aria-hidden="true">🔍</span>
+    <input type="text" id="search-input" class="search-input" placeholder="Rechercher…" data-i18n-ph="searchPlaceholder" aria-label="Rechercher dans la conversation" autocomplete="off" spellcheck="false">
+    <span class="search-count" id="search-count" aria-live="polite"></span>
+    <button class="search-nav-btn" id="search-prev-btn" title="Résultat précédent" data-i18n-title="searchPrev" aria-label="Résultat précédent">▲</button>
+    <button class="search-nav-btn" id="search-next-btn" title="Résultat suivant" data-i18n-title="searchNext" aria-label="Résultat suivant">▼</button>
+    <button class="search-nav-btn search-close" id="search-close-btn" title="Fermer la recherche" data-i18n-title="searchClose" aria-label="Fermer la recherche">✕</button>
+</div>
+
 <div id="chat-container" role="log" aria-live="polite" aria-label="Conversation">
     <div class="welcome-msg" id="welcome">
         <h2 data-i18n="welcomeTitle">🤖 ChatJPT</h2>
@@ -2253,6 +2322,13 @@
     const exportLikedBtn = $('export-liked-btn');
     const pdfBtn = $('pdf-btn');
     const clearBtn = $('clear-btn');
+    const searchToggleBtn = $('search-toggle-btn');
+    const searchBar = $('search-bar');
+    const searchInput = $('search-input');
+    const searchCount = $('search-count');
+    const searchPrevBtn = $('search-prev-btn');
+    const searchNextBtn = $('search-next-btn');
+    const searchCloseBtn = $('search-close-btn');
     const toast = $('toast');
     const imageModal = $('image-modal');
     const modalImg = $('modal-img');
@@ -2305,6 +2381,12 @@
         fr: {
             lblApiKeys: "Clés API",
             keysHint: "🔒 Les clés sont enregistrées séparément dans chaque navigateur.",
+            titleSearch: "Rechercher dans la conversation",
+            searchPlaceholder: "Rechercher…",
+            searchPrev: "Résultat précédent",
+            searchNext: "Résultat suivant",
+            searchClose: "Fermer la recherche",
+            searchNoResults: "Aucun résultat",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2444,6 +2526,12 @@
         en: {
             lblApiKeys: "API Keys",
             keysHint: "🔒 Keys are stored separately in each browser.",
+            titleSearch: "Search the conversation",
+            searchPlaceholder: "Search…",
+            searchPrev: "Previous match",
+            searchNext: "Next match",
+            searchClose: "Close search",
+            searchNoResults: "No results",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -3558,6 +3646,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 }
             }
         });
+
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+            const key = el.getAttribute('data-i18n-ph');
+            if (I18N[currentLang][key]) el.placeholder = I18N[currentLang][key];
+        });
         
         langToggleBtn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
         switchMode(currentMode, true); 
@@ -4269,6 +4362,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         clearBtn.addEventListener('click', clearConversation);
+
+        // ===== Recherche dans la conversation =====
+        if (searchToggleBtn) searchToggleBtn.addEventListener('click', toggleSearch);
+        if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+        if (searchPrevBtn) searchPrevBtn.addEventListener('click', () => setActiveMatch(searchActiveIdx - 1));
+        if (searchNextBtn) searchNextBtn.addEventListener('click', () => setActiveMatch(searchActiveIdx + 1));
+        if (searchInput) {
+            let searchDebounce = 0;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchDebounce);
+                searchDebounce = setTimeout(runSearch, 150);
+            });
+            searchInput.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    setActiveMatch(searchActiveIdx + (e.shiftKey ? -1 : 1));
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeSearch();
+                }
+            });
+        }
         imageModal.addEventListener('click', () => imageModal.classList.remove('show'));
 
         // Event delegation for copy buttons (code blocks, tables, messages)
@@ -4606,6 +4721,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         if (!text && uploadedFiles.length === 0) return;
+
+        closeSearch(); // évite des surlignages obsolètes sur le nouveau tour
 
         // Comparaison active uniquement en texte (chat/code).
         const isCompare = compareMode && (currentMode === 'chat' || currentMode === 'code');
@@ -7223,10 +7340,143 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== EFFACER CONVERSATION =====
+    // ===== RECHERCHE DANS LA CONVERSATION (A1) =====
+    // Recherche locale, insensible à la casse et aux accents, surlignant les
+    // correspondances directement dans les messages affichés. Tout se passe en
+    // mémoire / DOM (aucun serveur) — fidèle au principe mono-fichier.
+    let searchMatches = [];
+    let searchActiveIdx = -1;
+
+    // Replie un texte (minuscules + sans accents) en conservant une longueur
+    // identique caractère par caractère, pour que les index de correspondance
+    // restent valides sur le texte original (offsets UTF-16 préservés).
+    function foldText(str) {
+        let out = '';
+        for (let i = 0; i < str.length; i++) {
+            const ch = str[i];
+            const folded = ch.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+            out += (folded || ch).toLowerCase();
+        }
+        return out;
+    }
+
+    function clearSearchHighlights() {
+        chatContainer.querySelectorAll('mark.search-hit').forEach(m => {
+            const parent = m.parentNode;
+            if (!parent) return;
+            parent.replaceChild(document.createTextNode(m.textContent), m);
+            parent.normalize(); // refusionne les nœuds texte → re-recherche propre
+        });
+        searchMatches = [];
+        searchActiveIdx = -1;
+    }
+
+    function runSearch() {
+        clearSearchHighlights();
+        const q = foldText(searchInput.value.trim());
+        if (!q) { updateSearchCount(); return; }
+
+        chatContainer.querySelectorAll('.message .msg-content').forEach(msgContent => {
+            // On ne surligne que les nœuds texte, en évitant le code coloré, les
+            // canvas de charts et les scripts/styles (ne pas casser highlight.js
+            // ni le rendu canvas).
+            const walker = document.createTreeWalker(msgContent, NodeFilter.SHOW_TEXT, {
+                acceptNode(node) {
+                    if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                    let p = node.parentElement;
+                    while (p && p !== msgContent) {
+                        const tag = p.tagName;
+                        if (tag === 'CANVAS' || tag === 'CODE' || tag === 'PRE' || tag === 'SCRIPT' || tag === 'STYLE' || tag === 'MARK') {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        p = p.parentElement;
+                    }
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+
+            const textNodes = [];
+            let n;
+            while ((n = walker.nextNode())) textNodes.push(n);
+
+            textNodes.forEach(node => {
+                const orig = node.nodeValue;
+                const folded = foldText(orig);
+                const positions = [];
+                let from = 0, idx;
+                while ((idx = folded.indexOf(q, from)) !== -1) {
+                    positions.push(idx);
+                    from = idx + q.length;
+                }
+                if (!positions.length) return;
+
+                const frag = document.createDocumentFragment();
+                let cursor = 0;
+                positions.forEach(pos => {
+                    if (pos > cursor) frag.appendChild(document.createTextNode(orig.slice(cursor, pos)));
+                    const mark = document.createElement('mark');
+                    mark.className = 'search-hit';
+                    mark.textContent = orig.slice(pos, pos + q.length);
+                    frag.appendChild(mark);
+                    searchMatches.push(mark);
+                    cursor = pos + q.length;
+                });
+                if (cursor < orig.length) frag.appendChild(document.createTextNode(orig.slice(cursor)));
+                node.parentNode.replaceChild(frag, node);
+            });
+        });
+
+        if (searchMatches.length) setActiveMatch(0);
+        else updateSearchCount();
+    }
+
+    function setActiveMatch(i) {
+        if (!searchMatches.length) { updateSearchCount(); return; }
+        searchActiveIdx = (i + searchMatches.length) % searchMatches.length;
+        searchMatches.forEach((m, j) => m.classList.toggle('active', j === searchActiveIdx));
+        const target = searchMatches[searchActiveIdx];
+        if (target && target.scrollIntoView) {
+            target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+        updateSearchCount();
+    }
+
+    function updateSearchCount() {
+        if (!searchCount) return;
+        if (!searchInput.value.trim()) {
+            searchCount.textContent = '';
+        } else if (!searchMatches.length) {
+            searchCount.textContent = I18N[currentLang].searchNoResults;
+        } else {
+            searchCount.textContent = `${searchActiveIdx + 1}/${searchMatches.length}`;
+        }
+    }
+
+    function openSearch() {
+        if (!searchBar) return;
+        searchBar.classList.add('open');
+        searchInput.focus();
+        searchInput.select();
+        if (searchInput.value.trim()) runSearch();
+    }
+
+    function closeSearch() {
+        if (!searchBar) return;
+        searchBar.classList.remove('open');
+        clearSearchHighlights();
+        updateSearchCount();
+    }
+
+    function toggleSearch() {
+        if (searchBar && searchBar.classList.contains('open')) closeSearch();
+        else openSearch();
+    }
+
     function clearConversation() {
         if (conversationHistory.length === 0) return;
         if (!confirm('Effacer toute la conversation ?')) return;
 
+        closeSearch();
         conversationHistory = [];
         try { localStorage.removeItem(HISTORY_KEY); } catch (e) { /* ignore */ }
         chatContainer.innerHTML = '';
