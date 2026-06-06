@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.4.1
+  Version 1.5.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -71,8 +71,14 @@ FEATURES
 
   - Bilingual interface: English and French
 
-  - Rate AI responses (👍 / 👎), saved with your conversation. Export the
-    full conversation, or only your 👍 responses (each with its prompt).
+  - Rate AI responses (👍 / 👎): the rating is now also sent to the model as a
+    signal (keep this approach / this missed). A 👎 reveals an "↻ Improve" box
+    (with an optional reason) to get a better answer, plus a "report a bug"
+    link. Export the full conversation, or only your 👍 responses.
+
+  - Image persistence: generated images are saved locally (IndexedDB) and
+    survive page reloads and conversation switches. Use download (💾) for a
+    permanent copy.
 
   - Your API keys and preferences are saved locally in your browser
     (no server, no data transmitted to the author)
@@ -82,7 +88,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_4_0.html
+  1. Download the file ChatJPT_1_5_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -114,7 +120,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.4.1
+  Version 1.5.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -188,9 +194,15 @@ FONCTIONNALITÉS
 
   - Interface bilingue : français et anglais
 
-  - Notez les réponses de l'IA (👍 / 👎), sauvegardées avec votre conversation.
-    Exportez la conversation complète, ou seulement vos réponses 👍
-    (chacune avec sa question).
+  - Notez les réponses de l'IA (👍 / 👎) : la note est désormais aussi transmise
+    au modèle comme signal (garder cette approche / éviter cela). Un 👎 révèle
+    une boîte « ↻ Améliorer » (raison facultative) pour obtenir une meilleure
+    réponse, plus un lien « signaler un bug ». Exportez la conversation
+    complète, ou seulement vos réponses 👍.
+
+  - Persistance des images : les images générées sont enregistrées localement
+    (IndexedDB) et survivent aux rechargements et aux changements de
+    conversation. Téléchargez (💾) pour une copie permanente.
 
   - Vos clés API et préférences sont sauvegardées localement
     dans votre navigateur (aucun serveur, aucune donnée transmise à l'auteur)
@@ -200,7 +212,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_4_0.html
+  1. Téléchargez le fichier ChatJPT_1_5_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle

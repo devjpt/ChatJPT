@@ -8,6 +8,20 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.5.0] — 2026-06-06
+  Added
+    - Image persistence (IndexedDB): generated images now survive page reloads
+      and conversation switches. Image-mode turns are recorded in the
+      conversation (so they appear in the list, search and export). Stored
+      locally outside the localStorage quota; download (💾) remains the durable
+      backup.
+    - Thumbs-down now acts on the AI: a passive note tells the model the answer
+      was unsatisfactory (it self-corrects on the next turn), and an "↻ Improve"
+      box (with an optional reason) regenerates an informed, better answer.
+    - Thumbs-up likewise signals the model to keep that approach.
+    - "Report a bug" link inside the thumbs-down box, with a clarifying prompt
+      to distinguish an app bug from a merely unsatisfying answer.
+
 [1.4.1] — 2026-06-06
   Added
     - "Scroll to bottom" button: appears when you scroll up to re-read during
@@ -146,6 +160,21 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.5.0] — 2026-06-06
+  Ajouté
+    - Persistance des images (IndexedDB) : les images générées survivent
+      désormais aux rechargements et aux changements de conversation. Les tours
+      du mode image sont enregistrés dans la conversation (donc visibles dans la
+      liste, la recherche et l'export). Stockées localement hors du quota
+      localStorage ; le téléchargement (💾) reste la sauvegarde durable.
+    - Le pouce 👎 agit sur l'IA : une note passive signale au modèle que la
+      réponse n'a pas convenu (il se corrige au tour suivant), et une boîte
+      « ↻ Améliorer » (raison facultative) régénère une meilleure réponse
+      informée.
+    - Le pouce 👍 signale de même au modèle de garder cette approche.
+    - Lien « signaler un bug » dans la boîte du 👎, avec une confirmation pour
+      distinguer un bug de l'app d'une simple réponse insatisfaisante.
 
 [1.4.1] — 2026-06-06
   Ajouté
