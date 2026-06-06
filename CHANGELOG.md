@@ -8,6 +8,17 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.4.1] — 2026-06-06
+  Added
+    - "Scroll to bottom" button: appears when you scroll up to re-read during
+      streaming; one click returns to the latest message.
+    - Rename a conversation: double-click its title in the drawer (Enter to
+      confirm, Esc to cancel, empty restores the automatic title).
+  Changed / Improved
+    - Internal refactor: the five provider streaming functions now share a
+      common postStream() core, and output token limits are centralized
+      (TOKEN_LIMITS). No behavior change.
+
 [1.4.0] — 2026-06-06
   Added
     - Multiple conversations: a left drawer (☰) to create, switch between,
@@ -135,6 +146,17 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.4.1] — 2026-06-06
+  Ajouté
+    - Bouton « revenir en bas » : apparaît quand on remonte lire pendant le
+      streaming ; un clic ramène au dernier message.
+    - Renommer une conversation : double-clic sur son titre dans le panneau
+      (Entrée pour valider, Échap pour annuler, vide = titre auto).
+  Modifié / Amélioré
+    - Refactor interne : les cinq fonctions de streaming partagent un tronc
+      commun postStream(), et les plafonds de tokens sont centralisés
+      (TOKEN_LIMITS). Comportement inchangé.
 
 [1.4.0] — 2026-06-06
   Ajouté

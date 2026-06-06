@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.4.0
+  Version 1.4.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -39,8 +39,9 @@ FEATURES
     the answer you prefer (one click). Works in Chat and Code modes.
 
   - Multiple conversations: a left drawer (☰) to create, switch between,
-    delete, and export all your conversations. Stored locally; the oldest are
-    never silently deleted — you are asked to free space if storage gets full.
+    rename (double-click the title), delete, and export all your
+    conversations. Stored locally; the oldest are never silently deleted —
+    you are asked to free space if storage gets full.
 
   - In-conversation search: a 🔍 bar that highlights matches and lets you
     jump between them (case- and accent-insensitive).
@@ -49,6 +50,9 @@ FEATURES
     regenerate any AI response with a different model (🔀).
 
   - Keyboard: Esc stops the current generation.
+
+  - Smooth streaming: scrolling up to re-read doesn't fight the auto-scroll; a
+    "scroll to bottom" button brings you back to the latest message.
 
   - Live HTML preview: complete HTML pages get a 👁 preview button that
     renders them instantly in a secure sandbox (works in any mode); a 💾
@@ -110,7 +114,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.4.0
+  Version 1.4.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -151,9 +155,9 @@ FONCTIONNALITÉS
     modes Chat et Code.
 
   - Conversations multiples : un panneau latéral (☰) pour créer, basculer,
-    supprimer et tout exporter. Stockées localement ; les plus anciennes ne
-    sont jamais effacées en silence — on vous demande de faire de la place si
-    le stockage est plein.
+    renommer (double-clic sur le titre), supprimer et tout exporter. Stockées
+    localement ; les plus anciennes ne sont jamais effacées en silence — on
+    vous demande de faire de la place si le stockage est plein.
 
   - Recherche dans la conversation : une barre 🔍 qui surligne les
     correspondances et permet d'y naviguer (insensible à la casse/aux accents).
@@ -162,6 +166,9 @@ FONCTIONNALITÉS
     régénération d'une réponse avec un autre modèle (🔀).
 
   - Clavier : Échap arrête la génération en cours.
+
+  - Streaming fluide : remonter lire ne se bat plus avec le défilement
+    automatique ; un bouton « revenir en bas » ramène au dernier message.
 
   - Aperçu HTML en direct : les pages HTML complètes affichent un bouton 👁
     qui les rend instantanément dans un bac à sable sécurisé (dans tous les
