@@ -5610,6 +5610,36 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // ===== API CALLS =====
 
+    // Plafonds de tokens de sortie, centralisés. big = modes code/vibecoder
+    // (isBigOutputMode), normal = chat/autres. (Valeurs inchangées, juste regroupées.)
+    const TOKEN_LIMITS = {
+        normal: 8192,
+        big: 16384,
+        responsesNormal: 16384,
+        responsesBig: 32768,
+        claudeNormal: 4096,
+        claudeBig: 8192
+    };
+    function maxOut() { return isBigOutputMode() ? TOKEN_LIMITS.big : TOKEN_LIMITS.normal; }
+
+    // Tronc commun des 5 fonctions de streaming : POST + gestion d'erreur robuste
+    // (xAI renvoie l'erreur en STRING, les autres en objet { message }) + lecture
+    // du flux SSE. Chaque fonction fournit url/headers/body + le type de parser.
+    async function postStream({ url, headers, body, signal, onChunk, onThinkingChunk, parser }) {
+        const res = await fetchWithRetry(url, {
+            method: 'POST',
+            signal,
+            headers,
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
+            throw new Error(msg);
+        }
+        await readStream(res, onChunk, parser, onThinkingChunk);
+    }
+
     async function callOpenAIStream(model, key, onChunk, onThinkingChunk, signal) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const isNativeReasoning = THINKING_SUPPORT.openai.native.some(m => model.startsWith(m));
@@ -5635,7 +5665,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             stream: true 
         };
 
-        bodyParams.max_completion_tokens = isBigOutputMode() ? 16384 : 8192;
+        bodyParams.max_completion_tokens = maxOut();
 
         if (isConfigurableReasoning && thinkingEnabled) {
             // GPT-5.x models: map thinking budget tokens to reasoning_effort level
@@ -5651,22 +5681,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.reasoning_effort = 'none';
         }
 
-        const res = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            signal,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            },
-            body: JSON.stringify(bodyParams)
+        await postStream({
+            url: 'https://api.openai.com/v1/chat/completions',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai'
         });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-        }
-
-        await readStream(res, onChunk, 'openai', onThinkingChunk);
     }
 
     // ===== Fournisseurs compatibles OpenAI (DeepSeek, Qwen, ...) =====
@@ -5680,24 +5699,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             ...formatHistory(conversationHistory, 'openai')
         ];
 
-        const res = await fetchWithRetry(endpoint, {
-            method: 'POST',
-            signal,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            },
-            body: JSON.stringify({ model, messages, stream: true, max_tokens: isBigOutputMode() ? 16384 : 8192 })
+        await postStream({
+            url: endpoint,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: { model, messages, stream: true, max_tokens: maxOut() },
+            signal, onChunk, onThinkingChunk, parser: 'openai'
         });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            // xAI (Grok) renvoie l'erreur en STRING (err.error) ; OpenAI/DeepSeek/Qwen en objet { message }.
-            const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
-            throw new Error(msg);
-        }
-
-        await readStream(res, onChunk, 'openai', onThinkingChunk);
     }
 
     // ===== OpenAI Responses API (pour gpt-5.4-pro et futurs modèles Responses-only) =====
@@ -5716,7 +5723,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
 
         // gpt-5.4-pro has 128K max output tokens; give it more room for reasoning + response
-        bodyParams.max_output_tokens = isBigOutputMode() ? 32768 : 16384;
+        bodyParams.max_output_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
 
         // Reasoning effort for Responses API models
         // gpt-5.4-pro supports: medium, high, xhigh only (no 'none' or 'low')
@@ -5733,22 +5740,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.reasoning = { effort: 'medium' };
         }
 
-        const res = await fetchWithRetry('https://api.openai.com/v1/responses', {
-            method: 'POST',
-            signal,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${key}`
-            },
-            body: JSON.stringify(bodyParams)
+        await postStream({
+            url: 'https://api.openai.com/v1/responses',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai-responses'
         });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-        }
-
-        await readStream(res, onChunk, 'openai-responses', onThinkingChunk);
     }
 
     async function callClaudeStream(model, key, onChunk, onThinkingChunk, signal) {
@@ -5775,29 +5771,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 budget_tokens: budget
             };
             // max_tokens must accommodate both thinking and response
-            bodyParams.max_tokens = budget + (isBigOutputMode() ? 16384 : 8192);
+            bodyParams.max_tokens = budget + maxOut();
         } else {
-            bodyParams.max_tokens = isBigOutputMode() ? 8192 : 4096;
+            bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.claudeBig : TOKEN_LIMITS.claudeNormal;
         }
 
-        const res = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            signal,
+        await postStream({
+            url: 'https://api.anthropic.com/v1/messages',
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': key,
                 'anthropic-version': '2023-06-01',
                 'anthropic-dangerous-direct-browser-access': 'true'
             },
-            body: JSON.stringify(bodyParams)
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'claude'
         });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-        }
-
-        await readStream(res, onChunk, 'claude', onThinkingChunk);
     }
 
     async function callGeminiStream(model, key, onChunk, onThinkingChunk, signal) {
@@ -5811,7 +5799,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const useThinking = (isNativeThinking || (isConfigurableThinking && thinkingEnabled)) && onThinkingChunk;
         const isGemini3 = GEMINI3_MODELS.includes(model);
 
-        const generationConfig = { maxOutputTokens: isBigOutputMode() ? 16384 : 8192 };
+        const generationConfig = { maxOutputTokens: maxOut() };
         if (useThinking || isNativeThinking) {
             const thinkingConfig = {
                 includeThoughts: true  // Required to receive thought summaries in stream
@@ -5832,26 +5820,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             generationConfig.thinkingConfig = thinkingConfig;
         }
 
-        const res = await fetchWithRetry(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
-            {
-                method: 'POST',
-                signal,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    system_instruction: { parts: [{ text: systemPrompt }] },
-                    contents,
-                    generationConfig
-                })
-            }
-        );
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-        }
-
-        await readStream(res, onChunk, 'gemini', onThinkingChunk);
+        await postStream({
+            url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
+            headers: { 'Content-Type': 'application/json' },
+            body: { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig },
+            signal, onChunk, onThinkingChunk, parser: 'gemini'
+        });
     }
 
     // ===== GÉNÉRATION D'IMAGES =====
