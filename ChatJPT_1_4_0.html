@@ -532,6 +532,18 @@
             white-space: nowrap;
         }
         .conv-export-all:hover { color: var(--text); border-color: var(--accent); }
+        .conv-rename-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            border-radius: var(--radius-sm);
+            padding: 7px 9px;
+            font-size: 0.83rem;
+            outline: none;
+            margin: 2px 0;
+            box-sizing: border-box;
+        }
 
         /* ===== ÉDITION D'UN MESSAGE ===== */
         .msg-edit-btn {
@@ -1512,7 +1524,36 @@
             display: flex;
             gap: 10px;
             align-items: flex-end;
+            position: relative;
         }
+
+        /* Bouton « revenir en bas » — ancré juste au-dessus de la saisie,
+           apparaît quand on a remonté lire (compagnon du sticky-scroll). */
+        .scroll-bottom-btn {
+            position: absolute;
+            top: -54px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 40;
+        }
+        .scroll-bottom-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .scroll-bottom-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         .input-wrapper {
             flex: 1;
@@ -2417,6 +2458,7 @@
 
 <!-- ===== INPUT AREA ===== -->
 <div class="input-area">
+    <button class="scroll-bottom-btn" id="scroll-bottom-btn" title="Revenir en bas" data-i18n-title="scrollToBottom" aria-label="Revenir en bas">↓</button>
     <div class="file-btn" title="Joindre un fichier" role="button" aria-label="Joindre un fichier" tabindex="0">
         📎
         <input type="file" id="file-input" multiple accept=".pdf,.txt,.csv,.json,.xml,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.md,.yaml,.yml,.toml,.sql,.sh,.bat,.log,.png,.jpg,.jpeg,.gif,.webp,.xlsx,.docx" aria-label="Joindre un fichier">
@@ -2472,6 +2514,7 @@
     // ===== ÉLÉMENTS DOM =====
     const $ = id => document.getElementById(id);
     const chatContainer = $('chat-container');
+    const scrollBottomBtn = $('scroll-bottom-btn');
     const userInput = $('user-input');
     const sendBtn = $('send-btn');
     const stopBtn = $('stop-btn');
@@ -2605,6 +2648,8 @@
             editUnavailable: "Action indisponible ici.",
             editTruncateConfirm: "Ceci supprimera les {n} message(s) suivant(s). Continuer ?",
             regenOtherModel: "🔀 Régénérer avec un autre modèle…",
+            scrollToBottom: "Revenir en bas",
+            convRenameHint: "Double-clic pour renommer",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2769,6 +2814,8 @@
             editUnavailable: "Action unavailable here.",
             editTruncateConfirm: "This will delete the {n} following message(s). Continue?",
             regenOtherModel: "🔀 Regenerate with another model…",
+            scrollToBottom: "Scroll to bottom",
+            convRenameHint: "Double-click to rename",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -4624,6 +4671,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (convCloseBtn) convCloseBtn.addEventListener('click', closeConvDrawer);
         if (convBackdrop) convBackdrop.addEventListener('click', closeConvDrawer);
         if (convExportAllBtn) convExportAllBtn.addEventListener('click', exportAllConversations);
+        if (scrollBottomBtn) {
+            scrollBottomBtn.addEventListener('click', () => {
+                chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+            });
+        }
+        chatContainer.addEventListener('scroll', updateScrollBottomBtn, { passive: true });
         // Échap : priorité tiroir > recherche > arrêt de la génération.
         // (Les Échap de la recherche/édition sont gérés sur leur champ avec
         // stopPropagation pour ne pas déclencher deux actions.)
@@ -5428,6 +5481,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 responseContentDiv.innerHTML = formatResponse(fullResponse);
                 deferHighlight = false;
                 if (stick) chatContainer.scrollTop = chatContainer.scrollHeight;
+                updateScrollBottomBtn();
             });
         }
 
@@ -5500,6 +5554,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             initTableOverflowDetection(responseContentDiv);
             renderAllCharts(responseContentDiv);
             if (stickFinal) chatContainer.scrollTop = chatContainer.scrollHeight;
+            updateScrollBottomBtn();
 
             const copyBtn = loadingDiv.querySelector('.msg-copy-btn');
             if (copyBtn) {
@@ -6334,6 +6389,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // ramené de force vers le bas à chaque frame.
     function isChatNearBottom(threshold = 120) {
         return chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight < threshold;
+    }
+
+    // Affiche le bouton « revenir en bas » quand on a remonté de plus de ~200px.
+    function updateScrollBottomBtn() {
+        if (!scrollBottomBtn) return;
+        const far = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight > 200;
+        scrollBottomBtn.classList.toggle('visible', far);
     }
 
     // Highlight différé (#2) : pendant le streaming, formatResponse() est rappelé
@@ -7631,7 +7693,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         let entry = indexEntry(currentConvId);
         if (!entry) entry = { id: currentConvId };
-        entry.title = deriveTitle(conversationHistory);
+        if (!entry.titleCustom) entry.title = deriveTitle(conversationHistory); // respecte un titre renommé manuellement
         entry.updatedAt = Date.now();
         entry.provider = providerSelect.value;
         entry.model = modelSelect.value;
@@ -7815,8 +7877,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
             title.type = 'button';
             title.className = 'conv-item-title';
             title.textContent = c.title || I18N[currentLang].convUntitled;
-            title.title = c.title || '';
-            title.addEventListener('click', () => switchConv(c.id));
+            title.title = (c.title || I18N[currentLang].convUntitled) + ' · ' + I18N[currentLang].convRenameHint;
+            // Simple clic = basculer ; double-clic = renommer. On diffère le clic
+            // ~220ms et on l'annule si un double-clic survient (sinon le 1er clic
+            // d'un double-clic basculerait/fermerait le tiroir avant le renommage).
+            let clickTimer = null;
+            title.addEventListener('click', () => {
+                if (clickTimer) return;
+                clickTimer = setTimeout(() => { clickTimer = null; switchConv(c.id); }, 220);
+            });
+            title.addEventListener('dblclick', (e) => {
+                e.stopPropagation();
+                if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
+                startRenameConv(c.id, title);
+            });
 
             const del = document.createElement('button');
             del.type = 'button';
@@ -7831,6 +7905,50 @@ A small follow-up tweak the user asks for can be done right away without a new p
             convListEl.appendChild(item);
         });
         updateStorageIndicator();
+    }
+
+    // Messages stockés d'une conversation (active ou non).
+    function convMessages(id) {
+        try {
+            const raw = localStorage.getItem(convKey(id));
+            const p = raw ? JSON.parse(raw) : [];
+            return Array.isArray(p) ? p : [];
+        } catch (e) { return []; }
+    }
+
+    // Renommage en place du titre d'une conversation (double-clic).
+    function startRenameConv(id, titleBtn) {
+        const entry = indexEntry(id);
+        if (!entry) return;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'conv-rename-input';
+        input.value = entry.title || '';
+        titleBtn.replaceWith(input);
+        input.focus();
+        input.select();
+        let done = false;
+        const commit = (save) => {
+            if (done) return;
+            done = true;
+            if (save) {
+                const v = input.value.trim();
+                if (v) {
+                    entry.title = v;
+                    entry.titleCustom = true;            // ne plus écraser par le titre auto
+                } else {
+                    entry.titleCustom = false;           // vide → retour au titre auto
+                    entry.title = deriveTitle(convMessages(id));
+                }
+                saveConvIndex();
+            }
+            renderConvDrawer();
+        };
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); commit(true); }
+            else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); commit(false); }
+        });
+        input.addEventListener('blur', () => commit(true));
     }
 
     function updateStorageIndicator() {
