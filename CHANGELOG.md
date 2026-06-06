@@ -8,6 +8,29 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.3.0] — 2026-06-05
+  Added
+    - Grok (xAI) provider — placed between Gemini and DeepSeek (American
+      models grouped together):
+        - Chat: grok-4.3 (flagship), grok-4.20 (reasoning / non-reasoning),
+          grok-build-0.1. OpenAI-compatible streaming.
+        - Image: grok-imagine-image-quality (synchronous), with format and
+          resolution selectors.
+        - Video: grok-imagine-video (Grok Imagine) — 10s, 720p, native audio
+          (submit + poll, like Sora/Veo). 3rd video provider after Sora/Veo.
+    - "Clear keys" button in the API-keys panel: wipes all stored API keys from
+      the browser in one click (with confirmation) — handy on a shared computer.
+  Fixed
+    - xAI errors (returned as a plain string, not an object) are now surfaced
+      with their real message instead of a generic "HTTP Error 400" — e.g.
+      content-moderation rejections are now clear (Grok chat, image and video).
+  Changed
+    - Removed a leftover third-party build script (MyNinja) that was loaded but
+      unused: no more third-party JS or telemetry on the page where API keys
+      are entered.
+    - Source file renamed from ChatJPT_1_2_0.html to ChatJPT_1_3_0.html.
+    - Version string updated to 1.3.0 (header and footer, FR/EN).
+
 [1.2.0] — 2026-06-04
   Added
     - DeepSeek provider (DeepSeek V3 chat, DeepSeek R1 reasoning),
@@ -91,6 +114,29 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.3.0] — 2026-06-05
+  Ajouté
+    - Fournisseur Grok (xAI) — placé entre Gemini et DeepSeek (regroupement
+      des modèles américains) :
+        - Chat : grok-4.3 (flagship), grok-4.20 (raisonnement / non-raisonnement),
+          grok-build-0.1. Streaming compatible OpenAI.
+        - Image : grok-imagine-image-quality (synchrone), avec sélecteurs de
+          format et de résolution.
+        - Vidéo : grok-imagine-video (Grok Imagine) — 10 s, 720p, audio natif
+          (submit + polling, comme Sora/Veo). 3e fournisseur vidéo après Sora/Veo.
+    - Bouton « Effacer les clés » dans le panneau de clés : supprime toutes les
+      clés API stockées du navigateur en un clic (avec confirmation) — pratique
+      sur un ordinateur partagé.
+  Corrigé
+    - Les erreurs xAI (renvoyées sous forme de chaîne, et non d'objet) affichent
+      désormais leur vrai message au lieu d'un « HTTP Error 400 » générique — les
+      refus de modération de contenu sont maintenant clairs (Grok chat, image, vidéo).
+  Modifié
+    - Retrait d'un script de build tiers (MyNinja) chargé mais inutilisé : plus
+      de JS tiers ni de télémétrie sur la page où l'on saisit les clés API.
+    - Fichier source renommé de ChatJPT_1_2_0.html à ChatJPT_1_3_0.html.
+    - Numéro de version mis à jour à 1.3.0 (en-tête et pied de page, FR/EN).
 
 [1.2.0] — 2026-06-04
   Ajouté

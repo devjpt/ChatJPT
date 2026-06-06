@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.2.0
+  Version 1.3.0
 -->
 
 
@@ -340,6 +340,29 @@
             opacity: 0;
             margin-top: 0;
             pointer-events: none;
+        }
+        .keys-hint {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin: 10px 0 0;
+            line-height: 1.4;
+        }
+        .keys-purge-btn {
+            display: block;
+            margin: 8px 0 0 auto;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.74rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .keys-purge-btn:hover {
+            border-color: var(--error);
+            color: var(--error);
+            background: var(--error-dim);
         }
 
         /* ===== SELECTOR ROW ===== */
@@ -1900,7 +1923,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 4 juin 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 5 juin 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -1935,6 +1958,8 @@
                     <input type="password" class="api-key-input" id="key-qwen" placeholder="sk-..." autocomplete="off" aria-label="Clé API Qwen">
                 </div>
             </div>
+            <p class="keys-hint" data-i18n="keysHint">🔒 Les clés sont enregistrées séparément dans chaque navigateur.</p>
+            <button type="button" class="keys-purge-btn" id="keys-purge-btn" data-i18n="purgeKeys" title="Effacer toutes les clés API de ce navigateur">🗑️ Effacer les clés</button>
         </div>
     </div>
     
@@ -2236,6 +2261,7 @@
     const keysPanelEl = $('keys-panel');
     const keysToggleBtn = $('keys-toggle');
     const keysStatusEl = $('keys-status');
+    const keysPurgeBtn = $('keys-purge-btn');
     const qwenRegionGroup = $('qwen-region-group');
     const qwenRegionSelect = $('qwen-region-select');
     const providerGroup = $('provider-group');
@@ -2278,6 +2304,10 @@
     const I18N = {
         fr: {
             lblApiKeys: "Clés API",
+            keysHint: "🔒 Les clés sont enregistrées séparément dans chaque navigateur.",
+            purgeKeys: "🗑️ Effacer les clés",
+            purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
+            toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
             lblProvider: "Fournisseur",
             lblModel: "Modèle",
             lblCompare: "⚖️ Comparer 2 modèles",
@@ -2336,8 +2366,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.2.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 4 juin 2026",
+            creditVersion: "Version 1.3.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 5 juin 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -2413,6 +2443,10 @@
         },
         en: {
             lblApiKeys: "API Keys",
+            keysHint: "🔒 Keys are stored separately in each browser.",
+            purgeKeys: "🗑️ Clear keys",
+            purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
+            toastKeysPurged: "🗑️ API keys cleared from this browser.",
             lblProvider: "Provider",
             lblModel: "Model",
             lblCompare: "⚖️ Compare 2 models",
@@ -2471,8 +2505,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.2.0 - Latest version: ",
-            appUpdated: "📅 Updated: June 4, 2026",
+            creditVersion: "Version 1.3.0 - Latest version: ",
+            appUpdated: "📅 Updated: June 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3775,6 +3809,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
         keysToggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
     }
 
+    // Efface toutes les clés API du navigateur (localStorage + champs). Pratique sur
+    // un ordi partagé. Portée : uniquement les clés (pas les préférences/historique).
+    function purgeKeys() {
+        if (!confirm(I18N[currentLang].purgeKeysConfirm)) return;
+        Object.keys(keyInputs).forEach(provider => {
+            try { localStorage.removeItem(`ai_key_${provider}`); } catch (e) { /* ignore */ }
+            const input = keyInputs[provider];
+            if (input) {
+                input.value = '';
+                input.classList.remove('valid');
+            }
+        });
+        updateKeysStatus();
+        showToast(I18N[currentLang].toastKeysPurged, 'success');
+    }
+
     // ===== UI UPDATES =====
     function updateProviderUI() {
         const provider = providerSelect.value;
@@ -4060,6 +4110,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
             keysToggleBtn.addEventListener('click', () => {
                 setKeysCollapsed(!keysPanelEl.classList.contains('collapsed'));
             });
+        }
+
+        if (keysPurgeBtn) {
+            keysPurgeBtn.addEventListener('click', purgeKeys);
         }
 
         if (qwenRegionSelect) {

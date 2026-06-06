@@ -86,14 +86,31 @@ your plan).
 
 
 ----------------------------------------------------------------
+  6. XAI (Grok)
+     Key looks like: xai-...
+----------------------------------------------------------------
+
+  1. Go to: https://console.x.ai/
+  2. Create an account or sign in.
+  3. Open "API Keys" and click "Create API Key".
+  4. Copy the key immediately.
+
+  Note: xAI is pay-as-you-go and may require adding credit; new
+        accounts sometimes receive free credits. Grok also generates
+        images and video (Grok Imagine); the image API applies content
+        moderation (explicit content is rejected by xAI).
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_2_0.html in your browser.
+  1. Open ChatJPT_1_3_0.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
+       ⚫ Grok     → paste your xai-... key
        🔷 DeepSeek → paste your sk-... key
        🟣 Qwen     → paste your sk-... key
   3. Keys are saved locally in your browser.
@@ -199,14 +216,32 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  6. XAI (Grok)
+     Clé ressemble à : xai-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://console.x.ai/
+  2. Créez un compte ou connectez-vous.
+  3. Ouvrez "API Keys" et cliquez sur "Create API Key".
+  4. Copiez la clé immédiatement.
+
+  Note : xAI fonctionne au paiement à l'usage et peut nécessiter
+         d'ajouter du crédit ; les nouveaux comptes reçoivent parfois
+         du crédit gratuit. Grok génère aussi des images et des vidéos
+         (Grok Imagine) ; l'API image applique une modération de contenu
+         (le contenu explicite est rejeté par xAI).
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_2_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_3_0.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
+       ⚫ Grok     → collez votre clé xai-...
        🔷 DeepSeek → collez votre clé sk-...
        🟣 Qwen     → collez votre clé sk-...
   3. Les clés sont sauvegardées localement dans votre navigateur.

@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.2.0
+  Version 1.3.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -18,6 +18,7 @@ FEATURES
       • OpenAI     (GPT-5.x, GPT-4.1, o-series, etc.)
       • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
+      • Grok       (xAI — chat, image, and video; Grok Imagine)
       • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 reasoning)
       • Qwen       (Alibaba — chat and image; selectable DashScope region)
 
@@ -31,8 +32,8 @@ FEATURES
                      code block download
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
-                     resolution), and Qwen
-      • Video      : video generation (OpenAI Sora 2, Google Veo)
+                     resolution), Qwen, and Grok
+      • Video      : video generation (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -42,7 +43,8 @@ FEATURES
     button saves the file. Available wherever the AI returns a full page.
 
   - Collapsible API-keys panel with per-provider status (saved key /
-    missing key) shown at a glance.
+    missing key) shown at a glance, plus a one-click button to clear all
+    stored keys (handy on a shared computer).
 
   - Agent Mode: forces the AI to respond step-by-step in English,
     optimized for automated coding tools (Claude Code, Cursor, etc.)
@@ -64,7 +66,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_2_0.html
+  1. Download the file ChatJPT_1_3_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -96,7 +98,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.2.0
+  Version 1.3.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -115,6 +117,7 @@ FONCTIONNALITÉS
       • OpenAI     (GPT-5.x, GPT-4.1, série o, etc.)
       • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
+      • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
       • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 raisonnement)
       • Qwen       (Alibaba — chat et image ; région DashScope au choix)
 
@@ -128,8 +131,8 @@ FONCTIONNALITÉS
                      téléchargement des blocs de code
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
-                     ajustables) et Qwen
-      • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo)
+                     ajustables), Qwen et Grok
+      • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -140,7 +143,9 @@ FONCTIONNALITÉS
     modes) ; un bouton 💾 enregistre le fichier.
 
   - Panneau de clés API repliable, avec le statut de chaque fournisseur
-    (clé enregistrée / manquante) visible d'un coup d'œil.
+    (clé enregistrée / manquante) visible d'un coup d'œil, plus un bouton
+    pour effacer toutes les clés stockées en un clic (pratique sur un
+    ordinateur partagé).
 
   - Mode Agent : force l'IA à répondre étape par étape en anglais,
     optimisé pour les outils de codage automatisés (Claude Code, Cursor, etc.)
@@ -163,7 +168,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_2_0.html
+  1. Téléchargez le fichier ChatJPT_1_3_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
