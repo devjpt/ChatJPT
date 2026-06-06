@@ -2650,6 +2650,7 @@
             regenOtherModel: "🔀 Régénérer avec un autre modèle…",
             scrollToBottom: "Revenir en bas",
             convRenameHint: "Double-clic pour renommer",
+            imageUnavailable: "Image non disponible (supprimée ou stockage du navigateur vidé)",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2816,6 +2817,7 @@
             regenOtherModel: "🔀 Regenerate with another model…",
             scrollToBottom: "Scroll to bottom",
             convRenameHint: "Double-click to rename",
+            imageUnavailable: "Image unavailable (deleted or browser storage cleared)",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -5226,6 +5228,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const model = modelSelect.value;
 
         if (currentMode === 'image') {
+            // Historiser le prompt (comme en texte) pour que le tour image persiste.
+            const uEntry = { role: 'user', content: fullPrompt };
+            if (displayText !== fullPrompt) uEntry.display = displayText;
+            conversationHistory.push(uEntry);
+            saveHistory();
             await handleImageGeneration(fullPrompt, provider, key);
         } else if (currentMode === 'video') {
             await handleVideoGeneration(fullPrompt, key);
@@ -5829,6 +5836,132 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== GÉNÉRATION D'IMAGES =====
+    // ===== STOCKAGE D'IMAGES (IndexedDB) =====
+    // Les images sont volumineuses (base64 ~1-3 Mo) → on les garde en binaire dans
+    // IndexedDB (créée automatiquement, locale, hors du quota localStorage) ; l'historique
+    // ne conserve qu'un imageId léger. Dégrade proprement si IndexedDB est indisponible.
+    const ImageStore = (() => {
+        const DB_NAME = 'chatjpt';
+        const STORE = 'images';
+        let dbPromise = null;
+        function open() {
+            if (dbPromise) return dbPromise;
+            dbPromise = new Promise((resolve, reject) => {
+                if (!window.indexedDB) { reject(new Error('no-indexeddb')); return; }
+                const req = indexedDB.open(DB_NAME, 1);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: 'id' });
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+            return dbPromise;
+        }
+        async function put(record) {
+            const db = await open();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE, 'readwrite');
+                tx.objectStore(STORE).put(record);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+        async function get(id) {
+            const db = await open();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE, 'readonly');
+                const r = tx.objectStore(STORE).get(id);
+                r.onsuccess = () => resolve(r.result || null);
+                r.onerror = () => reject(r.error);
+            });
+        }
+        async function deleteByConv(convId) {
+            const db = await open();
+            return new Promise((resolve) => {
+                const tx = db.transaction(STORE, 'readwrite');
+                const cur = tx.objectStore(STORE).openCursor();
+                cur.onsuccess = (e) => {
+                    const c = e.target.result;
+                    if (c) { if (c.value.convId === convId) c.delete(); c.continue(); }
+                    else resolve();
+                };
+                cur.onerror = () => resolve();
+            });
+        }
+        return { put, get, deleteByConv };
+    })();
+
+    function genImageId() { return 'img_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+    function b64ToBlob(b64, mime) {
+        try {
+            const bytes = atob(b64);
+            const arr = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+            return new Blob([arr], { type: mime || 'image/png' });
+        } catch (e) { return null; }
+    }
+
+    // Construit l'UI d'une image générée (titre + <img> + bouton télécharger).
+    // Réutilisé à la génération en direct ET au rechargement depuis IndexedDB.
+    function buildGeneratedImageUI(content, src, prompt) {
+        content.innerHTML = '';
+        const p = document.createElement('p');
+        const short = (prompt || '').substring(0, 80);
+        p.textContent = `🎨 Image generated for : "${short}${(prompt || '').length > 80 ? '...' : ''}"`;
+        p.className = 'dp-info-text-lg';
+        content.appendChild(p);
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'generated-image';
+        img.alt = 'Generated image';
+        img.addEventListener('click', () => { modalImg.src = img.src; imageModal.classList.add('show'); });
+        content.appendChild(img);
+
+        const dlBtn = document.createElement('button');
+        dlBtn.className = 'copy-btn dp-mt-sm';
+        dlBtn.innerHTML = '💾 Télécharger';
+        dlBtn.addEventListener('click', async () => {
+            if (/^https?:\/\//i.test(src)) {
+                try {
+                    const r = await fetch(src);
+                    const blob = await r.blob();
+                    const objUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = objUrl; a.download = `image_${Date.now()}.png`; a.click();
+                    URL.revokeObjectURL(objUrl);
+                } catch (e) { window.open(src, '_blank'); }
+            } else {
+                const a = document.createElement('a');
+                a.href = src; a.download = `image_${Date.now()}.png`; a.click();
+            }
+        });
+        content.appendChild(dlBtn);
+    }
+
+    // Chargement async d'une image persistée (au rendu d'une conversation).
+    async function loadAndDisplayImage(content, imageId, prompt) {
+        let src = null;
+        try {
+            const rec = await ImageStore.get(imageId);
+            if (rec) {
+                if (rec.blob) src = URL.createObjectURL(rec.blob);
+                else if (rec.url) src = rec.url;
+            }
+        } catch (e) { /* IndexedDB indisponible */ }
+        if (src) {
+            buildGeneratedImageUI(content, src, prompt);
+        } else {
+            content.innerHTML = '';
+            const p = document.createElement('p');
+            p.className = 'dp-info-text-lg';
+            p.textContent = `🖼️ ${I18N[currentLang].imageUnavailable}`;
+            content.appendChild(p);
+        }
+    }
+
     async function handleImageGeneration(prompt, provider, key) {
         const imgModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : (IMAGE_MODELS[provider] ? IMAGE_MODELS[provider][0].id : 'gpt-image-1');
         const loadingDiv = addMessage(null, 'ai', provider, imgModel, true);
@@ -5847,55 +5980,32 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 throw new Error("Image generation is not available for this provider.");
             }
 
-            // Qwen renvoie une URL (OSS) ; OpenAI/Gemini renvoient du base64.
-            // Afficher via <img src="url"> ne nécessite aucun CORS.
+            // Qwen/Grok renvoient une URL (OSS) ; OpenAI/Gemini du base64.
             const isUrl = typeof imageData === 'string' && /^https?:\/\//i.test(imageData);
+            const displaySrc = isUrl ? imageData : `data:image/png;base64,${imageData}`;
 
             const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
-            content.innerHTML = '';
-            const p = document.createElement('p');
-            p.textContent = `🎨 Image generated for : "${prompt.substring(0, 80)}${prompt.length > 80 ? '...' : ''}"`;
-            p.className = 'dp-info-text-lg';
-            content.appendChild(p);
-
-            const img = document.createElement('img');
-            img.src = isUrl ? imageData : `data:image/png;base64,${imageData}`;
-            img.className = 'generated-image';
-            img.alt = 'Generated image';
-            img.addEventListener('click', () => {
-                modalImg.src = img.src;
-                imageModal.classList.add('show');
-            });
-            content.appendChild(img);
-
-            const dlBtn = document.createElement('button');
-            dlBtn.className = 'copy-btn dp-mt-sm';
-            dlBtn.innerHTML = '💾 Télécharger';
-            dlBtn.addEventListener('click', async () => {
-                if (isUrl) {
-                    // URL distante (OSS) : tenter fetch→blob ; repli sur ouverture si CORS bloque
-                    try {
-                        const r = await fetch(imageData, { signal: currentAbortController?.signal });
-                        const blob = await r.blob();
-                        const objUrl = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = objUrl;
-                        a.download = `image_${Date.now()}.png`;
-                        a.click();
-                        URL.revokeObjectURL(objUrl);
-                    } catch (e) {
-                        window.open(imageData, '_blank');
-                    }
-                } else {
-                    const a = document.createElement('a');
-                    a.href = img.src;
-                    a.download = `image_${Date.now()}.png`;
-                    a.click();
-                }
-            });
-            content.appendChild(dlBtn);
-
+            buildGeneratedImageUI(content, displaySrc, prompt);
             removeLoader(loadingDiv);
+
+            // Persistance : blob dans IndexedDB + tour image enregistré dans l'historique
+            // (l'historique ne garde que l'imageId, léger → localStorage non gonflé).
+            const imageId = genImageId();
+            let blob = isUrl ? null : b64ToBlob(imageData, 'image/png');
+            if (isUrl) {
+                // URL distante : on tente de récupérer le binaire pour une vraie
+                // persistance ; si CORS bloque, on retombe sur l'URL (temporaire).
+                try { const r = await fetch(imageData); blob = await r.blob(); } catch (e) { blob = null; }
+            }
+            try {
+                await ImageStore.put({
+                    id: imageId, convId: currentConvId, blob,
+                    url: (isUrl && !blob) ? imageData : null,
+                    mime: 'image/png', prompt, createdAt: Date.now()
+                });
+            } catch (e) { /* IndexedDB indispo → image affichée mais non persistée */ }
+            conversationHistory.push({ role: 'assistant', type: 'image', imageId, prompt, content: '🎨 ' + prompt, provider, model: imgModel });
+            saveHistory();
 
         } catch (error) {
             updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, provider)}`);
@@ -7732,6 +7842,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         for (const msg of messages) {
             if (msg.role === 'user') {
                 addMessage(msg.display || msg.content, 'user');
+            } else if (msg.role === 'assistant' && msg.type === 'image') {
+                // Tour image : on recharge le blob depuis IndexedDB (async).
+                const div = addMessage('', 'ai', msg.provider, msg.model, false);
+                const imgContent = div.querySelector('.msg-content');
+                if (imgContent) loadAndDisplayImage(imgContent, msg.imageId, msg.prompt);
             } else if (msg.role === 'assistant') {
                 const div = addMessage(msg.content, 'ai', msg.provider, msg.model, false);
                 const copyBtn = div.querySelector('.msg-copy-btn');
@@ -7822,6 +7937,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
         if (!confirm(I18N[currentLang].convDeleteConfirm)) return;
         try { localStorage.removeItem(convKey(id)); } catch (e) { /* ignore */ }
+        ImageStore.deleteByConv(id).catch(() => {}); // nettoyage des images associées
         convIndex = convIndex.filter(c => c.id !== id);
         saveConvIndex();
         if (id === currentConvId) {
@@ -8173,6 +8289,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!confirm(I18N[currentLang].convClearConfirm)) return;
 
         closeSearch();
+        if (currentConvId) ImageStore.deleteByConv(currentConvId).catch(() => {});
         conversationHistory = [];
         saveHistory();                       // persiste la conversation (désormais vide)
         renderConversationMessages([]);
