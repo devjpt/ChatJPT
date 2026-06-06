@@ -2646,7 +2646,7 @@
             toastLikedExported: "Réponses 👍 exportées (Markdown + JSON) !",
             titleClear: "Effacer la conversation",
             titleRegen: "Régénérer la dernière réponse",
-            titleStop: "Arrêter la génération",
+            titleStop: "Arrêter la génération (Échap)",
             titleSend: "Envoyer",
             titlePdf: "Exporter en PDF",
             toastCleared: "Conversation effacée.",
@@ -2810,7 +2810,7 @@
             toastLikedExported: "Liked responses exported (Markdown + JSON)!",
             titleClear: "Clear conversation",
             titleRegen: "Regenerate last response",
-            titleStop: "Stop generation",
+            titleStop: "Stop generation (Esc)",
             titleSend: "Send",
             titlePdf: "Export as PDF",
             toastCleared: "Conversation cleared.",
@@ -4543,13 +4543,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
 
         sendBtn.addEventListener('click', handleSend);
-        stopBtn.addEventListener('click', () => {
-            if (currentAbortController) {
-                currentAbortController.abort();
-            }
-            // Mode comparaison : annuler les 2 flux parallèles.
-            currentCompareControllers.forEach(c => { try { c.abort(); } catch (e) { /* déjà fini */ } });
-        });
+        stopBtn.addEventListener('click', stopGeneration);
         regenBtn.addEventListener('click', handleRegenerate);
         if (agentModeCb) {
             agentModeCb.addEventListener('change', () => {
@@ -4618,6 +4612,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     setActiveMatch(searchActiveIdx + (e.shiftKey ? -1 : 1));
                 } else if (e.key === 'Escape') {
                     e.preventDefault();
+                    e.stopPropagation();
                     closeSearch();
                 }
             });
@@ -4629,10 +4624,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (convCloseBtn) convCloseBtn.addEventListener('click', closeConvDrawer);
         if (convBackdrop) convBackdrop.addEventListener('click', closeConvDrawer);
         if (convExportAllBtn) convExportAllBtn.addEventListener('click', exportAllConversations);
+        // Échap : priorité tiroir > recherche > arrêt de la génération.
+        // (Les Échap de la recherche/édition sont gérés sur leur champ avec
+        // stopPropagation pour ne pas déclencher deux actions.)
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && convDrawer && convDrawer.classList.contains('open')) {
-                closeConvDrawer();
-            }
+            if (e.key !== 'Escape') return;
+            if (convDrawer && convDrawer.classList.contains('open')) { closeConvDrawer(); return; }
+            if (searchBar && searchBar.classList.contains('open')) { closeSearch(); return; }
+            if (isProcessing) stopGeneration();
         });
         imageModal.addEventListener('click', () => imageModal.classList.remove('show'));
 
@@ -5012,7 +5011,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         save.addEventListener('click', () => commitEdit(msgDiv, ta.value.trim(), closeEditor));
         ta.addEventListener('keydown', e => {
             if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitEdit(msgDiv, ta.value.trim(), closeEditor); }
-            else if (e.key === 'Escape') { e.preventDefault(); closeEditor(); }
+            else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeEditor(); }
         });
     }
 
@@ -5059,6 +5058,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
         isProcessing = false;
         setBusyUI(false, true);
         currentAbortController = null;
+    }
+
+    // Arrête la génération en cours (bouton 🛑 ET raccourci Échap).
+    // Annule le flux normal et les 2 flux du mode comparaison.
+    function stopGeneration() {
+        if (currentAbortController) {
+            try { currentAbortController.abort(); } catch (e) { /* déjà fini */ }
+        }
+        currentCompareControllers.forEach(c => { try { c.abort(); } catch (e) { /* déjà fini */ } });
     }
 
     // ===== ENVOI DE MESSAGE =====
