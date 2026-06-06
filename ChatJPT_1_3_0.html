@@ -420,6 +420,119 @@
             color: #1a1a2e;
         }
 
+        /* ===== TIROIR CONVERSATIONS ===== */
+        .conv-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1400;
+        }
+        .conv-backdrop.open { display: block; }
+        .conv-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 300px;
+            max-width: 85vw;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            z-index: 1500;
+            transform: translateX(-100%);
+            transition: transform 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+        }
+        .conv-drawer.open { transform: translateX(0); }
+        .conv-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .conv-drawer-title { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+        .conv-drawer-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .conv-drawer-close:hover { color: var(--text); }
+        .conv-new-btn {
+            margin: 12px 16px;
+            padding: 9px 12px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .conv-new-btn:hover { filter: brightness(1.08); }
+        .conv-list { flex: 1; overflow-y: auto; padding: 0 8px; }
+        .conv-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-radius: var(--radius-sm);
+            margin: 2px 0;
+        }
+        .conv-item:hover { background: var(--bg); }
+        .conv-item.active { background: var(--accent-glow); }
+        .conv-item-title {
+            flex: 1;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            padding: 9px 10px;
+            cursor: pointer;
+            font-size: 0.83rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .conv-item-del {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px 8px;
+            font-size: 0.78rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .conv-item:hover .conv-item-del { opacity: 1; }
+        .conv-item-del:hover { color: var(--error); }
+        .conv-drawer-footer {
+            padding: 10px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .conv-storage { font-size: 0.72rem; color: var(--text-muted); }
+        .conv-storage.warn { color: var(--error); font-weight: 600; }
+        .conv-export-all {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            padding: 4px 8px;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .conv-export-all:hover { color: var(--text); border-color: var(--accent); }
+
         /* ===== SELECTOR ROW ===== */
         .selector-row {
             display: flex;
@@ -2075,6 +2188,7 @@
             <button class="mode-tab" data-mode="video" title="Génération de vidéo" id="video-tab" data-i18n="tabVideo" role="tab" aria-selected="false">🎬 Vidéo</button>
         </div>
         <div class="header-actions">
+            <button class="icon-btn" id="conv-toggle-btn" title="Conversations" data-i18n-title="titleConversations" aria-label="Conversations">☰</button>
             <button class="lang-toggle" id="lang-toggle" title="Basculer la langue / Toggle Language" aria-label="Basculer la langue">EN</button>
             <button class="theme-toggle" id="theme-toggle" title="Basculer mode clair/sombre" data-i18n-title="titleTheme" aria-label="Basculer mode clair/sombre">
                 <span class="theme-icon" id="theme-icon">🌙</span>
@@ -2187,6 +2301,21 @@
         </div>
     </div>
 </div>
+
+<!-- ===== TIROIR CONVERSATIONS ===== -->
+<div class="conv-backdrop" id="conv-backdrop"></div>
+<aside class="conv-drawer" id="conv-drawer" aria-label="Conversations">
+    <div class="conv-drawer-header">
+        <span class="conv-drawer-title" data-i18n="lblConversations">💬 Conversations</span>
+        <button class="conv-drawer-close" id="conv-close-btn" title="Fermer le panneau" data-i18n-title="convCloseDrawer" aria-label="Fermer le panneau">✕</button>
+    </div>
+    <button class="conv-new-btn" id="conv-new-btn" data-i18n="convNew">➕ Nouvelle conversation</button>
+    <div class="conv-list" id="conv-list"></div>
+    <div class="conv-drawer-footer">
+        <span class="conv-storage" id="conv-storage" aria-live="polite"></span>
+        <button class="conv-export-all" id="conv-export-all-btn" data-i18n="convExportAll" title="Exporter toutes les conversations">⬇ Tout exporter</button>
+    </div>
+</aside>
 
 <!-- ===== CHAT CONTAINER ===== -->
 <!-- ===== BARRE DE RECHERCHE (conversation courante) ===== -->
@@ -2326,6 +2455,14 @@
     const searchPrevBtn = $('search-prev-btn');
     const searchNextBtn = $('search-next-btn');
     const searchCloseBtn = $('search-close-btn');
+    const convToggleBtn = $('conv-toggle-btn');
+    const convDrawer = $('conv-drawer');
+    const convBackdrop = $('conv-backdrop');
+    const convListEl = $('conv-list');
+    const convNewBtn = $('conv-new-btn');
+    const convCloseBtn = $('conv-close-btn');
+    const convStorageEl = $('conv-storage');
+    const convExportAllBtn = $('conv-export-all-btn');
     const toast = $('toast');
     const imageModal = $('image-modal');
     const modalImg = $('modal-img');
@@ -2384,6 +2521,18 @@
             searchNext: "Résultat suivant",
             searchClose: "Fermer la recherche",
             searchNoResults: "Aucun résultat",
+            titleConversations: "Conversations",
+            lblConversations: "💬 Conversations",
+            convNew: "➕ Nouvelle conversation",
+            convExportAll: "⬇ Tout exporter",
+            convUntitled: "Nouvelle conversation",
+            convDelete: "Supprimer",
+            convDeleteConfirm: "Supprimer cette conversation ?",
+            convBusy: "⏳ Patiente jusqu'à la fin de la génération.",
+            convStorageFull: "🛑 Stockage plein — supprime ou exporte une conversation pour continuer.",
+            convStorageInfo: "{n} conv · ~{mb} Mo",
+            convCloseDrawer: "Fermer le panneau",
+            convClearConfirm: "Effacer tous les messages de cette conversation ?",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2529,6 +2678,18 @@
             searchNext: "Next match",
             searchClose: "Close search",
             searchNoResults: "No results",
+            titleConversations: "Conversations",
+            lblConversations: "💬 Conversations",
+            convNew: "➕ New conversation",
+            convExportAll: "⬇ Export all",
+            convUntitled: "New conversation",
+            convDelete: "Delete",
+            convDeleteConfirm: "Delete this conversation?",
+            convBusy: "⏳ Wait for the current generation to finish.",
+            convStorageFull: "🛑 Storage full — delete or export a conversation to continue.",
+            convStorageInfo: "{n} conv · ~{mb} MB",
+            convCloseDrawer: "Close panel",
+            convClearConfirm: "Clear all messages in this conversation?",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -2994,9 +3155,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
     //   fetchWithRetry(url, options, retryOpts) Retries 429/5xx/network errors with exponential backoff
     //   translateApiError(error, provider?)     Translates raw API errors into user-friendly i18n messages
     //
-    // Persistence helpers (see EXPORT HISTORIQUE section, P4):
-    //   saveHistory()                           Persist conversationHistory to localStorage (strips images)
-    //   loadHistory()                           Restore conversation on page load (called in init)
+    // Persistence & conversations (see CONVERSATIONS MULTIPLES section):
+    //   saveHistory()                           Persist the ACTIVE conversation to its own key + update index
+    //   initConversations()                     Migrate legacy history + load active conversation (called in init)
+    //   newConv()/switchConv()/deleteConv()     Manage the conversation list (drawer)
     //
     // Base64 helpers for UTF-8 text (used to round-trip raw content through HTML attributes)
     function b64encode(str) {
@@ -3753,7 +3915,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         initThinking();
         setupEventListeners();
         autoResizeTextarea();
-        loadHistory();
+        initConversations();
     }
 
     // ===== CRYPTO MODULE (P0-1 FIX: AES-GCM encryption for API keys) =====
@@ -4381,6 +4543,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 }
             });
         }
+
+        // ===== Conversations multiples =====
+        if (convToggleBtn) convToggleBtn.addEventListener('click', toggleConvDrawer);
+        if (convNewBtn) convNewBtn.addEventListener('click', newConv);
+        if (convCloseBtn) convCloseBtn.addEventListener('click', closeConvDrawer);
+        if (convBackdrop) convBackdrop.addEventListener('click', closeConvDrawer);
+        if (convExportAllBtn) convExportAllBtn.addEventListener('click', exportAllConversations);
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && convDrawer && convDrawer.classList.contains('open')) {
+                closeConvDrawer();
+            }
+        });
         imageModal.addEventListener('click', () => imageModal.classList.remove('show'));
 
         // Event delegation for copy buttons (code blocks, tables, messages)
@@ -4720,6 +4894,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!text && uploadedFiles.length === 0) return;
 
         closeSearch(); // évite des surlignages obsolètes sur le nouveau tour
+
+        // Plafond logiciel : on bloque AVANT la vraie limite navigateur. Rien n'est
+        // supprimé en silence ; on ouvre le tiroir pour supprimer/exporter.
+        if (measureStorageUsage() >= STORAGE_SOFT_CAP) {
+            showToast(I18N[currentLang].convStorageFull, 'error');
+            openConvDrawer();
+            return;
+        }
 
         // Comparaison active uniquement en texte (chat/code).
         const isCompare = compareMode && (currentMode === 'chat' || currentMode === 'code');
@@ -7192,63 +7374,102 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // ===== PERSISTANCE AUTO DE L'HISTORIQUE (P4) =====
     // Stratégie: localStorage, images strippées (trop volumineuses), purge des plus anciens
     // messages si la quota est dépassée. Conv unique restaurée au chargement.
-    const HISTORY_KEY = 'ai_history';
-    const HISTORY_PRUNE_BATCH = 5;
+    const HISTORY_KEY = 'ai_history';            // clé héritée (1 seule conversation) → migrée au 1er chargement
+    const CONV_INDEX_KEY = 'chatjpt_conv_index'; // [{id, title, updatedAt, provider, model, mode}] (récent→ancien)
+    const CONV_PREFIX = 'chatjpt_conv_';         // chatjpt_conv_<id> → messages sérialisés
+    const STORAGE_SOFT_CAP = 4.5 * 1024 * 1024;  // plafond logiciel (~octets UTF-16) sous la vraie limite ~5 Mo
+    let currentConvId = null;
+    let convIndex = [];
 
     function _serializeHistory(history) {
         // Strip "images" (base64 blobs blow the localStorage budget quickly)
         return JSON.stringify(history.map(({ images, ...rest }) => rest));
     }
 
+    // Persiste la conversation ACTIVE dans sa propre clé + met à jour l'index
+    // (titre auto, date, contexte). En cas de quota réel dépassé, on NE supprime
+    // RIEN en silence : on prévient (le plafond logiciel bloque normalement avant).
     function saveHistory() {
+        if (!currentConvId) return;
         try {
-            localStorage.setItem(HISTORY_KEY, _serializeHistory(conversationHistory));
+            localStorage.setItem(convKey(currentConvId), _serializeHistory(conversationHistory));
         } catch (e) {
             if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
-                _pruneAndRetrySaveHistory();
+                showToast(I18N[currentLang].convStorageFull, 'error');
+                return;
             }
         }
+        let entry = indexEntry(currentConvId);
+        if (!entry) entry = { id: currentConvId };
+        entry.title = deriveTitle(conversationHistory);
+        entry.updatedAt = Date.now();
+        entry.provider = providerSelect.value;
+        entry.model = modelSelect.value;
+        entry.mode = currentMode;
+        convIndex = [entry, ...convIndex.filter(c => c.id !== currentConvId)];
+        saveConvIndex();
     }
 
-    function _pruneAndRetrySaveHistory() {
-        if (conversationHistory.length <= HISTORY_PRUNE_BATCH) {
-            try { localStorage.removeItem(HISTORY_KEY); } catch (e) { /* ignore */ }
-            return;
-        }
-        conversationHistory = conversationHistory.slice(HISTORY_PRUNE_BATCH);
+    // ===== CONVERSATIONS MULTIPLES =====
+    // Modèle : un index léger (CONV_INDEX_KEY) + une clé par conversation
+    // (CONV_PREFIX + id). On ne réécrit que la conversation active à chaque save.
+    function convKey(id) { return CONV_PREFIX + id; }
+    function genConvId() { return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    function indexEntry(id) { return convIndex.find(c => c.id === id); }
+
+    function loadConvIndex() {
         try {
-            localStorage.setItem(HISTORY_KEY, _serializeHistory(conversationHistory));
-            showToast(I18N[currentLang].toastHistoryPruned || '📦 Old messages archived.', 'success');
-        } catch (e) {
-            // Still oversize after pruning — give up to avoid an infinite loop
-            try { localStorage.removeItem(HISTORY_KEY); } catch (err) { /* ignore */ }
-        }
+            const raw = localStorage.getItem(CONV_INDEX_KEY);
+            const parsed = raw ? JSON.parse(raw) : [];
+            convIndex = Array.isArray(parsed) ? parsed : [];
+        } catch (e) { convIndex = []; }
+        return convIndex;
+    }
+    function saveConvIndex() {
+        try { localStorage.setItem(CONV_INDEX_KEY, JSON.stringify(convIndex)); } catch (e) { /* ignore */ }
     }
 
-    function loadHistory() {
-        const raw = localStorage.getItem(HISTORY_KEY);
-        if (!raw) return;
-        let parsed;
+    // Titre auto dérivé du 1er message utilisateur (sans appel IA).
+    function deriveTitle(history) {
+        const firstUser = (history || []).find(m => m.role === 'user');
+        const base = firstUser ? (firstUser.display || firstUser.content || '') : '';
+        const t = base.replace(/\s+/g, ' ').trim().slice(0, 42);
+        return t || I18N[currentLang].convUntitled;
+    }
+
+    // Usage mesuré de NOTRE localStorage (octets ≈ UTF-16). On ne peut pas
+    // connaître le quota réel restant ; on mesure ce qu'on consomme, et le
+    // plafond logiciel + le try/catch sont la source de vérité.
+    function measureStorageUsage() {
+        let chars = 0;
         try {
-            parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed) || parsed.length === 0) return;
-        } catch (e) {
-            localStorage.removeItem(HISTORY_KEY);
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                const v = k ? localStorage.getItem(k) : '';
+                chars += (k ? k.length : 0) + (v ? v.length : 0);
+            }
+        } catch (e) { /* ignore */ }
+        return chars * 2;
+    }
+
+    // Re-rendu des messages d'une conversation dans la zone de chat (extrait de
+    // l'ancien loadHistory, réutilisé à l'init ET à la bascule).
+    function renderConversationMessages(messages) {
+        chatContainer.innerHTML = '';
+        if (welcome) chatContainer.appendChild(welcome);
+        if (!messages || messages.length === 0) {
+            if (welcome) welcome.style.display = '';
+            regenBtn.style.display = 'none';
             return;
         }
-
-        conversationHistory = parsed;
         if (welcome) welcome.style.display = 'none';
-
-        for (const msg of parsed) {
+        for (const msg of messages) {
             if (msg.role === 'user') {
                 addMessage(msg.display || msg.content, 'user');
             } else if (msg.role === 'assistant') {
                 const div = addMessage(msg.content, 'ai', msg.provider, msg.model, false);
                 const copyBtn = div.querySelector('.msg-copy-btn');
-                if (copyBtn) {
-                    copyBtn.setAttribute('data-raw-content-b64', b64encode(msg.content));
-                }
+                if (copyBtn) copyBtn.setAttribute('data-raw-content-b64', b64encode(msg.content));
                 const contentDiv = div.querySelector('.msg-content');
                 if (contentDiv) {
                     initTableOverflowDetection(contentDiv);
@@ -7257,9 +7478,165 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 attachRatingButtons(div, msg);
             }
         }
-
         regenBtn.style.display = 'flex';
-        showToast(I18N[currentLang].toastHistoryRestored || '💾 Previous conversation restored.', 'success');
+    }
+
+    function loadConversation(id) {
+        const entry = indexEntry(id);
+        if (!entry) return;
+        currentConvId = id;
+        let messages = [];
+        try {
+            const raw = localStorage.getItem(convKey(id));
+            const parsed = raw ? JSON.parse(raw) : [];
+            if (Array.isArray(parsed)) messages = parsed;
+        } catch (e) { messages = []; }
+        conversationHistory = messages;
+        renderConversationMessages(conversationHistory);
+    }
+
+    // Migration de l'ancien historique unique + chargement de la conversation active.
+    function initConversations() {
+        loadConvIndex();
+        if (convIndex.length === 0) {
+            const legacy = localStorage.getItem(HISTORY_KEY);
+            if (legacy) {
+                let parsed = null;
+                try { parsed = JSON.parse(legacy); } catch (e) { parsed = null; }
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    const id = genConvId();
+                    try { localStorage.setItem(convKey(id), legacy); } catch (e) { /* ignore */ }
+                    convIndex = [{ id, title: deriveTitle(parsed), updatedAt: Date.now(), provider: providerSelect.value, model: modelSelect.value, mode: currentMode }];
+                    saveConvIndex();
+                    try { localStorage.removeItem(HISTORY_KEY); } catch (e) { /* ignore */ }
+                }
+            }
+        }
+        if (convIndex.length === 0) {
+            const id = genConvId();
+            convIndex = [{ id, title: deriveTitle([]), updatedAt: Date.now(), provider: providerSelect.value, model: modelSelect.value, mode: currentMode }];
+            saveConvIndex();
+            currentConvId = id;
+            conversationHistory = [];
+            renderConversationMessages([]);
+        } else {
+            loadConversation(convIndex[0].id);
+        }
+        renderConvDrawer();
+        updateStorageIndicator();
+    }
+
+    function newConv() {
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        closeSearch();
+        if (currentConvId) saveHistory();
+        const id = genConvId();
+        convIndex = [{ id, title: deriveTitle([]), updatedAt: Date.now(), provider: providerSelect.value, model: modelSelect.value, mode: currentMode }, ...convIndex];
+        saveConvIndex();
+        currentConvId = id;
+        conversationHistory = [];
+        renderConversationMessages([]);
+        renderConvDrawer();
+        updateStorageIndicator();
+        closeConvDrawer();
+        userInput.focus();
+    }
+
+    function switchConv(id) {
+        if (id === currentConvId) { closeConvDrawer(); return; }
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        closeSearch();
+        if (currentConvId) saveHistory();
+        loadConversation(id);
+        renderConvDrawer();
+        closeConvDrawer();
+    }
+
+    function deleteConv(id) {
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        if (!confirm(I18N[currentLang].convDeleteConfirm)) return;
+        try { localStorage.removeItem(convKey(id)); } catch (e) { /* ignore */ }
+        convIndex = convIndex.filter(c => c.id !== id);
+        saveConvIndex();
+        if (id === currentConvId) {
+            if (convIndex.length > 0) {
+                loadConversation(convIndex[0].id);
+            } else {
+                const nid = genConvId();
+                convIndex = [{ id: nid, title: deriveTitle([]), updatedAt: Date.now(), provider: providerSelect.value, model: modelSelect.value, mode: currentMode }];
+                saveConvIndex();
+                currentConvId = nid;
+                conversationHistory = [];
+                renderConversationMessages([]);
+            }
+        }
+        renderConvDrawer();
+        updateStorageIndicator();
+    }
+
+    function renderConvDrawer() {
+        if (!convListEl) return;
+        convListEl.innerHTML = '';
+        convIndex.forEach(c => {
+            const item = document.createElement('div');
+            item.className = 'conv-item' + (c.id === currentConvId ? ' active' : '');
+
+            const title = document.createElement('button');
+            title.type = 'button';
+            title.className = 'conv-item-title';
+            title.textContent = c.title || I18N[currentLang].convUntitled;
+            title.title = c.title || '';
+            title.addEventListener('click', () => switchConv(c.id));
+
+            const del = document.createElement('button');
+            del.type = 'button';
+            del.className = 'conv-item-del';
+            del.textContent = '✕';
+            del.title = I18N[currentLang].convDelete;
+            del.setAttribute('aria-label', I18N[currentLang].convDelete);
+            del.addEventListener('click', (e) => { e.stopPropagation(); deleteConv(c.id); });
+
+            item.appendChild(title);
+            item.appendChild(del);
+            convListEl.appendChild(item);
+        });
+        updateStorageIndicator();
+    }
+
+    function updateStorageIndicator() {
+        if (!convStorageEl) return;
+        const used = measureStorageUsage();
+        const mb = used / (1024 * 1024);
+        convStorageEl.textContent = (I18N[currentLang].convStorageInfo || '{n} · {mb}')
+            .replace('{n}', convIndex.length)
+            .replace('{mb}', mb.toFixed(1));
+        convStorageEl.classList.toggle('warn', used >= STORAGE_SOFT_CAP * 0.88);
+    }
+
+    function openConvDrawer() {
+        if (!convDrawer) return;
+        renderConvDrawer();
+        convDrawer.classList.add('open');
+        if (convBackdrop) convBackdrop.classList.add('open');
+    }
+    function closeConvDrawer() {
+        if (convDrawer) convDrawer.classList.remove('open');
+        if (convBackdrop) convBackdrop.classList.remove('open');
+    }
+    function toggleConvDrawer() {
+        if (convDrawer && convDrawer.classList.contains('open')) closeConvDrawer();
+        else openConvDrawer();
+    }
+
+    // Sauvegarde durable : toutes les conversations dans un seul JSON.
+    function exportAllConversations() {
+        const all = convIndex.map(c => {
+            let msgs = [];
+            try { const raw = localStorage.getItem(convKey(c.id)); msgs = raw ? JSON.parse(raw) : []; } catch (e) { msgs = []; }
+            return { title: c.title, updatedAt: c.updatedAt, provider: c.provider, model: c.model, mode: c.mode, messages: msgs };
+        });
+        const payload = JSON.stringify({ exported_at: new Date().toISOString(), count: all.length, conversations: all }, null, 2);
+        downloadFile(`chatjpt-conversations_${new Date().toISOString().slice(0, 10)}.json`, payload, 'application/json');
     }
 
     // ===== EXPORT HISTORIQUE =====
@@ -7471,17 +7848,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     function clearConversation() {
         if (conversationHistory.length === 0) return;
-        if (!confirm('Effacer toute la conversation ?')) return;
+        if (!confirm(I18N[currentLang].convClearConfirm)) return;
 
         closeSearch();
         conversationHistory = [];
-        try { localStorage.removeItem(HISTORY_KEY); } catch (e) { /* ignore */ }
-        chatContainer.innerHTML = '';
-        if (welcome) {
-            welcome.style.display = '';
-            chatContainer.appendChild(welcome);
-        }
-        regenBtn.style.display = 'none';
+        saveHistory();                       // persiste la conversation (désormais vide)
+        renderConversationMessages([]);
+        renderConvDrawer();
+        updateStorageIndicator();
         showToast(I18N[currentLang].toastCleared, 'success');
     }
 
