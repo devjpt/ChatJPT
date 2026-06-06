@@ -635,6 +635,13 @@
             transition: var(--transition);
         }
         .improve-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .improve-bug-link {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .improve-bug-link:hover { color: var(--error); text-decoration: underline; }
 
         /* ===== SELECTOR ROW ===== */
         .selector-row {
@@ -2682,6 +2689,9 @@
             improveWithReason: "Ta réponse précédente ne me convenait pas : {r}. Peux-tu proposer une meilleure réponse ?",
             improveNoReason: "Ta réponse précédente ne me convenait pas. Peux-tu proposer une meilleure réponse, ou me poser une question pour mieux comprendre ce que j'attends ?",
             dislikeNote: "L'utilisateur n'a pas été satisfait de cette réponse.",
+            likeNote: "L'utilisateur a apprécié cette réponse (garde cette approche).",
+            reportBugShort: "🐛 Plutôt un bug de l'app ?",
+            bugConfirm: "S'agit-il d'un bug de l'application (affichage cassé, erreur), et non simplement d'une réponse insatisfaisante ?\n\nSi oui, un e-mail de signalement va s'ouvrir. Sinon, utilisez plutôt « ↻ Améliorer ».",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2854,6 +2864,9 @@
             improveWithReason: "Your previous answer didn't satisfy me: {r}. Can you provide a better one?",
             improveNoReason: "Your previous answer didn't satisfy me. Can you provide a better one, or ask a clarifying question to better understand what I need?",
             dislikeNote: "The user was not satisfied with this response.",
+            likeNote: "The user liked this response (keep this approach).",
+            reportBugShort: "🐛 Actually an app bug?",
+            bugConfirm: "Is this an application bug (broken display, error), and not just an unsatisfying answer?\n\nIf so, a report email will open. Otherwise, please use \"↻ Improve\" instead.",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -3441,8 +3454,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Annotation passive : on signale au modèle les réponses notées 👎 (sans
         // muter l'historique réel — on clone juste l'entrée pour l'appel API).
         const annotated = historyMessages.map(m => {
-            if (m.role === 'assistant' && m.rating === 'down' && typeof m.content === 'string') {
-                return { ...m, content: m.content + `\n\n[${I18N[currentLang].dislikeNote}]` };
+            if (m.role === 'assistant' && typeof m.content === 'string') {
+                if (m.rating === 'down') return { ...m, content: m.content + `\n\n[${I18N[currentLang].dislikeNote}]` };
+                if (m.rating === 'up') return { ...m, content: m.content + `\n\n[${I18N[currentLang].likeNote}]` };
             }
             return m;
         });
@@ -6471,6 +6485,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
         reasonInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doImprove(); } });
         improveBox.appendChild(reasonInput);
         improveBox.appendChild(improveBtn);
+
+        // Lien « bug de l'app ? » — distinct d'une réponse insatisfaisante.
+        // Clic → confirmation explicative, puis e-mail pré-rempli (fournisseur/modèle).
+        const bugLink = document.createElement('a');
+        bugLink.className = 'improve-bug-link';
+        bugLink.href = 'mailto:bug@devjpt.com?subject=' + encodeURIComponent(`Bug ChatJPT — ${entry.provider || ''} ${entry.model || ''}`.trim());
+        bugLink.textContent = I18N[currentLang].reportBugShort;
+        bugLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!confirm(I18N[currentLang].bugConfirm)) return;
+            window.open(bugLink.href, '_blank');
+        });
+        improveBox.appendChild(bugLink);
 
         const reflect = () => {
             upBtn.classList.toggle('active-up', entry.rating === 'up');
