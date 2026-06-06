@@ -533,6 +533,71 @@
         }
         .conv-export-all:hover { color: var(--text); border-color: var(--accent); }
 
+        /* ===== ÉDITION D'UN MESSAGE ===== */
+        .msg-edit-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .message.user:hover .msg-edit-btn { opacity: 0.7; }
+        .msg-edit-btn:hover { opacity: 1; color: var(--accent); }
+        .msg-editor { margin-top: 8px; }
+        .msg-edit-textarea {
+            width: 100%;
+            min-height: 60px;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .msg-edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .msg-edit-cancel, .msg-edit-save {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--text-muted);
+        }
+        .msg-edit-cancel:hover { color: var(--text); }
+        .msg-edit-save {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .msg-edit-save:hover { filter: brightness(1.08); }
+        /* Sélecteur « régénérer avec un autre modèle » (dans les actions de message IA) */
+        .regen-model-select {
+            font-size: 0.74rem;
+            padding: 3px 22px 3px 8px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background-color: transparent;
+            cursor: pointer;
+            max-width: 200px;
+        }
+        .regen-model-select:hover { color: var(--text); border-color: var(--accent); }
+
         /* ===== SELECTOR ROW ===== */
         .selector-row {
             display: flex;
@@ -2533,6 +2598,13 @@
             convStorageInfo: "{n} conv · ~{mb} Mo",
             convCloseDrawer: "Fermer le panneau",
             convClearConfirm: "Effacer tous les messages de cette conversation ?",
+            editMessage: "Modifier ce message",
+            editSave: "✓ Enregistrer",
+            editCancel: "Annuler",
+            editEmpty: "Le message ne peut pas être vide.",
+            editUnavailable: "Action indisponible ici.",
+            editTruncateConfirm: "Ceci supprimera les {n} message(s) suivant(s). Continuer ?",
+            regenOtherModel: "🔀 Régénérer avec un autre modèle…",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2690,6 +2762,13 @@
             convStorageInfo: "{n} conv · ~{mb} MB",
             convCloseDrawer: "Close panel",
             convClearConfirm: "Clear all messages in this conversation?",
+            editMessage: "Edit this message",
+            editSave: "✓ Save",
+            editCancel: "Cancel",
+            editEmpty: "Message can't be empty.",
+            editUnavailable: "Action unavailable here.",
+            editTruncateConfirm: "This will delete the {n} following message(s). Continue?",
+            regenOtherModel: "🔀 Regenerate with another model…",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -4873,6 +4952,115 @@ A small follow-up tweak the user asks for can be done right away without a new p
         currentAbortController = null;
     }
 
+    // ===== ÉDITION D'UN MESSAGE + RÉGÉNÉRATION AVEC UN AUTRE MODÈLE =====
+    // Historique linéaire → éditer ou changer de modèle = tronquer à partir d'un
+    // point puis relancer. messageIndex() mappe une bulle .message à son entrée
+    // d'historique (1:1, dans l'ordre — fiable hors génération en cours).
+    function messageIndex(msgDiv) {
+        return Array.from(chatContainer.querySelectorAll('.message')).indexOf(msgDiv);
+    }
+
+    function truncateHistoryAndDom(keepCount) {
+        conversationHistory = conversationHistory.slice(0, keepCount);
+        const msgs = Array.from(chatContainer.querySelectorAll('.message'));
+        for (let i = keepCount; i < msgs.length; i++) msgs[i].remove();
+        chatContainer.querySelectorAll('.coffee-nudge').forEach(n => n.remove());
+        saveHistory();
+    }
+
+    function startEditMessage(msgDiv) {
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        const idx = messageIndex(msgDiv);
+        const entry = conversationHistory[idx];
+        if (!entry || entry.role !== 'user') { showToast(I18N[currentLang].editUnavailable, 'error'); return; }
+        if (msgDiv.querySelector('.msg-editor')) return; // déjà en édition
+
+        const contentDiv = msgDiv.querySelector('.msg-content');
+        const editBtn = msgDiv.querySelector('.msg-edit-btn');
+        const original = entry.display || entry.content || '';
+
+        const editor = document.createElement('div');
+        editor.className = 'msg-editor';
+        const ta = document.createElement('textarea');
+        ta.className = 'msg-edit-textarea';
+        ta.value = original;
+        const acts = document.createElement('div');
+        acts.className = 'msg-edit-actions';
+        const cancel = document.createElement('button');
+        cancel.className = 'msg-edit-cancel';
+        cancel.textContent = I18N[currentLang].editCancel;
+        const save = document.createElement('button');
+        save.className = 'msg-edit-save';
+        save.textContent = I18N[currentLang].editSave;
+        acts.appendChild(cancel);
+        acts.appendChild(save);
+        editor.appendChild(ta);
+        editor.appendChild(acts);
+
+        if (contentDiv) contentDiv.style.display = 'none';
+        if (editBtn) editBtn.style.display = 'none';
+        msgDiv.appendChild(editor);
+        ta.focus();
+        ta.setSelectionRange(ta.value.length, ta.value.length);
+
+        const closeEditor = () => {
+            editor.remove();
+            if (contentDiv) contentDiv.style.display = '';
+            if (editBtn) editBtn.style.display = '';
+        };
+        cancel.addEventListener('click', closeEditor);
+        save.addEventListener('click', () => commitEdit(msgDiv, ta.value.trim(), closeEditor));
+        ta.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitEdit(msgDiv, ta.value.trim(), closeEditor); }
+            else if (e.key === 'Escape') { e.preventDefault(); closeEditor(); }
+        });
+    }
+
+    function commitEdit(msgDiv, newText, closeEditor) {
+        if (!newText) { showToast(I18N[currentLang].editEmpty, 'error'); return; }
+        const idx = messageIndex(msgDiv);
+        if (idx < 0 || !conversationHistory[idx] || conversationHistory[idx].role !== 'user') {
+            showToast(I18N[currentLang].editUnavailable, 'error'); return;
+        }
+        const discarded = conversationHistory.length - idx - 1; // tours après ce message
+        if (discarded > 0 && !confirm(I18N[currentLang].editTruncateConfirm.replace('{n}', discarded))) return;
+        if (typeof closeEditor === 'function') closeEditor();
+        truncateHistoryAndDom(idx);   // retire ce message + tout ce qui suit
+        userInput.value = newText;    // l'envoi normal ré-ajoute le message + génère
+        handleSend();
+    }
+
+    async function regenerateWithModel(aiMsgDiv, provider, model) {
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        if (!provider || !model) return;
+        const aiIdx = messageIndex(aiMsgDiv);
+        if (aiIdx < 1 || !conversationHistory[aiIdx] || conversationHistory[aiIdx].role !== 'assistant') {
+            showToast(I18N[currentLang].editUnavailable, 'error'); return;
+        }
+        const key = getKeyForProvider(provider);
+        if (!key) { showToast(I18N[currentLang].toastNoKey, 'error'); return; }
+        const discarded = conversationHistory.length - aiIdx - 1;
+        if (discarded > 0 && !confirm(I18N[currentLang].editTruncateConfirm.replace('{n}', discarded))) return;
+
+        // Garder jusqu'au message utilisateur précédent (inclus) ; retirer l'ancienne
+        // réponse + la suite, puis régénérer avec le modèle choisi.
+        truncateHistoryAndDom(aiIdx);
+
+        if (providerSelect.querySelector(`option[value="${provider}"]`)) {
+            providerSelect.value = provider;
+            providerSelect.dispatchEvent(new Event('change'));
+        }
+        if (modelSelect.querySelector(`option[value="${model}"]`)) modelSelect.value = model;
+
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        await handleTextGeneration(provider, model, key);
+        isProcessing = false;
+        setBusyUI(false, true);
+        currentAbortController = null;
+    }
+
     // ===== ENVOI DE MESSAGE =====
     async function handleSend() {
         if (isProcessing) return;
@@ -6008,6 +6196,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         div.appendChild(content);
+
+        // Bouton ✎ pour éditer un message envoyé (utilisateur uniquement).
+        if (sender === 'user' && !isLoading) {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'msg-edit-btn';
+            editBtn.textContent = '✎';
+            editBtn.title = I18N[currentLang].editMessage;
+            editBtn.setAttribute('aria-label', I18N[currentLang].editMessage);
+            editBtn.addEventListener('click', () => startEditMessage(div));
+            div.appendChild(editBtn);
+        }
+
         chatContainer.appendChild(div);
         chatContainer.scrollTop = chatContainer.scrollHeight;
         return div;
@@ -6053,6 +6253,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
         reflect();
         actions.appendChild(upBtn);
         actions.appendChild(downBtn);
+
+        // Régénérer la réponse avec un AUTRE modèle (même prompt). Réutilise
+        // populateAllModels (tous les modèles en optgroups) + parseCompareValue.
+        const swapSelect = document.createElement('select');
+        swapSelect.className = 'regen-model-select';
+        populateAllModels(swapSelect);
+        const ph = document.createElement('option');
+        ph.value = '';
+        ph.textContent = I18N[currentLang].regenOtherModel;
+        ph.disabled = true;
+        ph.selected = true;
+        swapSelect.insertBefore(ph, swapSelect.firstChild);
+        swapSelect.value = '';
+        swapSelect.addEventListener('change', () => {
+            const val = swapSelect.value;
+            swapSelect.value = '';
+            if (!val) return;
+            const { provider, model } = parseCompareValue(val);
+            regenerateWithModel(msgDiv, provider, model);
+        });
+        actions.appendChild(swapSelect);
+
         msgDiv.appendChild(actions);
     }
 
