@@ -609,6 +609,32 @@
             max-width: 200px;
         }
         .regen-model-select:hover { color: var(--text); border-color: var(--accent); }
+        /* Boîte « Améliorer » (révélée au 👎) */
+        .improve-box { display: none; gap: 6px; margin-top: 8px; align-items: center; }
+        .improve-box.open { display: flex; }
+        .improve-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: var(--radius-sm);
+            padding: 6px 9px;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .improve-input:focus { border-color: var(--accent); }
+        .improve-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .improve-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         /* ===== SELECTOR ROW ===== */
         .selector-row {
@@ -2651,6 +2677,11 @@
             scrollToBottom: "Revenir en bas",
             convRenameHint: "Double-clic pour renommer",
             imageUnavailable: "Image non disponible (supprimée ou stockage du navigateur vidé)",
+            improveBtn: "↻ Améliorer",
+            improvePlaceholder: "Qu'est-ce qui n'allait pas ? (facultatif)",
+            improveWithReason: "Ta réponse précédente ne me convenait pas : {r}. Peux-tu proposer une meilleure réponse ?",
+            improveNoReason: "Ta réponse précédente ne me convenait pas. Peux-tu proposer une meilleure réponse, ou me poser une question pour mieux comprendre ce que j'attends ?",
+            dislikeNote: "L'utilisateur n'a pas été satisfait de cette réponse.",
             purgeKeys: "🗑️ Effacer les clés",
             purgeKeysConfirm: "Effacer toutes les clés API de ce navigateur ? Vous devrez les ressaisir.",
             toastKeysPurged: "🗑️ Clés API effacées de ce navigateur.",
@@ -2818,6 +2849,11 @@
             scrollToBottom: "Scroll to bottom",
             convRenameHint: "Double-click to rename",
             imageUnavailable: "Image unavailable (deleted or browser storage cleared)",
+            improveBtn: "↻ Improve",
+            improvePlaceholder: "What was wrong? (optional)",
+            improveWithReason: "Your previous answer didn't satisfy me: {r}. Can you provide a better one?",
+            improveNoReason: "Your previous answer didn't satisfy me. Can you provide a better one, or ask a clarifying question to better understand what I need?",
+            dislikeNote: "The user was not satisfied with this response.",
             purgeKeys: "🗑️ Clear keys",
             purgeKeysConfirm: "Clear all API keys from this browser? You will need to re-enter them.",
             toastKeysPurged: "🗑️ API keys cleared from this browser.",
@@ -3402,7 +3438,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
     HISTORY_STRATEGIES.qwen = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.grok = HISTORY_STRATEGIES.openai;
     function formatHistory(historyMessages, provider) {
-        return historyMessages.map(HISTORY_STRATEGIES[provider]);
+        // Annotation passive : on signale au modèle les réponses notées 👎 (sans
+        // muter l'historique réel — on clone juste l'entrée pour l'appel API).
+        const annotated = historyMessages.map(m => {
+            if (m.role === 'assistant' && m.rating === 'down' && typeof m.content === 'string') {
+                return { ...m, content: m.content + `\n\n[${I18N[currentLang].dislikeNote}]` };
+            }
+            return m;
+        });
+        return annotated.map(HISTORY_STRATEGIES[provider]);
     }
 
     // Toggle send/stop/regen button visibility for processing state
@@ -5115,6 +5159,39 @@ A small follow-up tweak the user asks for can be done right away without a new p
         currentAbortController = null;
     }
 
+    // 👎 actif → « Améliorer » : on garde la réponse critiquée (le modèle voit ce
+    // qu'il a produit), on retire la suite, et on ajoute un tour de feedback pour
+    // qu'il propose mieux / pose une question. Génère en texte quel que soit le mode.
+    async function regenerateWithFeedback(aiMsgDiv, reason) {
+        if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
+        const aiIdx = messageIndex(aiMsgDiv);
+        if (aiIdx < 1 || !conversationHistory[aiIdx] || conversationHistory[aiIdx].role !== 'assistant') {
+            showToast(I18N[currentLang].editUnavailable, 'error'); return;
+        }
+        const provider = providerSelect.value;
+        const model = modelSelect.value;
+        const key = getActiveKey();
+        if (!key) { showToast(I18N[currentLang].toastNoKey, 'error'); return; }
+        const discarded = conversationHistory.length - aiIdx - 1;
+        if (discarded > 0 && !confirm(I18N[currentLang].editTruncateConfirm.replace('{n}', discarded))) return;
+
+        truncateHistoryAndDom(aiIdx + 1); // garde jusqu'à la réponse critiquée (incluse)
+        const fb = reason
+            ? I18N[currentLang].improveWithReason.replace('{r}', reason)
+            : I18N[currentLang].improveNoReason;
+        addMessage(fb, 'user');
+        conversationHistory.push({ role: 'user', content: fb });
+        saveHistory();
+
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        await handleTextGeneration(provider, model, key);
+        isProcessing = false;
+        setBusyUI(false, true);
+        currentAbortController = null;
+    }
+
     // Arrête la génération en cours (bouton 🛑 ET raccourci Échap).
     // Annule le flux normal et les 2 flux du mode comparaison.
     function stopGeneration() {
@@ -6379,9 +6456,26 @@ A small follow-up tweak the user asks for can be done right away without a new p
         downBtn.textContent = '👎';
         downBtn.title = I18N[currentLang].rateDown || 'Response needs improvement';
 
+        // Boîte « Améliorer » révélée quand la réponse est notée 👎.
+        const improveBox = document.createElement('div');
+        improveBox.className = 'improve-box';
+        const reasonInput = document.createElement('input');
+        reasonInput.type = 'text';
+        reasonInput.className = 'improve-input';
+        reasonInput.placeholder = I18N[currentLang].improvePlaceholder;
+        const improveBtn = document.createElement('button');
+        improveBtn.className = 'improve-btn';
+        improveBtn.textContent = I18N[currentLang].improveBtn;
+        const doImprove = () => regenerateWithFeedback(msgDiv, reasonInput.value.trim());
+        improveBtn.addEventListener('click', doImprove);
+        reasonInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doImprove(); } });
+        improveBox.appendChild(reasonInput);
+        improveBox.appendChild(improveBtn);
+
         const reflect = () => {
             upBtn.classList.toggle('active-up', entry.rating === 'up');
             downBtn.classList.toggle('active-down', entry.rating === 'down');
+            improveBox.classList.toggle('open', entry.rating === 'down');
         };
 
         upBtn.addEventListener('click', () => {
@@ -6423,6 +6517,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         actions.appendChild(swapSelect);
 
         msgDiv.appendChild(actions);
+        msgDiv.appendChild(improveBox);
     }
 
     // ===== COFFEE NUDGE =====
