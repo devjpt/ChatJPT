@@ -6037,6 +6037,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const typeNorm = cfg.type === 'barh' ? 'bar' : cfg.type;
         const icon = CHART_TYPE_ICONS[typeNorm] || '📊';
         const typeName = typeNorm.charAt(0).toUpperCase() + typeNorm.slice(1);
+        // Nom accessible pour le canvas (sinon muet pour les lecteurs d'écran).
+        const chartAria = escapeHtml(`${typeName} chart${cfg.title ? ' — ' + cfg.title : ''}`).replace(/"/g, '&quot;');
 
         const streamBadge = isStreaming
             ? `<span class="table-streaming-indicator">${I18N[currentLang].tableStreaming}</span>`
@@ -6053,7 +6055,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (cfg.title) {
             h += `<div class="chart-title">${escapeHtml(cfg.title)}</div>`;
         }
-        h += `<div class="chart-body"><canvas id="${id}-canvas" width="600" height="350"></canvas>`;
+        h += `<div class="chart-body"><canvas id="${id}-canvas" width="600" height="350" role="img" aria-label="${chartAria}"></canvas>`;
         h += `<div class="chart-tooltip" id="${id}-tooltip"></div>`;
         h += `</div>`;
         h += `<div class="chart-legend" id="${id}-legend"></div>`;
@@ -6085,8 +6087,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const W = 600, H = 350;
         canvas.width = W * dpr;
         canvas.height = H * dpr;
+        // #3 Responsive : le buffer reste 600×350 (les tracés sont en coordonnées
+        // fixes), mais l'affichage se réduit pour tenir dans la largeur du conteneur
+        // sur petit écran. aspect-ratio garantit le ratio même si le navigateur ne
+        // déduit pas l'intrinsèque du canvas.
         canvas.style.width = W + 'px';
-        canvas.style.height = H + 'px';
+        canvas.style.maxWidth = '100%';
+        canvas.style.height = 'auto';
+        canvas.style.aspectRatio = W + ' / ' + H;
         ctx.scale(dpr, dpr);
 
         const theme = getChartThemeColors(isLight);
