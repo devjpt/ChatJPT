@@ -366,19 +366,16 @@
         }
 
         /* ===== RECHERCHE DANS LA CONVERSATION ===== */
+        /* Barre dans le flux, juste sous l'en-tête (body est flex-column,
+           #chat-container est flex:1) → toujours visible, aucun souci de z-index. */
         .search-bar {
             display: none;
-            position: fixed;
-            top: 64px;
-            right: 18px;
-            z-index: 60;
             align-items: center;
+            justify-content: flex-end;
             gap: 6px;
-            padding: 6px 8px;
+            padding: 8px 20px;
             background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+            border-bottom: 1px solid var(--border);
         }
         .search-bar.open { display: flex; }
         .search-bar .search-icon { font-size: 0.85rem; opacity: 0.7; }
