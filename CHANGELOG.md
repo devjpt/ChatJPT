@@ -20,13 +20,18 @@
       for Gemini (Google Search grounding), Grok (xAI Agent Tools / Responses
       API), Claude (web_search tool) and OpenAI (web_search via Responses API).
       A hint warns it uses more tokens (+ search fees). Sources persist across
-      reloads. Not available for DeepSeek (no native search) or Qwen (DashScope
+      reloads. The toggle ("🌐 Web search + sources") is also available in
+      Compare mode (each compared model uses it only if its provider supports
+      it). Not available for DeepSeek (no native search) or Qwen (DashScope
       does not expose sources in OpenAI-compatible mode).
   Fixed
     - Compare mode: clearing the chat (or switching/creating a conversation)
       while a compare choice was still pending no longer blocks sending — the
       pending state is reset and any in-flight streams are aborted (previously
       required a page reload).
+    - Charts are now produced only when a visualization is explicitly requested:
+      a weak model could previously return a chart instead of a plain-text
+      answer (clearer guard added to the chart system prompt).
 
 [1.5.1] — 2026-06-07
   Added
@@ -201,13 +206,19 @@
       Agent Tools / API Responses), Claude (outil web_search) et OpenAI
       (web_search via l'API Responses). Une mention prévient que ça consomme
       plus de tokens (+ frais de recherche). Les sources persistent après
-      rechargement. Indisponible pour DeepSeek (pas de recherche native) et
-      Qwen (DashScope n'expose pas les sources en mode compatible OpenAI).
+      rechargement. Le toggle (« 🌐 Recherche web + sources ») est aussi
+      disponible en mode Comparaison (chaque modèle comparé l'utilise seulement
+      si son fournisseur le supporte). Indisponible pour DeepSeek (pas de
+      recherche native) et Qwen (DashScope n'expose pas les sources en mode
+      compatible OpenAI).
   Corrigé
     - Mode comparaison : effacer le chat (ou changer/créer une conversation)
       alors qu'un choix de comparaison était encore en attente ne bloque plus
       l'envoi — l'état en attente est réinitialisé et les flux en cours sont
       arrêtés (il fallait auparavant recharger la page).
+    - Les graphiques ne sont produits que lorsqu'une visualisation est
+      explicitement demandée : un petit modèle pouvait auparavant renvoyer un
+      graphique au lieu d'une réponse en texte (garde-fou ajouté au prompt).
 
 [1.5.1] — 2026-06-07
   Ajouté

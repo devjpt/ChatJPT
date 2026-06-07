@@ -2617,7 +2617,7 @@
         <div class="websearch-mode-container" id="websearch-mode-container">
             <label class="websearch-mode-label" id="websearch-mode-label" title="Le modèle cherche le web en temps réel et cite ses sources." data-i18n-title="webSearchTitle">
                 <input type="checkbox" id="websearch-mode-cb">
-                <span class="websearch-label-text" data-i18n="webSearchLabel">🌐 Recherche web</span>
+                <span class="websearch-label-text" data-i18n="webSearchLabel">🌐 Recherche web + sources</span>
             </label>
             <span class="websearch-hint" data-i18n="webSearchHint">consomme plus de tokens (+ frais de recherche)</span>
         </div>
@@ -2920,9 +2920,9 @@
             usageTitle: "Tokens consommés (↑ entrée / ↓ sortie), rapportés par l'API",
             tokenTotalLabel: "Total",
             tokenTotalTitle: "Total des tokens de cette conversation (↑ envoyés / ↓ reçus)",
-            webSearchLabel: "🌐 Recherche web",
+            webSearchLabel: "🌐 Recherche web + sources",
             webSearchHint: "consomme plus de tokens (+ frais de recherche)",
-            webSearchTitle: "Le modèle cherche le web en temps réel et cite ses sources.",
+            webSearchTitle: "Le modèle cherche le web en temps réel et affiche ses sources.",
             sourcesTitle: "Sources",
             thinkingLabel: "🧠 Réflexion étendue",
             thinkingBudget: "Profondeur",
@@ -3105,9 +3105,9 @@
             usageTitle: "Tokens used (↑ input / ↓ output), reported by the API",
             tokenTotalLabel: "Total",
             tokenTotalTitle: "Total tokens for this conversation (↑ sent / ↓ received)",
-            webSearchLabel: "🌐 Web search",
+            webSearchLabel: "🌐 Web search + sources",
             webSearchHint: "uses more tokens (+ search fees)",
-            webSearchTitle: "The model searches the web in real time and cites its sources.",
+            webSearchTitle: "The model searches the web in real time and shows its sources.",
             sourcesTitle: "Sources",
             thinkingLabel: "🧠 Extended Thinking",
             thinkingBudget: "Depth",
@@ -3250,7 +3250,8 @@
     const CHART_SYSTEM_INSTRUCTION = `
 
 CHART GENERATION CAPABILITY:
-You have a built-in chart rendering engine. When the user asks for a chart, graph, visualization, or diagram with data, you MUST generate it using a \`\`\`chart code block (NOT a regular code block). The chart will be rendered automatically as an interactive graphic.
+You have a built-in chart rendering engine. When the user EXPLICITLY asks for a chart, graph, plot, visualization, or diagram with data, you MUST generate it using a \`\`\`chart code block (NOT a regular code block). The chart will be rendered automatically as an interactive graphic.
+IMPORTANT: Only produce a \`\`\`chart block when the user explicitly requests a visualization. For any other question (recommendations, explanations, lists, comparisons in words, advice, etc.), answer normally in plain text and DO NOT output a chart block. When in doubt, answer in text.
 
 MANDATORY FORMAT — use this exact syntax inside a \`\`\`chart block:
 type: bar | line | pie | histogram | scatter | area | box | treemap | pictograph | heatmap
@@ -4116,8 +4117,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     function updateWebSearchUI() {
         if (!webSearchModeContainer) return;
-        const provider = providerSelect.value;
-        webSearchModeContainer.classList.toggle('show', supportsWebSearch(provider, currentMode));
+        let show;
+        if (compareMode && (currentMode === 'chat' || currentMode === 'code')) {
+            // En comparaison : afficher le toggle si AU MOINS un des 2 modèles le
+            // supporte (chaque flux l'applique ou non selon son fournisseur).
+            const a = parseCompareValue(compareModelA ? compareModelA.value : '');
+            const b = parseCompareValue(compareModelB ? compareModelB.value : '');
+            show = supportsWebSearch(a.provider, currentMode) || supportsWebSearch(b.provider, currentMode);
+        } else {
+            show = supportsWebSearch(providerSelect.value, currentMode);
+        }
+        webSearchModeContainer.classList.toggle('show', show);
     }
 
     function initWebSearch() {
@@ -4547,6 +4557,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Région Qwen : visible seulement en chat unique avec Qwen sélectionné.
         if (qwenRegionGroup) qwenRegionGroup.classList.toggle('dp-hidden', on || providerSelect.value !== 'qwen');
+
+        updateWebSearchUI();  // le toggle dépend de compareMode + des 2 modèles comparés
     }
 
     // Exemples cliquables proposés dans l'écran d'accueil en mode Vibe Coder (bilingue).
@@ -4750,11 +4762,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (compareModelA) {
             compareModelA.addEventListener('change', () => {
                 localStorage.setItem('ai_compare_a', compareModelA.value);
+                updateWebSearchUI();
             });
         }
         if (compareModelB) {
             compareModelB.addEventListener('change', () => {
                 localStorage.setItem('ai_compare_b', compareModelB.value);
+                updateWebSearchUI();
             });
         }
 
