@@ -3399,7 +3399,7 @@ RULES:
     // le toggle « 🌐 Recherche web ». DeepSeek absent (pas de recherche native).
     // Modes texte uniquement. Étendu au fil des fournisseurs ajoutés (Claude/Grok/…).
     const WEB_SEARCH_MODES = ['chat', 'code', 'vibecoder'];
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true };  // Gemini (grounding) + Grok (Agent Tools) + Claude (web_search tool)
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };  // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool)
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -5857,7 +5857,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
 
         try {
-            if (provider === 'openai' && RESPONSES_API_MODELS.includes(model)) {
+            const openaiWebSearch = provider === 'openai' && webSearchEnabled && WEB_SEARCH_SUPPORT.openai;
+            if (provider === 'openai' && (RESPONSES_API_MODELS.includes(model) || openaiWebSearch)) {
+                // L'outil web_search d'OpenAI passe par l'API Responses → on y route aussi
+                // les modèles chat normaux quand la recherche est activée.
                 await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'openai') {
                 await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
@@ -6069,6 +6072,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } else if (isConfigurableReasoning) {
             // Default to medium (minimum supported for gpt-5.4-pro)
             bodyParams.reasoning = { effort: 'medium' };
+        }
+
+        // Recherche web — outil web_search de l'API Responses (citations renvoyées en
+        // annotations url_citation, extraites par le parser 'openai-responses').
+        if (webSearchEnabled && WEB_SEARCH_SUPPORT.openai) {
+            bodyParams.tools = [{ type: 'web_search' }];
         }
 
         await postStream({
