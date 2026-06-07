@@ -8,6 +8,21 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.6.0] — 2026-06-07
+  Added
+    - Token counter: each response shows its exact token usage (↑ input /
+      ↓ output, as reported by the API), plus a per-conversation total in the
+      footer bar. Tokens only (no price estimate). Helps see what each turn
+      really costs.
+    - Web search + Sources (optional toggle 🌐, off by default): the model
+      searches the web in real time and the answer is followed by a collapsible
+      "Sources" list (whole row clickable, readable label or domain). Available
+      for Gemini (Google Search grounding), Grok (xAI Agent Tools / Responses
+      API), Claude (web_search tool) and OpenAI (web_search via Responses API).
+      A hint warns it uses more tokens (+ search fees). Sources persist across
+      reloads. Not available for DeepSeek (no native search) or Qwen (DashScope
+      does not expose sources in OpenAI-compatible mode).
+
 [1.5.1] — 2026-06-07
   Added
     - Edit an AI response (✎): replace its text in place; it is re-rendered
@@ -167,6 +182,22 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.6.0] — 2026-06-07
+  Ajouté
+    - Compteur de tokens : chaque réponse affiche sa consommation exacte
+      (↑ entrée / ↓ sortie, telle que rapportée par l'API), plus un total par
+      conversation dans la barre du bas. Tokens uniquement (pas d'estimation en
+      $). Permet de voir ce que coûte réellement chaque échange.
+    - Recherche web + Sources (toggle optionnel 🌐, désactivé par défaut) : le
+      modèle cherche le web en temps réel et la réponse est suivie d'une liste
+      « Sources » repliable (ligne entièrement cliquable, libellé lisible ou
+      domaine). Disponible pour Gemini (grounding Google Search), Grok (xAI
+      Agent Tools / API Responses), Claude (outil web_search) et OpenAI
+      (web_search via l'API Responses). Une mention prévient que ça consomme
+      plus de tokens (+ frais de recherche). Les sources persistent après
+      rechargement. Indisponible pour DeepSeek (pas de recherche native) et
+      Qwen (DashScope n'expose pas les sources en mode compatible OpenAI).
 
 [1.5.1] — 2026-06-07
   Ajouté

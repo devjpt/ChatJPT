@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.5.1
+  Version 1.6.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -76,6 +76,15 @@ FEATURES
     (with an optional reason) to get a better answer, plus a "report a bug"
     link. Export the full conversation, or only your 👍 responses.
 
+  - Web search + Sources (optional 🌐 toggle, off by default): the model
+    searches the web in real time and the answer is followed by a collapsible
+    "Sources" list (each row fully clickable). Available for Gemini, Grok,
+    Claude and OpenAI. A hint warns it uses more tokens (+ search fees).
+
+  - Token counter: each response shows its exact usage (↑ input / ↓ output)
+    and a per-conversation total in the footer bar — so you can see what each
+    turn really costs.
+
   - Image persistence: generated images are saved locally (IndexedDB) and
     survive page reloads and conversation switches. Use download (💾) for a
     permanent copy.
@@ -88,7 +97,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_5_1.html
+  1. Download the file ChatJPT_1_6_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -120,7 +129,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.5.1
+  Version 1.6.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -200,6 +209,16 @@ FONCTIONNALITÉS
     réponse, plus un lien « signaler un bug ». Exportez la conversation
     complète, ou seulement vos réponses 👍.
 
+  - Recherche web + Sources (toggle 🌐 optionnel, désactivé par défaut) : le
+    modèle cherche le web en temps réel et la réponse est suivie d'une liste
+    « Sources » repliable (ligne entièrement cliquable). Disponible pour Gemini,
+    Grok, Claude et OpenAI. Une mention prévient que ça consomme plus de tokens
+    (+ frais de recherche).
+
+  - Compteur de tokens : chaque réponse affiche sa consommation exacte
+    (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
+    pour voir ce que coûte réellement chaque échange.
+
   - Persistance des images : les images générées sont enregistrées localement
     (IndexedDB) et survivent aux rechargements et aux changements de
     conversation. Téléchargez (💾) pour une copie permanente.
@@ -212,7 +231,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_5_1.html
+  1. Téléchargez le fichier ChatJPT_1_6_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
