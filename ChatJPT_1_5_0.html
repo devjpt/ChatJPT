@@ -578,8 +578,14 @@
         .msg-edit-actions {
             display: flex;
             justify-content: flex-end;
+            align-items: center;
             gap: 8px;
             margin-top: 8px;
+        }
+        .msg-edit-hint {
+            margin-right: auto;
+            font-size: 0.72rem;
+            color: var(--text-muted);
         }
         .msg-edit-cancel, .msg-edit-save {
             border: 1px solid var(--border);
@@ -2675,6 +2681,8 @@
             convCloseDrawer: "Fermer le panneau",
             convClearConfirm: "Effacer tous les messages de cette conversation ?",
             editMessage: "Modifier ce message",
+            editResponse: "Modifier la réponse",
+            editHintCtrlEnter: "Ctrl+Entrée pour enregistrer",
             editSave: "✓ Enregistrer",
             editCancel: "Annuler",
             editEmpty: "Le message ne peut pas être vide.",
@@ -2850,6 +2858,8 @@
             convCloseDrawer: "Close panel",
             convClearConfirm: "Clear all messages in this conversation?",
             editMessage: "Edit this message",
+            editResponse: "Edit response",
+            editHintCtrlEnter: "Ctrl+Enter to save",
             editSave: "✓ Save",
             editCancel: "Cancel",
             editEmpty: "Message can't be empty.",
@@ -5084,12 +5094,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (isProcessing) { showToast(I18N[currentLang].convBusy, 'error'); return; }
         const idx = messageIndex(msgDiv);
         const entry = conversationHistory[idx];
-        if (!entry || entry.role !== 'user') { showToast(I18N[currentLang].editUnavailable, 'error'); return; }
+        const editable = entry && (entry.role === 'user' || (entry.role === 'assistant' && entry.type !== 'image'));
+        if (!editable) { showToast(I18N[currentLang].editUnavailable, 'error'); return; }
         if (msgDiv.querySelector('.msg-editor')) return; // déjà en édition
+        const isAssistant = entry.role === 'assistant';
 
         const contentDiv = msgDiv.querySelector('.msg-content');
         const editBtn = msgDiv.querySelector('.msg-edit-btn');
-        const original = entry.display || entry.content || '';
+        // Réponse IA → on édite le markdown brut (entry.content) ; message utilisateur → le texte affiché.
+        const original = isAssistant ? (entry.content || '') : (entry.display || entry.content || '');
 
         const editor = document.createElement('div');
         editor.className = 'msg-editor';
@@ -5098,12 +5111,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
         ta.value = original;
         const acts = document.createElement('div');
         acts.className = 'msg-edit-actions';
+        const hint = document.createElement('span');
+        hint.className = 'msg-edit-hint';
+        if (isAssistant) hint.textContent = I18N[currentLang].editHintCtrlEnter;
         const cancel = document.createElement('button');
         cancel.className = 'msg-edit-cancel';
         cancel.textContent = I18N[currentLang].editCancel;
         const save = document.createElement('button');
         save.className = 'msg-edit-save';
         save.textContent = I18N[currentLang].editSave;
+        acts.appendChild(hint);
         acts.appendChild(cancel);
         acts.appendChild(save);
         editor.appendChild(ta);
@@ -5114,6 +5131,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         msgDiv.appendChild(editor);
         ta.focus();
         ta.setSelectionRange(ta.value.length, ta.value.length);
+        // Auto-hauteur (utile pour les longues réponses IA), plafonnée.
+        ta.style.height = 'auto';
+        ta.style.height = Math.min(ta.scrollHeight + 4, 420) + 'px';
 
         const closeEditor = () => {
             editor.remove();
@@ -5123,22 +5143,47 @@ A small follow-up tweak the user asks for can be done right away without a new p
         cancel.addEventListener('click', closeEditor);
         save.addEventListener('click', () => commitEdit(msgDiv, ta.value.trim(), closeEditor));
         ta.addEventListener('keydown', e => {
-            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitEdit(msgDiv, ta.value.trim(), closeEditor); }
-            else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeEditor(); }
+            if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeEditor(); return; }
+            if (isAssistant) {
+                // Réponse multi-lignes : Entrée = nouvelle ligne ; Ctrl/Cmd+Entrée = enregistrer.
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); commitEdit(msgDiv, ta.value.trim(), closeEditor); }
+            } else {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitEdit(msgDiv, ta.value.trim(), closeEditor); }
+            }
         });
     }
 
     function commitEdit(msgDiv, newText, closeEditor) {
         if (!newText) { showToast(I18N[currentLang].editEmpty, 'error'); return; }
         const idx = messageIndex(msgDiv);
-        if (idx < 0 || !conversationHistory[idx] || conversationHistory[idx].role !== 'user') {
-            showToast(I18N[currentLang].editUnavailable, 'error'); return;
+        const entry = conversationHistory[idx];
+        if (!entry) { showToast(I18N[currentLang].editUnavailable, 'error'); return; }
+
+        // Réponse IA : on remplace le texte et on le re-rend. PAS de troncature ni
+        // de régénération ; le texte corrigé devient le contexte pour la suite.
+        if (entry.role === 'assistant') {
+            entry.content = newText;
+            if (typeof closeEditor === 'function') closeEditor();
+            const contentDiv = msgDiv.querySelector('.msg-content');
+            if (contentDiv) {
+                contentDiv.innerHTML = formatResponse(newText);
+                initTableOverflowDetection(contentDiv);
+                renderAllCharts(contentDiv);
+            }
+            const copyBtn = msgDiv.querySelector('.msg-copy-btn');
+            if (copyBtn) copyBtn.setAttribute('data-raw-content-b64', b64encode(newText));
+            saveHistory();
+            return;
         }
-        const discarded = conversationHistory.length - idx - 1; // tours après ce message
+
+        // Message utilisateur : tronquer la suite + renvoyer (l'ancienne réponse
+        // ne vaut plus pour le prompt corrigé).
+        if (entry.role !== 'user') { showToast(I18N[currentLang].editUnavailable, 'error'); return; }
+        const discarded = conversationHistory.length - idx - 1;
         if (discarded > 0 && !confirm(I18N[currentLang].editTruncateConfirm.replace('{n}', discarded))) return;
         if (typeof closeEditor === 'function') closeEditor();
-        truncateHistoryAndDom(idx);   // retire ce message + tout ce qui suit
-        userInput.value = newText;    // l'envoi normal ré-ajoute le message + génère
+        truncateHistoryAndDom(idx);
+        userInput.value = newText;
         handleSend();
     }
 
@@ -6521,6 +6566,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
         reflect();
         actions.appendChild(upBtn);
         actions.appendChild(downBtn);
+
+        // Éditer la réponse de l'IA (remplace le texte, sans régénérer).
+        const editAiBtn = document.createElement('button');
+        editAiBtn.className = 'rate-btn msg-edit-ai-btn';
+        editAiBtn.textContent = '✎';
+        editAiBtn.title = I18N[currentLang].editResponse;
+        editAiBtn.setAttribute('aria-label', I18N[currentLang].editResponse);
+        editAiBtn.addEventListener('click', () => startEditMessage(msgDiv));
+        actions.appendChild(editAiBtn);
 
         // Régénérer la réponse avec un AUTRE modèle (même prompt). Réutilise
         // populateAllModels (tous les modèles en optgroups) + parseCompareValue.
