@@ -3399,7 +3399,7 @@ RULES:
     // le toggle « 🌐 Recherche web ». DeepSeek absent (pas de recherche native).
     // Modes texte uniquement. Étendu au fil des fournisseurs ajoutés (Claude/Grok/…).
     const WEB_SEARCH_MODES = ['chat', 'code', 'vibecoder'];
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true };  // Gemini (grounding) + Grok (Live Search)
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true };  // Gemini (grounding) + Grok (Agent Tools) + Claude (web_search tool)
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -6130,6 +6130,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.max_tokens = budget + maxOut();
         } else {
             bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.claudeBig : TOKEN_LIMITS.claudeNormal;
+        }
+
+        // Recherche web — outil serveur web_search d'Anthropic (résultats + citations
+        // renvoyés dans des blocs de contenu, extraits par le parser 'claude').
+        if (webSearchEnabled && WEB_SEARCH_SUPPORT.claude) {
+            bodyParams.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
         }
 
         await postStream({
@@ -8971,6 +8977,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             // Track content block type (thinking vs text)
                             if (json.type === "content_block_start") {
                                 claudeCurrentBlockType = json.content_block?.type || null;
+                                // Sources : le bloc web_search_tool_result porte les résultats
+                                // de recherche (tableau d'objets {type, url, title, ...}).
+                                if (claudeCurrentBlockType === 'web_search_tool_result' && onMeta) {
+                                    const results = json.content_block?.content;
+                                    if (Array.isArray(results)) {
+                                        const cites = results.filter(r => r && r.url).map(r => ({ title: r.title || r.url, url: r.url }));
+                                        if (cites.length) onMeta({ citations: cites });
+                                    }
+                                }
                             }
                             if (json.type === "content_block_stop") {
                                 claudeCurrentBlockType = null;
@@ -8987,6 +9002,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 // Fallback for non-thinking streams
                                 else if (json.delta?.text && !onThinkingChunk) {
                                     onChunk(json.delta.text);
+                                }
+                                // Citation inline (web_search_result_location) émise au fil du texte.
+                                if (json.delta?.type === 'citations_delta' && json.delta?.citation && onMeta) {
+                                    const cit = json.delta.citation;
+                                    if (cit.url) onMeta({ citations: [{ title: cit.title || cit.url, url: cit.url }] });
                                 }
                             }
                             if (json.type === "message_delta") {
