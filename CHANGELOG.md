@@ -22,6 +22,11 @@
       A hint warns it uses more tokens (+ search fees). Sources persist across
       reloads. Not available for DeepSeek (no native search) or Qwen (DashScope
       does not expose sources in OpenAI-compatible mode).
+  Fixed
+    - Compare mode: clearing the chat (or switching/creating a conversation)
+      while a compare choice was still pending no longer blocks sending — the
+      pending state is reset and any in-flight streams are aborted (previously
+      required a page reload).
 
 [1.5.1] — 2026-06-07
   Added
@@ -198,6 +203,11 @@
       plus de tokens (+ frais de recherche). Les sources persistent après
       rechargement. Indisponible pour DeepSeek (pas de recherche native) et
       Qwen (DashScope n'expose pas les sources en mode compatible OpenAI).
+  Corrigé
+    - Mode comparaison : effacer le chat (ou changer/créer une conversation)
+      alors qu'un choix de comparaison était encore en attente ne bloque plus
+      l'envoi — l'état en attente est réinitialisé et les flux en cours sont
+      arrêtés (il fallait auparavant recharger la page).
 
 [1.5.1] — 2026-06-07
   Ajouté

@@ -5420,6 +5420,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
         currentCompareControllers.forEach(c => { try { c.abort(); } catch (e) { /* déjà fini */ } });
     }
 
+    // Annule proprement une comparaison non tranchée (chat effacé / conversation
+    // changée) : stoppe les flux, retire les contrôles restants, débloque l'envoi.
+    // Sans ça, pendingCompareChoice resterait true après un re-rendu et bloquerait
+    // l'envoi alors que les boutons « Garder/Aucune » ont disparu (→ reload requis).
+    function cancelPendingCompare() {
+        currentCompareControllers.forEach(c => { try { c.abort(); } catch (e) { /* déjà fini */ } });
+        currentCompareControllers = [];
+        pendingCompareChoice = false;
+        document.querySelectorAll('.compare-resolve').forEach(el => el.remove());
+    }
+
     // ===== ENVOI DE MESSAGE =====
     async function handleSend() {
         if (isProcessing) return;
@@ -8349,6 +8360,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Re-rendu des messages d'une conversation dans la zone de chat (extrait de
     // l'ancien loadHistory, réutilisé à l'init ET à la bascule).
     function renderConversationMessages(messages) {
+        // Tout re-rendu complet (effacer / changer / nouvelle / supprimer une
+        // conversation) annule une comparaison en attente, sinon l'envoi reste bloqué.
+        cancelPendingCompare();
         chatContainer.innerHTML = '';
         if (welcome) chatContainer.appendChild(welcome);
         if (!messages || messages.length === 0) {
