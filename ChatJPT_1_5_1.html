@@ -1719,19 +1719,29 @@
         }
         .sources-list li {
             display: flex;
+        }
+        .sources-list .source-link {
+            display: flex;
             gap: 6px;
             align-items: baseline;
+            flex-wrap: wrap;
+            color: var(--accent-light);
+            text-decoration: none;
+            width: 100%;
         }
         .sources-list .source-num {
             color: var(--text-dim);
             flex-shrink: 0;
         }
-        .sources-list a {
-            color: var(--accent-light);
-            text-decoration: none;
+        .sources-list .source-label {
             word-break: break-word;
         }
-        .sources-list a:hover { text-decoration: underline; }
+        .sources-list .source-link:hover .source-label { text-decoration: underline; }
+        .sources-list .source-domain {
+            color: var(--text-dim);
+            font-size: 0.72rem;
+            flex-shrink: 0;
+        }
 
         .thinking-mode-label {
             font-size: 0.75rem;
@@ -3389,7 +3399,7 @@ RULES:
     // le toggle « 🌐 Recherche web ». DeepSeek absent (pas de recherche native).
     // Modes texte uniquement. Étendu au fil des fournisseurs ajoutés (Claude/Grok/…).
     const WEB_SEARCH_MODES = ['chat', 'code', 'vibecoder'];
-    const WEB_SEARCH_SUPPORT = { gemini: true };  // tous les modèles chat Gemini supportent le grounding
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true };  // Gemini (grounding) + Grok (Live Search)
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -5851,6 +5861,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'openai') {
                 await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
+            } else if (provider === 'grok' && webSearchEnabled && WEB_SEARCH_SUPPORT.grok) {
+                // Grok + recherche web : passe par l'API Responses de xAI (Agent Tools).
+                // Le Grok-chat normal (sans recherche) reste sur Chat Completions ci-dessous.
+                await callGrokResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
                 await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'claude') {
@@ -6061,6 +6075,31 @@ A small follow-up tweak the user asks for can be done right away without a new p
             url: 'https://api.openai.com/v1/responses',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
             body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
+        });
+    }
+
+    // ===== Grok (xAI) + recherche web — API Responses / Agent Tools =====
+    // Live Search (search_parameters) est déprécié ; la recherche web passe par
+    // l'API Responses de xAI (compatible OpenAI) avec l'outil serveur web_search.
+    // Réutilise le formateur et le parser SSE 'openai-responses'. Les citations
+    // reviennent dans response.citations (extrait par le parser).
+    async function callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const input = formatHistory(conversationHistory, 'openai-responses');
+
+        const body = {
+            model,
+            instructions: systemPrompt,
+            input,
+            stream: true,
+            max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal,
+            tools: [{ type: 'web_search' }]
+        };
+
+        await postStream({
+            url: 'https://api.x.ai/v1/responses',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
         });
     }
 
@@ -6711,6 +6750,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Construit via les API DOM (textContent/href) plutôt qu'innerHTML : aucun HTML
     // injecté, donc pas de risque XSS depuis les URLs/titres venant du web. On
     // n'autorise que les schémas http(s) et on dédoublonne par URL.
+    // Domaine lisible depuis une URL (sans www.), repli sur l'URL brute.
+    function hostnameOf(url) {
+        try { return new URL(url).hostname.replace(/^www\./i, ''); }
+        catch (e) { return url; }
+    }
+
     function buildSourcesBlock(citations) {
         const seen = new Set();
         const valid = (citations || []).filter(c => {
@@ -6731,15 +6776,35 @@ A small follow-up tweak the user asks for can be done right away without a new p
         ul.className = 'sources-list';
         valid.forEach((c, i) => {
             const li = document.createElement('li');
-            const num = document.createElement('span');
-            num.className = 'source-num';
-            num.textContent = (i + 1) + '.';
+
+            const host = hostnameOf(c.url);
+            const title = (c.title && c.title.trim() && c.title.trim() !== c.url) ? c.title.trim() : '';
+
+            // Toute la ligne (numéro + libellé + domaine) est un seul lien cliquable.
             const a = document.createElement('a');
             a.href = c.url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
-            a.textContent = c.title || c.url;
-            li.appendChild(num);
+            a.className = 'source-link';
+
+            const num = document.createElement('span');
+            num.className = 'source-num';
+            num.textContent = (i + 1) + '.';
+            a.appendChild(num);
+
+            const label = document.createElement('span');
+            label.className = 'source-label';
+            label.textContent = title || host;  // titre si dispo, sinon le domaine
+            a.appendChild(label);
+
+            // Si on a un titre, on montre aussi le domaine en gris (où ça mène).
+            if (title) {
+                const dom = document.createElement('span');
+                dom.className = 'source-domain';
+                dom.textContent = host;
+                a.appendChild(dom);
+            }
+
             li.appendChild(a);
             ul.appendChild(li);
         });
@@ -8839,6 +8904,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 const text = json.delta;
                                 if (text && onThinkingChunk) onThinkingChunk(text);
                             }
+                            // Citation inline émise pendant le stream (recherche web xAI/OpenAI)
+                            else if (evt === 'response.output_text.annotation.added') {
+                                const a = json.annotation || json.delta;
+                                if (a && a.url && onMeta) onMeta({ citations: [{ title: a.title || a.url, url: a.url }] });
+                            }
                             // Stream completed
                             else if (evt === 'response.completed') {
                                 // Check for truncation (incomplete status)
@@ -8851,6 +8921,29 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 }
                                 const u = json.response?.usage;
                                 if (u && onMeta) onMeta({ usage: { input: u.input_tokens, output: u.output_tokens } });
+                                // Sources de la recherche web (xAI Agent Tools). On cherche
+                                // à plusieurs endroits plausibles : tableau top-level
+                                // response.citations, ou annotations url_citation dans les
+                                // blocs de contenu de response.output. Inoffensif pour OpenAI.
+                                if (onMeta) {
+                                    const acc = [];
+                                    const pushCite = (c) => {
+                                        if (!c) return;
+                                        if (typeof c === 'string') acc.push({ title: c, url: c });
+                                        else if (c.url) acc.push({ title: c.title || c.url, url: c.url });
+                                    };
+                                    const top = json.response?.citations || json.citations;
+                                    if (Array.isArray(top)) top.forEach(pushCite);
+                                    const out = json.response?.output;
+                                    if (Array.isArray(out)) {
+                                        out.forEach(item => (item.content || []).forEach(block => {
+                                            (block.annotations || []).forEach(a => {
+                                                if (a && (a.type === 'url_citation' || a.url)) pushCite({ title: a.title, url: a.url });
+                                            });
+                                        }));
+                                    }
+                                    if (acc.length) onMeta({ citations: acc });
+                                }
                                 streamDone = true;
                                 return;
                             }
