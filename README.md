@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.5.0
+  Version 1.5.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -46,8 +46,8 @@ FEATURES
   - In-conversation search: a 🔍 bar that highlights matches and lets you
     jump between them (case- and accent-insensitive).
 
-  - Edit a sent message (✎) and have the AI answer the corrected prompt; or
-    regenerate any AI response with a different model (🔀).
+  - Edit a sent message (✎) and have the AI answer the corrected prompt; edit an
+    AI response in place; or regenerate any AI response with a different model (🔀).
 
   - Keyboard: Esc stops the current generation.
 
@@ -120,7 +120,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.5.0
+  Version 1.5.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -168,8 +168,8 @@ FONCTIONNALITÉS
   - Recherche dans la conversation : une barre 🔍 qui surligne les
     correspondances et permet d'y naviguer (insensible à la casse/aux accents).
 
-  - Édition d'un message envoyé (✎) : l'IA répond au prompt corrigé ; ou
-    régénération d'une réponse avec un autre modèle (🔀).
+  - Édition d'un message envoyé (✎) : l'IA répond au prompt corrigé ; édition
+    d'une réponse de l'IA sur place ; ou régénération avec un autre modèle (🔀).
 
   - Clavier : Échap arrête la génération en cours.
 

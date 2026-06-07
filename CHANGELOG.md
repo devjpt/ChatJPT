@@ -8,6 +8,13 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.5.1] — 2026-06-07
+  Added
+    - Edit an AI response (✎): replace its text in place; it is re-rendered
+      (code, tables, charts) with no regeneration or truncation. The corrected
+      text becomes the context for the rest of the conversation. (Enter inserts a
+      newline; Ctrl/Cmd+Enter saves.)
+
 [1.5.0] — 2026-06-06
   Added
     - Image persistence (IndexedDB): generated images now survive page reloads
@@ -160,6 +167,13 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.5.1] — 2026-06-07
+  Ajouté
+    - Édition d'une réponse de l'IA (✎) : remplace son texte sur place ; elle est
+      re-rendue (code, tableaux, graphiques), sans régénération ni troncature. Le
+      texte corrigé devient le contexte pour la suite. (Entrée = nouvelle ligne ;
+      Ctrl/Cmd+Entrée = enregistrer.)
 
 [1.5.0] — 2026-06-06
   Ajouté
