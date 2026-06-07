@@ -3399,7 +3399,10 @@ RULES:
     // le toggle « 🌐 Recherche web ». DeepSeek absent (pas de recherche native).
     // Modes texte uniquement. Étendu au fil des fournisseurs ajoutés (Claude/Grok/…).
     const WEB_SEARCH_MODES = ['chat', 'code', 'vibecoder'];
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };  // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool)
+    // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool).
+    // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
+    // OpenAI (testé), et DeepSeek n'a pas de recherche native.
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
