@@ -1669,6 +1669,70 @@
             display: flex;
         }
 
+        .websearch-mode-container {
+            display: none;
+            margin-top: 8px;
+            padding-left: 4px;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .websearch-mode-container.show {
+            display: flex;
+        }
+        .websearch-mode-label {
+            font-size: 0.75rem;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .websearch-hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        /* Bloc Sources (citations de la recherche web) */
+        .sources-block {
+            margin-top: 12px;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            font-size: 0.8rem;
+        }
+        .sources-summary {
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            user-select: none;
+            list-style: none;
+        }
+        .sources-summary::-webkit-details-marker { display: none; }
+        .sources-list {
+            margin: 8px 0 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .sources-list li {
+            display: flex;
+            gap: 6px;
+            align-items: baseline;
+        }
+        .sources-list .source-num {
+            color: var(--text-dim);
+            flex-shrink: 0;
+        }
+        .sources-list a {
+            color: var(--accent-light);
+            text-decoration: none;
+            word-break: break-word;
+        }
+        .sources-list a:hover { text-decoration: underline; }
+
         .thinking-mode-label {
             font-size: 0.75rem;
             color: var(--accent-light);
@@ -2540,6 +2604,13 @@
             </select>
             <span class="thinking-native-badge dp-hidden" id="thinking-native-badge" data-i18n="thinkingNative">🧠 Réflexion intégrée</span>
         </div>
+        <div class="websearch-mode-container" id="websearch-mode-container">
+            <label class="websearch-mode-label" id="websearch-mode-label" title="Le modèle cherche le web en temps réel et cite ses sources." data-i18n-title="webSearchTitle">
+                <input type="checkbox" id="websearch-mode-cb">
+                <span class="websearch-label-text" data-i18n="webSearchLabel">🌐 Recherche web</span>
+            </label>
+            <span class="websearch-hint" data-i18n="webSearchHint">consomme plus de tokens (+ frais de recherche)</span>
+        </div>
         <div class="ai-disclaimer" data-i18n="aiDisclaimer">
             L'IA peut faire des erreurs. Pensez à vérifier les informations importantes.
         </div>
@@ -2582,6 +2653,8 @@
     const thinkingModeLabel = $('thinking-mode-label');
     const thinkingBudgetSelect = $('thinking-budget-select');
     const thinkingNativeBadge = $('thinking-native-badge');
+    const webSearchModeContainer = $('websearch-mode-container');
+    const webSearchModeCb = $('websearch-mode-cb');
     const fileInput = $('file-input');
     const providerSelect = $('provider-select');
     const modelSelect = $('model-select');
@@ -2670,6 +2743,7 @@
     let currentLang = localStorage.getItem('chatjpt_lang') || 'fr';
     let thinkingEnabled = localStorage.getItem('ai_thinking_enabled') === 'true';
     let thinkingBudget = parseInt(localStorage.getItem('ai_thinking_budget')) || 10000;
+    let webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
     let compareMode = localStorage.getItem('ai_compare_on') === 'true';
     let currentCompareControllers = [];  // 1 AbortController par colonne en mode comparaison
     let pendingCompareChoice = false;    // une comparaison attend que l'utilisateur tranche (garde/ignore)
@@ -2836,6 +2910,10 @@
             usageTitle: "Tokens consommés (↑ entrée / ↓ sortie), rapportés par l'API",
             tokenTotalLabel: "Total",
             tokenTotalTitle: "Total des tokens de cette conversation (↑ envoyés / ↓ reçus)",
+            webSearchLabel: "🌐 Recherche web",
+            webSearchHint: "consomme plus de tokens (+ frais de recherche)",
+            webSearchTitle: "Le modèle cherche le web en temps réel et cite ses sources.",
+            sourcesTitle: "Sources",
             thinkingLabel: "🧠 Réflexion étendue",
             thinkingBudget: "Profondeur",
             thinkingNative: "🧠 Réflexion intégrée",
@@ -3017,6 +3095,10 @@
             usageTitle: "Tokens used (↑ input / ↓ output), reported by the API",
             tokenTotalLabel: "Total",
             tokenTotalTitle: "Total tokens for this conversation (↑ sent / ↓ received)",
+            webSearchLabel: "🌐 Web search",
+            webSearchHint: "uses more tokens (+ search fees)",
+            webSearchTitle: "The model searches the web in real time and cites its sources.",
+            sourcesTitle: "Sources",
             thinkingLabel: "🧠 Extended Thinking",
             thinkingBudget: "Depth",
             thinkingNative: "🧠 Built-in Thinking",
@@ -3301,6 +3383,13 @@ RULES:
     const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.5-flash', 'gemini-3-flash-preview'];
 
     const THINKING_MODES = ['chat', 'code', 'vibecoder'];  // Modes où thinking est pertinent
+
+    // ===== RECHERCHE WEB (grounding + sources) =====
+    // Piloté par les tables comme image/vidéo : un fournisseur présent ici affiche
+    // le toggle « 🌐 Recherche web ». DeepSeek absent (pas de recherche native).
+    // Modes texte uniquement. Étendu au fil des fournisseurs ajoutés (Claude/Grok/…).
+    const WEB_SEARCH_MODES = ['chat', 'code', 'vibecoder'];
+    const WEB_SEARCH_SUPPORT = { gemini: true };  // tous les modèles chat Gemini supportent le grounding
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -4007,6 +4096,23 @@ A small follow-up tweak the user asks for can be done right away without a new p
         updateThinkingUI();
     }
 
+    // ===== RECHERCHE WEB — UI =====
+    function supportsWebSearch(provider, mode) {
+        return !!WEB_SEARCH_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
+    }
+
+    function updateWebSearchUI() {
+        if (!webSearchModeContainer) return;
+        const provider = providerSelect.value;
+        webSearchModeContainer.classList.toggle('show', supportsWebSearch(provider, currentMode));
+    }
+
+    function initWebSearch() {
+        webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
+        if (webSearchModeCb) webSearchModeCb.checked = webSearchEnabled;
+        updateWebSearchUI();
+    }
+
     // ===== TRADUCTION LOGIC =====
     function updateLanguageUI() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -4135,6 +4241,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         applyCompareUI();
         renderVibeChips();
         initThinking();
+        initWebSearch();
         setupEventListeners();
         autoResizeTextarea();
         initConversations();
@@ -4472,6 +4579,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             regenBtn.style.display = 'none';
             agentModeContainer.classList.remove('show');
             thinkingModeContainer.classList.remove('show');
+            webSearchModeContainer.classList.remove('show');
             videoConfigPanel.classList.remove('show');
             // Show image config panel for providers with multiple image models
             if (IMAGE_MODELS[provider]) {
@@ -4485,6 +4593,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             regenBtn.style.display = 'none';
             agentModeContainer.classList.remove('show');
             thinkingModeContainer.classList.remove('show');
+            webSearchModeContainer.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             if (VIDEO_MODELS[provider]) {
                 videoConfigPanel.classList.add('show');
@@ -4499,6 +4608,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             videoConfigPanel.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             updateThinkingUI();
+            updateWebSearchUI();
         } else if (mode === 'vibecoder') {
             userInput.placeholder = I18N[currentLang].placeholderVibeCoder;
             if (conversationHistory.length > 0) regenBtn.style.display = 'flex';
@@ -4506,6 +4616,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             videoConfigPanel.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             updateThinkingUI();
+            updateWebSearchUI();
         } else {
             userInput.placeholder = I18N[currentLang].placeholderChat;
             if (conversationHistory.length > 0) regenBtn.style.display = 'flex';
@@ -4513,6 +4624,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             videoConfigPanel.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             updateThinkingUI();
+            updateWebSearchUI();
         }
 
         applyCompareUI();
@@ -4600,12 +4712,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
             updateProviderUI();
             populateModels();
             updateThinkingUI();
+            updateWebSearchUI();
         });
 
         modelSelect.addEventListener('change', () => {
             localStorage.setItem('ai_model', modelSelect.value);
             updateThinkingUI();
         });
+
+        if (webSearchModeCb) {
+            webSearchModeCb.addEventListener('change', () => {
+                webSearchEnabled = webSearchModeCb.checked;
+                localStorage.setItem('ai_web_search', webSearchEnabled);
+            });
+        }
 
         if (compareCb) {
             compareCb.addEventListener('change', () => {
@@ -5435,6 +5555,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!result.error || result.fullResponse) {
             const entry = { role: 'assistant', content: result.fullResponse, provider, model };
             if (result.usage) entry.usage = result.usage;
+            if (result.citations) entry.citations = result.citations;
             conversationHistory.push(entry);
             saveHistory();
             attachRatingButtons(loadingDiv, entry);
@@ -5517,6 +5638,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         function keep(chosen, other) {
             const entry = { role: 'assistant', content: chosen.res.fullResponse, provider: chosen.meta.provider, model: chosen.meta.model };
             if (chosen.res.usage) entry.usage = chosen.res.usage;
+            if (chosen.res.citations) entry.citations = chosen.res.citations;
             conversationHistory.push(entry);
             saveHistory();
             updateTokenTotals();
@@ -5568,11 +5690,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
         let chunkCount = 0;
         let thinkingChunkCount = 0;
         let usage = null;
+        let citations = null;
 
-        // Remonte l'usage de tokens (rapporté par l'API, exact) ; on garde le dernier
-        // (Gemini est cumulatif, OpenAI/Claude n'émettent qu'une fois).
+        // Remonte l'usage de tokens (exact, rapporté par l'API) et les sources de la
+        // recherche web. Usage : on garde le dernier (Gemini cumulatif). Citations :
+        // on accumule en dédupliquant par URL (peuvent arriver sur plusieurs chunks).
         const onMeta = (meta) => {
-            if (meta && meta.usage) usage = meta.usage;
+            if (!meta) return;
+            if (meta.usage) usage = meta.usage;
+            if (meta.citations && meta.citations.length) {
+                if (!citations) citations = [];
+                const seen = new Set(citations.map(c => c.url));
+                for (const c of meta.citations) {
+                    if (c.url && !seen.has(c.url)) { citations.push(c); seen.add(c.url); }
+                }
+            }
         };
 
         // Determine if thinking is active for this request
@@ -5742,9 +5874,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 copyBtn.setAttribute('data-raw-content-b64', b64encode(fullResponse));
             }
 
+            renderSourcesInto(loadingDiv, citations);
             renderUsageLine(loadingDiv, usage);
 
-            return { fullResponse, error: null, usage };
+            return { fullResponse, error: null, usage, citations };
 
         } catch (error) {
             removeLoader(loadingDiv);
@@ -6004,10 +6137,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
             generationConfig.thinkingConfig = thinkingConfig;
         }
 
+        const body = { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig };
+
+        // Recherche web (grounding Google Search) — renvoie groundingMetadata + citations.
+        if (webSearchEnabled && WEB_SEARCH_SUPPORT.gemini) {
+            body.tools = [{ google_search: {} }];
+        }
+
         await postStream({
             url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
             headers: { 'Content-Type': 'application/json' },
-            body: { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig },
+            body,
             signal, onChunk, onThinkingChunk, parser: 'gemini', onMeta
         });
     }
@@ -6565,6 +6705,58 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         line.textContent = formatUsage(usage);
         line.title = I18N[currentLang].usageTitle || '';
+    }
+
+    // ===== SOURCES (citations de la recherche web) =====
+    // Construit via les API DOM (textContent/href) plutôt qu'innerHTML : aucun HTML
+    // injecté, donc pas de risque XSS depuis les URLs/titres venant du web. On
+    // n'autorise que les schémas http(s) et on dédoublonne par URL.
+    function buildSourcesBlock(citations) {
+        const seen = new Set();
+        const valid = (citations || []).filter(c => {
+            if (!c || !c.url || !/^https?:\/\//i.test(c.url) || seen.has(c.url)) return false;
+            seen.add(c.url); return true;
+        });
+        if (!valid.length) return null;
+
+        const details = document.createElement('details');
+        details.className = 'sources-block';
+        details.open = true;
+        const summary = document.createElement('summary');
+        summary.className = 'sources-summary';
+        summary.textContent = `🔗 ${I18N[currentLang].sourcesTitle || 'Sources'} (${valid.length})`;
+        details.appendChild(summary);
+
+        const ul = document.createElement('ul');
+        ul.className = 'sources-list';
+        valid.forEach((c, i) => {
+            const li = document.createElement('li');
+            const num = document.createElement('span');
+            num.className = 'source-num';
+            num.textContent = (i + 1) + '.';
+            const a = document.createElement('a');
+            a.href = c.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = c.title || c.url;
+            li.appendChild(num);
+            li.appendChild(a);
+            ul.appendChild(li);
+        });
+        details.appendChild(ul);
+        return details;
+    }
+
+    // Insère le bloc Sources sous la réponse (avant la ligne de tokens si présente).
+    function renderSourcesInto(msgDiv, citations) {
+        if (!msgDiv || !citations || !citations.length) return;
+        const contentDiv = msgDiv.querySelector('.msg-content') || msgDiv;
+        if (contentDiv.querySelector('.sources-block')) return;  // évite les doublons
+        const block = buildSourcesBlock(citations);
+        if (!block) return;
+        const usageLine = contentDiv.querySelector('.msg-usage');
+        if (usageLine) contentDiv.insertBefore(block, usageLine);
+        else contentDiv.appendChild(block);
     }
 
     function attachRatingButtons(msgDiv, entry) {
@@ -8100,6 +8292,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     initTableOverflowDetection(contentDiv);
                     renderAllCharts(contentDiv);
                 }
+                if (msg.citations) renderSourcesInto(div, msg.citations);
                 if (msg.usage) renderUsageLine(div, msg.usage);
                 attachRatingButtons(div, msg);
             }
@@ -8725,6 +8918,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             const json = JSON.parse(data);
                             // usageMetadata est cumulatif ; le dernier chunk porte le total.
                             if (json.usageMetadata && onMeta) onMeta({ usage: { input: json.usageMetadata.promptTokenCount || 0, output: json.usageMetadata.candidatesTokenCount || 0 } });
+                            // Sources (grounding) : groundingChunks[].web.{uri,title}
+                            const gm = json.candidates?.[0]?.groundingMetadata;
+                            if (gm && onMeta) {
+                                const cites = (gm.groundingChunks || [])
+                                    .map(c => c.web).filter(Boolean)
+                                    .map(w => ({ title: w.title || w.uri, url: w.uri }))
+                                    .filter(c => c.url);
+                                if (cites.length) onMeta({ citations: cites });
+                            }
                             const parts = json.candidates?.[0]?.content?.parts;
                             if (parts && Array.isArray(parts)) {
                                 for (const part of parts) {
