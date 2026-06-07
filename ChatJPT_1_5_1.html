@@ -857,6 +857,13 @@
             margin-top: 10px;
             align-items: center;
         }
+        .msg-usage {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            opacity: 0.8;
+            user-select: none;
+        }
         .rate-btn {
             background: transparent;
             border: 1px solid var(--border);
@@ -1926,6 +1933,14 @@
             cursor: pointer;
         }
 
+        .token-total {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            user-select: none;
+            white-space: nowrap;
+        }
+
         .support-link.bug-link {
             color: var(--text-muted);
             opacity: 0.7;
@@ -2493,6 +2508,8 @@
     <a class="support-link bug-link" href="mailto:bug@devjpt.com?subject=Bug%20Report%20-%20ChatJPT" target="_blank" title="Signaler un bug" data-i18n="creditBug">🐛 Signaler un bug</a>
     <span class="support-sep">·</span>
     <a class="support-link coffee-link" href="https://buymeacoffee.com/devjpt" target="_blank" title="Offrez-moi un café" data-i18n="creditCoffee">☕ Offrez-moi un café</a>
+    <span class="support-sep token-total-sep dp-hidden" id="token-total-sep">·</span>
+    <span class="token-total dp-hidden" id="token-total" title=""></span>
 </div>
 
 <!-- ===== INPUT AREA ===== -->
@@ -2815,6 +2832,10 @@
             ratio169: "16:9 (Paysage)",
             ratio916: "9:16 (Portrait)",
             aiDisclaimer: "Les IA peuvent faire des erreurs. Pensez à vérifier les informations importantes.",
+            usageTokens: "tokens",
+            usageTitle: "Tokens consommés (↑ entrée / ↓ sortie), rapportés par l'API",
+            tokenTotalLabel: "Total",
+            tokenTotalTitle: "Total des tokens de cette conversation (↑ envoyés / ↓ reçus)",
             thinkingLabel: "🧠 Réflexion étendue",
             thinkingBudget: "Profondeur",
             thinkingNative: "🧠 Réflexion intégrée",
@@ -2992,6 +3013,10 @@
             ratio169: "16:9 (Landscape)",
             ratio916: "9:16 (Portrait)",
             aiDisclaimer: "AI can make mistakes. Please verify important information.",
+            usageTokens: "tokens",
+            usageTitle: "Tokens used (↑ input / ↓ output), reported by the API",
+            tokenTotalLabel: "Total",
+            tokenTotalTitle: "Total tokens for this conversation (↑ sent / ↓ received)",
             thinkingLabel: "🧠 Extended Thinking",
             thinkingBudget: "Depth",
             thinkingNative: "🧠 Built-in Thinking",
@@ -4028,6 +4053,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 arOpts[1].textContent = I18N[currentLang].ratio916;
             }
         }
+        updateTokenTotals();
     }
 
     function toggleLanguage() {
@@ -5088,6 +5114,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         for (let i = keepCount; i < msgs.length; i++) msgs[i].remove();
         chatContainer.querySelectorAll('.coffee-nudge').forEach(n => n.remove());
         saveHistory();
+        updateTokenTotals();
     }
 
     function startEditMessage(msgDiv) {
@@ -5407,9 +5434,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // succès → toujours poussé ; erreur → poussé seulement s'il y a un contenu partiel.
         if (!result.error || result.fullResponse) {
             const entry = { role: 'assistant', content: result.fullResponse, provider, model };
+            if (result.usage) entry.usage = result.usage;
             conversationHistory.push(entry);
             saveHistory();
             attachRatingButtons(loadingDiv, entry);
+            updateTokenTotals();
         }
         return result;
     }
@@ -5487,8 +5516,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         function keep(chosen, other) {
             const entry = { role: 'assistant', content: chosen.res.fullResponse, provider: chosen.meta.provider, model: chosen.meta.model };
+            if (chosen.res.usage) entry.usage = chosen.res.usage;
             conversationHistory.push(entry);
             saveHistory();
+            updateTokenTotals();
             resolve();
             if (other && other.div) other.div.classList.add('compare-col-discarded');
 
@@ -5536,6 +5567,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         let fullThinking = "";
         let chunkCount = 0;
         let thinkingChunkCount = 0;
+        let usage = null;
+
+        // Remonte l'usage de tokens (rapporté par l'API, exact) ; on garde le dernier
+        // (Gemini est cumulatif, OpenAI/Claude n'émettent qu'une fois).
+        const onMeta = (meta) => {
+            if (meta && meta.usage) usage = meta.usage;
+        };
 
         // Determine if thinking is active for this request
         const thinkingSupport = getThinkingSupport(provider, model, currentMode);
@@ -5678,15 +5716,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         try {
             if (provider === 'openai' && RESPONSES_API_MODELS.includes(model)) {
-                await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
+                await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'openai') {
-                await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
+                await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
-                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
+                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'claude') {
-                await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
+                await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else {
-                await callGeminiStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal);
+                await callGeminiStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             }
 
             // Final render — cancel any pending RAF before to avoid race condition
@@ -5704,7 +5742,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 copyBtn.setAttribute('data-raw-content-b64', b64encode(fullResponse));
             }
 
-            return { fullResponse, error: null };
+            renderUsageLine(loadingDiv, usage);
+
+            return { fullResponse, error: null, usage };
 
         } catch (error) {
             removeLoader(loadingDiv);
@@ -5768,7 +5808,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Tronc commun des 5 fonctions de streaming : POST + gestion d'erreur robuste
     // (xAI renvoie l'erreur en STRING, les autres en objet { message }) + lecture
     // du flux SSE. Chaque fonction fournit url/headers/body + le type de parser.
-    async function postStream({ url, headers, body, signal, onChunk, onThinkingChunk, parser }) {
+    async function postStream({ url, headers, body, signal, onChunk, onThinkingChunk, parser, onMeta }) {
         const res = await fetchWithRetry(url, {
             method: 'POST',
             signal,
@@ -5780,10 +5820,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
             throw new Error(msg);
         }
-        await readStream(res, onChunk, parser, onThinkingChunk);
+        await readStream(res, onChunk, parser, onThinkingChunk, onMeta);
     }
 
-    async function callOpenAIStream(model, key, onChunk, onThinkingChunk, signal) {
+    async function callOpenAIStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const isNativeReasoning = THINKING_SUPPORT.openai.native.some(m => model.startsWith(m));
         const isConfigurableReasoning = THINKING_SUPPORT.openai.configurable.some(m => model === m);
@@ -5802,10 +5842,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 ...formattedHistory
               ];
 
-        const bodyParams = { 
-            model, 
-            messages, 
-            stream: true 
+        const bodyParams = {
+            model,
+            messages,
+            stream: true,
+            stream_options: { include_usage: true }
         };
 
         bodyParams.max_completion_tokens = maxOut();
@@ -5827,7 +5868,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         await postStream({
             url: 'https://api.openai.com/v1/chat/completions',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai'
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai', onMeta
         });
     }
 
@@ -5835,7 +5876,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Même protocole que callOpenAIStream (rôle 'system', SSE delta.content +
     // delta.reasoning_content déjà géré par readStream), MAIS sans reasoning_effort
     // (paramètre propre à OpenAI, rejeté par ces API). L'endpoint est paramétré.
-    async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk, signal) {
+    async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const messages = [
             { role: 'system', content: systemPrompt },
@@ -5845,13 +5886,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         await postStream({
             url: endpoint,
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-            body: { model, messages, stream: true, max_tokens: maxOut() },
-            signal, onChunk, onThinkingChunk, parser: 'openai'
+            body: { model, messages, stream: true, max_tokens: maxOut(), stream_options: { include_usage: true } },
+            signal, onChunk, onThinkingChunk, parser: 'openai', onMeta
         });
     }
 
     // ===== OpenAI Responses API (pour gpt-5.4-pro et futurs modèles Responses-only) =====
-    async function callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal) {
+    async function callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
 
         // Responses API uses 'input' array with roles: user, assistant, developer
@@ -5886,11 +5927,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         await postStream({
             url: 'https://api.openai.com/v1/responses',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai-responses'
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
         });
     }
 
-    async function callClaudeStream(model, key, onChunk, onThinkingChunk, signal) {
+    async function callClaudeStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         // P1-2: Use multimodal formatter for image support
         const messages = formatHistory(conversationHistory, 'claude');
@@ -5927,11 +5968,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 'anthropic-version': '2023-06-01',
                 'anthropic-dangerous-direct-browser-access': 'true'
             },
-            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'claude'
+            body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'claude', onMeta
         });
     }
 
-    async function callGeminiStream(model, key, onChunk, onThinkingChunk, signal) {
+    async function callGeminiStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
 
         // P1-2: Use multimodal formatter for image support
@@ -5967,7 +6008,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
             headers: { 'Content-Type': 'application/json' },
             body: { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig },
-            signal, onChunk, onThinkingChunk, parser: 'gemini'
+            signal, onChunk, onThinkingChunk, parser: 'gemini', onMeta
         });
     }
 
@@ -6500,6 +6541,32 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Attaches thumbs up/down controls to an AI message and binds them to its
     // history entry (entry.rating = 'up' | 'down' | undefined). The rating is
     // persisted via saveHistory() (it rides along in _serializeHistory).
+    // ===== COMPTEUR DE TOKENS =====
+    // Usage rapporté par l'API (exact, pas une estimation). Tokens uniquement —
+    // pas de conversion en $ (exigerait une table de prix à maintenir à chaque release).
+    function fmtTokens(n) {
+        return (n || 0).toLocaleString(currentLang === 'fr' ? 'fr-FR' : 'en-US');
+    }
+    function formatUsage(usage) {
+        if (!usage) return '';
+        const word = I18N[currentLang].usageTokens || 'tokens';
+        return `↑ ${fmtTokens(usage.input)} · ↓ ${fmtTokens(usage.output)} ${word}`;
+    }
+    // Affiche/rafraîchit la petite ligne de tokens sous une réponse.
+    function renderUsageLine(msgDiv, usage) {
+        if (!msgDiv || !usage) return;
+        if (!usage.input && !usage.output) return;
+        const contentDiv = msgDiv.querySelector('.msg-content') || msgDiv;
+        let line = contentDiv.querySelector('.msg-usage');
+        if (!line) {
+            line = document.createElement('div');
+            line.className = 'msg-usage';
+            contentDiv.appendChild(line);
+        }
+        line.textContent = formatUsage(usage);
+        line.title = I18N[currentLang].usageTitle || '';
+    }
+
     function attachRatingButtons(msgDiv, entry) {
         if (!msgDiv || !entry) return;
         const actions = document.createElement('div');
@@ -8012,6 +8079,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!messages || messages.length === 0) {
             if (welcome) welcome.style.display = '';
             regenBtn.style.display = 'none';
+            updateTokenTotals();
             return;
         }
         if (welcome) welcome.style.display = 'none';
@@ -8032,10 +8100,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     initTableOverflowDetection(contentDiv);
                     renderAllCharts(contentDiv);
                 }
+                if (msg.usage) renderUsageLine(div, msg.usage);
                 attachRatingButtons(div, msg);
             }
         }
         regenBtn.style.display = 'flex';
+        updateTokenTotals();
     }
 
     function loadConversation(id) {
@@ -8225,6 +8295,30 @@ A small follow-up tweak the user asks for can be done right away without a new p
             .replace('{n}', convIndex.length)
             .replace('{mb}', mb.toFixed(1));
         convStorageEl.classList.toggle('warn', used >= STORAGE_SOFT_CAP * 0.88);
+    }
+
+    // Total de tokens de la conversation courante (somme des usages par message).
+    // Ne compte que les tours qui ont un usage enregistré (image/vidéo exclus).
+    // Affiché dans le support-bar ; masqué tant qu'il n'y a rien à compter.
+    function updateTokenTotals() {
+        const sep = $('token-total-sep');
+        const el = $('token-total');
+        if (!el || !sep) return;
+        let inTok = 0, outTok = 0;
+        for (const m of conversationHistory) {
+            if (m && m.usage) { inTok += m.usage.input || 0; outTok += m.usage.output || 0; }
+        }
+        if (!inTok && !outTok) {
+            el.classList.add('dp-hidden');
+            sep.classList.add('dp-hidden');
+            return;
+        }
+        const label = I18N[currentLang].tokenTotalLabel || 'Total';
+        const word = I18N[currentLang].usageTokens || 'tokens';
+        el.textContent = `${label} : ↑ ${fmtTokens(inTok)} · ↓ ${fmtTokens(outTok)} ${word}`;
+        el.title = I18N[currentLang].tokenTotalTitle || '';
+        el.classList.remove('dp-hidden');
+        sep.classList.remove('dp-hidden');
     }
 
     function openConvDrawer() {
@@ -8485,13 +8579,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
     init();
 
     // ===== STREAMING UTILS =====
-    async function readStream(response, onChunk, provider, onThinkingChunk) {
+    async function readStream(response, onChunk, provider, onThinkingChunk, onMeta) {
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let buffer = "";
         let streamDone = false;
         // Track current content block type for Claude thinking
         let claudeCurrentBlockType = null;
+        // Claude renvoie input_tokens dans message_start et output_tokens dans message_delta.
+        let claudeInputTokens = 0;
         // Track current event type for OpenAI Responses API
         let responsesCurrentEvent = null;
 
@@ -8509,6 +8605,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                         if (data === "[DONE]") { streamDone = true; return; }
                         try {
                             const json = JSON.parse(data);
+                            // Usage (stream_options.include_usage) arrive dans un chunk final
+                            // SÉPARÉ, après le finish_reason. On ne termine donc qu'au [DONE]
+                            // pour ne pas rater ce chunk.
+                            if (json.usage && onMeta) onMeta({ usage: { input: json.usage.prompt_tokens, output: json.usage.completion_tokens } });
                             const delta = json.choices?.[0]?.delta;
                             // Parse reasoning_content for reasoning models (o3, o4-mini, gpt-5.x)
                             if (delta?.reasoning_content && onThinkingChunk) {
@@ -8517,12 +8617,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             const content = delta?.content;
                             if (content) onChunk(content);
                             const finishReason = json.choices?.[0]?.finish_reason;
-                            if (finishReason === 'stop' || finishReason === 'length') {
-                                if (finishReason === 'length') {
-                                    onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
-                                }
-                                streamDone = true;
-                                return;
+                            if (finishReason === 'length') {
+                                onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
                             }
                         } catch (e) { /* ignore */ }
                     }
@@ -8560,6 +8656,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                         onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
                                     }
                                 }
+                                const u = json.response?.usage;
+                                if (u && onMeta) onMeta({ usage: { input: u.input_tokens, output: u.output_tokens } });
                                 streamDone = true;
                                 return;
                             }
@@ -8580,6 +8678,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                         const data = line.slice(6).trim();
                         try {
                             const json = JSON.parse(data);
+                            // Usage : input_tokens au début, output_tokens (cumulé) dans message_delta.
+                            if (json.type === "message_start") {
+                                claudeInputTokens = json.message?.usage?.input_tokens || 0;
+                            }
                             // Track content block type (thinking vs text)
                             if (json.type === "content_block_start") {
                                 claudeCurrentBlockType = json.content_block?.type || null;
@@ -8605,6 +8707,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 if (json.delta?.stop_reason === 'max_tokens') {
                                     onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
                                 }
+                                if (onMeta) onMeta({ usage: { input: claudeInputTokens, output: json.usage?.output_tokens || 0 } });
                                 streamDone = true;
                                 return;
                             }
@@ -8620,6 +8723,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                         const data = line.slice(6).trim();
                         try {
                             const json = JSON.parse(data);
+                            // usageMetadata est cumulatif ; le dernier chunk porte le total.
+                            if (json.usageMetadata && onMeta) onMeta({ usage: { input: json.usageMetadata.promptTokenCount || 0, output: json.usageMetadata.candidatesTokenCount || 0 } });
                             const parts = json.candidates?.[0]?.content?.parts;
                             if (parts && Array.isArray(parts)) {
                                 for (const part of parts) {
