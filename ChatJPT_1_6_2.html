@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.6.1
+  Version 1.6.2
 -->
 
 
@@ -2866,7 +2866,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.1 - Dernière version : ",
+            creditVersion: "Version 1.6.2 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 7 juin 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3051,7 +3051,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.1 - Latest version: ",
+            creditVersion: "Version 1.6.2 - Latest version: ",
             appUpdated: "📅 Updated: June 7, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3236,7 +3236,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.6.1 - Última versión: ",
+            creditVersion: "Versión 1.6.2 - Última versión: ",
             appUpdated: "📅 Actualizado: 7 de junio de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -7309,6 +7309,24 @@ A small follow-up tweak the user asks for can be done right away without a new p
         scatter: '🔵', area: '📉', box: '📦', treemap: '🟩',
         pictograph: '🖼️', heatmap: '🌡️'
     };
+    // Noms de types de graphiques localisés (le nom complet inclut déjà le mot
+    // « Graphique / Chart / Gráfico » → pas de concaténation à faire).
+    const CHART_TYPE_NAMES = {
+        bar:        { fr: 'Graphique à barres',   en: 'Bar Chart',     es: 'Gráfico de barras' },
+        line:       { fr: 'Graphique linéaire',   en: 'Line Chart',    es: 'Gráfico de líneas' },
+        pie:        { fr: 'Graphique circulaire', en: 'Pie Chart',     es: 'Gráfico circular' },
+        histogram:  { fr: 'Histogramme',          en: 'Histogram',     es: 'Histograma' },
+        scatter:    { fr: 'Nuage de points',      en: 'Scatter Plot',  es: 'Gráfico de dispersión' },
+        area:       { fr: 'Graphique en aires',   en: 'Area Chart',    es: 'Gráfico de áreas' },
+        box:        { fr: 'Boîte à moustaches',   en: 'Box Plot',      es: 'Diagrama de caja' },
+        treemap:    { fr: 'Carte arborescente',   en: 'Treemap',       es: 'Mapa de árbol' },
+        pictograph: { fr: 'Pictogramme',          en: 'Pictograph',    es: 'Pictograma' },
+        heatmap:    { fr: 'Carte de chaleur',     en: 'Heatmap',       es: 'Mapa de calor' }
+    };
+    function chartTypeLabel(typeNorm) {
+        const t = CHART_TYPE_NAMES[typeNorm] || { fr: 'Graphique', en: 'Chart', es: 'Gráfico' };
+        return t[currentLang] || t.en;
+    }
     let chartIdCounter = 0;
 
     function isChartLang(lang) {
@@ -7444,9 +7462,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const cfg = parseChartConfig(code);
         const typeNorm = cfg.type === 'barh' ? 'bar' : cfg.type;
         const icon = CHART_TYPE_ICONS[typeNorm] || '📊';
-        const typeName = typeNorm.charAt(0).toUpperCase() + typeNorm.slice(1);
+        const typeLabel = chartTypeLabel(typeNorm);  // nom localisé (FR/EN/ES)
         // Nom accessible pour le canvas (sinon muet pour les lecteurs d'écran).
-        const chartAria = escapeHtml(`${typeName} chart${cfg.title ? ' — ' + cfg.title : ''}`).replace(/"/g, '&quot;');
+        const chartAria = escapeHtml(`${typeLabel}${cfg.title ? ' — ' + cfg.title : ''}`).replace(/"/g, '&quot;');
 
         const streamBadge = isStreaming
             ? `<span class="table-streaming-indicator">${I18N[currentLang].tableStreaming}</span>`
@@ -7457,7 +7475,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         let h = `<div class="chart-wrapper${isStreaming ? ' streaming' : ''}" id="${id}" data-chart-raw-b64="${rawEncoded}" data-chart-rendered="false">`;
         h += `<div class="chart-header-bar">`;
-        h += `<span class="chart-info"><i class="chart-type-icon">${icon}</i> ${typeName} Chart</span>`;
+        h += `<span class="chart-info"><i class="chart-type-icon">${icon}</i> ${escapeHtml(typeLabel)}</span>`;
         h += streamBadge;
         h += `</div>`;
         if (cfg.title) {

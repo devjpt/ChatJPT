@@ -8,6 +8,12 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.6.2] — 2026-06-07
+  Changed / Improved
+    - Chart type labels are now fully localized (FR/EN/ES): the visible badge and
+      the accessible name (aria-label) show the translated chart-type name
+      (e.g. "Bar Chart" / "Graphique à barres" / "Gráfico de barras").
+
 [1.6.1] — 2026-06-07
   Added
     - Spanish (Latin American) added as a third interface language. The language
@@ -200,6 +206,13 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.6.2] — 2026-06-07
+  Modifié / Amélioré
+    - Les libellés de types de graphiques sont désormais entièrement localisés
+      (FR/EN/ES) : le badge visible et le nom accessible (aria-label) affichent le
+      nom traduit du type (ex. « Graphique à barres » / « Bar Chart » / « Gráfico
+      de barras »).
 
 [1.6.1] — 2026-06-07
   Ajouté
@@ -402,6 +415,13 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.6.2] — 2026-06-07
+  Cambiado / Mejorado
+    - Las etiquetas de tipos de gráficos ahora están completamente localizadas
+      (FR/EN/ES): el badge visible y el nombre accesible (aria-label) muestran el
+      nombre traducido del tipo (p. ej. « Gráfico de barras » / « Bar Chart » /
+      « Graphique à barres »).
 
 [1.6.1] — 2026-06-07
   Añadido

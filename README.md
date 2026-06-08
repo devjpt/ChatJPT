@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.6.1
+  Version 1.6.2
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -97,7 +97,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_6_1.html
+  1. Download the file ChatJPT_1_6_2.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -129,7 +129,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.6.1
+  Version 1.6.2
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -231,7 +231,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_6_1.html
+  1. Téléchargez le fichier ChatJPT_1_6_2.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -265,7 +265,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.6.1
+  Versión 1.6.2
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -363,7 +363,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_6_1.html
+  1. Descarga el archivo ChatJPT_1_6_2.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
