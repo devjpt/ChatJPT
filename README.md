@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.6.2
+  Version 1.7.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -81,6 +81,13 @@ FEATURES
     "Sources" list (each row fully clickable). Available for Gemini, Grok,
     Claude and OpenAI. A hint warns it uses more tokens (+ search fees).
 
+  - Read pasted links (optional 🔗 toggle, off by default, separate from web
+    search): the model opens and reads the actual content of the URL(s) you paste,
+    instead of guessing from the address; the page is shown as a clickable source.
+    Fetching happens on the provider's server (no CORS). Available for Gemini
+    (url_context), Claude (web_fetch), OpenAI and Grok (web_search). Not available
+    for DeepSeek/Qwen.
+
   - Token counter: each response shows its exact usage (↑ input / ↓ output)
     and a per-conversation total in the footer bar — so you can see what each
     turn really costs.
@@ -97,7 +104,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_6_2.html
+  1. Download the file ChatJPT_1_7_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -129,7 +136,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.6.2
+  Version 1.7.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -215,6 +222,13 @@ FONCTIONNALITÉS
     Grok, Claude et OpenAI. Une mention prévient que ça consomme plus de tokens
     (+ frais de recherche).
 
+  - Lire les liens collés (toggle 🔗 optionnel, désactivé par défaut, distinct de
+    la recherche web) : le modèle ouvre et lit le contenu réel de la ou des URL que
+    vous collez, au lieu de deviner d'après l'adresse ; la page est affichée comme
+    source cliquable. La lecture se fait sur le serveur du fournisseur (aucun CORS).
+    Disponible pour Gemini (url_context), Claude (web_fetch), OpenAI et Grok
+    (web_search). Indisponible pour DeepSeek/Qwen.
+
   - Compteur de tokens : chaque réponse affiche sa consommation exacte
     (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
     pour voir ce que coûte réellement chaque échange.
@@ -231,7 +245,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_6_2.html
+  1. Téléchargez le fichier ChatJPT_1_7_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -265,7 +279,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.6.2
+  Versión 1.7.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -316,6 +330,13 @@ CARACTERÍSTICAS
     para Gemini, Grok, Claude y OpenAI. Un aviso advierte que consume más
     tokens (+ costos de búsqueda).
 
+  - Leer enlaces pegados (interruptor 🔗 opcional, desactivado por defecto,
+    distinto de la búsqueda web): el modelo abre y lee el contenido real de la(s)
+    URL que pegas, en lugar de adivinar a partir de la dirección; la página se
+    muestra como fuente clicable. La obtención se realiza en el servidor del
+    proveedor (sin CORS). Disponible para Gemini (url_context), Claude (web_fetch),
+    OpenAI y Grok (web_search). No disponible para DeepSeek/Qwen.
+
   - Contador de tokens: cada respuesta muestra su consumo exacto
     (↑ entrada / ↓ salida) y un total por conversación en la barra inferior —
     para ver lo que cuesta realmente cada intercambio.
@@ -363,7 +384,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_6_2.html
+  1. Descarga el archivo ChatJPT_1_7_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

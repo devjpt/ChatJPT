@@ -8,6 +8,24 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.7.0] — 2026-06-08
+  Added
+    - Read pasted links (optional toggle 🔗, off by default, separate from web
+      search): the model opens and reads the actual content of the URL(s) you
+      paste in your message, instead of guessing from the address. The fetched
+      page is shown as a clickable source. The fetching happens on the provider's
+      server (no CORS), so it works directly from the browser. A hint warns it
+      uses more tokens (it reads the whole page). Available for Gemini
+      (url_context tool), Claude (web_fetch tool), OpenAI and Grok (web_search
+      tool, which also opens a specific URL). Not available for DeepSeek/Qwen
+      (no link-reading tool). Also available in Compare mode.
+  Changed / Improved
+    - Link reading is reliable for OpenAI and Grok: those APIs have no dedicated
+      URL-reading primitive (only web_search, which "decides" whether to open a
+      page — previously intermittent). When reading a link (without a broad web
+      search), the search is now restricted to the pasted URL's domain(s) via
+      allowed_domains, forcing the model to open that exact page.
+
 [1.6.2] — 2026-06-07
   Changed / Improved
     - Chart type labels are now fully localized (FR/EN/ES): the visible badge and
@@ -206,6 +224,25 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.7.0] — 2026-06-08
+  Ajouté
+    - Lire les liens collés (case optionnelle 🔗, désactivée par défaut, distincte
+      de la recherche web) : le modèle ouvre et lit le contenu réel de la ou des
+      URL que vous collez dans votre message, au lieu de deviner d'après l'adresse.
+      La page lue est affichée comme source cliquable. La récupération se fait sur
+      le serveur du fournisseur (aucun CORS), donc ça fonctionne directement depuis
+      le navigateur. Un avertissement signale que ça consomme plus de tokens (il
+      lit toute la page). Disponible pour Gemini (outil url_context), Claude (outil
+      web_fetch), OpenAI et Grok (outil web_search, qui sait aussi ouvrir une URL
+      précise). Indisponible pour DeepSeek/Qwen (pas d'outil de lecture). Disponible
+      aussi en mode comparaison.
+  Modifié / Amélioré
+    - Lecture de lien fiable pour OpenAI et Grok : ces API n'ont pas de primitive
+      de lecture d'URL dédiée (seulement web_search, qui « décide » d'ouvrir une
+      page ou non — lecture auparavant intermittente). En lecture de lien (sans
+      recherche web large), la recherche est désormais restreinte au(x) domaine(s)
+      de l'URL collée via allowed_domains, forçant le modèle à ouvrir cette page.
 
 [1.6.2] — 2026-06-07
   Modifié / Amélioré
@@ -415,6 +452,25 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.7.0] — 2026-06-08
+  Añadido
+    - Leer enlaces pegados (casilla opcional 🔗, desactivada por defecto, distinta
+      de la búsqueda web): el modelo abre y lee el contenido real de la(s) URL que
+      pegas en tu mensaje, en lugar de adivinar a partir de la dirección. La página
+      leída se muestra como fuente en la que se puede hacer clic. La obtención se
+      realiza en el servidor del proveedor (sin CORS), por lo que funciona
+      directamente desde el navegador. Un aviso indica que consume más tokens (lee
+      toda la página). Disponible para Gemini (herramienta url_context), Claude
+      (herramienta web_fetch), OpenAI y Grok (herramienta web_search, que también
+      abre una URL específica). No disponible para DeepSeek/Qwen (sin herramienta
+      de lectura). También disponible en el modo comparación.
+  Cambiado / Mejorado
+    - Lectura de enlaces fiable para OpenAI y Grok: estas API no tienen una
+      primitiva dedicada de lectura de URL (solo web_search, que «decide» si abre
+      una página o no — antes intermitente). Al leer un enlace (sin búsqueda web
+      amplia), la búsqueda ahora se restringe al/los dominio(s) de la URL pegada
+      mediante allowed_domains, forzando al modelo a abrir esa página.
 
 [1.6.2] — 2026-06-07
   Cambiado / Mejorado

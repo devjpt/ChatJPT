@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.6.2
+  Version 1.7.0
 -->
 
 
@@ -2325,7 +2325,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 7 juin 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 8 juin 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2621,6 +2621,13 @@
             </label>
             <span class="websearch-hint" data-i18n="webSearchHint">consomme plus de tokens (+ frais de recherche)</span>
         </div>
+        <div class="websearch-mode-container" id="readlinks-mode-container">
+            <label class="websearch-mode-label" id="readlinks-mode-label" title="Le modèle ouvre et lit les liens (URL) que vous collez dans votre message." data-i18n-title="readLinksTitle">
+                <input type="checkbox" id="readlinks-mode-cb">
+                <span class="websearch-label-text" data-i18n="readLinksLabel">🔗 Lire les liens collés</span>
+            </label>
+            <span class="websearch-hint" data-i18n="readLinksHint">consomme plus de tokens (lit la page)</span>
+        </div>
         <div class="ai-disclaimer" data-i18n="aiDisclaimer">
             L'IA peut faire des erreurs. Pensez à vérifier les informations importantes.
         </div>
@@ -2665,6 +2672,8 @@
     const thinkingNativeBadge = $('thinking-native-badge');
     const webSearchModeContainer = $('websearch-mode-container');
     const webSearchModeCb = $('websearch-mode-cb');
+    const readLinksModeContainer = $('readlinks-mode-container');
+    const readLinksModeCb = $('readlinks-mode-cb');
     const fileInput = $('file-input');
     const providerSelect = $('provider-select');
     const modelSelect = $('model-select');
@@ -2758,6 +2767,7 @@
     let thinkingEnabled = localStorage.getItem('ai_thinking_enabled') === 'true';
     let thinkingBudget = parseInt(localStorage.getItem('ai_thinking_budget')) || 10000;
     let webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
+    let readLinksEnabled = localStorage.getItem('ai_read_links') === 'true';
     let compareMode = localStorage.getItem('ai_compare_on') === 'true';
     let currentCompareControllers = [];  // 1 AbortController par colonne en mode comparaison
     let pendingCompareChoice = false;    // une comparaison attend que l'utilisateur tranche (garde/ignore)
@@ -2866,8 +2876,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.2 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 7 juin 2026",
+            creditVersion: "Version 1.7.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 8 juin 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -2927,6 +2937,9 @@
             webSearchLabel: "🌐 Recherche web + sources",
             webSearchHint: "consomme plus de tokens (+ frais de recherche)",
             webSearchTitle: "Le modèle cherche le web en temps réel et affiche ses sources.",
+            readLinksLabel: "🔗 Lire les liens collés",
+            readLinksHint: "consomme plus de tokens (lit la page)",
+            readLinksTitle: "Le modèle ouvre et lit les liens (URL) que vous collez dans votre message.",
             sourcesTitle: "Sources",
             thinkingLabel: "🧠 Réflexion étendue",
             thinkingBudget: "Profondeur",
@@ -3051,8 +3064,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.2 - Latest version: ",
-            appUpdated: "📅 Updated: June 7, 2026",
+            creditVersion: "Version 1.7.0 - Latest version: ",
+            appUpdated: "📅 Updated: June 8, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3112,6 +3125,9 @@
             webSearchLabel: "🌐 Web search + sources",
             webSearchHint: "uses more tokens (+ search fees)",
             webSearchTitle: "The model searches the web in real time and shows its sources.",
+            readLinksLabel: "🔗 Read pasted links",
+            readLinksHint: "uses more tokens (reads the page)",
+            readLinksTitle: "The model opens and reads the links (URLs) you paste in your message.",
             sourcesTitle: "Sources",
             thinkingLabel: "🧠 Extended Thinking",
             thinkingBudget: "Depth",
@@ -3236,8 +3252,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.6.2 - Última versión: ",
-            appUpdated: "📅 Actualizado: 7 de junio de 2026",
+            creditVersion: "Versión 1.7.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 8 de junio de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3297,6 +3313,9 @@
             webSearchLabel: "🌐 Búsqueda web + fuentes",
             webSearchHint: "consume más tokens (+ costos de búsqueda)",
             webSearchTitle: "El modelo busca en la web en tiempo real y muestra sus fuentes.",
+            readLinksLabel: "🔗 Leer enlaces pegados",
+            readLinksHint: "consume más tokens (lee la página)",
+            readLinksTitle: "El modelo abre y lee los enlaces (URL) que pegas en tu mensaje.",
             sourcesTitle: "Fuentes",
             thinkingLabel: "🧠 Razonamiento extendido",
             thinkingBudget: "Profundidad",
@@ -3593,6 +3612,14 @@ RULES:
     // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
     // OpenAI (testé), et DeepSeek n'a pas de recherche native.
     const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
+
+    // ===== LECTURE DES LIENS COLLÉS (URL → contenu de la page) =====
+    // Toggle séparé de la recherche web : « lis cette page précise » ≠ « explore le web ».
+    // Outils côté serveur du fournisseur (zéro CORS) : Gemini url_context, Claude web_fetch,
+    // OpenAI/Grok via l'outil web_search (qui sait aussi ouvrir une URL — ces deux API n'ont
+    // pas de primitive de lecture distincte). Mêmes fournisseurs que la recherche web ;
+    // DeepSeek/Qwen absents (aucun outil de lecture). Modes texte uniquement.
+    const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
 
     const SYSTEM_PROMPTS = {
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
@@ -4304,24 +4331,47 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return !!WEB_SEARCH_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
     }
 
+    // Lecture des liens : mêmes modes texte que la recherche web.
+    function supportsReadLinks(provider, mode) {
+        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
+    }
+
     function updateWebSearchUI() {
-        if (!webSearchModeContainer) return;
+        if (webSearchModeContainer) {
+            let show;
+            if (compareMode && (currentMode === 'chat' || currentMode === 'code')) {
+                // En comparaison : afficher le toggle si AU MOINS un des 2 modèles le
+                // supporte (chaque flux l'applique ou non selon son fournisseur).
+                const a = parseCompareValue(compareModelA ? compareModelA.value : '');
+                const b = parseCompareValue(compareModelB ? compareModelB.value : '');
+                show = supportsWebSearch(a.provider, currentMode) || supportsWebSearch(b.provider, currentMode);
+            } else {
+                show = supportsWebSearch(providerSelect.value, currentMode);
+            }
+            webSearchModeContainer.classList.toggle('show', show);
+        }
+        // Le toggle « lire les liens » suit la même logique d'affichage.
+        updateReadLinksUI();
+    }
+
+    function updateReadLinksUI() {
+        if (!readLinksModeContainer) return;
         let show;
         if (compareMode && (currentMode === 'chat' || currentMode === 'code')) {
-            // En comparaison : afficher le toggle si AU MOINS un des 2 modèles le
-            // supporte (chaque flux l'applique ou non selon son fournisseur).
             const a = parseCompareValue(compareModelA ? compareModelA.value : '');
             const b = parseCompareValue(compareModelB ? compareModelB.value : '');
-            show = supportsWebSearch(a.provider, currentMode) || supportsWebSearch(b.provider, currentMode);
+            show = supportsReadLinks(a.provider, currentMode) || supportsReadLinks(b.provider, currentMode);
         } else {
-            show = supportsWebSearch(providerSelect.value, currentMode);
+            show = supportsReadLinks(providerSelect.value, currentMode);
         }
-        webSearchModeContainer.classList.toggle('show', show);
+        readLinksModeContainer.classList.toggle('show', show);
     }
 
     function initWebSearch() {
         webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
         if (webSearchModeCb) webSearchModeCb.checked = webSearchEnabled;
+        readLinksEnabled = localStorage.getItem('ai_read_links') === 'true';
+        if (readLinksModeCb) readLinksModeCb.checked = readLinksEnabled;
         updateWebSearchUI();
     }
 
@@ -4798,6 +4848,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             agentModeContainer.classList.remove('show');
             thinkingModeContainer.classList.remove('show');
             webSearchModeContainer.classList.remove('show');
+            readLinksModeContainer.classList.remove('show');
             videoConfigPanel.classList.remove('show');
             // Show image config panel for providers with multiple image models
             if (IMAGE_MODELS[provider]) {
@@ -4812,6 +4863,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             agentModeContainer.classList.remove('show');
             thinkingModeContainer.classList.remove('show');
             webSearchModeContainer.classList.remove('show');
+            readLinksModeContainer.classList.remove('show');
             imageConfigPanel.classList.remove('show');
             if (VIDEO_MODELS[provider]) {
                 videoConfigPanel.classList.add('show');
@@ -4942,6 +4994,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
             webSearchModeCb.addEventListener('change', () => {
                 webSearchEnabled = webSearchModeCb.checked;
                 localStorage.setItem('ai_web_search', webSearchEnabled);
+            });
+        }
+
+        if (readLinksModeCb) {
+            readLinksModeCb.addEventListener('change', () => {
+                readLinksEnabled = readLinksModeCb.checked;
+                localStorage.setItem('ai_read_links', readLinksEnabled);
             });
         }
 
@@ -6078,16 +6137,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
 
         try {
-            const openaiWebSearch = provider === 'openai' && webSearchEnabled && WEB_SEARCH_SUPPORT.openai;
-            if (provider === 'openai' && (RESPONSES_API_MODELS.includes(model) || openaiWebSearch)) {
+            // OpenAI/Grok n'ont pas de primitive de lecture d'URL distincte : l'outil
+            // web_search ouvre aussi les liens collés. Donc on l'active si recherche web
+            // OU lecture de liens est demandée (les deux passent par l'API Responses).
+            const openaiWebTool = provider === 'openai' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.openai) || (readLinksEnabled && READ_LINK_SUPPORT.openai));
+            if (provider === 'openai' && (RESPONSES_API_MODELS.includes(model) || openaiWebTool)) {
                 // L'outil web_search d'OpenAI passe par l'API Responses → on y route aussi
-                // les modèles chat normaux quand la recherche est activée.
+                // les modèles chat normaux quand la recherche/lecture est activée.
                 await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'openai') {
                 await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'grok' && webSearchEnabled && WEB_SEARCH_SUPPORT.grok) {
-                // Grok + recherche web : passe par l'API Responses de xAI (Agent Tools).
-                // Le Grok-chat normal (sans recherche) reste sur Chat Completions ci-dessous.
+            } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok))) {
+                // Grok + recherche web / lecture de liens : API Responses de xAI (Agent Tools).
+                // Le Grok-chat normal (sans outil) reste sur Chat Completions ci-dessous.
                 await callGrokResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
                 await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
@@ -6263,6 +6325,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== OpenAI Responses API (pour gpt-5.4-pro et futurs modèles Responses-only) =====
+    // Domaines des URL http(s) du dernier message utilisateur (max 5, dédupliqués, sans
+    // « www. »). OpenAI/Grok n'ont pas d'outil de lecture d'URL : leur web_search « décide »
+    // d'ouvrir une page ou non (→ lecture intermittente). En restreignant web_search au(x)
+    // domaine(s) du lien collé (filtre allowed_domains), on force le modèle à lire CETTE page.
+    function userLinkDomains() {
+        for (let i = conversationHistory.length - 1; i >= 0; i--) {
+            const e = conversationHistory[i];
+            if (!e || e.role !== 'user') continue;
+            const text = typeof e.content === 'string' ? e.content : '';
+            const matches = text.match(/https?:\/\/[^\s<>"')]+/gi) || [];
+            const hosts = [];
+            for (const u of matches) {
+                try {
+                    const h = new URL(u).hostname.replace(/^www\./i, '');
+                    if (h && !hosts.includes(h)) hosts.push(h);
+                } catch (_) { /* URL invalide ignorée */ }
+            }
+            return hosts.slice(0, 5);
+        }
+        return [];
+    }
+
     async function callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
 
@@ -6295,10 +6379,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.reasoning = { effort: 'medium' };
         }
 
-        // Recherche web — outil web_search de l'API Responses (citations renvoyées en
-        // annotations url_citation, extraites par le parser 'openai-responses').
-        if (webSearchEnabled && WEB_SEARCH_SUPPORT.openai) {
-            bodyParams.tools = [{ type: 'web_search' }];
+        // Recherche web ET lecture des liens collés passent par l'outil web_search de
+        // l'API Responses (qui sait aussi ouvrir une URL précise). Citations renvoyées en
+        // annotations url_citation, extraites par le parser 'openai-responses'.
+        if ((webSearchEnabled && WEB_SEARCH_SUPPORT.openai) || (readLinksEnabled && READ_LINK_SUPPORT.openai)) {
+            const tool = { type: 'web_search' };
+            // Lecture de lien seule (sans recherche web large) → restreindre au domaine collé
+            // pour forcer l'ouverture de la page plutôt qu'une recherche autour du sujet.
+            if (readLinksEnabled && !webSearchEnabled) {
+                const domains = userLinkDomains();
+                if (domains.length) tool.filters = { allowed_domains: domains };
+            }
+            bodyParams.tools = [tool];
         }
 
         await postStream({
@@ -6317,13 +6409,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const input = formatHistory(conversationHistory, 'openai-responses');
 
+        // web_search est la seule primitive web de xAI (pas d'outil de lecture d'URL).
+        // En lecture de lien seule, on restreint au domaine collé (allowed_domains) pour
+        // forcer Grok à ouvrir la page — sinon la lecture est intermittente.
+        const grokTool = { type: 'web_search' };
+        if (readLinksEnabled && !webSearchEnabled) {
+            const domains = userLinkDomains();
+            if (domains.length) grokTool.filters = { allowed_domains: domains };
+        }
+
         const body = {
             model,
             instructions: systemPrompt,
             input,
             stream: true,
             max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal,
-            tools: [{ type: 'web_search' }]
+            tools: [grokTool]
         };
 
         await postStream({
@@ -6362,20 +6463,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.claudeBig : TOKEN_LIMITS.claudeNormal;
         }
 
-        // Recherche web — outil serveur web_search d'Anthropic (résultats + citations
-        // renvoyés dans des blocs de contenu, extraits par le parser 'claude').
+        // Recherche web (outil serveur web_search) + lecture des liens collés (outil
+        // serveur web_fetch — distinct, en bêta → en-tête anthropic-beta requis).
+        // Citations renvoyées dans des blocs de contenu, extraites par le parser 'claude'.
+        const claudeHeaders = {
+            'Content-Type': 'application/json',
+            'x-api-key': key,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+        };
+        const claudeTools = [];
         if (webSearchEnabled && WEB_SEARCH_SUPPORT.claude) {
-            bodyParams.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+            claudeTools.push({ type: 'web_search_20250305', name: 'web_search' });
         }
+        if (readLinksEnabled && READ_LINK_SUPPORT.claude) {
+            claudeTools.push({ type: 'web_fetch_20250910', name: 'web_fetch', max_uses: 5 });
+            claudeHeaders['anthropic-beta'] = 'web-fetch-2025-09-10';
+        }
+        if (claudeTools.length) bodyParams.tools = claudeTools;
 
         await postStream({
             url: 'https://api.anthropic.com/v1/messages',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': key,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
+            headers: claudeHeaders,
             body: bodyParams, signal, onChunk, onThinkingChunk, parser: 'claude', onMeta
         });
     }
@@ -6414,10 +6523,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         const body = { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig };
 
-        // Recherche web (grounding Google Search) — renvoie groundingMetadata + citations.
-        if (webSearchEnabled && WEB_SEARCH_SUPPORT.gemini) {
-            body.tools = [{ google_search: {} }];
-        }
+        // Recherche web (grounding Google Search) + lecture des liens collés (url_context).
+        // url_context fait lire au serveur Google les URL présentes dans le prompt (zéro CORS) ;
+        // les deux outils sont cumulables. Sources : groundingMetadata (recherche) +
+        // urlContextMetadata (liens lus), extraites par le parser 'gemini'.
+        const geminiTools = [];
+        if (readLinksEnabled && READ_LINK_SUPPORT.gemini) geminiTools.push({ url_context: {} });
+        if (webSearchEnabled && WEB_SEARCH_SUPPORT.gemini) geminiTools.push({ google_search: {} });
+        if (geminiTools.length) body.tools = geminiTools;
 
         await postStream({
             url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`,
@@ -9237,6 +9350,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                         if (cites.length) onMeta({ citations: cites });
                                     }
                                 }
+                                // Lecture d'un lien : le bloc web_fetch_tool_result porte l'URL lue
+                                // (objet unique {type:'web_fetch_result', url, content, ...}).
+                                if (claudeCurrentBlockType === 'web_fetch_tool_result' && onMeta) {
+                                    const r = json.content_block?.content;
+                                    const url = r && (r.url || r.content?.url);
+                                    if (url) onMeta({ citations: [{ title: url, url }] });
+                                }
                             }
                             if (json.type === "content_block_stop") {
                                 claudeCurrentBlockType = null;
@@ -9290,6 +9410,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                     .map(w => ({ title: w.title || w.uri, url: w.uri }))
                                     .filter(c => c.url);
                                 if (cites.length) onMeta({ citations: cites });
+                            }
+                            // Liens lus (url_context) : urlContextMetadata.urlMetadata[] →
+                            // { retrievedUrl, urlRetrievalStatus }. On garde les URL récupérées.
+                            const ucm = json.candidates?.[0]?.urlContextMetadata;
+                            if (ucm && onMeta) {
+                                const ulist = (ucm.urlMetadata || [])
+                                    .filter(u => u && u.retrievedUrl)
+                                    .map(u => ({ title: u.retrievedUrl, url: u.retrievedUrl }));
+                                if (ulist.length) onMeta({ citations: ulist });
                             }
                             const parts = json.candidates?.[0]?.content?.parts;
                             if (parts && Array.isArray(parts)) {
