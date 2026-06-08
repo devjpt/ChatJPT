@@ -8,6 +8,14 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.6.1] — 2026-06-07
+  Added
+    - Spanish (Latin American) added as a third interface language. The language
+      button now cycles FR → EN → ES and shows the current language. All UI
+      strings, model labels and the Vibe Coder examples are translated; the
+      README, API keys guide, LICENSE and this changelog include a Spanish
+      section.
+
 [1.6.0] — 2026-06-07
   Added
     - Token counter: each response shows its exact token usage (↑ input /
@@ -192,6 +200,14 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.6.1] — 2026-06-07
+  Ajouté
+    - Espagnol (latino-américain) ajouté comme troisième langue d'interface. Le
+      bouton de langue cycle désormais FR → EN → ES et affiche la langue
+      actuelle. Toutes les chaînes de l'UI, les libellés de modèles et les
+      exemples Vibe Coder sont traduits ; le README, le guide des clés API, la
+      LICENSE et ce changelog comportent une section espagnole.
 
 [1.6.0] — 2026-06-07
   Ajouté
@@ -381,5 +397,206 @@
     - Thème clair / sombre et interface bilingue (FR/EN).
     - Sauvegarde locale des clés API et préférences (aucun serveur).
     - Téléchargement de fichiers (blocs de code, tableaux CSV).
+
+
+----------------------------------------------------------------
+  ESPAÑOL
+----------------------------------------------------------------
+
+[1.6.1] — 2026-06-07
+  Añadido
+    - Español (latinoamericano) agregado como tercer idioma de la interfaz. El
+      botón de idioma ahora alterna FR → EN → ES y muestra el idioma actual.
+      Todas las cadenas de la interfaz, las etiquetas de modelos y los ejemplos
+      de Vibe Coder están traducidos; el README, la guía de claves API, la
+      LICENSE y este changelog incluyen una sección en español.
+
+[1.6.0] — 2026-06-07
+  Añadido
+    - Contador de tokens: cada respuesta muestra su consumo exacto (↑ entrada /
+      ↓ salida, según lo reportado por la API), más un total por conversación en
+      la barra inferior. Solo tokens (sin estimación de precio). Ayuda a ver lo
+      que cuesta realmente cada intercambio.
+    - Búsqueda web + Fuentes (interruptor opcional 🌐, desactivado por defecto):
+      el modelo busca en la web en tiempo real y la respuesta va seguida de una
+      lista "Fuentes" plegable (línea completamente clicable, etiqueta legible o
+      dominio). Disponible para Gemini (grounding de Google Search), Grok (xAI
+      Agent Tools / API Responses), Claude (herramienta web_search) y OpenAI
+      (web_search vía API Responses). Un aviso advierte que consume más tokens
+      (+ costos de búsqueda). Las fuentes persisten tras recargar. El interruptor
+      ("🌐 Búsqueda web + fuentes") también está disponible en el modo
+      Comparación (cada modelo comparado lo usa solo si su proveedor lo soporta).
+      No disponible para DeepSeek (sin búsqueda nativa) ni Qwen (DashScope no
+      expone las fuentes en modo compatible con OpenAI).
+  Corregido
+    - Modo comparación: borrar el chat (o cambiar/crear una conversación)
+      mientras una elección de comparación seguía pendiente ya no bloquea el
+      envío — el estado pendiente se reinicia y los flujos en curso se cancelan
+      (antes había que recargar la página).
+    - Los gráficos solo se producen cuando se solicita explícitamente una
+      visualización: antes, un modelo débil podía devolver un gráfico en lugar
+      de una respuesta en texto (se añadió una salvaguarda al prompt).
+
+[1.5.1] — 2026-06-07
+  Añadido
+    - Editar una respuesta de la IA (✎): reemplaza su texto en el lugar; se
+      vuelve a renderizar (código, tablas, gráficos), sin regeneración ni
+      truncamiento. El texto corregido se vuelve el contexto para el resto de la
+      conversación. (Enter = nueva línea; Ctrl/Cmd+Enter = guardar.)
+
+[1.5.0] — 2026-06-06
+  Añadido
+    - Persistencia de imágenes (IndexedDB): las imágenes generadas ahora
+      sobreviven a las recargas y a los cambios de conversación. Los turnos del
+      modo imagen se registran en la conversación (visibles en la lista, la
+      búsqueda y la exportación). Almacenadas localmente fuera de la cuota de
+      localStorage; la descarga (💾) sigue siendo la copia duradera.
+    - El pulgar 👎 ahora actúa sobre la IA: una nota pasiva le indica al modelo
+      que la respuesta no satisfizo (se corrige en el siguiente turno), y una
+      caja "↻ Mejorar" (con un motivo opcional) regenera una mejor respuesta.
+    - El pulgar 👍 le indica al modelo que mantenga ese enfoque.
+    - Enlace "reportar un error" en la caja del 👎, con una confirmación para
+      distinguir un error de la app de una respuesta simplemente insatisfactoria.
+
+[1.4.1] — 2026-06-06
+  Añadido
+    - Botón "volver abajo": aparece cuando subes a releer durante el streaming;
+      un clic regresa al último mensaje.
+    - Renombrar una conversación: doble clic en su título en el panel (Enter
+      para confirmar, Esc para cancelar, vacío restaura el título automático).
+  Cambiado / Mejorado
+    - Refactorización interna: las cinco funciones de streaming comparten un
+      núcleo común postStream(), y los límites de tokens de salida están
+      centralizados (TOKEN_LIMITS). Sin cambio de comportamiento.
+
+[1.4.0] — 2026-06-06
+  Añadido
+    - Conversaciones múltiples: un panel lateral (☰) para crear, cambiar,
+      eliminar y exportar todo. Almacenamiento clave-por-conversación con
+      migración automática de la conversación única anterior. Las más antiguas
+      nunca se borran en silencio: la generación se bloquea con un mensaje claro
+      (eliminar/exportar) antes de llegar al límite del navegador.
+    - Búsqueda en la conversación (🔍): resalta las coincidencias con navegación
+      anterior/siguiente; sin distinción de mayúsculas ni acentos.
+    - Editar un mensaje enviado (✎): la conversación se trunca desde ese punto y
+      la IA responde al prompt corregido.
+    - Regenerar una respuesta con otro modelo (🔀): mismo prompt, modelo
+      diferente, para comparar rápidamente.
+    - Atajo de teclado: Esc detiene la generación en curso.
+  Cambiado / Mejorado
+    - Streaming: autodesplazamiento "adherente" — subir a releer ya no pelea con
+      el desplazamiento; el resaltado de sintaxis se difiere al render final
+      (streaming mucho más fluido en bloques de código grandes).
+    - Los gráficos se reducen para caber en pantallas pequeñas (sin
+      desbordamiento); cada lienzo tiene un nombre accesible (role=img +
+      aria-label).
+
+[1.3.0] — 2026-06-05
+  Añadido
+    - Proveedor Grok (xAI) — ubicado entre Gemini y DeepSeek (modelos
+      estadounidenses agrupados):
+        - Chat: grok-4.3 (insignia), grok-4.20 (razonamiento / sin
+          razonamiento), grok-build-0.1. Streaming compatible con OpenAI.
+        - Imagen: grok-imagine-image-quality (síncrono), con selectores de
+          formato y resolución.
+        - Video: grok-imagine-video (Grok Imagine) — 10 s, 720p, audio nativo
+          (submit + polling, como Sora/Veo). 3.er proveedor de video tras
+          Sora/Veo.
+    - Botón "Borrar las claves" en el panel de claves: elimina todas las claves
+      API almacenadas del navegador con un clic (con confirmación) — útil en una
+      computadora compartida.
+  Corregido
+    - Los errores de xAI (devueltos como cadena, no como objeto) ahora muestran
+      su mensaje real en lugar de un genérico "HTTP Error 400" — los rechazos de
+      moderación de contenido ahora son claros (Grok chat, imagen, video).
+  Cambiado
+    - Se eliminó un script de compilación de terceros (MyNinja) cargado pero sin
+      usar: ya no hay JS de terceros ni telemetría en la página donde se
+      ingresan las claves API.
+    - Archivo fuente renombrado de ChatJPT_1_2_0.html a ChatJPT_1_3_0.html.
+    - Número de versión actualizado a 1.3.0 (encabezado y pie de página, FR/EN).
+
+[1.2.0] — 2026-06-04
+  Añadido
+    - Proveedor DeepSeek (DeepSeek V3 chat, DeepSeek R1 razonamiento),
+      streaming compatible con OpenAI.
+    - Proveedor Qwen (Alibaba DashScope): chat (qwen-max/plus/turbo, qwen3-max,
+      qwen3-coder-plus) y generación de imágenes, con una región DashScope a
+      elegir (Internacional / China continental).
+    - Panel de claves API plegable con indicadores de estado por proveedor
+      (clave guardada / faltante), mostrando ahora el nombre de cada proveedor
+      junto a su punto de color.
+    - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado
+      (cualquier proveedor, agrupados por proveedor), con ambas respuestas
+      transmitidas en paralelo. Conserva la que prefieras con un clic — o
+      descarta ambas; solo la respuesta conservada entra en el historial.
+      Disponible en los modos Chat y Código.
+    - Modo Vibe Coder: un modo para principiantes (no programadores). Un mentor
+      paciente que detecta tu idioma, hace una pregunta de aclaración a la vez,
+      presenta un plan de acción en lenguaje simple y ESPERA tu aprobación antes
+      de construir, luego te guía paso a paso — señalando los botones de
+      vista previa/descarga de la app, proponiendo próximos pasos concretos y
+      anticipando errores comunes.
+    - Vista previa HTML en vivo: cualquier página HTML completa muestra un botón
+      👁 que la renderiza al instante en un iframe aislado (solo allow-scripts,
+      sin acceso same-origin — el código previsualizado no puede leer tus claves
+      API almacenadas), con una opción "abrir en una pestaña". Disponible en
+      todos los modos.
+  Corregido
+    - Las salidas grandes (páginas HTML completas en un solo archivo) ya no se
+      truncan en Gemini ni en los proveedores compatibles con OpenAI (DeepSeek,
+      Qwen): su presupuesto de tokens de salida se eleva para los modos con
+      mucho código.
+  Cambiado
+    - Archivo fuente renombrado de ChatJPT_1_1_1.html a ChatJPT_1_2_0.html.
+    - Número de versión actualizado a 1.2.0 (encabezado y pie de página, FR/EN).
+
+[1.1.1] — 2026-06-01
+  Añadido
+    - Claude Opus 4.8 (claude-opus-4-8) — ahora el modelo Claude por defecto y
+      más capaz.
+    - Selector de calidad de imagen para OpenAI (Baja/Media/Alta/Auto). La
+      calidad estaba fijada en "Alta" (lo más lento); ahora es "Media" por
+      defecto para una generación más rápida y es ajustable por el usuario.
+    - Selector de tamaño de imagen para OpenAI (Cuadrado/Horizontal/Vertical/
+      Auto), reemplazando el 1024×1024 fijo. Calidad y tamaño se guardan y se
+      muestran solo para OpenAI.
+    - Selectores de formato (relación) y resolución (1K/2K/4K) para las imágenes
+      de Gemini, aplicados a Nano Banana e Imagen 4. Guardados y mostrados solo
+      para Gemini. (Gemini no tiene una perilla de "calidad" Baja/Media/Alta; la
+      resolución es su equivalente.)
+    - Calificación pulgar arriba/abajo por respuesta de la IA, guardada con la
+      conversación y restaurada al recargar.
+    - Un banner "invítame un café" descartable, mostrado a lo sumo una vez por
+      sesión y solo después de un 👍 (nunca después de un 👎).
+    - Exportación de solo las respuestas calificadas con 👍 (cada una precedida
+      de su pregunta), además de la exportación completa de la conversación.
+  Corregido
+    - Generación de video OpenAI (Sora): el menú Duración ahora ofrece los
+      valores que la API de Sora realmente acepta (8/12/16/20 s) en lugar de los
+      valores de Gemini Veo (8/6/4 s), que eran rechazados.
+    - El polling de video ya no se queda bloqueado 20 minutos en silencio ante
+      un error de la API; el error real se muestra tras algunos intentos
+      fallidos.
+    - Sora 2 Pro recibe un tiempo de espera más largo (~40 min), ya que los
+      renders Pro son mucho más lentos que el modelo rápido; el mensaje de
+      progreso ya no promete un irreal "1-3 min".
+    - Los errores de video ahora también muestran el mensaje exacto del
+      proveedor (y lo registran en la consola), para que los rechazos de
+      moderación o de parámetros sean claros en lugar de quedar ocultos.
+  Cambiado
+    - Claude Opus 4.7 ya no está marcado como "Último" (pasó a legacy).
+    - Archivo fuente renombrado de ChatJPT_1_1.html a ChatJPT_1_1_1.html.
+    - Número de versión actualizado a 1.1.1 (encabezado y pie de página, FR/EN).
+
+[1.1] — 2026
+  Añadido
+    - Primera versión pública.
+    - Soporte multiproveedor: OpenAI, Anthropic (Claude), Google (Gemini).
+    - Modos Chat, Código, Imagen y Video.
+    - Modo Agente y Modo Razonamiento.
+    - Tema claro / oscuro e interfaz bilingüe (FR/EN).
+    - Almacenamiento local de claves API y preferencias (sin servidor).
+    - Descarga de archivos (bloques de código, tablas CSV).
 
 ================================================================

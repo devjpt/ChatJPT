@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.6.0
+  Version 1.6.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -97,7 +97,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_6_0.html
+  1. Download the file ChatJPT_1_6_1.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -129,7 +129,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.6.0
+  Version 1.6.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -231,7 +231,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_6_0.html
+  1. Téléchargez le fichier ChatJPT_1_6_1.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -259,5 +259,137 @@ SUPPORT & CONTACT
 -----------------
   Site web  : https://www.devjpt.com/
   Signaler un bug : via le bouton "🐛 Bug" dans l'application
+
+================================================================
+
+
+================================================================
+  ChatJPT — Agente de IA Multimodelo
+  Versión 1.6.1
+  Por Jean-Philippe Theriault — https://www.devjpt.com/
+================================================================
+
+
+DESCRIPCIÓN
+-----------
+ChatJPT es una interfaz de chat de IA todo en uno, contenida en
+un solo archivo HTML. Te permite conversar con los principales
+modelos de inteligencia artificial directamente desde tu
+navegador, sin necesidad de instalación.
+
+
+CARACTERÍSTICAS
+---------------
+  - Soporte multiproveedor:
+      • OpenAI     (GPT-5.x, GPT-4.1, serie o, etc.)
+      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Google     (Gemini 3.x, Gemini 2.5, etc.)
+      • Grok       (xAI — chat, imagen y video; Grok Imagine)
+      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 razonamiento)
+      • Qwen       (Alibaba — chat e imagen; región DashScope a elegir)
+
+  - Modos de conversación:
+      • Chat       : conversación general
+      • Vibe Coder : modo para principiantes (no programadores) — hace una
+                     pregunta a la vez, propone un plan y espera tu aprobación
+                     antes de construir, luego te guía paso a paso. Las páginas
+                     web generadas se pueden previsualizar en vivo en el chat.
+      • Código     : asistencia al desarrollo, resaltado de sintaxis,
+                     descarga de bloques de código
+      • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
+                     tamaño ajustables), Google Gemini (formato y resolución
+                     ajustables), Qwen y Grok
+      • Video      : generación de videos (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
+
+  - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
+    conserva la respuesta que prefieras (con un clic). Disponible en los modos
+    Chat y Código.
+
+  - Conversaciones múltiples: un panel lateral (☰) para crear, cambiar,
+    renombrar (doble clic en el título), eliminar y exportar todo. Se guardan
+    localmente; las más antiguas nunca se borran en silencio — se te pide
+    liberar espacio si el almacenamiento se llena.
+
+  - Búsqueda web + Fuentes (interruptor 🌐 opcional, desactivado por defecto):
+    el modelo busca en la web en tiempo real y la respuesta va seguida de una
+    lista "Fuentes" plegable (cada línea es completamente clicable). Disponible
+    para Gemini, Grok, Claude y OpenAI. Un aviso advierte que consume más
+    tokens (+ costos de búsqueda).
+
+  - Contador de tokens: cada respuesta muestra su consumo exacto
+    (↑ entrada / ↓ salida) y un total por conversación en la barra inferior —
+    para ver lo que cuesta realmente cada intercambio.
+
+  - Búsqueda en la conversación: una barra 🔍 que resalta las coincidencias y
+    permite navegar entre ellas (sin distinción de mayúsculas ni acentos).
+
+  - Edita un mensaje enviado (✎) y haz que la IA responda al prompt corregido;
+    edita una respuesta de la IA en su lugar; o regenera cualquier respuesta con
+    otro modelo (🔀).
+
+  - Teclado: Esc detiene la generación en curso.
+
+  - Persistencia de imágenes: las imágenes generadas se guardan localmente
+    (IndexedDB) y sobreviven a las recargas de página y a los cambios de
+    conversación. Usa descargar (💾) para una copia permanente.
+
+  - Vista previa HTML en vivo: las páginas HTML completas muestran un botón 👁
+    que las renderiza al instante en un entorno aislado y seguro (en todos los
+    modos); un botón 💾 guarda el archivo.
+
+  - Panel de claves API plegable, con el estado de cada proveedor (clave
+    guardada / faltante) visible de un vistazo, más un botón para borrar todas
+    las claves almacenadas con un clic (útil en una computadora compartida).
+
+  - Modo Agente: obliga a la IA a responder paso a paso en inglés, optimizado
+    para herramientas de codificación automatizadas (Claude Code, Cursor, etc.)
+
+  - Modo Razonamiento: activa el razonamiento extendido (Claude, Gemini)
+
+  - Tema claro / oscuro
+
+  - Interfaz trilingüe: francés, inglés y español
+
+  - Califica las respuestas de la IA (👍 / 👎): la calificación también se envía
+    al modelo como señal. Un 👎 revela una caja "↻ Mejorar" (con un motivo
+    opcional) para obtener una mejor respuesta, más un enlace para reportar un
+    error. Exporta la conversación completa, o solo tus respuestas 👍.
+
+  - Tus claves API y preferencias se guardan localmente en tu navegador
+    (sin servidor, sin datos transmitidos al autor)
+
+
+INSTALACIÓN
+-----------
+  No requiere instalación.
+
+  1. Descarga el archivo ChatJPT_1_6_1.html
+  2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
+  3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
+  4. Elige tu proveedor y modelo
+  5. Empieza a chatear
+
+  Para obtener tus claves API, consulta: API_KEYS_GUIDE.txt
+
+
+REQUISITOS
+----------
+  - Un navegador web moderno (Chrome 90+, Firefox 88+, Edge 90+, Safari 15+)
+  - Una clave API válida para al menos uno de los proveedores soportados
+  - Una conexión a Internet
+
+
+LICENCIA
+--------
+  Este software se distribuye bajo la licencia CC BY-ND 4.0.
+  Uso y distribución gratuitos permitidos.
+  Modificación y redistribución de versiones modificadas prohibidas.
+  Consulta el archivo LICENSE para los detalles completos.
+
+
+SOPORTE Y CONTACTO
+------------------
+  Sitio web : https://www.devjpt.com/
+  Reportar un error : con el botón "🐛 Bug" dentro de la aplicación
 
 ================================================================

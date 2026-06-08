@@ -105,7 +105,7 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_6_0.html in your browser.
+  1. Open ChatJPT_1_6_1.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -236,7 +236,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_6_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_6_1.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -256,5 +256,137 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   - Ne les incluez pas dans du code que vous publiez sur GitHub.
   - Si une clé est compromise, révoquez-la immédiatement depuis
     le tableau de bord du service concerné.
+
+================================================================
+
+
+================================================================
+  GUÍA — OBTENER TUS CLAVES API
+  ChatJPT por Jean-Philippe Theriault — https://www.devjpt.com/
+================================================================
+
+Las claves API permiten que ChatJPT se comunique con los servicios
+de inteligencia artificial. Cada clave es personal y gratuita de
+crear (facturación según el uso, dependiendo de tu plan).
+
+
+----------------------------------------------------------------
+  1. ANTHROPIC (Claude)
+     La clave se ve así: sk-ant-api03-...
+----------------------------------------------------------------
+
+  1. Ve a: https://console.anthropic.com/
+  2. Crea una cuenta o inicia sesión.
+  3. En el menú de la izquierda, haz clic en "API Keys".
+  4. Haz clic en "Create Key" y dale un nombre.
+  5. Copia la clave de inmediato — no se mostrará de nuevo.
+
+  Nota: Anthropic ofrece créditos gratis para empezar.
+
+
+----------------------------------------------------------------
+  2. OPENAI (ChatGPT / DALL-E)
+     La clave se ve así: sk-proj-...
+----------------------------------------------------------------
+
+  1. Ve a: https://platform.openai.com/
+  2. Crea una cuenta o inicia sesión.
+  3. Haz clic en tu perfil (arriba a la derecha) > "API Keys".
+  4. Haz clic en "Create new secret key" y dale un nombre.
+  5. Copia la clave de inmediato — no se mostrará de nuevo.
+
+  Nota: OpenAI requiere un depósito mínimo de crédito para usar la API.
+        Las cuentas nuevas a veces reciben créditos gratis.
+
+
+----------------------------------------------------------------
+  3. GOOGLE (Gemini)
+     La clave se ve así: AIzaSy...
+----------------------------------------------------------------
+
+  1. Ve a: https://aistudio.google.com/
+  2. Inicia sesión con tu cuenta de Google.
+  3. Haz clic en "Get API Key" arriba a la izquierda.
+  4. Haz clic en "Create API key in new project" (o un proyecto existente).
+  5. Copia la clave mostrada.
+
+  Nota: Google ofrece un nivel gratuito generoso para Gemini vía AI Studio.
+
+
+----------------------------------------------------------------
+  4. DEEPSEEK
+     La clave se ve así: sk-...
+----------------------------------------------------------------
+
+  1. Ve a: https://platform.deepseek.com/
+  2. Crea una cuenta o inicia sesión (correo, GitHub o Google).
+  3. En la barra lateral del panel, haz clic en "API Keys".
+  4. Haz clic en "Create API Key" y dale un nombre.
+  5. Copia la clave de inmediato — no se mostrará de nuevo.
+
+  Nota: DeepSeek funciona con pago por uso y requiere agregar un
+        pequeño crédito (precios muy bajos).
+
+
+----------------------------------------------------------------
+  5. QWEN (Alibaba Cloud)
+     La clave se ve así: sk-...
+----------------------------------------------------------------
+
+  1. Ve a Alibaba Cloud Model Studio, sección "How to get an API Key":
+       https://www.alibabacloud.com/help/en/model-studio/get-api-key
+  2. Crea una cuenta de Alibaba Cloud o inicia sesión.
+  3. Abre Model Studio (DashScope), luego "API Keys".
+  4. Haz clic en "Create API Key" y cópiala.
+
+  Nota: Las claves Qwen son ESPECÍFICAS DE UNA REGIÓN. Las regiones
+        Internacional (Singapur) y China continental (Pekín) NO son
+        intercambiables — una clave solo funciona con su propia región.
+        En ChatJPT, elige la región correspondiente en el menú "Región"
+        junto al selector de modelo (por defecto: Internacional).
+        Las cuentas nuevas de Alibaba Cloud suelen tener una cuota
+        gratuita para empezar.
+
+
+----------------------------------------------------------------
+  6. XAI (Grok)
+     La clave se ve así: xai-...
+----------------------------------------------------------------
+
+  1. Ve a: https://console.x.ai/
+  2. Crea una cuenta o inicia sesión.
+  3. Abre "API Keys" y haz clic en "Create API Key".
+  4. Copia la clave de inmediato.
+
+  Nota: xAI funciona con pago por uso y puede requerir agregar crédito;
+        las cuentas nuevas a veces reciben créditos gratis. Grok también
+        genera imágenes y videos (Grok Imagine); la API de imagen aplica
+        moderación de contenido (el contenido explícito es rechazado por xAI).
+
+
+----------------------------------------------------------------
+  CÓMO INGRESAR TUS CLAVES EN CHATJPT
+----------------------------------------------------------------
+
+  1. Abre ChatJPT_1_6_1.html en tu navegador.
+  2. En el panel izquierdo, ubica los campos:
+       🟢 OpenAI   → pega tu clave sk-proj-...
+       🟠 Claude   → pega tu clave sk-ant-...
+       🔵 Gemini   → pega tu clave AIzaSy...
+       ⚫ Grok     → pega tu clave xai-...
+       🔷 DeepSeek → pega tu clave sk-...
+       🟣 Qwen     → pega tu clave sk-...
+  3. Las claves se guardan localmente en tu navegador.
+     Nunca se envían a ningún lugar más que al servicio correspondiente.
+
+
+----------------------------------------------------------------
+  SEGURIDAD
+----------------------------------------------------------------
+
+  - Nunca compartas tus claves API públicamente.
+  - No las incluyas en código que publiques en GitHub.
+  - Si una clave se ve comprometida, revócala de inmediato desde
+    el panel del servicio correspondiente.
 
 ================================================================

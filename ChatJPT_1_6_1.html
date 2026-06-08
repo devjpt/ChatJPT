@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.6.0
+  Version 1.6.1
 -->
 
 
@@ -2423,7 +2423,7 @@
         </div>
         <div class="header-actions">
             <button class="icon-btn" id="conv-toggle-btn" title="Conversations" data-i18n-title="titleConversations" aria-label="Conversations">☰</button>
-            <button class="lang-toggle" id="lang-toggle" title="Basculer la langue / Toggle Language" aria-label="Basculer la langue">EN</button>
+            <button class="lang-toggle" id="lang-toggle" title="Changer la langue / Change language / Cambiar idioma" aria-label="Changer la langue">FR</button>
             <button class="theme-toggle" id="theme-toggle" title="Basculer mode clair/sombre" data-i18n-title="titleTheme" aria-label="Basculer mode clair/sombre">
                 <span class="theme-icon" id="theme-icon">🌙</span>
             </button>
@@ -2751,6 +2751,10 @@
     let isProcessing = false;
     let currentAbortController = null;
     let currentLang = localStorage.getItem('chatjpt_lang') || 'fr';
+    // Langues disponibles, dans l'ordre de bascule du bouton (FR → EN → ES → FR).
+    const LANG_CYCLE = ['fr', 'en', 'es'];
+    const LANG_CODE = { fr: 'FR', en: 'EN', es: 'ES' };
+    if (!LANG_CYCLE.includes(currentLang)) currentLang = 'fr';
     let thinkingEnabled = localStorage.getItem('ai_thinking_enabled') === 'true';
     let thinkingBudget = parseInt(localStorage.getItem('ai_thinking_budget')) || 10000;
     let webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
@@ -2862,7 +2866,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.0 - Dernière version : ",
+            creditVersion: "Version 1.6.1 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 7 juin 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3047,7 +3051,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.6.0 - Latest version: ",
+            creditVersion: "Version 1.6.1 - Latest version: ",
             appUpdated: "📅 Updated: June 7, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3129,16 +3133,201 @@
             codeCopy: "📋 Copy",
             codeCopied: "✓ Copied!",
             generationAborted: "🛑 Generation stopped by user."
+        },
+        es: {
+            lblApiKeys: "Claves API",
+            keysHint: "🔒 Las claves se guardan por separado en cada navegador.",
+            titleSearch: "Buscar en la conversación",
+            searchPlaceholder: "Buscar…",
+            searchPrev: "Resultado anterior",
+            searchNext: "Resultado siguiente",
+            searchClose: "Cerrar la búsqueda",
+            searchNoResults: "Sin resultados",
+            titleConversations: "Conversaciones",
+            lblConversations: "💬 Conversaciones",
+            convNew: "➕ Nueva conversación",
+            convExportAll: "⬇ Exportar todo",
+            convUntitled: "Nueva conversación",
+            convDelete: "Eliminar",
+            convDeleteConfirm: "¿Eliminar esta conversación?",
+            convBusy: "⏳ Espera a que termine la generación.",
+            convStorageFull: "🛑 Almacenamiento lleno — elimina o exporta una conversación para continuar.",
+            convStorageInfo: "{n} conv · ~{mb} MB",
+            convCloseDrawer: "Cerrar el panel",
+            convClearConfirm: "¿Borrar todos los mensajes de esta conversación?",
+            editMessage: "Editar este mensaje",
+            editResponse: "Editar la respuesta",
+            editHintCtrlEnter: "Ctrl+Enter para guardar",
+            editSave: "✓ Guardar",
+            editCancel: "Cancelar",
+            editEmpty: "El mensaje no puede estar vacío.",
+            editUnavailable: "Acción no disponible aquí.",
+            editTruncateConfirm: "Esto eliminará los {n} mensaje(s) siguiente(s). ¿Continuar?",
+            regenOtherModel: "🔀 Regenerar con otro modelo…",
+            scrollToBottom: "Volver abajo",
+            convRenameHint: "Doble clic para renombrar",
+            imageUnavailable: "Imagen no disponible (eliminada o almacenamiento del navegador vaciado)",
+            improveBtn: "↻ Mejorar",
+            improvePlaceholder: "¿Qué estuvo mal? (opcional)",
+            improveWithReason: "Tu respuesta anterior no me convenció: {r}. ¿Puedes dar una mejor?",
+            improveNoReason: "Tu respuesta anterior no me convenció. ¿Puedes dar una mejor, o hacerme una pregunta para entender mejor lo que necesito?",
+            dislikeNote: "El usuario no quedó satisfecho con esta respuesta.",
+            likeNote: "Al usuario le gustó esta respuesta (mantén este enfoque).",
+            reportBugShort: "🐛 ¿Más bien un error de la app?",
+            bugConfirm: "¿Se trata de un error de la aplicación (visualización dañada, error), y no simplemente de una respuesta insatisfactoria?\n\nSi es así, se abrirá un correo de reporte. Si no, usa mejor « ↻ Mejorar ».",
+            purgeKeys: "🗑️ Borrar las claves",
+            purgeKeysConfirm: "¿Borrar todas las claves API de este navegador? Tendrás que volver a ingresarlas.",
+            toastKeysPurged: "🗑️ Claves API borradas de este navegador.",
+            lblProvider: "Proveedor",
+            lblModel: "Modelo",
+            lblCompare: "⚖️ Comparar 2 modelos",
+            compareTitle: "Comparar 2 modelos lado a lado con el mismo prompt",
+            lblCompareA: "Modelo A",
+            lblCompareB: "Modelo B",
+            compareKeep: "✓ Conservar esta",
+            compareKept: "✓ Conservada",
+            compareIgnore: "✕ Ninguna de las dos",
+            compareMustChoose: "Primero elige qué respuesta conservar (o « Ninguna de las dos »).",
+            compareNeedTwoKeys: "Ingresa las claves API de los 2 proveedores comparados.",
+            compareSameModel: "Elige 2 modelos diferentes para comparar.",
+            lblQwenRegion: "Región",
+            qwenRegionIntl: "Internacional",
+            qwenRegionMainland: "China continental",
+            tabChat: "💬 Chat",
+            tabCode: "👨‍💻 Código",
+            tabImage: "🎨 Imagen",
+            welcomeTitle: "🤖 ChatJPT",
+            welcomeDesc: "Elige tu proveedor y modelo, ingresa tus claves API y empieza a chatear.<br>Cambia entre los modos Chat, Código e Imagen según lo necesites.",
+            lblSend: "Enviar",
+            lblNewline: "Nueva línea",
+            lblFile: "Adjuntar archivo",
+            agentMode: "🤖 Forzar el Agente (Paso a paso en inglés)",
+            placeholderChat: "Escribe tu mensaje aquí...",
+            placeholderCode: "Describe el código que quieres generar...",
+            placeholderImage: "Describe la imagen que quieres generar...",
+            titleTheme: "Cambiar modo claro/oscuro",
+            titleExport: "Exportar el historial completo",
+            titleExportLiked: "Exportar las respuestas 👍",
+            rateUp: "Buena respuesta",
+            rateDown: "Respuesta por mejorar",
+            coffeeNudgeText: "¡Me alegra que te ayude! 🙂 Si te animas:",
+            nudgeClose: "Cerrar",
+            toastNoLiked: "No hay respuestas con 👍 para exportar.",
+            toastLikedExported: "¡Respuestas 👍 exportadas (Markdown + JSON)!",
+            titleClear: "Borrar la conversación",
+            titleRegen: "Regenerar la última respuesta",
+            titleStop: "Detener la generación (Esc)",
+            titleSend: "Enviar",
+            titlePdf: "Exportar a PDF",
+            toastCleared: "Conversación borrada.",
+            toastNoKey: "Por favor ingresa una clave API para el proveedor seleccionado.",
+            toastNoHistory: "No hay historial para exportar.",
+            toastExported: "¡Historial exportado (Markdown + JSON)!",
+            toastHistoryPruned: "📦 Mensajes antiguos archivados (memoria llena).",
+            toastHistoryRestored: "💾 Conversación anterior restaurada.",
+            toastRetrying: "🔄 Reintentando ({attempt}) en {sec}s...",
+            toastStorageFull: "⚠️ Memoria del navegador llena — no se puede guardar.",
+            errNetwork: "No se pudo conectar — verifica tu Internet.",
+            errInvalidKey: "Clave API inválida — verifica tu clave en el encabezado.",
+            errQuota: "Crédito insuficiente en tu cuenta {provider}.",
+            errRateLimit: "Demasiadas solicitudes — espera unos segundos.",
+            errModelNotFound: "Este modelo no está disponible con esta clave.",
+            errContextLength: "Conversación demasiado larga — bórrala o acorta tu mensaje.",
+            errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
+            errCors: "Solicitud bloqueada por el navegador (CORS).",
+            creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
+            creditVersion: "Versión 1.6.1 - Última versión: ",
+            appUpdated: "📅 Actualizado: 7 de junio de 2026",
+            creditLicense: "Licencia: Gratis / Freeware (uso libre)",
+            creditBug: "🐛 Reportar un error",
+            creditCoffee: "☕ Invítame un café",
+            tableCopy: "📋 Copiar",
+            tableCopied: "✓ ¡Copiado!",
+            tableRows: "filas",
+            tableCols: "cols",
+            tableStreaming: "⏳ en curso...",
+            lblImageModel: "Modelo de Imagen",
+            lblImageQuality: "Calidad",
+            imgQualLow: "Baja (rápida)",
+            imgQualMedium: "Media",
+            imgQualHigh: "Alta (lenta)",
+            imgQualAuto: "Auto",
+            lblImageSize: "Tamaño",
+            imgSizeSquare: "Cuadrado (1024×1024)",
+            imgSizeLandscape: "Horizontal (1536×1024)",
+            imgSizePortrait: "Vertical (1024×1536)",
+            imgSizeAuto: "Auto",
+            lblImageFormat: "Formato",
+            imgFmtSquare: "Cuadrado (1:1)",
+            imgFmtLandscape: "Horizontal (16:9)",
+            imgFmtPortrait: "Vertical (9:16)",
+            imgFmtClassic: "Clásico (4:3)",
+            imgFmtClassicPortrait: "Vertical (3:4)",
+            lblImageResolution: "Resolución",
+            imgRes1K: "1K (rápida)",
+            imgRes4K: "4K (lenta)",
+            tabVideo: "🎬 Video",
+            placeholderVideo: "Describe el video que quieres generar...",
+            tabVibeCoder: "✨ Vibe Coder",
+            placeholderVibeCoder: "Describe tu idea en palabras simples — yo me encargo del resto...",
+            previewBtn: "👁 Vista previa",
+            previewHide: "🙈 Ocultar la vista previa",
+            previewNewTab: "↗ Abrir en una pestaña",
+            lblVideoModel: "Modelo de Video",
+            lblAspectRatio: "Relación",
+            lblDuration: "Duración",
+            videoGenerating: "Generando el video...",
+            videoPolling: "Procesando (puede tardar varios minutos, sobre todo en Pro)...",
+            videoReady: "¡Video generado con éxito!",
+            videoError: "Error al generar el video",
+            videoStoppedMsg: "🛑 Generación de video interrumpida por el usuario.",
+            videoDownload: "💾 Descargar el video",
+            videoNotSupported: "La generación de video no está disponible para este proveedor.",
+            videoNeedKey: "Por favor ingresa una clave API para la generación de video.",
+            dur8s: "8 segundos",
+            dur6s: "6 segundos",
+            dur4s: "4 segundos",
+            ratio169: "16:9 (Horizontal)",
+            ratio916: "9:16 (Vertical)",
+            aiDisclaimer: "La IA puede cometer errores. Verifica la información importante.",
+            usageTokens: "tokens",
+            usageTitle: "Tokens consumidos (↑ entrada / ↓ salida), reportados por la API",
+            tokenTotalLabel: "Total",
+            tokenTotalTitle: "Total de tokens de esta conversación (↑ enviados / ↓ recibidos)",
+            webSearchLabel: "🌐 Búsqueda web + fuentes",
+            webSearchHint: "consume más tokens (+ costos de búsqueda)",
+            webSearchTitle: "El modelo busca en la web en tiempo real y muestra sus fuentes.",
+            sourcesTitle: "Fuentes",
+            thinkingLabel: "🧠 Razonamiento extendido",
+            thinkingBudget: "Profundidad",
+            thinkingNative: "🧠 Razonamiento integrado",
+            thinkingNotSupported: "No compatible con este modelo",
+            thinkingNotAvailable: "No disponible para este modo",
+            thinkingInProgress: "Razonando",
+            thinkingComplete: "Razonamiento terminado",
+            thinkingToggleShow: "Ver el razonamiento",
+            thinkingToggleHide: "Ocultar",
+            thinkingTokens: "tokens",
+            thinkingWarningCost: "⚠️ Consume más tokens",
+            pdfExtracting: "Extrayendo el PDF: ",
+            pdfScanned: "PDF escaneado (imagen), sin texto extraíble.",
+            fileReadError: "No se puede leer: ",
+            filesReady: "archivo(s) listo(s)",
+            filesAttached: "archivo(s) adjunto(s)",
+            truncatedContinue: "⚠️ Respuesta truncada. Haz clic aquí para continuar la generación.",
+            codeCopy: "📋 Copiar",
+            codeCopied: "✓ ¡Copiado!",
+            generationAborted: "🛑 Generación interrumpida por el usuario."
         }
     };
 
     // ===== MODÈLES DISPONIBLES =====
     const MODELS = {
         openai: [
-            { id: 'gpt-5.5', name: { fr: 'GPT-5.5 (Dernier)', en: 'GPT-5.5 (Latest)' } },
-            { id: 'gpt-5.5-pro', name: { fr: 'GPT-5.5 Pro (Lent, Précis)', en: 'GPT-5.5 Pro (Slow, Precise)' } },
+            { id: 'gpt-5.5', name: { fr: 'GPT-5.5 (Dernier)', en: 'GPT-5.5 (Latest)', es: 'GPT-5.5 (Último)' } },
+            { id: 'gpt-5.5-pro', name: { fr: 'GPT-5.5 Pro (Lent, Précis)', en: 'GPT-5.5 Pro (Slow, Precise)', es: 'GPT-5.5 Pro (Lento, Preciso)' } },
             { id: 'gpt-5.4', name: { fr: 'GPT-5.4', en: 'GPT-5.4' } },
-            { id: 'gpt-5.4-pro', name: { fr: 'GPT-5.4 Pro (Lent, Précis)', en: 'GPT-5.4 Pro (Slow, Precise)' } },
+            { id: 'gpt-5.4-pro', name: { fr: 'GPT-5.4 Pro (Lent, Précis)', en: 'GPT-5.4 Pro (Slow, Precise)', es: 'GPT-5.4 Pro (Lento, Preciso)' } },
             { id: 'gpt-5.4-mini', name: { fr: 'GPT-5.4 mini', en: 'GPT-5.4 mini' } },
             { id: 'gpt-5.4-nano', name: { fr: 'GPT-5.4 nano', en: 'GPT-5.4 nano' } },
             { id: 'gpt-5.2', name: { fr: 'GPT-5.2', en: 'GPT-5.2' } },
@@ -3151,12 +3340,12 @@
             { id: 'gpt-4.1-nano', name: { fr: 'GPT-4.1 nano', en: 'GPT-4.1 nano' } },
             { id: 'gpt-4o', name: { fr: 'GPT-4o', en: 'GPT-4o' } },
             { id: 'gpt-4o-mini', name: { fr: 'GPT-4o mini', en: 'GPT-4o mini' } },
-            { id: 'o3-pro', name: { fr: 'o3-pro (Raisonnement max)', en: 'o3-pro (Max Reasoning)' } },
-            { id: 'o3', name: { fr: 'o3 (Raisonnement)', en: 'o3 (Reasoning)' } },
-            { id: 'o4-mini', name: { fr: 'o4-mini (Raisonnement rapide)', en: 'o4-mini (Fast Reasoning)' } },
+            { id: 'o3-pro', name: { fr: 'o3-pro (Raisonnement max)', en: 'o3-pro (Max Reasoning)', es: 'o3-pro (Razonamiento máx.)' } },
+            { id: 'o3', name: { fr: 'o3 (Raisonnement)', en: 'o3 (Reasoning)', es: 'o3 (Razonamiento)' } },
+            { id: 'o4-mini', name: { fr: 'o4-mini (Raisonnement rapide)', en: 'o4-mini (Fast Reasoning)', es: 'o4-mini (Razonamiento rápido)' } },
         ],
         claude: [
-            { id: 'claude-opus-4-8', name: { fr: 'Claude Opus 4.8 (Dernier)', en: 'Claude Opus 4.8 (Latest)' } },
+            { id: 'claude-opus-4-8', name: { fr: 'Claude Opus 4.8 (Dernier)', en: 'Claude Opus 4.8 (Latest)', es: 'Claude Opus 4.8 (Último)' } },
             { id: 'claude-opus-4-7', name: { fr: 'Claude Opus 4.7', en: 'Claude Opus 4.7' } },
             { id: 'claude-opus-4-6', name: { fr: 'Claude Opus 4.6', en: 'Claude Opus 4.6' } },
             { id: 'claude-sonnet-4-6', name: { fr: 'Claude Sonnet 4.6', en: 'Claude Sonnet 4.6' } },
@@ -3168,7 +3357,7 @@
             { id: 'claude-opus-4-20250514', name: { fr: 'Claude Opus 4', en: 'Claude Opus 4' } },
         ],
         gemini: [
-            { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Dernier)', en: 'Gemini 3.1 Pro (Latest)' } },
+            { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Dernier)', en: 'Gemini 3.1 Pro (Latest)', es: 'Gemini 3.1 Pro (Último)' } },
             { id: 'gemini-3.5-flash', name: { fr: 'Gemini 3.5 Flash', en: 'Gemini 3.5 Flash' } },
             { id: 'gemini-3-flash-preview', name: { fr: 'Gemini 3 Flash', en: 'Gemini 3 Flash' } },
             { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite', en: 'Gemini 3.1 Flash Lite' } },
@@ -3177,63 +3366,63 @@
             { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
         ],
         grok: [
-            { id: 'grok-4.3', name: { fr: 'Grok 4.3 (Dernier)', en: 'Grok 4.3 (Latest)' } },
-            { id: 'grok-4.20-0309-reasoning', name: { fr: 'Grok 4.20 (Raisonnement)', en: 'Grok 4.20 (Reasoning)' } },
-            { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)' } },
-            { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)' } },
+            { id: 'grok-4.3', name: { fr: 'Grok 4.3 (Dernier)', en: 'Grok 4.3 (Latest)', es: 'Grok 4.3 (Último)' } },
+            { id: 'grok-4.20-0309-reasoning', name: { fr: 'Grok 4.20 (Raisonnement)', en: 'Grok 4.20 (Reasoning)', es: 'Grok 4.20 (Razonamiento)' } },
+            { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)', es: 'Grok 4.20 (Rápido)' } },
+            { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)', es: 'Grok Build 0.1 (Ligero)' } },
         ],
         deepseek: [
             { id: 'deepseek-chat', name: { fr: 'DeepSeek V3 (Chat)', en: 'DeepSeek V3 (Chat)' } },
-            { id: 'deepseek-reasoner', name: { fr: 'DeepSeek R1 (Raisonnement)', en: 'DeepSeek R1 (Reasoning)' } },
+            { id: 'deepseek-reasoner', name: { fr: 'DeepSeek R1 (Raisonnement)', en: 'DeepSeek R1 (Reasoning)', es: 'DeepSeek R1 (Razonamiento)' } },
         ],
         qwen: [
             // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir)
-            { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship, dernier)', en: 'Qwen Max (Flagship, latest)' } },
-            { id: 'qwen-plus', name: { fr: 'Qwen Plus (Équilibré)', en: 'Qwen Plus (Balanced)' } },
-            { id: 'qwen-turbo', name: { fr: 'Qwen Turbo (Rapide)', en: 'Qwen Turbo (Fast)' } },
+            { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship, dernier)', en: 'Qwen Max (Flagship, latest)', es: 'Qwen Max (Insignia, último)' } },
+            { id: 'qwen-plus', name: { fr: 'Qwen Plus (Équilibré)', en: 'Qwen Plus (Balanced)', es: 'Qwen Plus (Equilibrado)' } },
+            { id: 'qwen-turbo', name: { fr: 'Qwen Turbo (Rapide)', en: 'Qwen Turbo (Fast)', es: 'Qwen Turbo (Rápido)' } },
             // Modèles Qwen3 nommés (disponibilité selon région/compte)
             { id: 'qwen3-max', name: { fr: 'Qwen3 Max', en: 'Qwen3 Max' } },
-            { id: 'qwen3-coder-plus', name: { fr: 'Qwen3 Coder Plus (Code)', en: 'Qwen3 Coder Plus (Code)' } },
+            { id: 'qwen3-coder-plus', name: { fr: 'Qwen3 Coder Plus (Code)', en: 'Qwen3 Coder Plus (Code)', es: 'Qwen3 Coder Plus (Código)' } },
         ]
     };
 
     const IMAGE_MODELS = {
         openai: [
-            { id: 'gpt-image-2', name: { fr: 'GPT Image 2 (Dernier)', en: 'GPT Image 2 (Latest)' } },
+            { id: 'gpt-image-2', name: { fr: 'GPT Image 2 (Dernier)', en: 'GPT Image 2 (Latest)', es: 'GPT Image 2 (Último)' } },
             { id: 'gpt-image-1.5', name: { fr: 'GPT Image 1.5', en: 'GPT Image 1.5' } },
             { id: 'gpt-image-1', name: { fr: 'GPT Image 1', en: 'GPT Image 1' } },
             { id: 'gpt-image-1-mini', name: { fr: 'GPT Image 1 Mini', en: 'GPT Image 1 Mini' } }
         ],
         gemini: [
-            { id: 'gemini-3.1-flash-image-preview', name: { fr: 'Nano Banana 2 (Dernier)', en: 'Nano Banana 2 (Latest)' } },
+            { id: 'gemini-3.1-flash-image-preview', name: { fr: 'Nano Banana 2 (Dernier)', en: 'Nano Banana 2 (Latest)', es: 'Nano Banana 2 (Último)' } },
             { id: 'gemini-3-pro-image-preview', name: { fr: 'Nano Banana Pro', en: 'Nano Banana Pro' } },
             { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)' } },
             { id: 'imagen-4.0-generate-001', name: { fr: 'Imagen 4.0 (Legacy)', en: 'Imagen 4.0 (Legacy)' } }
         ],
         grok: [
             // Synchrone via /v1/images/generations (format OpenAI ; renvoie data[0].url)
-            { id: 'grok-imagine-image-quality', name: { fr: 'Grok Imagine (Qualité)', en: 'Grok Imagine (Quality)' } }
+            { id: 'grok-imagine-image-quality', name: { fr: 'Grok Imagine (Qualité)', en: 'Grok Imagine (Quality)', es: 'Grok Imagine (Calidad)' } }
         ],
         qwen: [
             // Synchrone via multimodal-generation/generation (renvoie l'URL directement, sans polling)
-            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max (Dernier)', en: 'Qwen Image Max (Latest)' } },
+            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max (Dernier)', en: 'Qwen Image Max (Latest)', es: 'Qwen Image Max (Último)' } },
             { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } }
         ]
     };
 
     const VIDEO_MODELS = {
         openai: [
-            { id: 'sora-2', name: { fr: 'Sora 2 (Rapide)', en: 'Sora 2 (Fast)' } },
-            { id: 'sora-2-pro', name: { fr: 'Sora 2 Pro (Qualité)', en: 'Sora 2 Pro (Quality)' } }
+            { id: 'sora-2', name: { fr: 'Sora 2 (Rapide)', en: 'Sora 2 (Fast)', es: 'Sora 2 (Rápido)' } },
+            { id: 'sora-2-pro', name: { fr: 'Sora 2 Pro (Qualité)', en: 'Sora 2 Pro (Quality)', es: 'Sora 2 Pro (Calidad)' } }
         ],
         gemini: [
-            { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (Dernier)', en: 'Veo 3.1 (Latest)' } },
+            { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (Dernier)', en: 'Veo 3.1 (Latest)', es: 'Veo 3.1 (Último)' } },
             { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite', en: 'Veo 3.1 Lite' } },
             { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast', en: 'Veo 3.1 Fast' } },
             { id: 'veo-2.0-generate-001', name: { fr: 'Veo 2.0', en: 'Veo 2.0' } }
         ],
         grok: [
-            { id: 'grok-imagine-video', name: { fr: 'Grok Imagine Vidéo', en: 'Grok Imagine Video' } }
+            { id: 'grok-imagine-video', name: { fr: 'Grok Imagine Vidéo', en: 'Grok Imagine Video', es: 'Grok Imagine Video' } }
         ]
     };
 
@@ -3358,8 +3547,8 @@ RULES:
     // L'utilisateur choisit la sienne (sauvegardée dans ai_qwen_region). On stocke le
     // host : le chat (compatible-mode) et l'image (api/v1/services/aigc) en dérivent.
     const QWEN_REGIONS = {
-        intl:     { host: 'https://dashscope-intl.aliyuncs.com', label: { fr: 'International', en: 'International' } },
-        mainland: { host: 'https://dashscope.aliyuncs.com',      label: { fr: 'Chine continentale', en: 'Mainland China' } }
+        intl:     { host: 'https://dashscope-intl.aliyuncs.com', label: { fr: 'International', en: 'International', es: 'Internacional' } },
+        mainland: { host: 'https://dashscope.aliyuncs.com',      label: { fr: 'Chine continentale', en: 'Mainland China', es: 'China continental' } }
     };
     function getQwenHost() {
         return (QWEN_REGIONS[localStorage.getItem('ai_qwen_region') || 'intl'] || QWEN_REGIONS.intl).host;
@@ -3376,18 +3565,18 @@ RULES:
 
     // Budget tokens pour Claude et Gemini 2.5
     const THINKING_BUDGETS = [
-        { id: 'light', tokens: 5000, label: { fr: 'Léger (5k)', en: 'Light (5k)' } },
-        { id: 'moderate', tokens: 10000, label: { fr: 'Modéré (10k)', en: 'Moderate (10k)' } },
-        { id: 'deep', tokens: 20000, label: { fr: 'Profond (20k)', en: 'Deep (20k)' } },
-        { id: 'maximum', tokens: 32000, label: { fr: 'Maximum (32k)', en: 'Maximum (32k)' } }
+        { id: 'light', tokens: 5000, label: { fr: 'Léger (5k)', en: 'Light (5k)', es: 'Ligero (5k)' } },
+        { id: 'moderate', tokens: 10000, label: { fr: 'Modéré (10k)', en: 'Moderate (10k)', es: 'Moderado (10k)' } },
+        { id: 'deep', tokens: 20000, label: { fr: 'Profond (20k)', en: 'Deep (20k)', es: 'Profundo (20k)' } },
+        { id: 'maximum', tokens: 32000, label: { fr: 'Maximum (32k)', en: 'Maximum (32k)', es: 'Máximo (32k)' } }
     ];
 
     // Niveaux de réflexion pour Gemini 3
     const THINKING_LEVELS = [
-        { id: 'minimal', label: { fr: 'Minimal', en: 'Minimal' } },
-        { id: 'low', label: { fr: 'Léger', en: 'Low' } },
-        { id: 'medium', label: { fr: 'Modéré', en: 'Medium' } },
-        { id: 'high', label: { fr: 'Profond', en: 'High' } }
+        { id: 'minimal', label: { fr: 'Minimal', en: 'Minimal', es: 'Mínimo' } },
+        { id: 'low', label: { fr: 'Léger', en: 'Low', es: 'Bajo' } },
+        { id: 'medium', label: { fr: 'Modéré', en: 'Medium', es: 'Medio' } },
+        { id: 'high', label: { fr: 'Profond', en: 'High', es: 'Alto' } }
     ];
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
@@ -4161,7 +4350,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (I18N[currentLang][key]) el.placeholder = I18N[currentLang][key];
         });
         
-        langToggleBtn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
+        // Le bouton affiche la langue ACTUELLE (clic = passe à la suivante du cycle).
+        langToggleBtn.textContent = LANG_CODE[currentLang];
         switchMode(currentMode, true); 
 
         if (typeof populateModels === 'function' && document.getElementById('model-select').options.length > 0) {
@@ -4186,7 +4376,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     function toggleLanguage() {
-        currentLang = currentLang === 'fr' ? 'en' : 'fr';
+        currentLang = LANG_CYCLE[(LANG_CYCLE.indexOf(currentLang) + 1) % LANG_CYCLE.length];
         localStorage.setItem('chatjpt_lang', currentLang);
         updateLanguageUI();
     }
@@ -4563,15 +4753,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Exemples cliquables proposés dans l'écran d'accueil en mode Vibe Coder (bilingue).
     const VIBE_CHIPS = [
-        { fr: '🌐 Une page web « À propos de moi »', en: '🌐 An "About me" web page',
+        { fr: '🌐 Une page web « À propos de moi »', en: '🌐 An "About me" web page', es: '🌐 Una página web « Sobre mí »',
           pf: 'Je veux créer une page web simple « À propos de moi » avec mon nom, une photo et un petit texte de présentation.',
-          pe: 'I want to create a simple "About me" web page with my name, a photo and a short bio.' },
-        { fr: '🧮 Une calculatrice de pourboire', en: '🧮 A tip calculator',
+          pe: 'I want to create a simple "About me" web page with my name, a photo and a short bio.',
+          ps: 'Quiero crear una página web sencilla « Sobre mí » con mi nombre, una foto y un breve texto de presentación.' },
+        { fr: '🧮 Une calculatrice de pourboire', en: '🧮 A tip calculator', es: '🧮 Una calculadora de propinas',
           pf: "Je veux une petite calculatrice de pourboire : j'entre le montant de l'addition et le pourcentage, et elle affiche le pourboire et le total.",
-          pe: 'I want a small tip calculator: I enter the bill amount and the percentage, and it shows the tip and the total.' },
-        { fr: '🐍 Un script qui renomme mes photos', en: '🐍 A script that renames my photos',
+          pe: 'I want a small tip calculator: I enter the bill amount and the percentage, and it shows the tip and the total.',
+          ps: 'Quiero una pequeña calculadora de propinas: ingreso el monto de la cuenta y el porcentaje, y muestra la propina y el total.' },
+        { fr: '🐍 Un script qui renomme mes photos', en: '🐍 A script that renames my photos', es: '🐍 Un script que renombra mis fotos',
           pf: "Je veux un petit programme qui renomme toutes les photos d'un dossier en ajoutant la date devant le nom.",
-          pe: 'I want a small program that renames all the photos in a folder by adding the date in front of the name.' }
+          pe: 'I want a small program that renames all the photos in a folder by adding the date in front of the name.',
+          ps: 'Quiero un pequeño programa que renombre todas las fotos de una carpeta agregando la fecha antes del nombre.' }
     ];
 
     function renderVibeChips() {
@@ -4581,8 +4774,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'vibe-chip';
-            btn.textContent = currentLang === 'fr' ? c.fr : c.en;
-            btn.dataset.prompt = currentLang === 'fr' ? c.pf : c.pe;
+            btn.textContent = c[currentLang] || c.en;
+            btn.dataset.prompt = { fr: c.pf, en: c.pe, es: c.ps }[currentLang] || c.pe;
             vibeChips.appendChild(btn);
         });
     }
@@ -4667,7 +4860,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!videoDurationSelect) return;
         const list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
         const prev = videoDurationSelect.value;
-        const unit = currentLang === 'fr' ? 'secondes' : 'seconds';
+        const unit = { fr: 'secondes', en: 'seconds', es: 'segundos' }[currentLang] || 'seconds';
         videoDurationSelect.innerHTML = '';
         list.forEach(v => {
             const opt = document.createElement('option');
@@ -6767,7 +6960,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Usage rapporté par l'API (exact, pas une estimation). Tokens uniquement —
     // pas de conversion en $ (exigerait une table de prix à maintenir à chaque release).
     function fmtTokens(n) {
-        return (n || 0).toLocaleString(currentLang === 'fr' ? 'fr-FR' : 'en-US');
+        return (n || 0).toLocaleString({ fr: 'fr-FR', en: 'en-US', es: 'es-MX' }[currentLang] || 'en-US');
     }
     function formatUsage(usage) {
         if (!usage) return '';
