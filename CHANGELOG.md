@@ -8,6 +8,13 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.7.1] — 2026-06-09
+  Added
+    - Claude Fable 5 (claude-fable-5), Anthropic's most capable widely released
+      model (1M-token context), added to the Claude model list and shown as the
+      latest. It uses always-on adaptive thinking (no configurable thinking
+      toggle). Web search and link reading work with it like other Claude models.
+
 [1.7.0] — 2026-06-08
   Added
     - Read pasted links (optional toggle 🔗, off by default, separate from web
@@ -224,6 +231,14 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.7.1] — 2026-06-09
+  Ajouté
+    - Claude Fable 5 (claude-fable-5), le modèle le plus capable d'Anthropic en
+      disponibilité générale (contexte 1M tokens), ajouté à la liste des modèles
+      Claude et affiché comme le dernier. Il utilise un adaptive thinking toujours
+      actif (pas de case de réflexion configurable). La recherche web et la lecture
+      de liens fonctionnent comme pour les autres modèles Claude.
 
 [1.7.0] — 2026-06-08
   Ajouté
@@ -452,6 +467,14 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.7.1] — 2026-06-09
+  Añadido
+    - Claude Fable 5 (claude-fable-5), el modelo más capaz de Anthropic en
+      disponibilidad general (contexto de 1M tokens), añadido a la lista de modelos
+      Claude y mostrado como el más reciente. Usa adaptive thinking siempre activo
+      (sin casilla de razonamiento configurable). La búsqueda web y la lectura de
+      enlaces funcionan como con los demás modelos Claude.
 
 [1.7.0] — 2026-06-08
   Añadido

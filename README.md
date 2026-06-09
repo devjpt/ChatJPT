@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.7.0
+  Version 1.7.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -16,7 +16,7 @@ FEATURES
 --------
   - Multi-provider support:
       • OpenAI     (GPT-5.x, GPT-4.1, o-series, etc.)
-      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image, and video; Grok Imagine)
       • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 reasoning)
@@ -104,7 +104,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_7_0.html
+  1. Download the file ChatJPT_1_7_1.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -136,7 +136,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.7.0
+  Version 1.7.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -153,7 +153,7 @@ FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
       • OpenAI     (GPT-5.x, GPT-4.1, série o, etc.)
-      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
       • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 raisonnement)
@@ -245,7 +245,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_7_0.html
+  1. Téléchargez le fichier ChatJPT_1_7_1.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -279,7 +279,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.7.0
+  Versión 1.7.1
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -296,7 +296,7 @@ CARACTERÍSTICAS
 ---------------
   - Soporte multiproveedor:
       • OpenAI     (GPT-5.x, GPT-4.1, serie o, etc.)
-      • Anthropic  (Claude Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
       • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 razonamiento)
@@ -384,7 +384,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_7_0.html
+  1. Descarga el archivo ChatJPT_1_7_1.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
