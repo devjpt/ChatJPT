@@ -15,11 +15,11 @@ from your browser — no installation required.
 FEATURES
 --------
   - Multi-provider support:
-      • OpenAI     (GPT-5.x, GPT-4.1, o-series, etc.)
-      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, o-series, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image, and video; Grok Imagine)
-      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 reasoning)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Qwen       (Alibaba — chat and image; selectable DashScope region)
 
   - Conversation modes:
@@ -33,7 +33,7 @@ FEATURES
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
                      resolution), Qwen, and Grok
-      • Video      : video generation (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
+      • Video      : video generation (Google Veo, xAI Grok Imagine)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -152,11 +152,11 @@ votre navigateur, sans installation requise.
 FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
-      • OpenAI     (GPT-5.x, GPT-4.1, série o, etc.)
-      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, série o, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
-      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 raisonnement)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Qwen       (Alibaba — chat et image ; région DashScope au choix)
 
   - Modes de conversation :
@@ -170,7 +170,7 @@ FONCTIONNALITÉS
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
                      ajustables), Qwen et Grok
-      • Vidéo      : génération de vidéos (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
+      • Vidéo      : génération de vidéos (Google Veo, xAI Grok Imagine)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -295,11 +295,11 @@ navegador, sin necesidad de instalación.
 CARACTERÍSTICAS
 ---------------
   - Soporte multiproveedor:
-      • OpenAI     (GPT-5.x, GPT-4.1, serie o, etc.)
-      • Anthropic  (Claude Fable 5, Opus 4.8, Sonnet 4.6, Haiku 4.5, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, serie o, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
-      • DeepSeek   (DeepSeek V3 chat, DeepSeek R1 razonamiento)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Qwen       (Alibaba — chat e imagen; región DashScope a elegir)
 
   - Modos de conversación:
@@ -313,7 +313,7 @@ CARACTERÍSTICAS
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
                      tamaño ajustables), Google Gemini (formato y resolución
                      ajustables), Qwen y Grok
-      • Video      : generación de videos (OpenAI Sora 2, Google Veo, xAI Grok Imagine)
+      • Video      : generación de videos (Google Veo, xAI Grok Imagine)
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos

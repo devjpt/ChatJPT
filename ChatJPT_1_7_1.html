@@ -2792,6 +2792,7 @@
             convDeleteConfirm: "Supprimer cette conversation ?",
             convBusy: "⏳ Patiente jusqu'à la fin de la génération.",
             convStorageFull: "🛑 Stockage plein — supprime ou exporte une conversation pour continuer.",
+            claudeRefusal: "⚠️ Claude a décliné cette demande (filtre de sécurité). Reformule ta question ou essaie un autre modèle.",
             convStorageInfo: "{n} conv · ~{mb} Mo",
             convCloseDrawer: "Fermer le panneau",
             convClearConfirm: "Effacer tous les messages de cette conversation ?",
@@ -2980,6 +2981,7 @@
             convDeleteConfirm: "Delete this conversation?",
             convBusy: "⏳ Wait for the current generation to finish.",
             convStorageFull: "🛑 Storage full — delete or export a conversation to continue.",
+            claudeRefusal: "⚠️ Claude declined this request (safety filter). Rephrase your question or try another model.",
             convStorageInfo: "{n} conv · ~{mb} MB",
             convCloseDrawer: "Close panel",
             convClearConfirm: "Clear all messages in this conversation?",
@@ -3168,6 +3170,7 @@
             convDeleteConfirm: "¿Eliminar esta conversación?",
             convBusy: "⏳ Espera a que termine la generación.",
             convStorageFull: "🛑 Almacenamiento lleno — elimina o exporta una conversación para continuar.",
+            claudeRefusal: "⚠️ Claude rechazó esta solicitud (filtro de seguridad). Reformula tu pregunta o prueba otro modelo.",
             convStorageInfo: "{n} conv · ~{mb} MB",
             convCloseDrawer: "Cerrar el panel",
             convClearConfirm: "¿Borrar todos los mensajes de esta conversación?",
@@ -3343,7 +3346,10 @@
     // ===== MODÈLES DISPONIBLES =====
     const MODELS = {
         openai: [
-            { id: 'gpt-5.5', name: { fr: 'GPT-5.5 (Dernier)', en: 'GPT-5.5 (Latest)', es: 'GPT-5.5 (Último)' } },
+            { id: 'gpt-6-astra', name: { fr: 'GPT-6 Astra (Dernier, le plus puissant)', en: 'GPT-6 Astra (Latest, most capable)', es: 'GPT-6 Astra (Último, el más potente)' } },
+            { id: 'gpt-6.1-sol', name: { fr: 'GPT-6.1 Sol (Équilibré)', en: 'GPT-6.1 Sol (Balanced)', es: 'GPT-6.1 Sol (Equilibrado)' } },
+            { id: 'gpt-6-luna', name: { fr: 'GPT-6 Luna (Rapide, économique)', en: 'GPT-6 Luna (Fast, low cost)', es: 'GPT-6 Luna (Rápido, económico)' } },
+            { id: 'gpt-5.5', name: { fr: 'GPT-5.5', en: 'GPT-5.5', es: 'GPT-5.5' } },
             { id: 'gpt-5.5-pro', name: { fr: 'GPT-5.5 Pro (Lent, Précis)', en: 'GPT-5.5 Pro (Slow, Precise)', es: 'GPT-5.5 Pro (Lento, Preciso)' } },
             { id: 'gpt-5.4', name: { fr: 'GPT-5.4', en: 'GPT-5.4' } },
             { id: 'gpt-5.4-pro', name: { fr: 'GPT-5.4 Pro (Lent, Précis)', en: 'GPT-5.4 Pro (Slow, Precise)', es: 'GPT-5.4 Pro (Lento, Preciso)' } },
@@ -3359,12 +3365,16 @@
             { id: 'gpt-4.1-nano', name: { fr: 'GPT-4.1 nano', en: 'GPT-4.1 nano' } },
             { id: 'gpt-4o', name: { fr: 'GPT-4o', en: 'GPT-4o' } },
             { id: 'gpt-4o-mini', name: { fr: 'GPT-4o mini', en: 'GPT-4o mini' } },
-            { id: 'o3-pro', name: { fr: 'o3-pro (Raisonnement max)', en: 'o3-pro (Max Reasoning)', es: 'o3-pro (Razonamiento máx.)' } },
             { id: 'o3', name: { fr: 'o3 (Raisonnement)', en: 'o3 (Reasoning)', es: 'o3 (Razonamiento)' } },
             { id: 'o4-mini', name: { fr: 'o4-mini (Raisonnement rapide)', en: 'o4-mini (Fast Reasoning)', es: 'o4-mini (Razonamiento rápido)' } },
         ],
         claude: [
-            { id: 'claude-fable-5', name: { fr: 'Claude Fable 5 (Dernier)', en: 'Claude Fable 5 (Latest)', es: 'Claude Fable 5 (Último)' } },
+            { id: 'claude-fable-5-1', name: { fr: 'Claude Fable 5.1 (Dernier)', en: 'Claude Fable 5.1 (Latest)', es: 'Claude Fable 5.1 (Último)' } },
+            { id: 'claude-fable-5', name: { fr: 'Claude Fable 5', en: 'Claude Fable 5', es: 'Claude Fable 5' } },
+            { id: 'claude-opus-5-5', name: { fr: 'Claude Opus 5.5', en: 'Claude Opus 5.5', es: 'Claude Opus 5.5' } },
+            { id: 'claude-sonnet-5-5', name: { fr: 'Claude Sonnet 5.5', en: 'Claude Sonnet 5.5', es: 'Claude Sonnet 5.5' } },
+            { id: 'claude-opus-5', name: { fr: 'Claude Opus 5', en: 'Claude Opus 5', es: 'Claude Opus 5' } },
+            { id: 'claude-sonnet-5', name: { fr: 'Claude Sonnet 5', en: 'Claude Sonnet 5', es: 'Claude Sonnet 5' } },
             { id: 'claude-opus-4-8', name: { fr: 'Claude Opus 4.8', en: 'Claude Opus 4.8', es: 'Claude Opus 4.8' } },
             { id: 'claude-opus-4-7', name: { fr: 'Claude Opus 4.7', en: 'Claude Opus 4.7' } },
             { id: 'claude-opus-4-6', name: { fr: 'Claude Opus 4.6', en: 'Claude Opus 4.6' } },
@@ -3372,14 +3382,17 @@
             { id: 'claude-haiku-4-5-20251001', name: { fr: 'Claude Haiku 4.5', en: 'Claude Haiku 4.5' } },
             { id: 'claude-sonnet-4-5-20250929', name: { fr: 'Claude Sonnet 4.5', en: 'Claude Sonnet 4.5' } },
             { id: 'claude-opus-4-5-20251101', name: { fr: 'Claude Opus 4.5', en: 'Claude Opus 4.5' } },
-            { id: 'claude-opus-4-1-20250805', name: { fr: 'Claude Opus 4.1', en: 'Claude Opus 4.1' } },
             { id: 'claude-sonnet-4-20250514', name: { fr: 'Claude Sonnet 4', en: 'Claude Sonnet 4' } },
             { id: 'claude-opus-4-20250514', name: { fr: 'Claude Opus 4', en: 'Claude Opus 4' } },
         ],
         gemini: [
-            { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Dernier)', en: 'Gemini 3.1 Pro (Latest)', es: 'Gemini 3.1 Pro (Último)' } },
+            { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash (Dernier)', en: 'Gemini 3.8 Flash (Latest)', es: 'Gemini 3.8 Flash (Último)' } },
+            { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Preview)', en: 'Gemini 3.1 Pro (Preview)', es: 'Gemini 3.1 Pro (Preview)' } },
+            { id: 'gemini-3.7-flash', name: { fr: 'Gemini 3.7 Flash', en: 'Gemini 3.7 Flash', es: 'Gemini 3.7 Flash' } },
+            { id: 'gemini-3.6-flash', name: { fr: 'Gemini 3.6 Flash', en: 'Gemini 3.6 Flash', es: 'Gemini 3.6 Flash' } },
             { id: 'gemini-3.5-flash', name: { fr: 'Gemini 3.5 Flash', en: 'Gemini 3.5 Flash' } },
             { id: 'gemini-3-flash-preview', name: { fr: 'Gemini 3 Flash', en: 'Gemini 3 Flash' } },
+            { id: 'gemini-3.5-flash-lite', name: { fr: 'Gemini 3.5 Flash Lite (Économique)', en: 'Gemini 3.5 Flash Lite (Low cost)', es: 'Gemini 3.5 Flash Lite (Económico)' } },
             { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite', en: 'Gemini 3.1 Flash Lite' } },
             { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro', en: 'Gemini 2.5 Pro' } },
             { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash', en: 'Gemini 2.5 Flash' } },
@@ -3392,8 +3405,9 @@
             { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)', es: 'Grok Build 0.1 (Ligero)' } },
         ],
         deepseek: [
-            { id: 'deepseek-chat', name: { fr: 'DeepSeek V3 (Chat)', en: 'DeepSeek V3 (Chat)' } },
-            { id: 'deepseek-reasoner', name: { fr: 'DeepSeek R1 (Raisonnement)', en: 'DeepSeek R1 (Reasoning)', es: 'DeepSeek R1 (Razonamiento)' } },
+            // V4 (1M de contexte). deepseek-chat / deepseek-reasoner retirés le 24/07/2026.
+            { id: 'deepseek-v4-pro', name: { fr: 'DeepSeek V4 Pro (Dernier)', en: 'DeepSeek V4 Pro (Latest)', es: 'DeepSeek V4 Pro (Último)' } },
+            { id: 'deepseek-flash', name: { fr: 'DeepSeek Flash (Rapide)', en: 'DeepSeek Flash (Fast)', es: 'DeepSeek Flash (Rápido)' } },
         ],
         qwen: [
             // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir)
@@ -3408,10 +3422,12 @@
 
     const IMAGE_MODELS = {
         openai: [
-            { id: 'gpt-image-2', name: { fr: 'GPT Image 2 (Dernier)', en: 'GPT Image 2 (Latest)', es: 'GPT Image 2 (Último)' } },
-            { id: 'gpt-image-1.5', name: { fr: 'GPT Image 1.5', en: 'GPT Image 1.5' } },
-            { id: 'gpt-image-1', name: { fr: 'GPT Image 1', en: 'GPT Image 1' } },
-            { id: 'gpt-image-1-mini', name: { fr: 'GPT Image 1 Mini', en: 'GPT Image 1 Mini' } }
+            // GPT Image 2.5 (sept. 2026) : Sunburst = qualité / précision, Flare = ~2× plus rapide, même prix.
+            // gpt-image-1.5 et gpt-image-1-mini retirés (arrêt OpenAI le 01/12/2026).
+            { id: 'gpt-image-2.5-sunburst', name: { fr: 'GPT Image 2.5 Sunburst (Dernier, qualité)', en: 'GPT Image 2.5 Sunburst (Latest, quality)', es: 'GPT Image 2.5 Sunburst (Último, calidad)' } },
+            { id: 'gpt-image-2.5-flare', name: { fr: 'GPT Image 2.5 Flare (Rapide)', en: 'GPT Image 2.5 Flare (Fast)', es: 'GPT Image 2.5 Flare (Rápido)' } },
+            { id: 'gpt-image-2', name: { fr: 'GPT Image 2', en: 'GPT Image 2', es: 'GPT Image 2' } },
+            { id: 'gpt-image-1', name: { fr: 'GPT Image 1', en: 'GPT Image 1' } }
         ],
         gemini: [
             { id: 'gemini-3.1-flash-image-preview', name: { fr: 'Nano Banana 2 (Dernier)', en: 'Nano Banana 2 (Latest)', es: 'Nano Banana 2 (Último)' } },
@@ -3430,11 +3446,9 @@
         ]
     };
 
+    // OpenAI absent : Sora 2 et l'API Videos arrêtés le 24/09/2026, sans remplaçant
+    // (l'onglet Vidéo se désactive tout seul pour OpenAI).
     const VIDEO_MODELS = {
-        openai: [
-            { id: 'sora-2', name: { fr: 'Sora 2 (Rapide)', en: 'Sora 2 (Fast)', es: 'Sora 2 (Rápido)' } },
-            { id: 'sora-2-pro', name: { fr: 'Sora 2 Pro (Qualité)', en: 'Sora 2 Pro (Quality)', es: 'Sora 2 Pro (Calidad)' } }
-        ],
         gemini: [
             { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (Dernier)', en: 'Veo 3.1 (Latest)', es: 'Veo 3.1 (Último)' } },
             { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite', en: 'Veo 3.1 Lite' } },
@@ -3446,11 +3460,9 @@
         ]
     };
 
-    // Allowed clip durations (seconds) per provider. Sora only accepts 8/12/16/20;
-    // Gemini Veo accepts shorter clips. Mismatched values are rejected by the API.
+    // Allowed clip durations (seconds) per provider. Mismatched values are rejected by the API.
     // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
     const VIDEO_DURATIONS = {
-        openai: ['8', '12', '16', '20'],
         gemini: ['8', '6', '4'],
         grok: ['10']
     };
@@ -3519,18 +3531,20 @@ RULES:
     // ===== EXTENDED THINKING SUPPORT =====
     const THINKING_SUPPORT = {
         openai: {
-            native: ['o3', 'o3-pro', 'o4-mini'],  // Thinking intégré, toujours actif
-            configurable: ['gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
+            native: ['o3', 'o4-mini'],  // Thinking intégré, toujours actif
+            configurable: ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna', 'gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
         },
         claude: {
-            native: [],
+            // Thinking adaptatif toujours actif : seul { type: 'adaptive' } est accepté
+            // (budget_tokens / disabled → 400). Opus 4.8/4.7 restent hors table (thinking
+            // désactivé par défaut chez eux ; l'envoyer l'activerait).
+            native: ['claude-fable-5-1', 'claude-fable-5', 'claude-opus-5-5', 'claude-sonnet-5-5', 'claude-opus-5', 'claude-sonnet-5'],
             configurable: [
                 'claude-opus-4-6',
                 'claude-sonnet-4-6',
                 'claude-haiku-4-5-20251001',
                 'claude-sonnet-4-5-20250929',
                 'claude-opus-4-5-20251101',
-                'claude-opus-4-1-20250805',
                 'claude-sonnet-4-20250514',
                 'claude-opus-4-20250514'
             ]
@@ -3538,6 +3552,10 @@ RULES:
         gemini: {
             native: ['gemini-3.1-pro-preview'],  // Gemini 3.1 Pro: thinking toujours actif (high par défaut)
             configurable: [
+                'gemini-3.8-flash',            // Gemini 3.6+ / 3.5 : thinking non désactivable, niveau réglable
+                'gemini-3.7-flash',
+                'gemini-3.6-flash',
+                'gemini-3.5-flash-lite',
                 'gemini-3.5-flash',            // Gemini 3.5 Flash: configurable via thinkingLevel
                 'gemini-3-flash-preview',      // Gemini 3 Flash: configurable via thinkingLevel
                 'gemini-2.5-pro',              // Gemini 2.5: configurable via thinkingBudget
@@ -3545,8 +3563,10 @@ RULES:
             ]
         },
         deepseek: {
-            native: ['deepseek-reasoner'],  // R1 : raisonnement toujours actif (reasoning_content streamé)
-            configurable: []
+            // V4 : thinking actif par défaut côté API, désactivable (thinking.type) et
+            // réglable (reasoning_effort low|high|max) → voir callOpenAICompatibleStream
+            native: [],
+            configurable: ['deepseek-v4-pro', 'deepseek-flash']
         },
         qwen: {
             // Qwen3 supporte le thinking mais via enable_thinking (non envoyé ici) → désactivé pour l'instant
@@ -3561,7 +3581,10 @@ RULES:
     };
 
     // Modèles OpenAI qui nécessitent l'API Responses (/v1/responses) au lieu de Chat Completions
-    const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro'];
+    // GPT-6 : routés aussi vers Responses pour le résumé de réflexion (Chat Completions ne le
+    // streame pas). Astra / 6.1 Sol refusent reasoning.effort 'none' → raisonnement toujours actif.
+    const GPT6_MODELS = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna'];
+    const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro', ...GPT6_MODELS];
 
     // Qwen (Alibaba DashScope) expose 2 régions ; la clé est liée à UNE région.
     // L'utilisateur choisit la sienne (sauvegardée dans ai_qwen_region). On stocke le
@@ -3575,7 +3598,7 @@ RULES:
     }
 
     // Fournisseurs « compatibles OpenAI » (même format Chat Completions + SSE) → résolveur d'endpoint.
-    // Routés vers callOpenAICompatibleStream (SANS reasoning_effort, propre à OpenAI).
+    // Routés vers callOpenAICompatibleStream (SANS reasoning_effort, sauf DeepSeek V4 qui l'accepte).
     // Valeur = fonction (l'endpoint Qwen dépend de la région choisie, lue à l'exécution).
     const OPENAI_COMPATIBLE_ENDPOINTS = {
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
@@ -3599,8 +3622,20 @@ RULES:
         { id: 'high', label: { fr: 'Profond', en: 'High', es: 'Alto' } }
     ];
 
+    // Effort Claude (output_config.effort) pour les modèles à thinking adaptatif natif.
+    // Remplace le budget de tokens (budget_tokens refusé par ces modèles). Défaut : high.
+    const CLAUDE_EFFORT_LEVELS = [
+        { id: 'low', label: { fr: 'Effort léger', en: 'Low effort', es: 'Esfuerzo bajo' } },
+        { id: 'medium', label: { fr: 'Effort modéré', en: 'Medium effort', es: 'Esfuerzo medio' } },
+        { id: 'high', label: { fr: 'Effort élevé', en: 'High effort', es: 'Esfuerzo alto' } },
+        { id: 'xhigh', label: { fr: 'Effort très élevé', en: 'Extra-high effort', es: 'Esfuerzo muy alto' } },
+        { id: 'max', label: { fr: 'Effort maximum', en: 'Max effort', es: 'Esfuerzo máximo' } }
+    ];
+
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
-    const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.5-flash', 'gemini-3-flash-preview'];
+    const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
+    // Gemini 3 qui refusent thinkingLevel 'minimal' (erreur API) → retiré du menu, ramené à 'low'
+    const GEMINI_NO_MINIMAL = ['gemini-3.8-flash', 'gemini-3.7-flash'];
 
     const THINKING_MODES = ['chat', 'code', 'vibecoder'];  // Modes où thinking est pertinent
 
@@ -3915,66 +3950,6 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Adapter strategy: each provider exposes submit/poll/finalize. The unified
     // handleVideoGeneration drives the polling loop and UI updates.
     const VIDEO_ADAPTERS = {
-        openai: {
-            async submit(prompt, params, key, signal) {
-                const sizeMap = { '16:9': '1280x720', '9:16': '720x1280' };
-                const size = sizeMap[params.aspectRatio] || '1280x720';
-                const formData = new FormData();
-                formData.append('model', params.model);
-                formData.append('prompt', prompt);
-                formData.append('size', size);
-                formData.append('seconds', String(parseInt(params.duration, 10)));
-                const res = await fetchWithRetry('https://api.openai.com/v1/videos', {
-                    method: 'POST',
-                    signal,
-                    headers: { 'Authorization': `Bearer ${key}` },
-                    body: formData
-                });
-                if (!res.ok) {
-                    const err = await res.json().catch(() => ({}));
-                    throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-                }
-                const data = await res.json();
-                if (!data.id) throw new Error("No video ID returned by the Sora API.");
-                return { handle: data.id, sizeUsed: size };
-            },
-            async poll(handle, key, signal) {
-                const res = await fetch(`https://api.openai.com/v1/videos/${handle}`, {
-                    method: 'GET',
-                    signal,
-                    headers: { 'Authorization': `Bearer ${key}` }
-                });
-                if (!res.ok) {
-                    const err = await res.json().catch(() => ({}));
-                    return { httpError: err.error?.message || `HTTP Error ${res.status}` };
-                }
-                const data = await res.json();
-                return {
-                    done: data.status === 'completed',
-                    failed: data.status === 'failed',
-                    error: data.error?.message,
-                    progress: data.progress
-                };
-            },
-            async finalize(handle, key, signal) {
-                const res = await fetchWithRetry(`https://api.openai.com/v1/videos/${handle}/content`, {
-                    method: 'GET',
-                    signal,
-                    headers: { 'Authorization': `Bearer ${key}` }
-                });
-                if (!res.ok) throw new Error("Video is ready but download failed.");
-                const blob = await res.blob();
-                return {
-                    src: URL.createObjectURL(blob),
-                    filename: `sora_video_${Date.now()}.mp4`,
-                    openInNewTab: false
-                };
-            },
-            pollIntervalMs: 10000,
-            // Sora 2 Pro renders are materially slower than the fast model,
-            // so give Pro a longer ceiling (~40 min) vs ~20 min for sora-2.
-            maxPolls: (model) => model === 'sora-2-pro' ? 240 : 120
-        },
         gemini: {
             async submit(prompt, params, key, signal) {
                 const requestBody = {
@@ -4276,7 +4251,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         if (support.type === 'native') {
             thinkingModeLabel.style.display = 'none';
-            thinkingBudgetSelect.style.display = 'none';
+            // Claude natif : le sélecteur sert à l'effort (le thinking, lui, est toujours actif)
+            thinkingBudgetSelect.style.display = provider === 'claude' ? 'inline-block' : 'none';
             thinkingNativeBadge.style.display = 'inline-block';
         } else if (support.type === 'configurable') {
             thinkingModeLabel.style.display = 'flex';
@@ -4293,9 +4269,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         thinkingBudgetSelect.innerHTML = '';
 
-        if (provider === 'gemini' && isGemini3) {
-            // Gemini 3: use thinking levels
-            THINKING_LEVELS.forEach(l => {
+        if (provider === 'claude' && THINKING_SUPPORT.claude.native.includes(model)) {
+            // Claude à thinking adaptatif : niveaux d'effort
+            const savedEffort = localStorage.getItem('ai_claude_effort') || 'high';
+            CLAUDE_EFFORT_LEVELS.forEach(l => {
+                const opt = document.createElement('option');
+                opt.value = l.id;
+                opt.textContent = l.label[currentLang] || l.label.fr;
+                if (l.id === savedEffort) opt.selected = true;
+                thinkingBudgetSelect.appendChild(opt);
+            });
+        } else if (provider === 'gemini' && isGemini3) {
+            // Gemini 3: use thinking levels ('minimal' masqué pour les modèles qui le refusent)
+            const levels = GEMINI_NO_MINIMAL.includes(model) ? THINKING_LEVELS.filter(l => l.id !== 'minimal') : THINKING_LEVELS;
+            levels.forEach(l => {
                 const opt = document.createElement('option');
                 opt.value = l.id;
                 opt.textContent = l.label[currentLang] || l.label.fr;
@@ -4680,7 +4667,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Capacités pilotées par les tables : un fournisseur supporte l'image/vidéo
         // s'il a une entrée dans IMAGE_MODELS / VIDEO_MODELS.
-        // (ex. Qwen = image seule ; Claude/DeepSeek = texte seul ; OpenAI/Gemini = les deux.)
+        // (ex. OpenAI/Qwen = image seule ; Claude/DeepSeek = texte seul ; Gemini/Grok = les deux.)
         const supportsImage = !!IMAGE_MODELS[provider];
         const supportsVideo = !!VIDEO_MODELS[provider];
 
@@ -5103,8 +5090,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (thinkingBudgetSelect) {
             thinkingBudgetSelect.addEventListener('change', () => {
                 const val = thinkingBudgetSelect.value;
-                // Check if it's a thinking level (string) or budget (number)
-                if (isNaN(parseInt(val))) {
+                // Effort Claude, niveau Gemini 3 (chaînes) ou budget (nombre)
+                if (isNaN(parseInt(val)) && providerSelect.value === 'claude') {
+                    localStorage.setItem('ai_claude_effort', val);
+                } else if (isNaN(parseInt(val))) {
                     // Gemini 3 thinking level
                     localStorage.setItem('ai_thinking_level', val);
                 } else {
@@ -6028,11 +6017,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
             const toggleBtn = thinkingBlockDiv.querySelector('.thinking-toggle');
             const contentArea = thinkingBlockDiv.querySelector('.thinking-content');
+            // Le CSS n'affiche le contenu que sous .thinking-block.expanded (max-height: 0
+            // sinon) ; dp-hidden le masque au départ → on bascule les deux classes ensemble.
             toggleBtn.addEventListener('click', () => {
-                const isHidden = contentArea.style.display === 'none';
-                contentArea.style.display = isHidden ? 'block' : 'none';
-                toggleBtn.textContent = isHidden 
-                    ? (I18N[currentLang].thinkingToggleHide || 'Masquer') 
+                const willShow = !thinkingBlockDiv.classList.contains('expanded');
+                thinkingBlockDiv.classList.toggle('expanded', willShow);
+                contentArea.classList.toggle('dp-hidden', !willShow);
+                toggleBtn.textContent = willShow
+                    ? (I18N[currentLang].thinkingToggleHide || 'Masquer')
                     : (I18N[currentLang].thinkingToggleShow || 'Afficher');
             });
 
@@ -6235,7 +6227,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         responsesNormal: 16384,
         responsesBig: 32768,
         claudeNormal: 4096,
-        claudeBig: 8192
+        claudeBig: 8192,
+        adaptiveNormal: 32000,   // Claude natif / GPT-6 : réflexion + réponse dans le même plafond
+        adaptiveBig: 64000
     };
     function maxOut() { return isBigOutputMode() ? TOKEN_LIMITS.big : TOKEN_LIMITS.normal; }
 
@@ -6309,19 +6303,33 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // ===== Fournisseurs compatibles OpenAI (DeepSeek, Qwen, ...) =====
     // Même protocole que callOpenAIStream (rôle 'system', SSE delta.content +
     // delta.reasoning_content déjà géré par readStream), MAIS sans reasoning_effort
-    // (paramètre propre à OpenAI, rejeté par ces API). L'endpoint est paramétré.
+    // (paramètre propre à OpenAI, rejeté par Qwen/Grok). L'endpoint est paramétré.
     async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const messages = [
             { role: 'system', content: systemPrompt },
             ...formatHistory(conversationHistory, 'openai')
         ];
+        const body = { model, messages, stream: true, max_tokens: maxOut(), stream_options: { include_usage: true } };
+
+        // DeepSeek V4 : thinking actif par défaut côté API → toujours explicite selon le
+        // toggle (onThinkingChunk fourni = thinking actif). Budget UI → reasoning_effort
+        // (low | high | max). Le raisonnement compte dans max_tokens → plafond relevé.
+        if (THINKING_SUPPORT.deepseek.configurable.includes(model)) {
+            if (onThinkingChunk) {
+                const budgetVal = parseInt(thinkingBudgetSelect?.value) || 10000;
+                body.thinking = { type: 'enabled' };
+                body.reasoning_effort = budgetVal <= 5000 ? 'low' : (budgetVal <= 20000 ? 'high' : 'max');
+                body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+            } else {
+                body.thinking = { type: 'disabled' };
+            }
+        }
 
         await postStream({
             url: endpoint,
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-            body: { model, messages, stream: true, max_tokens: maxOut(), stream_options: { include_usage: true } },
-            signal, onChunk, onThinkingChunk, parser: 'openai', onMeta
+            body, signal, onChunk, onThinkingChunk, parser: 'openai', onMeta
         });
     }
 
@@ -6363,21 +6371,27 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
 
         // gpt-5.4-pro has 128K max output tokens; give it more room for reasoning + response
-        bodyParams.max_output_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+        // GPT-6 : le raisonnement (jusqu'à xhigh) compte dans max_output_tokens → plafond large.
+        const isGpt6 = GPT6_MODELS.includes(model);
+        bodyParams.max_output_tokens = isGpt6
+            ? (isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal)
+            : (isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal);
 
         // Reasoning effort for Responses API models
         // gpt-5.4-pro supports: medium, high, xhigh only (no 'none' or 'low')
+        // GPT-6 : low → max (pas de 'none' sur Astra / 6.1 Sol) → 'low' quand le thinking est coupé.
         const isConfigurableReasoning = THINKING_SUPPORT.openai.configurable.some(m => model === m);
         if (isConfigurableReasoning && thinkingEnabled) {
             const budgetVal = parseInt(thinkingBudgetSelect?.value) || 10000;
             let effort = 'medium';
-            if (budgetVal <= 10000) effort = 'medium';
+            if (isGpt6 && budgetVal <= 5000) effort = 'low';
+            else if (budgetVal <= 10000) effort = 'medium';
             else if (budgetVal <= 20000) effort = 'high';
             else effort = 'xhigh';
             bodyParams.reasoning = { effort: effort, summary: 'auto' };
         } else if (isConfigurableReasoning) {
-            // Default to medium (minimum supported for gpt-5.4-pro)
-            bodyParams.reasoning = { effort: 'medium' };
+            // Default to medium (minimum supported for gpt-5.4-pro) ; GPT-6 : low (le plus léger accepté)
+            bodyParams.reasoning = { effort: isGpt6 ? 'low' : 'medium' };
         }
 
         // Recherche web ET lecture des liens collés passent par l'outil web_search de
@@ -6464,6 +6478,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.claudeBig : TOKEN_LIMITS.claudeNormal;
         }
 
+        // Thinking natif (adaptatif, toujours actif) : on demande un résumé lisible de la
+        // réflexion (défaut 'omitted' = blocs vides → longue pause muette avant la réponse).
+        // Profondeur réglée par l'effort (lu dans localStorage → valable aussi en comparaison).
+        // La réflexion compte dans max_tokens → plafond large (seuls les tokens produits sont facturés).
+        if (THINKING_SUPPORT.claude.native.includes(model)) {
+            if (onThinkingChunk) bodyParams.thinking = { type: 'adaptive', display: 'summarized' };
+            bodyParams.output_config = { effort: localStorage.getItem('ai_claude_effort') || 'high' };
+            bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal;
+        }
+
         // Recherche web (outil serveur web_search) + lecture des liens collés (outil
         // serveur web_fetch — distinct, en bêta → en-tête anthropic-beta requis).
         // Citations renvoyées dans des blocs de contenu, extraites par le parser 'claude'.
@@ -6511,7 +6535,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 // Gemini 3: use thinkingLevel
                 if (isConfigurableThinking) {
                     const savedLevel = localStorage.getItem('ai_thinking_level') || 'high';
-                    thinkingConfig.thinkingLevel = savedLevel;
+                    thinkingConfig.thinkingLevel = (savedLevel === 'minimal' && GEMINI_NO_MINIMAL.includes(model)) ? 'low' : savedLevel;
                 }
                 // For native (gemini-3-pro), default is 'high' — no need to set explicitly
             } else {
@@ -9384,6 +9408,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             if (json.type === "message_delta") {
                                 if (json.delta?.stop_reason === 'max_tokens') {
                                     onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
+                                }
+                                // Modèles 5.x : les filtres de sécurité peuvent décliner (HTTP 200,
+                                // réponse vide ou coupée) → message explicite au lieu d'une bulle vide.
+                                if (json.delta?.stop_reason === 'refusal') {
+                                    onChunk('\n\n' + I18N[currentLang].claudeRefusal);
                                 }
                                 if (onMeta) onMeta({ usage: { input: claudeInputTokens, output: json.usage?.output_tokens || 0 } });
                                 streamDone = true;
