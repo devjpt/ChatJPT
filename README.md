@@ -33,7 +33,7 @@ FEATURES
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
                      resolution), Qwen, and Grok
-      • Video      : video generation (Google Veo, xAI Grok Imagine)
+      • Video      : video generation (Google Gemini Omni / Veo, xAI Grok Imagine)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -170,7 +170,7 @@ FONCTIONNALITÉS
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
                      ajustables), Qwen et Grok
-      • Vidéo      : génération de vidéos (Google Veo, xAI Grok Imagine)
+      • Vidéo      : génération de vidéos (Google Gemini Omni / Veo, xAI Grok Imagine)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -313,7 +313,7 @@ CARACTERÍSTICAS
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
                      tamaño ajustables), Google Gemini (formato y resolución
                      ajustables), Qwen y Grok
-      • Video      : generación de videos (Google Veo, xAI Grok Imagine)
+      • Video      : generación de videos (Google Gemini Omni / Veo, xAI Grok Imagine)
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos

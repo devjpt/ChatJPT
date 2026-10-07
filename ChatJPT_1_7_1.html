@@ -3399,7 +3399,10 @@
             { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
         ],
         grok: [
-            { id: 'grok-4.3', name: { fr: 'Grok 4.3 (Dernier)', en: 'Grok 4.3 (Latest)', es: 'Grok 4.3 (Último)' } },
+            { id: 'grok-4.7', name: { fr: 'Grok 4.7 (Dernier)', en: 'Grok 4.7 (Latest)', es: 'Grok 4.7 (Último)' } },
+            { id: 'grok-4.6', name: { fr: 'Grok 4.6', en: 'Grok 4.6', es: 'Grok 4.6' } },
+            { id: 'grok-4.5', name: { fr: 'Grok 4.5', en: 'Grok 4.5', es: 'Grok 4.5' } },
+            { id: 'grok-4.3', name: { fr: 'Grok 4.3', en: 'Grok 4.3', es: 'Grok 4.3' } },
             { id: 'grok-4.20-0309-reasoning', name: { fr: 'Grok 4.20 (Raisonnement)', en: 'Grok 4.20 (Reasoning)', es: 'Grok 4.20 (Razonamiento)' } },
             { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)', es: 'Grok 4.20 (Rápido)' } },
             { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)', es: 'Grok Build 0.1 (Ligero)' } },
@@ -3430,13 +3433,16 @@
             { id: 'gpt-image-1', name: { fr: 'GPT Image 1', en: 'GPT Image 1' } }
         ],
         gemini: [
-            { id: 'gemini-3.1-flash-image-preview', name: { fr: 'Nano Banana 2 (Dernier)', en: 'Nano Banana 2 (Latest)', es: 'Nano Banana 2 (Último)' } },
-            { id: 'gemini-3-pro-image-preview', name: { fr: 'Nano Banana Pro', en: 'Nano Banana Pro' } },
-            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)' } },
-            { id: 'imagen-4.0-generate-001', name: { fr: 'Imagen 4.0 (Legacy)', en: 'Imagen 4.0 (Legacy)' } }
+            // Versions stables (les *-preview ont été arrêtées le 25/06/2026, Imagen 4 le 17/08/2026).
+            { id: 'gemini-nano-banana-2.1', name: { fr: 'Nano Banana 2.1 (Dernier)', en: 'Nano Banana 2.1 (Latest)', es: 'Nano Banana 2.1 (Último)' } },
+            { id: 'gemini-3-pro-image', name: { fr: 'Nano Banana Pro (Qualité)', en: 'Nano Banana Pro (Quality)', es: 'Nano Banana Pro (Calidad)' } },
+            { id: 'gemini-3.1-flash-image', name: { fr: 'Nano Banana 2', en: 'Nano Banana 2', es: 'Nano Banana 2' } },
+            { id: 'gemini-3.1-flash-lite-image', name: { fr: 'Nano Banana 2 Lite (Rapide, 1K)', en: 'Nano Banana 2 Lite (Fast, 1K)', es: 'Nano Banana 2 Lite (Rápido, 1K)' } },
+            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)' } }
         ],
         grok: [
             // Synchrone via /v1/images/generations (format OpenAI ; renvoie data[0].url)
+            { id: 'grok-imagine-image-2.0', name: { fr: 'Grok Imagine 2.0 (Dernier)', en: 'Grok Imagine 2.0 (Latest)', es: 'Grok Imagine 2.0 (Último)' } },
             { id: 'grok-imagine-image-quality', name: { fr: 'Grok Imagine (Qualité)', en: 'Grok Imagine (Quality)', es: 'Grok Imagine (Calidad)' } }
         ],
         qwen: [
@@ -3450,15 +3456,22 @@
     // (l'onglet Vidéo se désactive tout seul pour OpenAI).
     const VIDEO_MODELS = {
         gemini: [
-            { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (Dernier)', en: 'Veo 3.1 (Latest)', es: 'Veo 3.1 (Último)' } },
-            { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite', en: 'Veo 3.1 Lite' } },
-            { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast', en: 'Veo 3.1 Fast' } },
-            { id: 'veo-2.0-generate-001', name: { fr: 'Veo 2.0', en: 'Veo 2.0' } }
+            // Omni : Interactions API (background + polling), audio inclus, durée fixée par le modèle.
+            { id: 'gemini-omni-1.1-flash', name: { fr: 'Gemini Omni 1.1 Flash (Dernier, avec audio)', en: 'Gemini Omni 1.1 Flash (Latest, with audio)', es: 'Gemini Omni 1.1 Flash (Último, con audio)' } },
+            // Veo 3.1 : arrêt Google le 22/10/2026 (remplacé par Omni). Veo 2.0 arrêté le 30/06/2026.
+            { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (arrêt le 22/10)', en: 'Veo 3.1 (ends Oct 22)', es: 'Veo 3.1 (fin el 22/10)' } },
+            { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite (arrêt le 22/10)', en: 'Veo 3.1 Lite (ends Oct 22)', es: 'Veo 3.1 Lite (fin el 22/10)' } },
+            { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast (arrêt le 22/10)', en: 'Veo 3.1 Fast (ends Oct 22)', es: 'Veo 3.1 Fast (fin el 22/10)' } }
         ],
         grok: [
+            { id: 'grok-imagine-video-1.5', name: { fr: 'Grok Imagine Vidéo 1.5 (Dernier)', en: 'Grok Imagine Video 1.5 (Latest)', es: 'Grok Imagine Video 1.5 (Último)' } },
+            { id: 'grok-imagine-video-1.5-lite', name: { fr: 'Grok Imagine Vidéo 1.5 Lite (Rapide)', en: 'Grok Imagine Video 1.5 Lite (Fast)', es: 'Grok Imagine Video 1.5 Lite (Rápido)' } },
             { id: 'grok-imagine-video', name: { fr: 'Grok Imagine Vidéo', en: 'Grok Imagine Video', es: 'Grok Imagine Video' } }
         ]
     };
+
+    // Gemini Omni (vidéo via Interactions API) : pas de durée réglable → sélecteur masqué.
+    function isOmniVideoModel(model) { return /^gemini-omni-/.test(model || ''); }
 
     // Allowed clip durations (seconds) per provider. Mismatched values are rejected by the API.
     // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
@@ -3574,8 +3587,10 @@ RULES:
             configurable: []
         },
         grok: {
-            // Grok 4.20 a une variante « reasoning » ; exposition de reasoning_content non vérifiée → off pour l'instant
-            native: [],
+            // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
+            // n'est visible que via l'API Responses → ces modèles y sont toujours routés.
+            // Grok 4.20 / 4.3 : réflexion non exposée en Chat Completions → hors table.
+            native: ['grok-4.7', 'grok-4.6', 'grok-4.5'],
             configurable: []
         }
     };
@@ -3622,15 +3637,29 @@ RULES:
         { id: 'high', label: { fr: 'Profond', en: 'High', es: 'Alto' } }
     ];
 
-    // Effort Claude (output_config.effort) pour les modèles à thinking adaptatif natif.
-    // Remplace le budget de tokens (budget_tokens refusé par ces modèles). Défaut : high.
-    const CLAUDE_EFFORT_LEVELS = [
+    // Effort pour les modèles à raisonnement natif réglable (Claude adaptatif, Grok 4.5+).
+    // Remplace le budget de tokens (refusé par ces modèles). Défaut : high. Mémorisé par
+    // fournisseur dans ai_<provider>_effort.
+    const EFFORT_PROVIDERS = ['claude', 'grok'];
+    const EFFORT_LEVELS = [
         { id: 'low', label: { fr: 'Effort léger', en: 'Low effort', es: 'Esfuerzo bajo' } },
         { id: 'medium', label: { fr: 'Effort modéré', en: 'Medium effort', es: 'Esfuerzo medio' } },
         { id: 'high', label: { fr: 'Effort élevé', en: 'High effort', es: 'Esfuerzo alto' } },
         { id: 'xhigh', label: { fr: 'Effort très élevé', en: 'Extra-high effort', es: 'Esfuerzo muy alto' } },
         { id: 'max', label: { fr: 'Effort maximum', en: 'Max effort', es: 'Esfuerzo máximo' } }
     ];
+    // Niveaux acceptés par modèle : Claude = tous ; Grok = low → xhigh (pas de xhigh sur 4.5).
+    function effortLevelsFor(provider, model) {
+        if (provider !== 'grok') return EFFORT_LEVELS;
+        const ok = model === 'grok-4.5' ? ['low', 'medium', 'high'] : ['low', 'medium', 'high', 'xhigh'];
+        return EFFORT_LEVELS.filter(l => ok.includes(l.id));
+    }
+    // Effort enregistré, ramené au plus haut niveau accepté par le modèle si besoin.
+    function savedEffortFor(provider, model) {
+        const saved = localStorage.getItem(`ai_${provider}_effort`) || 'high';
+        const ids = effortLevelsFor(provider, model).map(l => l.id);
+        return ids.includes(saved) ? saved : ids[ids.length - 1];
+    }
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
     const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
@@ -3951,7 +3980,33 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // handleVideoGeneration drives the polling loop and UI updates.
     const VIDEO_ADAPTERS = {
         gemini: {
+            // Deux familles : Veo (predictLongRunning → opération) et Omni (Interactions API en
+            // mode background → interaction à interroger). Même contrat submit/poll/finalize.
             async submit(prompt, params, key, signal) {
+                if (isOmniVideoModel(params.model)) {
+                    const res = await fetchWithRetry(
+                        `https://generativelanguage.googleapis.com/v1beta/interactions?key=${key}`,
+                        {
+                            method: 'POST',
+                            signal,
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                model: params.model,
+                                input: prompt,
+                                background: true,
+                                store: true,   // requis par le mode background
+                                response_format: { type: 'video', aspect_ratio: params.aspectRatio, resolution: '720p' }
+                            })
+                        }
+                    );
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+                    }
+                    const data = await res.json();
+                    if (!data.id) throw new Error("No interaction ID returned by the API.");
+                    return { handle: data.id };
+                }
                 const requestBody = {
                     instances: [{ prompt }],
                     parameters: {
@@ -3977,7 +4032,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 if (!data.name) throw new Error("No operation name returned by the API.");
                 return { handle: data.name };
             },
-            async poll(handle, key, signal) {
+            async poll(handle, key, signal, model) {
+                if (isOmniVideoModel(model)) {
+                    const res = await fetch(
+                        `https://generativelanguage.googleapis.com/v1beta/interactions/${handle}?key=${key}`,
+                        { method: 'GET', signal }
+                    );
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        return { httpError: err.error?.message || `HTTP Error ${res.status}` };
+                    }
+                    const data = await res.json();
+                    // Vidéo dans steps[type=model_output].content[type=video] : data (base64) ou uri
+                    const out = (data.steps || []).filter(s => s.type === 'model_output')
+                        .flatMap(s => s.content || []).find(c => c.type === 'video');
+                    return {
+                        done: data.status === 'completed',
+                        failed: data.status === 'failed' || data.status === 'cancelled',
+                        error: data.error?.message || null,
+                        progress: null,
+                        _video: out || null
+                    };
+                }
                 const res = await fetch(
                     `https://generativelanguage.googleapis.com/v1beta/${handle}?key=${key}`,
                     { method: 'GET', signal, headers: { 'Content-Type': 'application/json' } }
@@ -3997,6 +4073,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 };
             },
             async finalize(handle, key, signal, lastStatus) {
+                const video = lastStatus && lastStatus._video;
+                if (video) {
+                    // Omni : base64 inline (< 4 Mo) → Blob local ; sinon URI de fichier (clé en query)
+                    if (video.data) {
+                        const bytes = Uint8Array.from(atob(video.data), c => c.charCodeAt(0));
+                        const blob = new Blob([bytes], { type: video.mime_type || 'video/mp4' });
+                        return { src: URL.createObjectURL(blob), filename: `video_${Date.now()}.mp4`, openInNewTab: false };
+                    }
+                    if (video.uri) {
+                        return { src: `${video.uri}${video.uri.includes('?') ? '&' : '?'}key=${key}`, filename: `video_${Date.now()}.mp4`, openInNewTab: true };
+                    }
+                }
                 const uri = lastStatus && lastStatus._uri;
                 if (!uri) throw new Error("Video was generated but no download URI was found.");
                 return {
@@ -4251,8 +4339,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         if (support.type === 'native') {
             thinkingModeLabel.style.display = 'none';
-            // Claude natif : le sélecteur sert à l'effort (le thinking, lui, est toujours actif)
-            thinkingBudgetSelect.style.display = provider === 'claude' ? 'inline-block' : 'none';
+            // Claude / Grok natifs : le sélecteur sert à l'effort (le raisonnement, lui, est toujours actif)
+            thinkingBudgetSelect.style.display = EFFORT_PROVIDERS.includes(provider) ? 'inline-block' : 'none';
             thinkingNativeBadge.style.display = 'inline-block';
         } else if (support.type === 'configurable') {
             thinkingModeLabel.style.display = 'flex';
@@ -4269,10 +4357,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         thinkingBudgetSelect.innerHTML = '';
 
-        if (provider === 'claude' && THINKING_SUPPORT.claude.native.includes(model)) {
-            // Claude à thinking adaptatif : niveaux d'effort
-            const savedEffort = localStorage.getItem('ai_claude_effort') || 'high';
-            CLAUDE_EFFORT_LEVELS.forEach(l => {
+        if (EFFORT_PROVIDERS.includes(provider) && THINKING_SUPPORT[provider].native.includes(model)) {
+            // Claude adaptatif / Grok 4.5+ : niveaux d'effort
+            const savedEffort = savedEffortFor(provider, model);
+            effortLevelsFor(provider, model).forEach(l => {
                 const opt = document.createElement('option');
                 opt.value = l.id;
                 opt.textContent = l.label[currentLang] || l.label.fr;
@@ -4909,6 +4997,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             videoDurationSelect.appendChild(opt);
         });
         if (list.includes(prev)) videoDurationSelect.value = prev;
+        const durationGroup = videoDurationSelect.closest('.select-group');
+        if (durationGroup) durationGroup.style.display = isOmniVideoModel(videoModelSelect && videoModelSelect.value) ? 'none' : '';
     }
 
     function populateImageModels() {
@@ -5065,6 +5155,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             });
         }
 
+        // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
+        if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
+
         document.querySelectorAll('.mode-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 if (tab.classList.contains('disabled')) return;
@@ -5091,8 +5184,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             thinkingBudgetSelect.addEventListener('change', () => {
                 const val = thinkingBudgetSelect.value;
                 // Effort Claude, niveau Gemini 3 (chaînes) ou budget (nombre)
-                if (isNaN(parseInt(val)) && providerSelect.value === 'claude') {
-                    localStorage.setItem('ai_claude_effort', val);
+                if (isNaN(parseInt(val)) && EFFORT_PROVIDERS.includes(providerSelect.value)) {
+                    localStorage.setItem(`ai_${providerSelect.value}_effort`, val);
                 } else if (isNaN(parseInt(val))) {
                     // Gemini 3 thinking level
                     localStorage.setItem('ai_thinking_level', val);
@@ -6140,9 +6233,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (provider === 'openai') {
                 await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok))) {
-                // Grok + recherche web / lecture de liens : API Responses de xAI (Agent Tools).
-                // Le Grok-chat normal (sans outil) reste sur Chat Completions ci-dessous.
+            } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok) || THINKING_SUPPORT.grok.native.includes(model))) {
+                // Grok + recherche web / lecture de liens, ou Grok 4.5+ (réflexion visible) : API
+                // Responses de xAI. Le Grok-chat normal (4.3, 4.20…) reste sur Chat Completions.
                 await callGrokResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
             } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
                 await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
@@ -6424,23 +6517,30 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const input = formatHistory(conversationHistory, 'openai-responses');
 
-        // web_search est la seule primitive web de xAI (pas d'outil de lecture d'URL).
-        // En lecture de lien seule, on restreint au domaine collé (allowed_domains) pour
-        // forcer Grok à ouvrir la page — sinon la lecture est intermittente.
-        const grokTool = { type: 'web_search' };
-        if (readLinksEnabled && !webSearchEnabled) {
-            const domains = userLinkDomains();
-            if (domains.length) grokTool.filters = { allowed_domains: domains };
-        }
-
+        const isReasoningNative = THINKING_SUPPORT.grok.native.includes(model);
         const body = {
             model,
             instructions: systemPrompt,
             input,
             stream: true,
-            max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal,
-            tools: [grokTool]
+            // Grok 4.5+ : le raisonnement compte dans le plafond → plafond large
+            max_output_tokens: isReasoningNative
+                ? (isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal)
+                : (isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal)
         };
+        if (isReasoningNative) body.reasoning = { effort: savedEffortFor('grok', model) };
+
+        // web_search est la seule primitive web de xAI (pas d'outil de lecture d'URL).
+        // En lecture de lien seule, on restreint au domaine collé (allowed_domains) pour
+        // forcer Grok à ouvrir la page — sinon la lecture est intermittente.
+        if ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok)) {
+            const grokTool = { type: 'web_search' };
+            if (readLinksEnabled && !webSearchEnabled) {
+                const domains = userLinkDomains();
+                if (domains.length) grokTool.filters = { allowed_domains: domains };
+            }
+            body.tools = [grokTool];
+        }
 
         await postStream({
             url: 'https://api.x.ai/v1/responses',
@@ -6484,7 +6584,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // La réflexion compte dans max_tokens → plafond large (seuls les tokens produits sont facturés).
         if (THINKING_SUPPORT.claude.native.includes(model)) {
             if (onThinkingChunk) bodyParams.thinking = { type: 'adaptive', display: 'summarized' };
-            bodyParams.output_config = { effort: localStorage.getItem('ai_claude_effort') || 'high' };
+            bodyParams.output_config = { effort: savedEffortFor('claude', model) };
             bodyParams.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal;
         }
 
@@ -6781,40 +6881,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     async function generateImageGemini(prompt, key) {
-        const selectedModel = imageModelSelect ? imageModelSelect.value : 'gemini-3.1-flash-image-preview';
+        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'gemini-nano-banana-2.1';
         const aspectRatio = (imageFormatSelect && imageFormatSelect.value) ? imageFormatSelect.value : '1:1';
-        const resolution = (imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K';
-
-        // Legacy Imagen 4.0 uses the :predict endpoint (supports 1K/2K only — clamp 4K)
-        if (selectedModel === 'imagen-4.0-generate-001') {
-            const res = await fetchWithRetry(
-                `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:predict?key=${key}`,
-                {
-                    method: 'POST',
-                    signal: currentAbortController.signal,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        instances: [{ prompt }],
-                        parameters: {
-                            sampleCount: 1,
-                            aspectRatio,
-                            sampleImageSize: resolution === '4K' ? '2K' : resolution
-                        }
-                    })
-                }
-            );
-
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                throw new Error(err.error?.message || `HTTP Error ${res.status}`);
-            }
-
-            const data = await res.json();
-            if (data.predictions && data.predictions[0]) {
-                return data.predictions[0].bytesBase64Encoded;
-            }
-            throw new Error("No image generated. Check your prompt and API key.");
-        }
+        // Nano Banana 2 Lite n'accepte que 1K → on force (2K/4K seraient rejetés)
+        const resolution = selectedModel === 'gemini-3.1-flash-lite-image'
+            ? '1K'
+            : ((imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K');
 
         // Nano Banana models use the :generateContent endpoint
         const res = await fetchWithRetry(
@@ -6895,7 +6967,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Grok image (xAI) — endpoint /v1/images/generations, format OpenAI et SYNCHRONE.
     // Renvoie data[0].url (URL temporaire) → handleImageGeneration l'affiche via <img src>.
     async function generateImageGrok(prompt, key) {
-        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'grok-imagine-image-quality';
+        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'grok-imagine-image-2.0';
         const aspectRatio = (imageGrokAspectSelect && imageGrokAspectSelect.value) ? imageGrokAspectSelect.value : '1:1';
         const resolution = (imageGrokResolutionSelect && imageGrokResolutionSelect.value) ? imageGrokResolutionSelect.value : '2k';
 
@@ -6986,7 +7058,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
                 let status;
                 try {
-                    status = await adapter.poll(handle, key, signal);
+                    status = await adapter.poll(handle, key, signal, params.model);
                 } catch (e) {
                     if (e.name === 'AbortError') throw e;
                     // Transient network error — retry, but bail out if it persists
@@ -9295,7 +9367,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 if (text) onChunk(text);
                             }
                             // Reasoning/thinking content (summary delta)
-                            else if (evt === 'response.reasoning_summary_text.delta') {
+                            // (xAI peut aussi émettre response.reasoning_text.delta pour Grok)
+                            else if (evt === 'response.reasoning_summary_text.delta' || evt === 'response.reasoning_text.delta') {
                                 const text = json.delta;
                                 if (text && onThinkingChunk) onThinkingChunk(text);
                             }
