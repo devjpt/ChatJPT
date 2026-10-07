@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.7.1
+  Version 1.8.0
 -->
 
 
@@ -2325,7 +2325,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 9 juin 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 6 octobre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2877,8 +2877,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.7.1 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 9 juin 2026",
+            creditVersion: "Version 1.8.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 6 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3066,8 +3066,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.7.1 - Latest version: ",
-            appUpdated: "📅 Updated: June 9, 2026",
+            creditVersion: "Version 1.8.0 - Latest version: ",
+            appUpdated: "📅 Updated: October 6, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3255,8 +3255,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.7.1 - Última versión: ",
-            appUpdated: "📅 Actualizado: 9 de junio de 2026",
+            creditVersion: "Versión 1.8.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 6 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3413,8 +3413,12 @@
             { id: 'deepseek-flash', name: { fr: 'DeepSeek Flash (Rapide)', en: 'DeepSeek Flash (Fast)', es: 'DeepSeek Flash (Rápido)' } },
         ],
         qwen: [
+            // Gamme Qwen3.8 / 3.7 (thinking hybride, actif par défaut → piloté par le toggle 🧠)
+            { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max (Dernier)', en: 'Qwen3.8 Max (Latest)', es: 'Qwen3.8 Max (Último)' } },
+            { id: 'qwen3.7-plus', name: { fr: 'Qwen3.7 Plus (Équilibré)', en: 'Qwen3.7 Plus (Balanced)', es: 'Qwen3.7 Plus (Equilibrado)' } },
+            { id: 'qwen3.8-flash', name: { fr: 'Qwen3.8 Flash (Rapide)', en: 'Qwen3.8 Flash (Fast)', es: 'Qwen3.8 Flash (Rápido)' } },
             // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir)
-            { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship, dernier)', en: 'Qwen Max (Flagship, latest)', es: 'Qwen Max (Insignia, último)' } },
+            { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship)', en: 'Qwen Max (Flagship)', es: 'Qwen Max (Insignia)' } },
             { id: 'qwen-plus', name: { fr: 'Qwen Plus (Équilibré)', en: 'Qwen Plus (Balanced)', es: 'Qwen Plus (Equilibrado)' } },
             { id: 'qwen-turbo', name: { fr: 'Qwen Turbo (Rapide)', en: 'Qwen Turbo (Fast)', es: 'Qwen Turbo (Rápido)' } },
             // Modèles Qwen3 nommés (disponibilité selon région/compte)
@@ -3447,7 +3451,8 @@
         ],
         qwen: [
             // Synchrone via multimodal-generation/generation (renvoie l'URL directement, sans polling)
-            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max (Dernier)', en: 'Qwen Image Max (Latest)', es: 'Qwen Image Max (Último)' } },
+            { id: 'qwen-image-3.0-pro', name: { fr: 'Qwen Image 3.0 Pro (Dernier)', en: 'Qwen Image 3.0 Pro (Latest)', es: 'Qwen Image 3.0 Pro (Último)' } },
+            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max', en: 'Qwen Image Max', es: 'Qwen Image Max' } },
             { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } }
         ]
     };
@@ -3582,9 +3587,11 @@ RULES:
             configurable: ['deepseek-v4-pro', 'deepseek-flash']
         },
         qwen: {
-            // Qwen3 supporte le thinking mais via enable_thinking (non envoyé ici) → désactivé pour l'instant
+            // Thinking hybride via enable_thinking (+ thinking_budget), reasoning_content streamé.
+            // Envoyé explicitement (true/false) : défaut ON sur 3.x récents, OFF sur les alias.
+            // qwen-max / qwen3-coder-plus : pas de mode hybride documenté → hors table.
             native: [],
-            configurable: []
+            configurable: ['qwen3.8-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3-max', 'qwen-plus', 'qwen-turbo']
         },
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
@@ -6419,6 +6426,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
         }
 
+        // Qwen (DashScope) : enable_thinking explicite selon le toggle ; budget UI → thinking_budget.
+        if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
+            body.enable_thinking = !!onThinkingChunk;
+            if (onThinkingChunk) body.thinking_budget = parseInt(thinkingBudgetSelect?.value) || 10000;
+        }
+
         await postStream({
             url: endpoint,
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
@@ -6931,7 +6944,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // sans task_id ni polling (le polling /tasks est bloqué par CORS — d'où ce choix).
     // Renvoie une URL (pas du base64) ; handleImageGeneration l'affiche via <img src>.
     async function generateImageQwen(prompt, key) {
-        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'qwen-image-max';
+        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'qwen-image-3.0-pro';
         const size = (imageQwenSizeSelect && imageQwenSizeSelect.value) ? imageQwenSizeSelect.value : '1024*1024';
         const endpoint = getQwenHost() + '/api/v1/services/aigc/multimodal-generation/generation';
 

@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.7.1
+  Version 1.8.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -65,11 +65,12 @@ FEATURES
   - Agent Mode: forces the AI to respond step-by-step in English,
     optimized for automated coding tools (Claude Code, Cursor, etc.)
 
-  - Thinking Mode: enables extended reasoning (Claude, Gemini)
+  - Thinking Mode: shows the model's reasoning in a collapsible 🧠 block, with an
+    adjustable depth or effort (Claude, OpenAI GPT-6, Gemini, Grok, DeepSeek, Qwen)
 
   - Light / Dark theme
 
-  - Bilingual interface: English and French
+  - Trilingual interface: English, French and Spanish
 
   - Rate AI responses (👍 / 👎): the rating is now also sent to the model as a
     signal (keep this approach / this missed). A 👎 reveals an "↻ Improve" box
@@ -104,7 +105,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_7_1.html
+  1. Download the file ChatJPT_1_8_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -136,7 +137,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.7.1
+  Version 1.8.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -204,11 +205,13 @@ FONCTIONNALITÉS
   - Mode Agent : force l'IA à répondre étape par étape en anglais,
     optimisé pour les outils de codage automatisés (Claude Code, Cursor, etc.)
 
-  - Mode Thinking : active le raisonnement étendu (Claude, Gemini)
+  - Mode Thinking : affiche la réflexion du modèle dans un bloc 🧠 repliable, avec
+    une profondeur ou un effort réglable (Claude, OpenAI GPT-6, Gemini, Grok,
+    DeepSeek, Qwen)
 
   - Thème clair / sombre
 
-  - Interface bilingue : français et anglais
+  - Interface trilingue : français, anglais et espagnol
 
   - Notez les réponses de l'IA (👍 / 👎) : la note est désormais aussi transmise
     au modèle comme signal (garder cette approche / éviter cela). Un 👎 révèle
@@ -245,7 +248,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_7_1.html
+  1. Téléchargez le fichier ChatJPT_1_8_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -279,7 +282,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.7.1
+  Versión 1.8.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -365,7 +368,9 @@ CARACTERÍSTICAS
   - Modo Agente: obliga a la IA a responder paso a paso en inglés, optimizado
     para herramientas de codificación automatizadas (Claude Code, Cursor, etc.)
 
-  - Modo Razonamiento: activa el razonamiento extendido (Claude, Gemini)
+  - Modo Razonamiento: muestra el razonamiento del modelo en un bloque 🧠 plegable,
+    con una profundidad o un esfuerzo ajustable (Claude, OpenAI GPT-6, Gemini,
+    Grok, DeepSeek, Qwen)
 
   - Tema claro / oscuro
 
@@ -384,7 +389,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_7_1.html
+  1. Descarga el archivo ChatJPT_1_8_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

@@ -8,6 +8,47 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.8.0] — 2026-10-06
+  Added
+    - Claude: Fable 5.1 (latest), Opus 5.5, Sonnet 5.5, Opus 5 and Sonnet 5. On
+      models with always-on adaptive thinking, a readable summary of the
+      reasoning is shown in the 🧠 block, and an effort selector (low → max)
+      replaces the old token budget.
+    - OpenAI: GPT-6 Astra (latest), GPT-6.1 Sol and GPT-6 Luna, routed through the
+      Responses API so a summary of their reasoning is shown. Images: GPT Image
+      2.5 Sunburst (quality) and Flare (fast).
+    - Gemini: 3.8 Flash (latest), 3.7 Flash, 3.6 Flash and 3.5 Flash Lite.
+      Images: Nano Banana 2.1 (latest) and Nano Banana 2 Lite. Video: Gemini Omni
+      1.1 Flash (with generated audio), through the new Interactions API.
+    - Grok: 4.7 (latest), 4.6 and 4.5, with visible reasoning (through the xAI
+      Responses API) and an effort selector. Images: Grok Imagine 2.0. Video:
+      Grok Imagine Video 1.5 and 1.5 Lite.
+    - DeepSeek: V4 Pro and Flash, with a real thinking on/off toggle and an
+      adjustable depth (reasoning effort).
+    - Qwen: Qwen3.8 Max (latest), Qwen3.7 Plus and Qwen3.8 Flash. Thinking mode
+      now works for Qwen (shown in the 🧠 block, with a thinking budget). Images:
+      Qwen Image 3.0 Pro.
+    - A clear message is shown when Claude declines a request (safety filter),
+      instead of an empty reply.
+  Changed / Improved
+    - Higher output limit for models whose reasoning counts toward it (adaptive
+      Claude, GPT-6, Grok 4.5+, DeepSeek with thinking), so long answers are no
+      longer cut off.
+    - Gemini 3.8 / 3.7 Flash: the "Minimal" thinking level, rejected by these
+      models, is hidden.
+    - Gemini Nano Banana 2 and Nano Banana Pro now use their stable model IDs.
+    - Veo 3.1 models are labeled with their end date (Google shuts them down on
+      2026-10-22; Gemini Omni replaces them).
+  Removed
+    - Models shut down (or about to be) by their providers: DeepSeek V3 / R1
+      (deepseek-chat, deepseek-reasoner), Claude Opus 4.1, o3-pro, GPT Image 1.5
+      and 1 Mini, Imagen 4, Veo 2.0, and the Gemini image previews.
+    - OpenAI video (Sora 2): OpenAI shut down Sora 2 and its Videos API on
+      2026-09-24, with no replacement. The Video tab is now disabled for OpenAI.
+  Fixed
+    - The "Show" button of the reasoning block never displayed the reasoning
+      (for any provider). It now expands and collapses correctly.
+
 [1.7.1] — 2026-06-09
   Added
     - Claude Fable 5 (claude-fable-5), Anthropic's most capable widely released
@@ -231,6 +272,50 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.8.0] — 2026-10-06
+  Ajouté
+    - Claude : Fable 5.1 (dernier), Opus 5.5, Sonnet 5.5, Opus 5 et Sonnet 5. Sur
+      les modèles à adaptive thinking toujours actif, un résumé lisible de la
+      réflexion s'affiche dans le bloc 🧠, et un sélecteur d'effort (léger →
+      maximum) remplace l'ancien budget de tokens.
+    - OpenAI : GPT-6 Astra (dernier), GPT-6.1 Sol et GPT-6 Luna, passant par
+      l'API Responses pour afficher un résumé de leur réflexion. Images : GPT
+      Image 2.5 Sunburst (qualité) et Flare (rapide).
+    - Gemini : 3.8 Flash (dernier), 3.7 Flash, 3.6 Flash et 3.5 Flash Lite.
+      Images : Nano Banana 2.1 (dernier) et Nano Banana 2 Lite. Vidéo : Gemini
+      Omni 1.1 Flash (avec audio généré), via la nouvelle Interactions API.
+    - Grok : 4.7 (dernier), 4.6 et 4.5, avec réflexion visible (via l'API
+      Responses de xAI) et sélecteur d'effort. Images : Grok Imagine 2.0. Vidéo :
+      Grok Imagine Vidéo 1.5 et 1.5 Lite.
+    - DeepSeek : V4 Pro et Flash, avec une vraie case thinking (activé /
+      désactivé) et une profondeur réglable (reasoning effort).
+    - Qwen : Qwen3.8 Max (dernier), Qwen3.7 Plus et Qwen3.8 Flash. Le mode
+      thinking fonctionne désormais pour Qwen (affiché dans le bloc 🧠, avec un
+      budget de réflexion). Images : Qwen Image 3.0 Pro.
+    - Un message clair s'affiche quand Claude décline une demande (filtre de
+      sécurité), au lieu d'une réponse vide.
+  Modifié / Amélioré
+    - Limite de sortie relevée pour les modèles dont la réflexion compte dans
+      cette limite (Claude adaptatif, GPT-6, Grok 4.5+, DeepSeek avec thinking) :
+      les longues réponses ne sont plus coupées.
+    - Gemini 3.8 / 3.7 Flash : le niveau de réflexion « Minimal », refusé par ces
+      modèles, est masqué.
+    - Gemini Nano Banana 2 et Nano Banana Pro utilisent désormais leurs
+      identifiants stables.
+    - Les modèles Veo 3.1 indiquent leur date de fin (Google les arrête le
+      2026-10-22 ; Gemini Omni les remplace).
+  Retiré
+    - Modèles arrêtés (ou sur le point de l'être) par leur fournisseur :
+      DeepSeek V3 / R1 (deepseek-chat, deepseek-reasoner), Claude Opus 4.1,
+      o3-pro, GPT Image 1.5 et 1 Mini, Imagen 4, Veo 2.0 et les previews d'images
+      Gemini.
+    - Vidéo OpenAI (Sora 2) : OpenAI a arrêté Sora 2 et son API Videos le
+      2026-09-24, sans remplaçant. L'onglet Vidéo est désormais désactivé pour
+      OpenAI.
+  Corrigé
+    - Le bouton « Afficher » du bloc de réflexion n'affichait jamais la réflexion
+      (pour tous les fournisseurs). Il déplie et replie maintenant correctement.
 
 [1.7.1] — 2026-06-09
   Ajouté
@@ -467,6 +552,51 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.8.0] — 2026-10-06
+  Añadido
+    - Claude: Fable 5.1 (el más reciente), Opus 5.5, Sonnet 5.5, Opus 5 y
+      Sonnet 5. En los modelos con adaptive thinking siempre activo, un resumen
+      legible del razonamiento se muestra en el bloque 🧠, y un selector de
+      esfuerzo (bajo → máximo) reemplaza el antiguo presupuesto de tokens.
+    - OpenAI: GPT-6 Astra (el más reciente), GPT-6.1 Sol y GPT-6 Luna, a través
+      de la API Responses para mostrar un resumen de su razonamiento. Imágenes:
+      GPT Image 2.5 Sunburst (calidad) y Flare (rápido).
+    - Gemini: 3.8 Flash (el más reciente), 3.7 Flash, 3.6 Flash y 3.5 Flash Lite.
+      Imágenes: Nano Banana 2.1 (el más reciente) y Nano Banana 2 Lite. Video:
+      Gemini Omni 1.1 Flash (con audio generado), mediante la nueva Interactions
+      API.
+    - Grok: 4.7 (el más reciente), 4.6 y 4.5, con razonamiento visible (mediante
+      la API Responses de xAI) y selector de esfuerzo. Imágenes: Grok Imagine
+      2.0. Video: Grok Imagine Video 1.5 y 1.5 Lite.
+    - DeepSeek: V4 Pro y Flash, con una verdadera casilla de razonamiento
+      (activado / desactivado) y una profundidad ajustable (reasoning effort).
+    - Qwen: Qwen3.8 Max (el más reciente), Qwen3.7 Plus y Qwen3.8 Flash. El modo
+      de razonamiento ahora funciona con Qwen (mostrado en el bloque 🧠, con un
+      presupuesto de razonamiento). Imágenes: Qwen Image 3.0 Pro.
+    - Se muestra un mensaje claro cuando Claude rechaza una solicitud (filtro de
+      seguridad), en lugar de una respuesta vacía.
+  Cambiado / Mejorado
+    - Límite de salida más alto para los modelos cuyo razonamiento cuenta dentro
+      de ese límite (Claude adaptativo, GPT-6, Grok 4.5+, DeepSeek con
+      razonamiento): las respuestas largas ya no se cortan.
+    - Gemini 3.8 / 3.7 Flash: el nivel de razonamiento "Mínimo", rechazado por
+      estos modelos, se oculta.
+    - Gemini Nano Banana 2 y Nano Banana Pro usan ahora sus identificadores
+      estables.
+    - Los modelos Veo 3.1 indican su fecha de fin (Google los retira el
+      2026-10-22; Gemini Omni los reemplaza).
+  Eliminado
+    - Modelos retirados (o a punto de serlo) por sus proveedores: DeepSeek V3 / R1
+      (deepseek-chat, deepseek-reasoner), Claude Opus 4.1, o3-pro, GPT Image 1.5
+      y 1 Mini, Imagen 4, Veo 2.0 y las previews de imágenes de Gemini.
+    - Video de OpenAI (Sora 2): OpenAI retiró Sora 2 y su API Videos el
+      2026-09-24, sin reemplazo. La pestaña Video ahora está desactivada para
+      OpenAI.
+  Corregido
+    - El botón "Mostrar" del bloque de razonamiento nunca mostraba el
+      razonamiento (para todos los proveedores). Ahora se despliega y se pliega
+      correctamente.
 
 [1.7.1] — 2026-06-09
   Añadido
