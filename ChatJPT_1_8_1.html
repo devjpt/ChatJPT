@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.8.0
+  Version 1.8.1
 -->
 
 
@@ -2325,7 +2325,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 6 octobre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 16 octobre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2877,8 +2877,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.8.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 6 octobre 2026",
+            creditVersion: "Version 1.8.1 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 16 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3066,8 +3066,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.8.0 - Latest version: ",
-            appUpdated: "📅 Updated: October 6, 2026",
+            creditVersion: "Version 1.8.1 - Latest version: ",
+            appUpdated: "📅 Updated: October 16, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3255,8 +3255,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.8.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 6 de octubre de 2026",
+            creditVersion: "Versión 1.8.1 - Última versión: ",
+            appUpdated: "📅 Actualizado: 16 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3415,15 +3415,17 @@
         qwen: [
             // Gamme Qwen3.8 / 3.7 (thinking hybride, actif par défaut → piloté par le toggle 🧠)
             { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max (Dernier)', en: 'Qwen3.8 Max (Latest)', es: 'Qwen3.8 Max (Último)' } },
+            { id: 'qwen3.7-max', name: { fr: 'Qwen3.7 Max', en: 'Qwen3.7 Max', es: 'Qwen3.7 Max' } },
             { id: 'qwen3.7-plus', name: { fr: 'Qwen3.7 Plus (Équilibré)', en: 'Qwen3.7 Plus (Balanced)', es: 'Qwen3.7 Plus (Equilibrado)' } },
             { id: 'qwen3.8-flash', name: { fr: 'Qwen3.8 Flash (Rapide)', en: 'Qwen3.8 Flash (Fast)', es: 'Qwen3.8 Flash (Rápido)' } },
-            // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir)
+            { id: 'qwen3.7-flash', name: { fr: 'Qwen3.7 Flash (Très économique)', en: 'Qwen3.7 Flash (Very low cost)', es: 'Qwen3.7 Flash (Muy económico)' } },
+            // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir).
+            // qwen-turbo → remplacé par qwen-flash (catalogue QwenCloud oct. 2026).
             { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship)', en: 'Qwen Max (Flagship)', es: 'Qwen Max (Insignia)' } },
             { id: 'qwen-plus', name: { fr: 'Qwen Plus (Équilibré)', en: 'Qwen Plus (Balanced)', es: 'Qwen Plus (Equilibrado)' } },
-            { id: 'qwen-turbo', name: { fr: 'Qwen Turbo (Rapide)', en: 'Qwen Turbo (Fast)', es: 'Qwen Turbo (Rápido)' } },
-            // Modèles Qwen3 nommés (disponibilité selon région/compte)
-            { id: 'qwen3-max', name: { fr: 'Qwen3 Max', en: 'Qwen3 Max' } },
-            { id: 'qwen3-coder-plus', name: { fr: 'Qwen3 Coder Plus (Code)', en: 'Qwen3 Coder Plus (Code)', es: 'Qwen3 Coder Plus (Código)' } },
+            { id: 'qwen-flash', name: { fr: 'Qwen Flash (Rapide)', en: 'Qwen Flash (Fast)', es: 'Qwen Flash (Rápido)' } },
+            // Code (qwen3-coder-plus absent du catalogue → qwen3-coder-flash)
+            { id: 'qwen3-coder-flash', name: { fr: 'Qwen3 Coder Flash (Code)', en: 'Qwen3 Coder Flash (Code)', es: 'Qwen3 Coder Flash (Código)' } },
         ]
     };
 
@@ -3452,7 +3454,9 @@
         qwen: [
             // Synchrone via multimodal-generation/generation (renvoie l'URL directement, sans polling)
             { id: 'qwen-image-3.0-pro', name: { fr: 'Qwen Image 3.0 Pro (Dernier)', en: 'Qwen Image 3.0 Pro (Latest)', es: 'Qwen Image 3.0 Pro (Último)' } },
-            { id: 'qwen-image-max', name: { fr: 'Qwen Image Max', en: 'Qwen Image Max', es: 'Qwen Image Max' } },
+            { id: 'qwen-image-3.0', name: { fr: 'Qwen Image 3.0 (Rapide)', en: 'Qwen Image 3.0 (Fast)', es: 'Qwen Image 3.0 (Rápido)' } },
+            { id: 'qwen-image-2.1-pro', name: { fr: 'Qwen Image 2.1 Pro', en: 'Qwen Image 2.1 Pro', es: 'Qwen Image 2.1 Pro' } },
+            { id: 'qwen-image-2.1-turbo', name: { fr: 'Qwen Image 2.1 Turbo (Économique)', en: 'Qwen Image 2.1 Turbo (Low cost)', es: 'Qwen Image 2.1 Turbo (Económico)' } },
             { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } }
         ]
     };
@@ -3589,9 +3593,9 @@ RULES:
         qwen: {
             // Thinking hybride via enable_thinking (+ thinking_budget), reasoning_content streamé.
             // Envoyé explicitement (true/false) : défaut ON sur 3.x récents, OFF sur les alias.
-            // qwen-max / qwen3-coder-plus : pas de mode hybride documenté → hors table.
+            // qwen-max / qwen3-coder-flash : pas de mode hybride documenté → hors table.
             native: [],
-            configurable: ['qwen3.8-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3-max', 'qwen-plus', 'qwen-turbo']
+            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash']
         },
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion

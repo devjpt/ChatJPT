@@ -8,6 +8,18 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.8.1] — 2026-10-16
+  Added
+    - Qwen: Qwen3.7 Max, Qwen3.7 Flash (very low cost), Qwen Flash and Qwen3
+      Coder Flash. Thinking mode is available on Qwen3.7 Max, Qwen3.7 Flash and
+      Qwen Flash.
+    - Qwen images: Qwen Image 3.0 (faster, cheaper than 3.0 Pro), Qwen Image 2.1
+      Pro and Qwen Image 2.1 Turbo (low cost).
+  Removed
+    - Qwen models no longer listed in the current Qwen catalog: Qwen Turbo
+      (replaced by Qwen Flash), Qwen3 Max, Qwen3 Coder Plus (replaced by Qwen3
+      Coder Flash) and Qwen Image Max.
+
 [1.8.0] — 2026-10-06
   Added
     - Claude: Fable 5.1 (latest), Opus 5.5, Sonnet 5.5, Opus 5 and Sonnet 5. On
@@ -272,6 +284,18 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.8.1] — 2026-10-16
+  Ajouté
+    - Qwen : Qwen3.7 Max, Qwen3.7 Flash (très économique), Qwen Flash et Qwen3
+      Coder Flash. Le mode thinking est disponible sur Qwen3.7 Max, Qwen3.7 Flash
+      et Qwen Flash.
+    - Images Qwen : Qwen Image 3.0 (plus rapide et moins cher que 3.0 Pro), Qwen
+      Image 2.1 Pro et Qwen Image 2.1 Turbo (économique).
+  Retiré
+    - Modèles Qwen absents du catalogue Qwen actuel : Qwen Turbo (remplacé par
+      Qwen Flash), Qwen3 Max, Qwen3 Coder Plus (remplacé par Qwen3 Coder Flash)
+      et Qwen Image Max.
 
 [1.8.0] — 2026-10-06
   Ajouté
@@ -552,6 +576,18 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.8.1] — 2026-10-16
+  Añadido
+    - Qwen: Qwen3.7 Max, Qwen3.7 Flash (muy económico), Qwen Flash y Qwen3 Coder
+      Flash. El modo de razonamiento está disponible en Qwen3.7 Max, Qwen3.7
+      Flash y Qwen Flash.
+    - Imágenes Qwen: Qwen Image 3.0 (más rápido y más barato que 3.0 Pro), Qwen
+      Image 2.1 Pro y Qwen Image 2.1 Turbo (económico).
+  Eliminado
+    - Modelos Qwen que ya no figuran en el catálogo actual de Qwen: Qwen Turbo
+      (reemplazado por Qwen Flash), Qwen3 Max, Qwen3 Coder Plus (reemplazado por
+      Qwen3 Coder Flash) y Qwen Image Max.
 
 [1.8.0] — 2026-10-06
   Añadido
