@@ -104,15 +104,32 @@ your plan).
 
 
 ----------------------------------------------------------------
+  7. PERPLEXITY
+     Key looks like: pplx-...
+----------------------------------------------------------------
+
+  1. Go to: https://console.perplexity.ai/
+  2. Create an account or sign in.
+  3. Open "API Keys" and create a key.
+  4. Copy the key immediately.
+
+  Note: Perplexity is pay-as-you-go (add credit first). Its answers
+        always search the web and list their sources; each search adds
+        a small fee. The "High" and "X-High" deep-research presets
+        take several minutes and cost more.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_8_2.html in your browser.
+  1. Open ChatJPT_1_9_0.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
        ⚫ Grok     → paste your xai-... key
+       🔎 Perplexity → paste your pplx-... key
        🔷 DeepSeek → paste your sk-... key
        🟣 Alibaba (Qwen, GLM) → paste your sk-... key
   3. Keys are saved locally in your browser.
@@ -237,15 +254,33 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  7. PERPLEXITY
+     Clé ressemble à : pplx-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://console.perplexity.ai/
+  2. Créez un compte ou connectez-vous.
+  3. Ouvrez "API Keys" et créez une clé.
+  4. Copiez la clé immédiatement.
+
+  Note : Perplexity fonctionne au paiement à l'usage (ajoutez du
+         crédit d'abord). Ses réponses cherchent toujours sur le web et
+         citent leurs sources ; chaque recherche ajoute de petits frais.
+         Les presets de recherche approfondie "High" et "X-High"
+         prennent plusieurs minutes et coûtent plus cher.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_8_2.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_9_0.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
        ⚫ Grok     → collez votre clé xai-...
+       🔎 Perplexity → collez votre clé pplx-...
        🔷 DeepSeek → collez votre clé sk-...
        🟣 Alibaba (Qwen, GLM) → collez votre clé sk-...
   3. Les clés sont sauvegardées localement dans votre navigateur.
@@ -371,15 +406,33 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  7. PERPLEXITY
+     La clave se ve así: pplx-...
+----------------------------------------------------------------
+
+  1. Ve a: https://console.perplexity.ai/
+  2. Crea una cuenta o inicia sesión.
+  3. Abre "API Keys" y crea una clave.
+  4. Copia la clave de inmediato.
+
+  Nota: Perplexity funciona con pago por uso (agrega crédito primero).
+        Sus respuestas siempre buscan en la web y citan sus fuentes;
+        cada búsqueda agrega un pequeño cargo. Los presets de
+        investigación profunda "High" y "X-High" tardan varios minutos
+        y cuestan más.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_8_2.html en tu navegador.
+  1. Abre ChatJPT_1_9_0.html en tu navegador.
   2. En el panel izquierdo, ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
        ⚫ Grok     → pega tu clave xai-...
+       🔎 Perplexity → pega tu clave pplx-...
        🔷 DeepSeek → pega tu clave sk-...
        🟣 Alibaba (Qwen, GLM) → pega tu clave sk-...
   3. Las claves se guardan localmente en tu navegador.

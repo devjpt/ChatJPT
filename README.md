@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.8.2
+  Version 1.9.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -19,6 +19,7 @@ FEATURES
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image, and video; Grok Imagine)
+      • Perplexity (web-grounded answers with sources, up to deep research)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Alibaba    (Qwen + Z.ai GLM — chat and image; selectable DashScope region)
 
@@ -66,7 +67,7 @@ FEATURES
     optimized for automated coding tools (Claude Code, Cursor, etc.)
 
   - Thinking Mode: shows the model's reasoning in a collapsible 🧠 block, with an
-    adjustable depth or effort (Claude, OpenAI GPT-6, Gemini, Grok, DeepSeek, Qwen)
+    adjustable depth or effort (Claude, OpenAI GPT-6, Gemini, Grok, Perplexity, DeepSeek, Qwen)
 
   - Light / Dark theme
 
@@ -105,7 +106,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_8_2.html
+  1. Download the file ChatJPT_1_9_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -137,7 +138,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.8.2
+  Version 1.9.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -157,6 +158,7 @@ FONCTIONNALITÉS
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
+      • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Alibaba    (Qwen + Z.ai GLM — chat et image ; région DashScope au choix)
 
@@ -207,7 +209,7 @@ FONCTIONNALITÉS
 
   - Mode Thinking : affiche la réflexion du modèle dans un bloc 🧠 repliable, avec
     une profondeur ou un effort réglable (Claude, OpenAI GPT-6, Gemini, Grok,
-    DeepSeek, Qwen)
+    Perplexity, DeepSeek, Qwen)
 
   - Thème clair / sombre
 
@@ -248,7 +250,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_8_2.html
+  1. Téléchargez le fichier ChatJPT_1_9_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -282,7 +284,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.8.2
+  Versión 1.9.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -302,6 +304,7 @@ CARACTERÍSTICAS
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
+      • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Alibaba    (Qwen + Z.ai GLM — chat e imagen; región DashScope a elegir)
 
@@ -370,7 +373,7 @@ CARACTERÍSTICAS
 
   - Modo Razonamiento: muestra el razonamiento del modelo en un bloque 🧠 plegable,
     con una profundidad o un esfuerzo ajustable (Claude, OpenAI GPT-6, Gemini,
-    Grok, DeepSeek, Qwen)
+    Grok, Perplexity, DeepSeek, Qwen)
 
   - Tema claro / oscuro
 
@@ -389,7 +392,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_8_2.html
+  1. Descarga el archivo ChatJPT_1_9_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

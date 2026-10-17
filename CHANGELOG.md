@@ -8,6 +8,19 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.9.0] — 2026-10-17
+  Added
+    - New provider: Perplexity (Agent API). Answers always search the web and
+      list their sources. Five levels, from fastest to deepest: Quick search
+      (Fast), Search (Standard), Multi-source research (Medium), Deep research
+      (High, several minutes) and Advanced research agent (X-High, very slow
+      and costly).
+    - The 🧠 block shows the research as it happens: the model's thoughts, the
+      searches it runs (🔎) and the pages it opens (🌐).
+    - Citation markers in the answer become small clickable links (¹ ²) to the
+      matching source, and the sources are listed under the answer.
+    - Works in Compare mode. The API keys guide has a new Perplexity section.
+
 [1.8.2] — 2026-10-17
   Added
     - Z.ai GLM models: GLM-5.3 (always-on reasoning, shown in the 🧠 block),
@@ -295,6 +308,21 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.9.0] — 2026-10-17
+  Ajouté
+    - Nouveau fournisseur : Perplexity (Agent API). Les réponses cherchent
+      toujours sur le web et citent leurs sources. Cinq niveaux, du plus rapide
+      au plus approfondi : Recherche éclair (Fast), Recherche (Standard),
+      Recherche multi-sources (Medium), Recherche approfondie (High, plusieurs
+      minutes) et Agent de recherche avancé (X-High, très lent et coûteux).
+    - Le bloc 🧠 montre la recherche en direct : les réflexions du modèle, les
+      recherches lancées (🔎) et les pages ouvertes (🌐).
+    - Les marqueurs de citation dans la réponse deviennent de petits liens
+      cliquables (¹ ²) vers la source correspondante, et les sources sont
+      listées sous la réponse.
+    - Fonctionne en mode Comparaison. Le guide des clés API a une nouvelle
+      section Perplexity.
 
 [1.8.2] — 2026-10-17
   Ajouté
@@ -599,6 +627,21 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.9.0] — 2026-10-17
+  Añadido
+    - Nuevo proveedor: Perplexity (Agent API). Las respuestas siempre buscan en
+      la web y citan sus fuentes. Cinco niveles, del más rápido al más
+      profundo: Búsqueda rápida (Fast), Búsqueda (Estándar), Investigación
+      multifuente (Medium), Investigación profunda (High, varios minutos) y
+      Agente de investigación avanzado (X-High, muy lento y costoso).
+    - El bloque 🧠 muestra la investigación en vivo: los razonamientos del
+      modelo, las búsquedas que hace (🔎) y las páginas que abre (🌐).
+    - Los marcadores de cita en la respuesta se convierten en pequeños enlaces
+      clicables (¹ ²) hacia la fuente correspondiente, y las fuentes se
+      listan debajo de la respuesta.
+    - Funciona en el modo Comparación. La guía de claves API tiene una nueva
+      sección Perplexity.
 
 [1.8.2] — 2026-10-17
   Añadido
