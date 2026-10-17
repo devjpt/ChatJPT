@@ -8,6 +8,23 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.10.0] — 2026-10-17
+  Added
+    - Scanned PDFs (pages made of images, no text) can now be read. When you
+      attach one, a dialog offers two choices, with the cost shown upfront:
+      - Transcribe to text (OCR): the selected model reads each page once and
+        extracts its text. No page limit (pages are processed three at a
+        time), a progress bar with the tokens used so far, a Stop button
+        (the pages already done are kept), and the actual cost at the end.
+        The text is then attached like a normal PDF, so follow-up questions
+        are cheap.
+      - Attach the pages as images: the model "sees" the pages (better for
+        diagrams), but they are resent with every question (higher cost),
+        and some providers refuse more than about 100 pages.
+    - Models that cannot read images (DeepSeek, GLM, Qwen Coder…) are
+      detected and the dialog explains why. With Perplexity, only the images
+      option is offered (each transcription request would run web searches).
+
 [1.9.2] — 2026-10-17
   Security
     - PDF.js (which reads the text of attached PDFs) updated from 3.11.174,
@@ -339,6 +356,26 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.10.0] — 2026-10-17
+  Ajouté
+    - Les PDF scannés (pages composées d'images, sans texte) peuvent maintenant
+      être lus. Quand vous en joignez un, une fenêtre propose deux choix, avec
+      le coût affiché à l'avance :
+      - Transcrire en texte (OCR) : le modèle sélectionné lit chaque page une
+        seule fois et en extrait le texte. Aucune limite de pages (traitées
+        trois par trois), une barre de progression avec les tokens déjà
+        utilisés, un bouton Arrêter (les pages déjà faites sont conservées) et
+        le coût réel à la fin. Le texte est ensuite joint comme un PDF normal :
+        les questions suivantes coûtent peu.
+      - Joindre les pages comme images : le modèle « voit » les pages (mieux
+        pour les schémas), mais elles sont renvoyées à chaque question (coût
+        plus élevé), et certains fournisseurs refusent au-delà d'environ
+        100 pages.
+    - Les modèles qui ne lisent pas les images (DeepSeek, GLM, Qwen Coder…)
+      sont détectés et la fenêtre explique pourquoi. Avec Perplexity, seule
+      l'option images est proposée (chaque requête de transcription lancerait
+      des recherches web).
 
 [1.9.2] — 2026-10-17
   Sécurité
@@ -692,6 +729,25 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.10.0] — 2026-10-17
+  Añadido
+    - Ahora se pueden leer los PDF escaneados (páginas compuestas de imágenes,
+      sin texto). Al adjuntar uno, una ventana ofrece dos opciones, con el
+      costo mostrado de antemano:
+      - Transcribir a texto (OCR): el modelo seleccionado lee cada página una
+        sola vez y extrae su texto. Sin límite de páginas (se procesan de tres
+        en tres), una barra de progreso con los tokens ya usados, un botón
+        Detener (las páginas ya hechas se conservan) y el costo real al final.
+        Luego el texto se adjunta como un PDF normal: las preguntas siguientes
+        cuestan poco.
+      - Adjuntar las páginas como imágenes: el modelo "ve" las páginas (mejor
+        para diagramas), pero se reenvían con cada pregunta (costo más alto),
+        y algunos proveedores rechazan más de unas 100 páginas.
+    - Se detectan los modelos que no leen imágenes (DeepSeek, GLM, Qwen
+      Coder…) y la ventana explica por qué. Con Perplexity solo se ofrece la
+      opción de imágenes (cada solicitud de transcripción lanzaría búsquedas
+      web).
 
 [1.9.2] — 2026-10-17
   Seguridad

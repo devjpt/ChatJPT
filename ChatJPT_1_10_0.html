@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.9.2
+  Version 1.10.0
 -->
 
 
@@ -2138,6 +2138,64 @@
             box-shadow: 0 0 60px rgba(0,0,0,0.5);
         }
 
+        /* ===== DIALOGUE PDF SCANNÉ (OCR / pages en images) ===== */
+        .ocr-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .ocr-box {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .ocr-box h3 { margin: 0 0 8px; font-size: 1rem; }
+        .ocr-box p { margin: 0 0 12px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; }
+        .ocr-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font: inherit;
+            transition: var(--transition);
+        }
+        .ocr-option:hover:not(:disabled) { border-color: var(--accent); }
+        .ocr-option:disabled { opacity: 0.5; cursor: not-allowed; }
+        .ocr-option strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
+        .ocr-option span { display: block; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+        .ocr-box .ocr-warn { color: var(--warning); }
+        .ocr-cancel {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.82rem;
+            padding: 6px 12px;
+        }
+        .ocr-cancel:hover { color: var(--text); border-color: var(--text-muted); }
+        .ocr-progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin: 12px 0; }
+        .ocr-progress-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .config-row { flex-direction: column; }
@@ -2922,7 +2980,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.2 - Dernière version : ",
+            creditVersion: "Version 1.10.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 17 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3000,6 +3058,22 @@
             thinkingWarningCost: "⚠️ Consomme plus de tokens",
             pdfExtracting: "Extraction du PDF : ",
             pdfScanned: "PDF scanné (image), pas de texte extractible.",
+            ocrTitle: "📄 PDF scanné : {name} ({n} pages)",
+            ocrIntro: "Ce PDF ne contient que des images de pages : il n'a pas de texte lisible directement. Comment le modèle doit-il le lire ?",
+            ocrOptTranscribe: "🔤 Transcrire en texte (OCR)",
+            ocrOptTranscribeDesc: "{model} lit chaque page une seule fois et en extrait le texte. Coût estimé : ≈ {tokens} tokens, payé une seule fois. Ensuite, le PDF se comporte comme un PDF texte : les questions suivantes coûtent peu.",
+            ocrOptImages: "🖼️ Joindre les pages comme images",
+            ocrOptImagesDesc: "Le modèle « voit » les pages (meilleur pour les schémas et la mise en page). ⚠️ Coût élevé : ≈ {tokens} tokens à CHAQUE question, car les pages sont renvoyées avec l'historique. Au-delà d'environ 100 pages, certains fournisseurs refusent la requête.",
+            ocrNoVision: "⚠️ Le modèle sélectionné ({model}) ne lit pas les images. Choisis un modèle qui les lit (GPT, Claude, Gemini, Grok, Qwen3.8…), puis joins le PDF à nouveau.",
+            ocrNoOcrPerplexity: "La transcription n'est pas proposée avec Perplexity (chaque requête lancerait des recherches web). Choisis un autre fournisseur pour transcrire, ou joins les pages comme images.",
+            ocrNeedKey: "⚠️ Clé API manquante pour {provider} : ajoute-la pour transcrire ce PDF.",
+            ocrCancel: "Annuler",
+            ocrRendering: "Préparation des pages : {i} / {n}",
+            ocrProgress: "Transcription avec {model} : {i} / {n} pages — {tokens} tokens utilisés",
+            ocrStop: "⏹ Arrêter",
+            ocrDone: "✅ {name} : {n} pages transcrites ({tokens} tokens)",
+            ocrStopped: "⚠️ Transcription arrêtée : {i} pages sur {n}",
+            ocrImagesAdded: "🖼️ {n} pages jointes comme images",
             fileReadError: "Impossible de lire : ",
             filesReady: "fichier(s) prêt(s)",
             filesAttached: "fichier(s) joint(s)",
@@ -3111,7 +3185,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.2 - Latest version: ",
+            creditVersion: "Version 1.10.0 - Latest version: ",
             appUpdated: "📅 Updated: October 17, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3189,6 +3263,22 @@
             thinkingWarningCost: "⚠️ Uses more tokens",
             pdfExtracting: "Extracting PDF: ",
             pdfScanned: "Scanned PDF (image), no extractable text.",
+            ocrTitle: "📄 Scanned PDF: {name} ({n} pages)",
+            ocrIntro: "This PDF only contains images of pages: it has no directly readable text. How should the model read it?",
+            ocrOptTranscribe: "🔤 Transcribe to text (OCR)",
+            ocrOptTranscribeDesc: "{model} reads each page once and extracts its text. Estimated cost: ≈ {tokens} tokens, paid only once. After that, the PDF behaves like a text PDF: follow-up questions are cheap.",
+            ocrOptImages: "🖼️ Attach the pages as images",
+            ocrOptImagesDesc: "The model \"sees\" the pages (better for diagrams and layout). ⚠️ High cost: ≈ {tokens} tokens for EVERY question, since the pages are resent with the history. Above about 100 pages, some providers reject the request.",
+            ocrNoVision: "⚠️ The selected model ({model}) cannot read images. Pick a model that can (GPT, Claude, Gemini, Grok, Qwen3.8…), then attach the PDF again.",
+            ocrNoOcrPerplexity: "Transcription is not offered with Perplexity (each request would run web searches). Pick another provider to transcribe, or attach the pages as images.",
+            ocrNeedKey: "⚠️ Missing API key for {provider}: add it to transcribe this PDF.",
+            ocrCancel: "Cancel",
+            ocrRendering: "Preparing pages: {i} / {n}",
+            ocrProgress: "Transcribing with {model}: {i} / {n} pages — {tokens} tokens used",
+            ocrStop: "⏹ Stop",
+            ocrDone: "✅ {name}: {n} pages transcribed ({tokens} tokens)",
+            ocrStopped: "⚠️ Transcription stopped: {i} of {n} pages",
+            ocrImagesAdded: "🖼️ {n} pages attached as images",
             fileReadError: "Unable to read: ",
             filesReady: "file(s) ready",
             filesAttached: "file(s) attached",
@@ -3300,7 +3390,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.9.2 - Última versión: ",
+            creditVersion: "Versión 1.10.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 17 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -3378,6 +3468,22 @@
             thinkingWarningCost: "⚠️ Consume más tokens",
             pdfExtracting: "Extrayendo el PDF: ",
             pdfScanned: "PDF escaneado (imagen), sin texto extraíble.",
+            ocrTitle: "📄 PDF escaneado: {name} ({n} páginas)",
+            ocrIntro: "Este PDF solo contiene imágenes de páginas: no tiene texto legible directamente. ¿Cómo debe leerlo el modelo?",
+            ocrOptTranscribe: "🔤 Transcribir a texto (OCR)",
+            ocrOptTranscribeDesc: "{model} lee cada página una sola vez y extrae su texto. Costo estimado: ≈ {tokens} tokens, pagado una sola vez. Después, el PDF se comporta como un PDF de texto: las preguntas siguientes cuestan poco.",
+            ocrOptImages: "🖼️ Adjuntar las páginas como imágenes",
+            ocrOptImagesDesc: "El modelo \"ve\" las páginas (mejor para diagramas y diseño). ⚠️ Costo alto: ≈ {tokens} tokens en CADA pregunta, porque las páginas se reenvían con el historial. Por encima de unas 100 páginas, algunos proveedores rechazan la solicitud.",
+            ocrNoVision: "⚠️ El modelo seleccionado ({model}) no lee imágenes. Elige un modelo que las lea (GPT, Claude, Gemini, Grok, Qwen3.8…) y adjunta el PDF de nuevo.",
+            ocrNoOcrPerplexity: "La transcripción no está disponible con Perplexity (cada solicitud lanzaría búsquedas web). Elige otro proveedor para transcribir, o adjunta las páginas como imágenes.",
+            ocrNeedKey: "⚠️ Falta la clave API de {provider}: agrégala para transcribir este PDF.",
+            ocrCancel: "Cancelar",
+            ocrRendering: "Preparando las páginas: {i} / {n}",
+            ocrProgress: "Transcribiendo con {model}: {i} / {n} páginas — {tokens} tokens usados",
+            ocrStop: "⏹ Detener",
+            ocrDone: "✅ {name}: {n} páginas transcritas ({tokens} tokens)",
+            ocrStopped: "⚠️ Transcripción detenida: {i} de {n} páginas",
+            ocrImagesAdded: "🖼️ {n} páginas adjuntadas como imágenes",
             fileReadError: "No se puede leer: ",
             filesReady: "archivo(s) listo(s)",
             filesAttached: "archivo(s) adjunto(s)",
@@ -3763,6 +3869,9 @@ RULES:
     const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
 
     const SYSTEM_PROMPTS = {
+        // Transcription OCR des PDF scannés (mode interne, jamais affiché : utilisé page par page
+        // par ocrTranscribePage via un currentMode temporaire). Court : envoyé à chaque page.
+        ocr: "You are an OCR engine. Transcribe ALL the text visible in the page image exactly as written, in its original language. Keep the reading order, paragraphs, headings and lists. Render tables as Markdown tables. For a figure, chart or photo, write a short description in square brackets, e.g. [Figure: ...]. Do not summarize, translate, correct, comment or add anything else. If the page has no text, answer exactly: [blank page]",
         chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
         code: `You are a Senior Software Engineer (Staff Engineer). Your goal is to produce production-quality, clean, secure, and maintainable code.
 
@@ -5554,6 +5663,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function handleFiles(e) {
         const files = Array.from(e.target.files);
         if (!files.length) return;
+        let scannedNotice = null;  // bilan d'un PDF scanné (OCR / images), affiché en dernier
 
         for (const file of files) {
             try {
@@ -5561,12 +5671,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
                 if (ext === 'pdf') {
                     showToast(`${I18N[currentLang].pdfExtracting}${file.name}...`, 'success');
-                    const text = await extractPdfText(file);
-                    if (text.trim().length === 0) {
-                        showToast(`⚠️ ${file.name} : ${I18N[currentLang].pdfScanned}`, 'error');
-                        uploadedFiles.push({ name: file.name, content: `[Scanned PDF — no extractable text. The file "${file.name}" appears to be composed of images. The user will have to manually copy-paste the text if needed.]` });
-                    } else {
-                        uploadedFiles.push({ name: file.name, content: text });
+                    const { text, pdf, release } = await extractPdfText(file);
+                    try {
+                        if (text.trim().length === 0) {
+                            // PDF scanné : l'utilisateur choisit OCR, pages en images ou rien.
+                            scannedNotice = await handleScannedPdf(file, pdf);
+                        } else {
+                            uploadedFiles.push({ name: file.name, content: text });
+                        }
+                    } finally {
+                        release();
                     }
                 } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
                     const base64 = await fileToBase64(file);
@@ -5591,16 +5705,27 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         fileInput.value = '';
-        showToast(`${uploadedFiles.length} ${I18N[currentLang].filesReady}`, 'success');
+        const ready = `${uploadedFiles.length} ${I18N[currentLang].filesReady}`;
+        if (scannedNotice) showToast(`${scannedNotice.msg} — ${ready}`, scannedNotice.type);
+        else showToast(ready, 'success');
     }
 
+    // Décodeurs WebAssembly de PDF.js (JPEG 2000, JBIG2, profils couleur) : absents de cdnjs,
+    // servis depuis le paquet npm officiel pdfjs-dist. Utiles pour DESSINER les pages des scans.
+    const PDFJS_WASM_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/wasm/';
+
+    // Renvoie { text, pdf, release } : le document reste ouvert pour pouvoir dessiner les pages
+    // d'un PDF scanné (OCR / images). L'appelant doit appeler release() une fois terminé
+    // (PDF.js 6 : la libération passe par la tâche de chargement, pas par le document).
     async function extractPdfText(file) {
         const arrayBuffer = await file.arrayBuffer();
         // PDF.js 6.x est chargé en module (différé) : il est normalement prêt bien avant qu'un
         // fichier soit joint, mais on attend brièvement s'il ne l'est pas encore.
         for (let i = 0; !window.pdfjsReady && i < 50; i++) await new Promise(r => setTimeout(r, 100));
         if (!window.pdfjsReady) throw new Error('PDF.js not loaded');
-        const pdf = await window.pdfjsReady.getDocument({ data: arrayBuffer }).promise;
+        const loadingTask = window.pdfjsReady.getDocument({ data: arrayBuffer, wasmUrl: PDFJS_WASM_URL });
+        const pdf = await loadingTask.promise;
+        const release = () => { try { Promise.resolve(loadingTask.destroy()).catch(() => {}); } catch (e) { /* déjà libéré */ } };
         const totalPages = pdf.numPages;
         let fullText = '';
 
@@ -5617,7 +5742,249 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
         }
 
-        return fullText.trim();
+        return { text: fullText.trim(), pdf, release };
+    }
+
+    // ===== PDF SCANNÉS : OCR (transcription unique) ou pages jointes en images =====
+    // Un PDF scanné n'a pas de texte extractible. L'utilisateur choisit :
+    //  - OCR : chaque page est dessinée en image puis transcrite UNE fois par le modèle sélectionné
+    //    (OCR_CONCURRENCY pages en parallèle, aucune limite de pages) ; le texte obtenu est joint
+    //    comme un PDF texte → les questions suivantes coûtent le prix du texte.
+    //  - Images : les pages sont jointes comme images (renvoyées à chaque question → coût élevé).
+    // Modèles sans entrée image (texte seul) : ni OCR ni images.
+    const NO_VISION = {
+        deepseek: 'all',
+        qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.1'],
+        grok: ['grok-build-0.1']
+    };
+    function supportsVision(provider, model) {
+        const r = NO_VISION[provider];
+        return !(r === 'all' || (Array.isArray(r) && r.includes(model)));
+    }
+    const OCR_TOKENS_PER_PAGE = 2500;    // estimation : image (~1 500) + consignes + texte produit
+    const IMAGE_TOKENS_PER_PAGE = 1500;  // estimation : une page en image, renvoyée à CHAQUE question
+    const OCR_CONCURRENCY = 3;           // pages transcrites en parallèle
+
+    // Chaîne I18N avec variables {nom}.
+    function fmtI18n(key, vars) {
+        return Object.entries(vars).reduce((s, [k, v]) => s.split(`{${k}}`).join(String(v)), I18N[currentLang][key]);
+    }
+    function modelLabel(provider, model) {
+        const m = (MODELS[provider] || []).find(x => x.id === model);
+        return m ? (m.name[currentLang] || m.name.fr) : model;
+    }
+
+    // Dessine une page en JPEG (côté long ≈ 1600 px : lisible pour l'OCR, poids raisonnable).
+    async function renderPdfPageJpeg(pdf, pageNum) {
+        const page = await pdf.getPage(pageNum);
+        const base = page.getViewport({ scale: 1 });
+        const viewport = page.getViewport({ scale: Math.min(3, 1600 / Math.max(base.width, base.height)) });
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.ceil(viewport.width);
+        canvas.height = Math.ceil(viewport.height);
+        await page.render({ canvas, viewport }).promise;
+        const base64 = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+        page.cleanup();
+        canvas.width = canvas.height = 0;  // libère la mémoire du canvas
+        return { base64, mimeType: 'image/jpeg' };
+    }
+
+    // Boîte de choix (construite en textContent : aucun HTML injecté). Résout 'ocr' | 'images' | null.
+    function askScannedPdfChoice(fileName, numPages, provider, model) {
+        return new Promise(resolve => {
+            const t = I18N[currentLang];
+            const vision = supportsVision(provider, model);
+            const hasKey = !!getKeyForProvider(provider);
+            const label = modelLabel(provider, model);
+            const overlay = document.createElement('div');
+            overlay.className = 'ocr-modal';
+            overlay.setAttribute('role', 'dialog');
+            overlay.setAttribute('aria-modal', 'true');
+            const box = document.createElement('div');
+            box.className = 'ocr-box';
+            const h = document.createElement('h3');
+            h.textContent = fmtI18n('ocrTitle', { name: fileName, n: numPages });
+            const intro = document.createElement('p');
+            intro.textContent = t.ocrIntro;
+            box.append(h, intro);
+            const note = (txt) => { const p = document.createElement('p'); p.className = 'ocr-warn'; p.textContent = txt; box.appendChild(p); };
+            if (!vision) note(fmtI18n('ocrNoVision', { model: label }));
+            else if (provider === 'perplexity') note(t.ocrNoOcrPerplexity);
+            else if (!hasKey) note(fmtI18n('ocrNeedKey', { provider: PROVIDER_SHORT_NAMES[provider] || provider }));
+            const onKey = (e) => { if (e.key === 'Escape') close(null); };
+            const close = (value) => { document.removeEventListener('keydown', onKey); overlay.remove(); resolve(value); };
+            const option = (title, desc, value, enabled) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'ocr-option';
+                b.disabled = !enabled;
+                const s = document.createElement('strong');
+                s.textContent = title;
+                const d = document.createElement('span');
+                d.textContent = desc;
+                b.append(s, d);
+                b.addEventListener('click', () => close(value));
+                box.appendChild(b);
+            };
+            option(t.ocrOptTranscribe, fmtI18n('ocrOptTranscribeDesc', { model: label, tokens: fmtTokens(numPages * OCR_TOKENS_PER_PAGE) }),
+                'ocr', vision && hasKey && provider !== 'perplexity');
+            option(t.ocrOptImages, fmtI18n('ocrOptImagesDesc', { tokens: fmtTokens(numPages * IMAGE_TOKENS_PER_PAGE) }), 'images', vision);
+            const cancel = document.createElement('button');
+            cancel.type = 'button';
+            cancel.className = 'ocr-cancel';
+            cancel.textContent = t.ocrCancel;
+            cancel.addEventListener('click', () => close(null));
+            box.appendChild(cancel);
+            document.addEventListener('keydown', onKey);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+            (box.querySelector('.ocr-option:not(:disabled)') || cancel).focus();
+        });
+    }
+
+    // Fenêtre de progression avec bouton Arrêter (qui déclenche l'AbortController fourni).
+    function openOcrProgress(fileName, numPages, controller) {
+        const overlay = document.createElement('div');
+        overlay.className = 'ocr-modal';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        const box = document.createElement('div');
+        box.className = 'ocr-box';
+        const h = document.createElement('h3');
+        h.textContent = fmtI18n('ocrTitle', { name: fileName, n: numPages });
+        const status = document.createElement('p');
+        status.setAttribute('aria-live', 'polite');
+        const bar = document.createElement('div');
+        bar.className = 'ocr-progress-bar';
+        const fill = document.createElement('div');
+        fill.className = 'ocr-progress-fill';
+        bar.appendChild(fill);
+        const stop = document.createElement('button');
+        stop.type = 'button';
+        stop.className = 'ocr-cancel';
+        stop.textContent = I18N[currentLang].ocrStop;
+        stop.addEventListener('click', () => controller.abort());
+        box.append(h, status, bar, stop);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        return {
+            set(text, ratio) { status.textContent = text; fill.style.width = `${Math.round(Math.min(1, ratio) * 100)}%`; },
+            close() { overlay.remove(); }
+        };
+    }
+
+    // Transcrit UNE page. Réutilise dispatchStream (endpoints, en-têtes, quirks par fournisseur) en
+    // remplaçant le temps de l'appel l'historique, le mode (prompt système 'ocr') et les toggles :
+    // les fonctions call*Stream lisent ces globales de façon synchrone avant leur premier await,
+    // donc on restaure tout immédiatement après le lancement (sûr même avec plusieurs pages en parallèle).
+    async function ocrTranscribePage(provider, model, key, image, pageNum, total, signal) {
+        let text = '';
+        let usage = null;
+        const tmpHistory = [{ role: 'user', content: `Page ${pageNum}/${total}: transcribe this page.`, images: [image] }];
+        const saved = [conversationHistory, currentMode, webSearchEnabled, readLinksEnabled, thinkingEnabled];
+        conversationHistory = tmpHistory;
+        currentMode = 'ocr';
+        webSearchEnabled = readLinksEnabled = thinkingEnabled = false;
+        let pending;
+        try {
+            pending = dispatchStream(provider, model, key, (t) => { text += t; }, null, signal, (m) => { if (m && m.usage) usage = m.usage; });
+        } finally {
+            [conversationHistory, currentMode, webSearchEnabled, readLinksEnabled, thinkingEnabled] = saved;
+        }
+        await pending;
+        const truncated = text.includes('[TRUNCATED_CONTINUE_BTN]');
+        return { text: text.replace(/\s*\[TRUNCATED_CONTINUE_BTN\]/g, '').trim(), usage, truncated };
+    }
+
+    // OCR de tout le document. Renvoie le texte à joindre (avec en-tête), ou lève une erreur si
+    // aucune page n'a pu être transcrite.
+    async function transcribeScannedPdf(file, pdf, provider, model, key) {
+        const total = pdf.numPages;
+        const label = modelLabel(provider, model);
+        const controller = new AbortController();
+        const ui = openOcrProgress(file.name, total, controller);
+        const results = new Array(total);
+        let next = 1, done = 0, ok = 0, tokens = 0, failuresInARow = 0, lastError = '';
+        const update = () => ui.set(fmtI18n('ocrProgress', { model: label, i: done, n: total, tokens: fmtTokens(tokens) }), done / total);
+        update();
+        const worker = async () => {
+            while (!controller.signal.aborted) {
+                const i = next++;
+                if (i > total) return;
+                try {
+                    const image = await renderPdfPageJpeg(pdf, i);
+                    const r = await ocrTranscribePage(provider, model, key, image, i, total, controller.signal);
+                    results[i - 1] = r.text + (r.truncated ? '\n[…]' : '');
+                    if (r.usage) tokens += (r.usage.input || 0) + (r.usage.output || 0);
+                    ok++;
+                    failuresInARow = 0;
+                } catch (e) {
+                    if (controller.signal.aborted || e.name === 'AbortError') return;
+                    lastError = e.message;
+                    results[i - 1] = `[Page ${i}: OCR failed — ${e.message}]`;
+                    // Échecs répétés (clé invalide, modèle sans vision…) : inutile de continuer à payer.
+                    if (++failuresInARow >= 3) { controller.abort(); return; }
+                }
+                done++;
+                update();
+            }
+        };
+        try {
+            await Promise.all(Array.from({ length: Math.min(OCR_CONCURRENCY, total) }, worker));
+        } finally {
+            ui.close();
+        }
+        if (ok === 0) throw new Error(lastError || 'OCR stopped');
+        const processed = results.filter(r => r !== undefined).length;
+        let body = '';
+        results.forEach((r, k) => { if (r !== undefined) body += `\n--- Page ${k + 1}/${total} (OCR) ---\n${r}\n`; });
+        const notice = processed < total
+            ? { msg: fmtI18n('ocrStopped', { i: processed, n: total }), type: 'error' }
+            : { msg: fmtI18n('ocrDone', { name: file.name, n: total, tokens: fmtTokens(tokens) }), type: 'success' };
+        const partial = processed < total ? ` — only ${processed}/${total} pages (transcription stopped)` : '';
+        return { text: `[OCR transcription of the scanned PDF "${file.name}" by ${label}${partial}]\n${body.trim()}`, notice };
+    }
+
+    // Joint chaque page comme image (le modèle « voit » les pages à chaque question).
+    async function attachScannedPdfAsImages(file, pdf) {
+        const total = pdf.numPages;
+        const controller = new AbortController();
+        const ui = openOcrProgress(file.name, total, controller);
+        let added = 0;
+        try {
+            for (let i = 1; i <= total && !controller.signal.aborted; i++) {
+                ui.set(fmtI18n('ocrRendering', { i, n: total }), (i - 1) / total);
+                const image = await renderPdfPageJpeg(pdf, i);
+                uploadedFiles.push({ name: `${file.name} — p. ${i}/${total}`, content: `[Attached image: ${file.name}, page ${i}/${total}]`, base64: image.base64, mimeType: image.mimeType });
+                added++;
+            }
+        } finally {
+            ui.close();
+        }
+        return { msg: fmtI18n('ocrImagesAdded', { n: added }), type: added === total ? 'success' : 'error' };
+    }
+
+    // Renvoie le message à afficher en dernier par handleFiles ({ msg, type }), pour que le bilan
+    // (pages, tokens réellement utilisés) ne soit pas écrasé par « N fichier(s) prêt(s) ».
+    async function handleScannedPdf(file, pdf) {
+        const provider = providerSelect.value;
+        const model = modelSelect.value;
+        const placeholder = () => uploadedFiles.push({ name: file.name, content: `[Scanned PDF — no extractable text. The file "${file.name}" appears to be composed of images. The user will have to manually copy-paste the text if needed.]` });
+        const choice = await askScannedPdfChoice(file.name, pdf.numPages, provider, model);
+        if (choice === 'ocr') {
+            try {
+                const { text, notice } = await transcribeScannedPdf(file, pdf, provider, model, getKeyForProvider(provider));
+                uploadedFiles.push({ name: file.name, content: text });
+                return notice;
+            } catch (e) {
+                placeholder();
+                return { msg: `${I18N[currentLang].fileReadError}${file.name} — ${e.message}`, type: 'error' };
+            }
+        } else if (choice === 'images') {
+            return attachScannedPdfAsImages(file, pdf);
+        }
+        placeholder();
+        return { msg: `⚠️ ${file.name} : ${I18N[currentLang].pdfScanned}`, type: 'error' };
     }
 
     function fileToBase64(file) {
@@ -6313,29 +6680,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
 
         try {
-            // OpenAI/Grok n'ont pas de primitive de lecture d'URL distincte : l'outil
-            // web_search ouvre aussi les liens collés. Donc on l'active si recherche web
-            // OU lecture de liens est demandée (les deux passent par l'API Responses).
-            const openaiWebTool = provider === 'openai' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.openai) || (readLinksEnabled && READ_LINK_SUPPORT.openai));
-            if (provider === 'openai' && (RESPONSES_API_MODELS.includes(model) || openaiWebTool)) {
-                // L'outil web_search d'OpenAI passe par l'API Responses → on y route aussi
-                // les modèles chat normaux quand la recherche/lecture est activée.
-                await callOpenAIResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'openai') {
-                await callOpenAIStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok) || THINKING_SUPPORT.grok.native.includes(model))) {
-                // Grok + recherche web / lecture de liens, ou Grok 4.5+ (réflexion visible) : API
-                // Responses de xAI. Le Grok-chat normal (4.3, 4.20…) reste sur Chat Completions.
-                await callGrokResponsesStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'perplexity') {
-                await callPerplexityStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
-                await callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else if (provider === 'claude') {
-                await callClaudeStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            } else {
-                await callGeminiStream(model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
-            }
+            await dispatchStream(provider, model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
 
             // Final render — cancel any pending RAF before to avoid race condition
             cancelStreamRender();
@@ -6645,6 +6990,36 @@ A small follow-up tweak the user asks for can be done right away without a new p
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
             body, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
         });
+    }
+
+    // ===== AIGUILLAGE PAR FOURNISSEUR =====
+    // Choisit la fonction d'appel selon le fournisseur / modèle / toggles. Utilisé par streamInto
+    // (chat, comparaison) et par l'OCR des PDF scannés. Toutes les fonctions call*Stream lisent
+    // conversationHistory, currentMode et les toggles de façon SYNCHRONE au début de l'appel
+    // (avant leur premier await) — l'OCR s'appuie sur cette propriété (voir ocrTranscribePage).
+    function dispatchStream(provider, model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        // OpenAI/Grok n'ont pas de primitive de lecture d'URL distincte : l'outil
+        // web_search ouvre aussi les liens collés. Donc on l'active si recherche web
+        // OU lecture de liens est demandée (les deux passent par l'API Responses).
+        const openaiWebTool = provider === 'openai' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.openai) || (readLinksEnabled && READ_LINK_SUPPORT.openai));
+        if (provider === 'openai' && (RESPONSES_API_MODELS.includes(model) || openaiWebTool)) {
+            // L'outil web_search d'OpenAI passe par l'API Responses → on y route aussi
+            // les modèles chat normaux quand la recherche/lecture est activée.
+            return callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'openai') {
+            return callOpenAIStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok) || THINKING_SUPPORT.grok.native.includes(model))) {
+            // Grok + recherche web / lecture de liens, ou Grok 4.5+ (réflexion visible) : API
+            // Responses de xAI. Le Grok-chat normal (4.3, 4.20…) reste sur Chat Completions.
+            return callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'perplexity') {
+            return callPerplexityStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
+            return callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'claude') {
+            return callClaudeStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        }
+        return callGeminiStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
     }
 
     // ===== Perplexity — Agent API (/v1/agent) =====

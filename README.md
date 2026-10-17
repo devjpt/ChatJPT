@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.9.2
+  Version 1.10.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -94,6 +94,11 @@ FEATURES
     and a per-conversation total in the footer bar — so you can see what each
     turn really costs.
 
+  - Attach files and PDFs (📎): text files, images and PDFs. Scanned PDFs
+    (pages made of images) can be transcribed to text once by the selected
+    model (OCR, no page limit, estimated and actual cost shown), or attached
+    as page images.
+
   - Image persistence: generated images are saved locally (IndexedDB) and
     survive page reloads and conversation switches. Use download (💾) for a
     permanent copy.
@@ -106,7 +111,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_9_2.html
+  1. Download the file ChatJPT_1_10_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -138,7 +143,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.9.2
+  Version 1.10.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -238,6 +243,11 @@ FONCTIONNALITÉS
     (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
     pour voir ce que coûte réellement chaque échange.
 
+  - Fichiers et PDF joints (📎) : fichiers texte, images et PDF. Les PDF scannés
+    (pages composées d'images) peuvent être transcrits en texte une seule fois
+    par le modèle sélectionné (OCR, sans limite de pages, coût estimé puis réel
+    affiché), ou joints comme images de pages.
+
   - Persistance des images : les images générées sont enregistrées localement
     (IndexedDB) et survivent aux rechargements et aux changements de
     conversation. Téléchargez (💾) pour une copie permanente.
@@ -250,7 +260,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_9_2.html
+  1. Téléchargez le fichier ChatJPT_1_10_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -284,7 +294,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.9.2
+  Versión 1.10.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -356,6 +366,11 @@ CARACTERÍSTICAS
 
   - Teclado: Esc detiene la generación en curso.
 
+  - Archivos y PDF adjuntos (📎): archivos de texto, imágenes y PDF. Los PDF
+    escaneados (páginas compuestas de imágenes) pueden transcribirse a texto una
+    sola vez con el modelo seleccionado (OCR, sin límite de páginas, con costo
+    estimado y real), o adjuntarse como imágenes de las páginas.
+
   - Persistencia de imágenes: las imágenes generadas se guardan localmente
     (IndexedDB) y sobreviven a las recargas de página y a los cambios de
     conversación. Usa descargar (💾) para una copia permanente.
@@ -392,7 +407,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_9_2.html
+  1. Descarga el archivo ChatJPT_1_10_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
