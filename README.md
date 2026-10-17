@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.8.1
+  Version 1.8.2
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -20,7 +20,7 @@ FEATURES
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image, and video; Grok Imagine)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Qwen       (Alibaba — chat and image; selectable DashScope region)
+      • Alibaba    (Qwen + Z.ai GLM — chat and image; selectable DashScope region)
 
   - Conversation modes:
       • Chat       : general conversation
@@ -105,7 +105,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_8_1.html
+  1. Download the file ChatJPT_1_8_2.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -137,7 +137,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.8.1
+  Version 1.8.2
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -158,7 +158,7 @@ FONCTIONNALITÉS
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Qwen       (Alibaba — chat et image ; région DashScope au choix)
+      • Alibaba    (Qwen + Z.ai GLM — chat et image ; région DashScope au choix)
 
   - Modes de conversation :
       • Chat       : conversation générale
@@ -248,7 +248,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_8_1.html
+  1. Téléchargez le fichier ChatJPT_1_8_2.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -282,7 +282,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.8.1
+  Versión 1.8.2
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -303,7 +303,7 @@ CARACTERÍSTICAS
       • Google     (Gemini 3.x, Gemini 2.5, etc.)
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Qwen       (Alibaba — chat e imagen; región DashScope a elegir)
+      • Alibaba    (Qwen + Z.ai GLM — chat e imagen; región DashScope a elegir)
 
   - Modos de conversación:
       • Chat       : conversación general
@@ -389,7 +389,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_8_1.html
+  1. Descarga el archivo ChatJPT_1_8_2.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

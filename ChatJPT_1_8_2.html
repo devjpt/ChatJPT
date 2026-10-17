@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.8.1
+  Version 1.8.2
 -->
 
 
@@ -2325,7 +2325,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 16 octobre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 17 octobre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2356,8 +2356,8 @@
                     <input type="password" class="api-key-input" id="key-deepseek" placeholder="sk-..." autocomplete="off" aria-label="Clé API DeepSeek">
                 </div>
                 <div class="config-group">
-                    <label class="qwen-label">🟣 Qwen</label>
-                    <input type="password" class="api-key-input" id="key-qwen" placeholder="sk-..." autocomplete="off" aria-label="Clé API Qwen">
+                    <label class="qwen-label">🟣 Alibaba (Qwen, GLM)</label>
+                    <input type="password" class="api-key-input" id="key-qwen" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen, GLM)">
                 </div>
             </div>
             <p class="keys-hint" data-i18n="keysHint">🔒 Les clés sont enregistrées séparément dans chaque navigateur.</p>
@@ -2383,7 +2383,7 @@
                 <option value="gemini">Google (Gemini)</option>
                 <option value="grok">xAI (Grok)</option>
                 <option value="deepseek">DeepSeek</option>
-                <option value="qwen">Qwen (Alibaba)</option>
+                <option value="qwen">Alibaba (Qwen, GLM)</option>
             </select>
         </div>
         <div class="select-group" id="model-group">
@@ -2751,7 +2751,7 @@
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
     const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', deepseek: '🔷', qwen: '🟣' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', deepseek: 'DeepSeek', qwen: 'Qwen' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', deepseek: 'DeepSeek', qwen: 'Alibaba' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -2877,8 +2877,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.8.1 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 16 octobre 2026",
+            creditVersion: "Version 1.8.2 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 17 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3066,8 +3066,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.8.1 - Latest version: ",
-            appUpdated: "📅 Updated: October 16, 2026",
+            creditVersion: "Version 1.8.2 - Latest version: ",
+            appUpdated: "📅 Updated: October 17, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3255,8 +3255,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.8.1 - Última versión: ",
-            appUpdated: "📅 Actualizado: 16 de octubre de 2026",
+            creditVersion: "Versión 1.8.2 - Última versión: ",
+            appUpdated: "📅 Actualizado: 17 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3426,6 +3426,11 @@
             { id: 'qwen-flash', name: { fr: 'Qwen Flash (Rapide)', en: 'Qwen Flash (Fast)', es: 'Qwen Flash (Rápido)' } },
             // Code (qwen3-coder-plus absent du catalogue → qwen3-coder-flash)
             { id: 'qwen3-coder-flash', name: { fr: 'Qwen3 Coder Flash (Code)', en: 'Qwen3 Coder Flash (Code)', es: 'Qwen3 Coder Flash (Código)' } },
+            // GLM (Z.ai) servis par Alibaba Model Studio : l'API directe api.z.ai bloque le CORS
+            // navigateur (testé 2026-10-17), le compatible-mode DashScope l'autorise.
+            { id: 'glm-5.3', name: { fr: 'GLM-5.3 (Z.ai, via Alibaba)', en: 'GLM-5.3 (Z.ai, via Alibaba)', es: 'GLM-5.3 (Z.ai, vía Alibaba)' } },
+            { id: 'glm-5.2', name: { fr: 'GLM-5.2 (Z.ai, via Alibaba)', en: 'GLM-5.2 (Z.ai, via Alibaba)', es: 'GLM-5.2 (Z.ai, vía Alibaba)' } },
+            { id: 'glm-5.1', name: { fr: 'GLM-5.1 (Z.ai, via Alibaba)', en: 'GLM-5.1 (Z.ai, via Alibaba)', es: 'GLM-5.1 (Z.ai, vía Alibaba)' } },
         ]
     };
 
@@ -3594,8 +3599,9 @@ RULES:
             // Thinking hybride via enable_thinking (+ thinking_budget), reasoning_content streamé.
             // Envoyé explicitement (true/false) : défaut ON sur 3.x récents, OFF sur les alias.
             // qwen-max / qwen3-coder-flash : pas de mode hybride documenté → hors table.
-            native: [],
-            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash']
+            // GLM-5.3 : réflexion obligatoire (non désactivable) → natif, aucun enable_thinking envoyé.
+            native: ['glm-5.3'],
+            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.1']
         },
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
@@ -4812,7 +4818,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         gemini: 'Google (Gemini)',
         grok: 'xAI (Grok)',
         deepseek: 'DeepSeek',
-        qwen: 'Qwen (Alibaba)'
+        qwen: 'Alibaba (Qwen, GLM)'
     };
 
     // Clé API d'un fournisseur arbitraire (≠ getActiveKey qui lit le fournisseur courant).

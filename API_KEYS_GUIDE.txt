@@ -67,7 +67,7 @@ your plan).
 
 
 ----------------------------------------------------------------
-  5. QWEN (Alibaba Cloud)
+  5. ALIBABA CLOUD (Qwen + GLM)
      Key looks like: sk-...
 ----------------------------------------------------------------
 
@@ -83,6 +83,8 @@ your plan).
         In ChatJPT, pick the matching region in the "Region" dropdown
         next to the model selector (default: International).
         New Alibaba Cloud accounts usually get a free quota to start.
+        The same key also gives access to the Z.ai GLM models
+        (GLM-5.3, 5.2, 5.1) served by Alibaba (International region).
 
 
 ----------------------------------------------------------------
@@ -105,14 +107,14 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_8_1.html in your browser.
+  1. Open ChatJPT_1_8_2.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
        ⚫ Grok     → paste your xai-... key
        🔷 DeepSeek → paste your sk-... key
-       🟣 Qwen     → paste your sk-... key
+       🟣 Alibaba (Qwen, GLM) → paste your sk-... key
   3. Keys are saved locally in your browser.
      They are never sent anywhere other than to the respective service.
 
@@ -196,7 +198,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
-  5. QWEN (Alibaba Cloud)
+  5. ALIBABA CLOUD (Qwen + GLM)
      Clé ressemble à : sk-...
 ----------------------------------------------------------------
 
@@ -213,6 +215,8 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
          "Région" à côté du sélecteur de modèle (défaut : International).
          Les nouveaux comptes Alibaba Cloud ont en général un quota
          gratuit pour démarrer.
+         La même clé donne aussi accès aux modèles GLM de Z.ai
+         (GLM-5.3, 5.2, 5.1) servis par Alibaba (région International).
 
 
 ----------------------------------------------------------------
@@ -236,14 +240,14 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_8_1.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_8_2.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
        ⚫ Grok     → collez votre clé xai-...
        🔷 DeepSeek → collez votre clé sk-...
-       🟣 Qwen     → collez votre clé sk-...
+       🟣 Alibaba (Qwen, GLM) → collez votre clé sk-...
   3. Les clés sont sauvegardées localement dans votre navigateur.
      Elles ne sont jamais envoyées ailleurs que vers le service concerné.
 
@@ -329,7 +333,7 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
-  5. QWEN (Alibaba Cloud)
+  5. ALIBABA CLOUD (Qwen + GLM)
      La clave se ve así: sk-...
 ----------------------------------------------------------------
 
@@ -346,6 +350,8 @@ crear (facturación según el uso, dependiendo de tu plan).
         junto al selector de modelo (por defecto: Internacional).
         Las cuentas nuevas de Alibaba Cloud suelen tener una cuota
         gratuita para empezar.
+        La misma clave también da acceso a los modelos GLM de Z.ai
+        (GLM-5.3, 5.2, 5.1) servidos por Alibaba (región Internacional).
 
 
 ----------------------------------------------------------------
@@ -368,14 +374,14 @@ crear (facturación según el uso, dependiendo de tu plan).
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_8_1.html en tu navegador.
+  1. Abre ChatJPT_1_8_2.html en tu navegador.
   2. En el panel izquierdo, ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
        ⚫ Grok     → pega tu clave xai-...
        🔷 DeepSeek → pega tu clave sk-...
-       🟣 Qwen     → pega tu clave sk-...
+       🟣 Alibaba (Qwen, GLM) → pega tu clave sk-...
   3. Las claves se guardan localmente en tu navegador.
      Nunca se envían a ningún lugar más que al servicio correspondiente.
 

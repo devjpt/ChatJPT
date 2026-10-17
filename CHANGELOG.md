@@ -8,6 +8,17 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.8.2] — 2026-10-17
+  Added
+    - Z.ai GLM models: GLM-5.3 (always-on reasoning, shown in the 🧠 block),
+      GLM-5.2 and GLM-5.1 (thinking toggle). They are served by Alibaba Cloud
+      Model Studio with the same API key as Qwen. Z.ai's own API cannot be used
+      from a browser (it blocks browser requests, CORS), so Alibaba is the way
+      to use GLM in ChatJPT.
+  Changed / Improved
+    - The "Qwen (Alibaba)" provider is renamed "Alibaba (Qwen, GLM)". Your saved
+      key and settings are kept.
+
 [1.8.1] — 2026-10-16
   Added
     - Qwen: Qwen3.7 Max, Qwen3.7 Flash (very low cost), Qwen Flash and Qwen3
@@ -284,6 +295,18 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.8.2] — 2026-10-17
+  Ajouté
+    - Modèles GLM de Z.ai : GLM-5.3 (réflexion toujours active, affichée dans le
+      bloc 🧠), GLM-5.2 et GLM-5.1 (case thinking). Ils sont servis par Alibaba
+      Cloud Model Studio, avec la même clé API que Qwen. L'API de Z.ai elle-même
+      n'est pas utilisable depuis un navigateur (elle bloque les requêtes du
+      navigateur, CORS) : passer par Alibaba est la façon d'utiliser GLM dans
+      ChatJPT.
+  Modifié / Amélioré
+    - Le fournisseur « Qwen (Alibaba) » est renommé « Alibaba (Qwen, GLM) ». Votre
+      clé et vos réglages enregistrés sont conservés.
 
 [1.8.1] — 2026-10-16
   Ajouté
@@ -576,6 +599,17 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.8.2] — 2026-10-17
+  Añadido
+    - Modelos GLM de Z.ai: GLM-5.3 (razonamiento siempre activo, mostrado en el
+      bloque 🧠), GLM-5.2 y GLM-5.1 (casilla de razonamiento). Los sirve Alibaba
+      Cloud Model Studio, con la misma clave API que Qwen. La API propia de Z.ai
+      no se puede usar desde un navegador (bloquea las solicitudes del
+      navegador, CORS): usar Alibaba es la forma de usar GLM en ChatJPT.
+  Cambiado / Mejorado
+    - El proveedor "Qwen (Alibaba)" pasa a llamarse "Alibaba (Qwen, GLM)". Tu
+      clave y tus ajustes guardados se conservan.
 
 [1.8.1] — 2026-10-16
   Añadido
