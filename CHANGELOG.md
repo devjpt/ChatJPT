@@ -8,6 +8,23 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.9.1] — 2026-10-17
+  Security
+    - DOMPurify (which cleans AI answers before display) updated from 3.0.9 to
+      3.4.17, fixing known bypasses (e.g. CVE-2024-45801), with a new SRI
+      integrity hash.
+    - PDF import: PDF.js now runs with isEvalSupported disabled, the official
+      mitigation for CVE-2024-4367 (JavaScript execution through a crafted
+      PDF font).
+    - HTML preview "Open in new tab": the generated page now opens inside a
+      sandboxed frame, like the in-chat preview, so it can no longer access
+      ChatJPT's storage (API keys).
+    - API keys guide: advice to use a separate key with a monthly spending
+      limit, and to use ChatJPT on a trusted computer.
+  Removed
+    - Veo 3.1, Veo 3.1 Lite and Veo 3.1 Fast (Google shuts them down on
+      2026-10-22). Gemini video now uses Gemini Omni 1.1 Flash.
+
 [1.9.0] — 2026-10-17
   Added
     - New provider: Perplexity (Agent API). Answers always search the web and
@@ -308,6 +325,24 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.9.1] — 2026-10-17
+  Sécurité
+    - DOMPurify (qui nettoie les réponses des IA avant affichage) passe de la
+      3.0.9 à la 3.4.17, ce qui corrige des contournements connus (ex.
+      CVE-2024-45801), avec une nouvelle empreinte d'intégrité SRI.
+    - Import de PDF : PDF.js fonctionne désormais avec isEvalSupported
+      désactivé, la parade officielle à CVE-2024-4367 (exécution de
+      JavaScript via une police de PDF piégée).
+    - Aperçu HTML « Ouvrir dans un onglet » : la page générée s'ouvre
+      maintenant dans un cadre sandboxé, comme l'aperçu intégré au chat ; elle
+      ne peut plus accéder au stockage de ChatJPT (clés API).
+    - Guide des clés API : conseil d'utiliser une clé distincte avec un
+      plafond de dépenses mensuel, et d'utiliser ChatJPT sur un ordinateur de
+      confiance.
+  Retiré
+    - Veo 3.1, Veo 3.1 Lite et Veo 3.1 Fast (arrêtés par Google le
+      2026-10-22). La vidéo Gemini utilise désormais Gemini Omni 1.1 Flash.
 
 [1.9.0] — 2026-10-17
   Ajouté
@@ -627,6 +662,23 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.9.1] — 2026-10-17
+  Seguridad
+    - DOMPurify (que limpia las respuestas de las IA antes de mostrarlas) pasa
+      de la 3.0.9 a la 3.4.17, lo que corrige omisiones conocidas (p. ej.
+      CVE-2024-45801), con una nueva huella de integridad SRI.
+    - Importación de PDF: PDF.js ahora funciona con isEvalSupported
+      desactivado, la mitigación oficial de CVE-2024-4367 (ejecución de
+      JavaScript mediante una fuente de PDF manipulada).
+    - Vista previa HTML "Abrir en una pestaña": la página generada ahora se
+      abre dentro de un marco aislado (sandbox), como la vista previa del
+      chat; ya no puede acceder al almacenamiento de ChatJPT (claves API).
+    - Guía de claves API: consejo de usar una clave distinta con un límite de
+      gasto mensual, y de usar ChatJPT en una computadora de confianza.
+  Eliminado
+    - Veo 3.1, Veo 3.1 Lite y Veo 3.1 Fast (Google los retira el 2026-10-22).
+      El video de Gemini ahora usa Gemini Omni 1.1 Flash.
 
 [1.9.0] — 2026-10-17
   Añadido

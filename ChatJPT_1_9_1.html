@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.9.0
+  Version 1.9.1
 -->
 
 
@@ -2314,7 +2314,7 @@
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js" integrity="sha512-9+ilAOeXY8qy2bw/h51MmliNNHvdyhTpLIlqDmVpD26z8VjVJsUJtk5rhbDIUvYiD+EpGoAu0xTa7MhZohFQjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.17/purify.min.js" integrity="sha512-2wT0W6vojz3cJuLoa/DxrPVQRinkfRjFWMWIDK4NghTqObEhpem1nEkeK0d9ZE+/hyvfMNuJZlfxM4LsRgeoSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css" id="hljs-dark-theme" integrity="sha512-mtXspRdOWHCYp+f4c7CkWGYPPRAhq9X+xCvJMUBVAb6pqA4U8pxhT3RWT3LP3bKbiolYL2CkL1bSKZZO4eeTew==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css" id="hljs-light-theme" disabled integrity="sha512-AVoZ71dJLtHRlsgWwujPT1hk2zxtFWsPlpTPCc/1g0WgpbmlzkqlDFduAvnOV4JJWKUquPc1ZyMc5eq4fRnKOQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -2521,9 +2521,7 @@
             <div class="select-group">
                 <label data-i18n="lblVideoModel">Modèle Vidéo</label>
                 <select id="video-model-select" aria-label="Modèle vidéo">
-                    <option value="veo-3.1-generate-preview">Veo 3.1 (Dernier)</option>
-                    <option value="veo-3.1-fast-generate-preview">Veo 3.1 Fast</option>
-                    <option value="veo-2.0-generate-001">Veo 2.0</option>
+                    <option value="gemini-omni-1.1-flash">Gemini Omni 1.1 Flash</option>
                 </select>
             </div>
             <div class="select-group">
@@ -2887,7 +2885,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.0 - Dernière version : ",
+            creditVersion: "Version 1.9.1 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 17 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3076,7 +3074,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.0 - Latest version: ",
+            creditVersion: "Version 1.9.1 - Latest version: ",
             appUpdated: "📅 Updated: October 17, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3265,7 +3263,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.9.0 - Última versión: ",
+            creditVersion: "Versión 1.9.1 - Última versión: ",
             appUpdated: "📅 Actualizado: 17 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -3491,11 +3489,9 @@
     const VIDEO_MODELS = {
         gemini: [
             // Omni : Interactions API (background + polling), audio inclus, durée fixée par le modèle.
-            { id: 'gemini-omni-1.1-flash', name: { fr: 'Gemini Omni 1.1 Flash (Dernier, avec audio)', en: 'Gemini Omni 1.1 Flash (Latest, with audio)', es: 'Gemini Omni 1.1 Flash (Último, con audio)' } },
-            // Veo 3.1 : arrêt Google le 22/10/2026 (remplacé par Omni). Veo 2.0 arrêté le 30/06/2026.
-            { id: 'veo-3.1-generate-preview', name: { fr: 'Veo 3.1 (arrêt le 22/10)', en: 'Veo 3.1 (ends Oct 22)', es: 'Veo 3.1 (fin el 22/10)' } },
-            { id: 'veo-3.1-lite-generate-preview', name: { fr: 'Veo 3.1 Lite (arrêt le 22/10)', en: 'Veo 3.1 Lite (ends Oct 22)', es: 'Veo 3.1 Lite (fin el 22/10)' } },
-            { id: 'veo-3.1-fast-generate-preview', name: { fr: 'Veo 3.1 Fast (arrêt le 22/10)', en: 'Veo 3.1 Fast (ends Oct 22)', es: 'Veo 3.1 Fast (fin el 22/10)' } }
+            { id: 'gemini-omni-1.1-flash', name: { fr: 'Gemini Omni 1.1 Flash (avec audio)', en: 'Gemini Omni 1.1 Flash (with audio)', es: 'Gemini Omni 1.1 Flash (con audio)' } }
+            // Veo 3.1 retirés (arrêt Google le 22/10/2026, remplacés par Omni) ; Veo 2.0 arrêté le
+            // 30/06/2026. La branche Veo de VIDEO_ADAPTERS.gemini reste prête pour un futur Veo.
         ],
         grok: [
             { id: 'grok-imagine-video-1.5', name: { fr: 'Grok Imagine Vidéo 1.5 (Dernier)', en: 'Grok Imagine Video 1.5 (Latest)', es: 'Grok Imagine Video 1.5 (Último)' } },
@@ -5419,12 +5415,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 //   PAS lire le localStorage parent (clés API chiffrées AES) ni le DOM parent.
                 frame.setAttribute('sandbox', 'allow-scripts allow-forms');
                 frame.srcdoc = raw;                           // RAW (non-DOMPurifié) : doit s'exécuter comme une vraie page
-                // « Ouvrir dans un onglet » via blob URL (vrai onglet, comme double-cliquer le fichier)
+                // « Ouvrir dans un onglet » : SÉCURITÉ — une page blob: a la même origine que
+                // l'app (accès à son stockage si l'app est hébergée sur un site). On ouvre donc une
+                // page enveloppe SANS script, qui affiche le code dans un iframe sandboxé identique
+                // à l'aperçu intégré (allow-scripts allow-forms, sans allow-same-origin).
                 const openBtn = document.createElement('button');
                 openBtn.className = 'preview-newtab-btn';
                 openBtn.textContent = I18N[currentLang].previewNewTab;
                 openBtn.addEventListener('click', () => {
-                    const url = URL.createObjectURL(new Blob([raw], { type: 'text/html' }));
+                    const srcdoc = raw.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+                    const shell = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Preview</title>'
+                        + '<style>html,body{margin:0;height:100%;background:#fff}iframe{border:0;width:100%;height:100%;display:block}</style>'
+                        + `</head><body><iframe sandbox="allow-scripts allow-forms" srcdoc="${srcdoc}"></iframe></body></html>`;
+                    const url = URL.createObjectURL(new Blob([shell], { type: 'text/html' }));
                     window.open(url, '_blank', 'noopener');
                     setTimeout(() => URL.revokeObjectURL(url), 60000);
                 });
@@ -5556,7 +5559,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     async function extractPdfText(file) {
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        // isEvalSupported: false → parade officielle à CVE-2024-4367 (exécution de JS via une
+        // police piégée) pour PDF.js < 4.2 ; ChatJPT n'extrait que le texte, mais on ferme la porte.
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
         const totalPages = pdf.numPages;
         let fullText = '';
 

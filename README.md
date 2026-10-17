@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.9.0
+  Version 1.9.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -34,7 +34,7 @@ FEATURES
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
                      resolution), Qwen, and Grok
-      • Video      : video generation (Google Gemini Omni / Veo, xAI Grok Imagine)
+      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -106,7 +106,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_9_0.html
+  1. Download the file ChatJPT_1_9_1.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -138,7 +138,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.9.0
+  Version 1.9.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -173,7 +173,7 @@ FONCTIONNALITÉS
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
                      ajustables), Qwen et Grok
-      • Vidéo      : génération de vidéos (Google Gemini Omni / Veo, xAI Grok Imagine)
+      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -250,7 +250,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_9_0.html
+  1. Téléchargez le fichier ChatJPT_1_9_1.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -284,7 +284,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.9.0
+  Versión 1.9.1
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -319,7 +319,7 @@ CARACTERÍSTICAS
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
                      tamaño ajustables), Google Gemini (formato y resolución
                      ajustables), Qwen y Grok
-      • Video      : generación de videos (Google Gemini Omni / Veo, xAI Grok Imagine)
+      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine)
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos
@@ -392,7 +392,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_9_0.html
+  1. Descarga el archivo ChatJPT_1_9_1.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

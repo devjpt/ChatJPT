@@ -123,7 +123,7 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_9_0.html in your browser.
+  1. Open ChatJPT_1_9_1.html in your browser.
   2. In the left panel, locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -144,6 +144,11 @@ your plan).
   - Do not include them in code you publish on GitHub.
   - If a key is compromised, revoke it immediately from
     the service's dashboard.
+  - Prefer a separate key for ChatJPT with a monthly spending limit
+    (set it in each provider's dashboard), so a leaked key costs little.
+  - Keys are stored encrypted in your browser, but any program that can
+    read this browser's data could recover them: use ChatJPT on a
+    computer you trust.
 
 
 ================================================================
@@ -274,7 +279,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_9_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_9_1.html dans votre navigateur.
   2. Dans le panneau de gauche, repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -295,6 +300,12 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   - Ne les incluez pas dans du code que vous publiez sur GitHub.
   - Si une clé est compromise, révoquez-la immédiatement depuis
     le tableau de bord du service concerné.
+  - Utilisez de préférence une clé distincte pour ChatJPT, avec un
+    plafond de dépenses mensuel (réglé dans le tableau de bord de chaque
+    fournisseur) : une clé divulguée coûtera peu.
+  - Les clés sont chiffrées dans votre navigateur, mais un programme
+    capable de lire les données de ce navigateur pourrait les récupérer :
+    utilisez ChatJPT sur un ordinateur de confiance.
 
 ================================================================
 
@@ -426,7 +437,7 @@ crear (facturación según el uso, dependiendo de tu plan).
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_9_0.html en tu navegador.
+  1. Abre ChatJPT_1_9_1.html en tu navegador.
   2. En el panel izquierdo, ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
@@ -447,5 +458,11 @@ crear (facturación según el uso, dependiendo de tu plan).
   - No las incluyas en código que publiques en GitHub.
   - Si una clave se ve comprometida, revócala de inmediato desde
     el panel del servicio correspondiente.
+  - De preferencia, usa una clave distinta para ChatJPT con un límite
+    de gasto mensual (configúralo en el panel de cada proveedor): una
+    clave filtrada costará poco.
+  - Las claves se guardan cifradas en tu navegador, pero un programa
+    capaz de leer los datos de este navegador podría recuperarlas: usa
+    ChatJPT en una computadora de confianza.
 
 ================================================================
