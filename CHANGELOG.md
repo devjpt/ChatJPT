@@ -8,6 +8,20 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.9.2] — 2026-10-17
+  Security
+    - PDF.js (which reads the text of attached PDFs) updated from 3.11.174,
+      no longer maintained, to 6.4.299. The new version no longer uses eval,
+      which removes the CVE-2024-4367 issue at its root.
+    - Both the PDF.js library and its background worker are now checked by
+      their SHA-512 fingerprint (cross-checked on two CDNs); a modified file
+      is refused. The old version did not check the worker.
+  Changed / Improved
+    - Faster PDF text extraction (about 3× faster on a 14-page document).
+  Note
+    - Scanned PDFs (pages made of images) still have no extractable text: the
+      model is told the PDF is scanned, as before.
+
 [1.9.1] — 2026-10-17
   Security
     - DOMPurify (which cleans AI answers before display) updated from 3.0.9 to
@@ -325,6 +339,22 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.9.2] — 2026-10-17
+  Sécurité
+    - PDF.js (qui lit le texte des PDF joints) passe de la 3.11.174, qui n'est
+      plus maintenue, à la 6.4.299. La nouvelle version n'utilise plus eval, ce
+      qui supprime à la racine le problème CVE-2024-4367.
+    - La bibliothèque PDF.js et son worker (traitement en arrière-plan) sont
+      désormais vérifiés par leur empreinte SHA-512 (recoupée sur deux CDN) ;
+      un fichier modifié est refusé. L'ancienne version ne vérifiait pas le
+      worker.
+  Modifié / Amélioré
+    - Extraction du texte des PDF plus rapide (environ 3× sur un document de
+      14 pages).
+  Note
+    - Les PDF scannés (pages composées d'images) n'ont toujours pas de texte
+      extractible : le modèle est prévenu que le PDF est scanné, comme avant.
 
 [1.9.1] — 2026-10-17
   Sécurité
@@ -662,6 +692,22 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.9.2] — 2026-10-17
+  Seguridad
+    - PDF.js (que lee el texto de los PDF adjuntos) pasa de la 3.11.174, que ya
+      no recibe mantenimiento, a la 6.4.299. La nueva versión ya no usa eval,
+      lo que elimina de raíz el problema CVE-2024-4367.
+    - La biblioteca PDF.js y su worker (procesamiento en segundo plano) ahora
+      se verifican mediante su huella SHA-512 (contrastada en dos CDN); un
+      archivo modificado se rechaza. La versión anterior no verificaba el
+      worker.
+  Cambiado / Mejorado
+    - Extracción del texto de los PDF más rápida (unas 3 veces en un documento
+      de 14 páginas).
+  Nota
+    - Los PDF escaneados (páginas compuestas de imágenes) siguen sin texto
+      extraíble: se avisa al modelo de que el PDF está escaneado, como antes.
 
 [1.9.1] — 2026-10-17
   Seguridad

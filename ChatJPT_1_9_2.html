@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.9.1
+  Version 1.9.2
 -->
 
 
@@ -2315,13 +2315,50 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.4.17/purify.min.js" integrity="sha512-2wT0W6vojz3cJuLoa/DxrPVQRinkfRjFWMWIDK4NghTqObEhpem1nEkeK0d9ZE+/hyvfMNuJZlfxM4LsRgeoSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- PDF.js 6.x n'est publié qu'en module ES (.mjs). Intégrité : import map pour la bibliothèque
+     (sha512 recalculé, identique sur cdnjs et jsDelivr/pdfjs-dist). Le worker est téléchargé et son
+     sha512 vérifié AVANT toute transformation, puis lancé en vrai Worker via un blob : un Worker ne
+     peut pas être chargé directement depuis le CDN (autre origine), et en file:// Chrome refuse les
+     Workers « module » issus d'un blob → on le convertit en script classique (retrait de l'export
+     final, import.meta.url → URL du CDN). Empreinte incorrecte → window.pdfjsReady non posé (refus). -->
+<script type="importmap">
+{ "integrity": {
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs": "sha512-1UUIvsWB1OBjM8rS2OXXTuCV596o4QFyz/mXjQTFLpKx30czRjzwAWZyYGHPUHIc3Pu4m8MBtPjOQtGKay2TWQ==",
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs": "sha512-5rP4Pl+OP4/Ou2kd/5fg63NUGbRrUuFxWsRcJ4i0T5xI8KXnhE5GN1NUzU9xG/1kgONKHRoE76k9U4UlylpRPg=="
+} }
+</script>
+<script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.min.mjs';
+    const WORKER_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.4.299/pdf.worker.min.mjs';
+    const WORKER_SHA512 = '5rP4Pl+OP4/Ou2kd/5fg63NUGbRrUuFxWsRcJ4i0T5xI8KXnhE5GN1NUzU9xG/1kgONKHRoE76k9U4UlylpRPg==';
+    let workerCode = null;
+    try {
+        workerCode = await (await fetch(WORKER_URL)).arrayBuffer();
+    } catch (e) { /* réseau : repli plus bas */ }
+    if (workerCode) {
+        const digest = btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.digest('SHA-512', workerCode))));
+        if (digest !== WORKER_SHA512) throw new Error('PDF.js worker: integrity check failed');  // refus
+        const EXPORT_TAIL = /export\{WorkerMessageHandler\};\s*$/;
+        const src = new TextDecoder().decode(workerCode);
+        if (EXPORT_TAIL.test(src)) {
+            const classic = src.replace(EXPORT_TAIL, '').split('import.meta.url').join(JSON.stringify(WORKER_URL));
+            try {
+                const blobUrl = URL.createObjectURL(new Blob([classic], { type: 'text/javascript' }));
+                pdfjsLib.GlobalWorkerOptions.workerPort = new Worker(blobUrl);
+            } catch (e) { workerCode = null; }
+        } else {
+            workerCode = null;  // format inattendu (autre version) → repli
+        }
+    }
+    // Repli (« fake worker », sur la page) : le worker est alors importé dans la page, son
+    // intégrité étant vérifiée par l'import map ci-dessus.
+    if (!workerCode) pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_URL;
+    // Indicateur dédié (PDF.js 6 pose aussi lui-même globalThis.pdfjsLib, même si on refuse).
+    window.pdfjsReady = pdfjsLib;
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css" id="hljs-dark-theme" integrity="sha512-mtXspRdOWHCYp+f4c7CkWGYPPRAhq9X+xCvJMUBVAb6pqA4U8pxhT3RWT3LP3bKbiolYL2CkL1bSKZZO4eeTew==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css" id="hljs-light-theme" disabled integrity="sha512-AVoZ71dJLtHRlsgWwujPT1hk2zxtFWsPlpTPCc/1g0WgpbmlzkqlDFduAvnOV4JJWKUquPc1ZyMc5eq4fRnKOQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-</script>
 </head>
 <body>
 
@@ -2885,7 +2922,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.1 - Dernière version : ",
+            creditVersion: "Version 1.9.2 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 17 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3074,7 +3111,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.9.1 - Latest version: ",
+            creditVersion: "Version 1.9.2 - Latest version: ",
             appUpdated: "📅 Updated: October 17, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3263,7 +3300,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.9.1 - Última versión: ",
+            creditVersion: "Versión 1.9.2 - Última versión: ",
             appUpdated: "📅 Actualizado: 17 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5559,9 +5596,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     async function extractPdfText(file) {
         const arrayBuffer = await file.arrayBuffer();
-        // isEvalSupported: false → parade officielle à CVE-2024-4367 (exécution de JS via une
-        // police piégée) pour PDF.js < 4.2 ; ChatJPT n'extrait que le texte, mais on ferme la porte.
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
+        // PDF.js 6.x est chargé en module (différé) : il est normalement prêt bien avant qu'un
+        // fichier soit joint, mais on attend brièvement s'il ne l'est pas encore.
+        for (let i = 0; !window.pdfjsReady && i < 50; i++) await new Promise(r => setTimeout(r, 100));
+        if (!window.pdfjsReady) throw new Error('PDF.js not loaded');
+        const pdf = await window.pdfjsReady.getDocument({ data: arrayBuffer }).promise;
         const totalPages = pdf.numPages;
         let fullText = '';
 
