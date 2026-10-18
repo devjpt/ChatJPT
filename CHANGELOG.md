@@ -8,6 +8,15 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.10.1] — 2026-10-18
+  Added
+    - Gemini 4 Argon (gemini-4-argon), Google's new flagship reasoning model
+      (1M-token context), now first in the Gemini list. Thinking levels:
+      Low, Medium, High. Its output limit is raised to 32,000 tokens
+      (64,000 in Code and Vibe Coder modes), since its reasoning counts
+      toward that limit. Web search, link reading, Compare mode and scanned
+      PDF transcription work with it.
+
 [1.10.0] — 2026-10-17
   Added
     - Scanned PDFs (pages made of images, no text) can now be read. When you
@@ -356,6 +365,16 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.10.1] — 2026-10-18
+  Ajouté
+    - Gemini 4 Argon (gemini-4-argon), le nouveau modèle phare de raisonnement
+      de Google (contexte de 1M tokens), désormais en tête de la liste Gemini.
+      Niveaux de réflexion : Léger, Modéré, Profond. Sa limite de sortie est
+      relevée à 32 000 tokens (64 000 en modes Code et Vibe Coder), car sa
+      réflexion compte dans cette limite. La recherche web, la lecture de
+      liens, le mode Comparaison et la transcription des PDF scannés
+      fonctionnent avec lui.
 
 [1.10.0] — 2026-10-17
   Ajouté
@@ -729,6 +748,16 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.10.1] — 2026-10-18
+  Añadido
+    - Gemini 4 Argon (gemini-4-argon), el nuevo modelo insignia de
+      razonamiento de Google (contexto de 1M tokens), ahora primero en la
+      lista de Gemini. Niveles de razonamiento: Bajo, Medio, Alto. Su límite
+      de salida sube a 32 000 tokens (64 000 en los modos Código y Vibe
+      Coder), porque su razonamiento cuenta dentro de ese límite. La búsqueda
+      web, la lectura de enlaces, el modo Comparación y la transcripción de
+      PDF escaneados funcionan con él.
 
 [1.10.0] — 2026-10-17
   Añadido

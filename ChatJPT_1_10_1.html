@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.10.0
+  Version 1.10.1
 -->
 
 
@@ -2424,7 +2424,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 17 octobre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 18 octobre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2980,8 +2980,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.10.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 17 octobre 2026",
+            creditVersion: "Version 1.10.1 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 18 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3185,8 +3185,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.10.0 - Latest version: ",
-            appUpdated: "📅 Updated: October 17, 2026",
+            creditVersion: "Version 1.10.1 - Latest version: ",
+            appUpdated: "📅 Updated: October 18, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3390,8 +3390,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.10.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 17 de octubre de 2026",
+            creditVersion: "Versión 1.10.1 - Última versión: ",
+            appUpdated: "📅 Actualizado: 18 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3537,7 +3537,8 @@
             { id: 'claude-opus-4-20250514', name: { fr: 'Claude Opus 4', en: 'Claude Opus 4' } },
         ],
         gemini: [
-            { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash (Dernier)', en: 'Gemini 3.8 Flash (Latest)', es: 'Gemini 3.8 Flash (Último)' } },
+            { id: 'gemini-4-argon', name: { fr: 'Gemini 4 Argon (Dernier, raisonnement)', en: 'Gemini 4 Argon (Latest, reasoning)', es: 'Gemini 4 Argon (Último, razonamiento)' } },
+            { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash', en: 'Gemini 3.8 Flash', es: 'Gemini 3.8 Flash' } },
             { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Preview)', en: 'Gemini 3.1 Pro (Preview)', es: 'Gemini 3.1 Pro (Preview)' } },
             { id: 'gemini-3.7-flash', name: { fr: 'Gemini 3.7 Flash', en: 'Gemini 3.7 Flash', es: 'Gemini 3.7 Flash' } },
             { id: 'gemini-3.6-flash', name: { fr: 'Gemini 3.6 Flash', en: 'Gemini 3.6 Flash', es: 'Gemini 3.6 Flash' } },
@@ -3738,6 +3739,7 @@ RULES:
         gemini: {
             native: ['gemini-3.1-pro-preview'],  // Gemini 3.1 Pro: thinking toujours actif (high par défaut)
             configurable: [
+                'gemini-4-argon',              // Gemini 4 Argon : niveaux low/medium/high (défaut medium)
                 'gemini-3.8-flash',            // Gemini 3.6+ / 3.5 : thinking non désactivable, niveau réglable
                 'gemini-3.7-flash',
                 'gemini-3.6-flash',
@@ -3844,9 +3846,12 @@ RULES:
     }
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
-    const GEMINI3_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
+    const GEMINI3_MODELS = ['gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
     // Gemini 3 qui refusent thinkingLevel 'minimal' (erreur API) → retiré du menu, ramené à 'low'
-    const GEMINI_NO_MINIMAL = ['gemini-3.8-flash', 'gemini-3.7-flash'];
+    const GEMINI_NO_MINIMAL = ['gemini-4-argon', 'gemini-3.8-flash', 'gemini-3.7-flash'];
+    // Gemini dont la réflexion (souvent longue) compte dans maxOutputTokens → plafond large
+    // (TOKEN_LIMITS.adaptive*), sinon une réflexion « Profonde » peut tout consommer.
+    const GEMINI_LONG_THINKERS = ['gemini-4-argon'];
 
     const THINKING_MODES = ['chat', 'code', 'vibecoder'];  // Modes où thinking est pertinent
 
@@ -7117,7 +7122,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const useThinking = (isNativeThinking || (isConfigurableThinking && thinkingEnabled)) && onThinkingChunk;
         const isGemini3 = GEMINI3_MODELS.includes(model);
 
-        const generationConfig = { maxOutputTokens: maxOut() };
+        const generationConfig = {
+            maxOutputTokens: GEMINI_LONG_THINKERS.includes(model)
+                ? (isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal)
+                : maxOut()
+        };
         if (useThinking || isNativeThinking) {
             const thinkingConfig = {
                 includeThoughts: true  // Required to receive thought summaries in stream
