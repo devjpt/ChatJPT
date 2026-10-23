@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.11.0
+  Version 1.12.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -98,7 +98,10 @@ FEATURES
     change in your next message), ✂️ Remove background (transparent PNG, kept
     across later edits), ⬚ Format (square 1:1, portrait 3:4, story 9:16,
     landscape 4:3, widescreen 16:9) and 💾 Download, each with a help tooltip.
-    Your own photos can be edited too (Image mode, OpenAI).
+    Drawing tools: 🧽 Erase (paint over an area to remove or replace it),
+    🖍️ Markup (draw on the image to show the changes) and 💬 Comment (pin
+    numbered notes on precise spots). Your own photos can be edited too
+    (Image mode, OpenAI).
 
   - Attach files and PDFs (📎): text files, images and PDFs. Scanned PDFs
     (pages made of images) can be transcribed to text once by the selected
@@ -117,7 +120,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_11_0.html
+  1. Download the file ChatJPT_1_12_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -149,7 +152,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.11.0
+  Version 1.12.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -253,8 +256,10 @@ FONCTIONNALITÉS
     le changement dans le message suivant), ✂️ Retirer le fond (PNG transparent,
     conservé lors des modifications suivantes), ⬚ Format (carré 1:1, portrait 3:4,
     story 9:16, paysage 4:3, grand écran 16:9) et 💾 Télécharger, chacun avec une
-    infobulle d'aide. Vos propres photos peuvent aussi être modifiées (mode Image,
-    OpenAI).
+    infobulle d'aide. Outils de dessin : 🧽 Effacer (peindre une zone pour la
+    retirer ou la remplacer), 🖍️ Annoter (dessiner sur l'image pour montrer les
+    changements) et 💬 Commenter (épingler des notes numérotées à des endroits
+    précis). Vos propres photos peuvent aussi être modifiées (mode Image, OpenAI).
 
   - Fichiers et PDF joints (📎) : fichiers texte, images et PDF. Les PDF scannés
     (pages composées d'images) peuvent être transcrits en texte une seule fois
@@ -273,7 +278,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_11_0.html
+  1. Téléchargez le fichier ChatJPT_1_12_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -307,7 +312,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.11.0
+  Versión 1.12.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -383,8 +388,11 @@ CARACTERÍSTICAS
     (describe el cambio en tu próximo mensaje), ✂️ Quitar el fondo (PNG
     transparente, conservado en las ediciones siguientes), ⬚ Formato (cuadrado
     1:1, vertical 3:4, historia 9:16, horizontal 4:3, panorámico 16:9) y
-    💾 Descargar, cada uno con una ayuda emergente. También puedes editar tus
-    propias fotos (modo Imagen, OpenAI).
+    💾 Descargar, cada uno con una ayuda emergente. Herramientas de dibujo:
+    🧽 Borrar (pinta una zona para quitarla o reemplazarla), 🖍️ Anotar (dibuja
+    sobre la imagen para mostrar los cambios) y 💬 Comentar (fija notas
+    numeradas en puntos precisos). También puedes editar tus propias fotos
+    (modo Imagen, OpenAI).
 
   - Archivos y PDF adjuntos (📎): archivos de texto, imágenes y PDF. Los PDF
     escaneados (páginas compuestas de imágenes) pueden transcribirse a texto una
@@ -427,7 +435,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_11_0.html
+  1. Descarga el archivo ChatJPT_1_12_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

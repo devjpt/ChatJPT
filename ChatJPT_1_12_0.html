@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.11.0
+  Version 1.12.0
 -->
 
 
@@ -1519,6 +1519,105 @@
             left: calc(100% + 10px);
             transform: translateY(-50%);
         }
+        /* ===== ÉDITEUR DE DESSIN (Effacer / Annoter / Commenter) ===== */
+        .ie-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .ie-box {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 1100px;
+            max-height: calc(100vh - 32px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .ie-head { padding: 14px 18px 6px; }
+        .ie-head h3 { margin: 0 0 4px; font-size: 1rem; }
+        .ie-head p { margin: 0; font-size: 0.82rem; color: var(--text-muted); }
+        .ie-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 8px 18px; }
+        .ie-tools label, .ie-tools .ie-group { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); position: relative; }
+        .ie-tools input[type="range"] { width: 110px; }
+        .ie-swatches { display: flex; gap: 6px; }
+        .ie-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; position: relative; padding: 0; }
+        .ie-swatch[aria-pressed="true"] { border-color: var(--text); box-shadow: 0 0 0 2px var(--surface) inset; }
+        .ie-body { display: flex; gap: 14px; padding: 4px 18px 10px; min-height: 0; flex: 1; }
+        .ie-stage {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: auto;
+            background: var(--bg-secondary);
+        }
+        /* Damier derrière l'image seulement (rend sa transparence visible) */
+        .ie-frame {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+            background-color: #fff;
+            background-image:
+                linear-gradient(45deg, #d9dce3 25%, transparent 25%),
+                linear-gradient(-45deg, #d9dce3 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #d9dce3 75%),
+                linear-gradient(-45deg, transparent 75%, #d9dce3 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+        }
+        .ie-frame img { max-width: 100%; max-height: calc(100vh - 300px); display: block; user-select: none; -webkit-user-drag: none; }
+        .ie-frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+        .ie-side { width: 270px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; font-size: 0.82rem; }
+        .ie-side textarea, .ie-instr {
+            width: 100%;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 8px;
+            font: inherit;
+            font-size: 0.82rem;
+            resize: vertical;
+        }
+        .ie-pin-row { display: flex; gap: 6px; align-items: flex-start; }
+        .ie-pin-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: #ff2d55; color: #fff; font-weight: 700; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; margin-top: 4px; }
+        .ie-pin-row button { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; position: relative; }
+        .ie-empty { color: var(--text-muted); font-style: italic; }
+        .ie-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 18px 14px; border-top: 1px solid var(--border); }
+        .ie-note { font-size: 0.76rem; color: var(--text-muted); flex: 1; min-width: 180px; }
+        .ie-actions { display: flex; gap: 8px; }
+        .ie-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.82rem;
+            padding: 7px 14px;
+            position: relative;
+        }
+        .ie-btn:hover:not(:disabled) { border-color: var(--accent); }
+        .ie-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .ie-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        @media (max-width: 768px) {
+            .ie-body { flex-direction: column; }
+            .ie-side { width: auto; }
+        }
+
         /* Image ciblée par « Modifier » : étiquette au-dessus de la saisie */
         .edit-target-chip {
             position: absolute;
@@ -2345,7 +2444,7 @@
                 background: white; 
                 color: black; 
             }
-            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview, .vibe-preview-wrap, .img-toolbar, .edit-target-chip {
+            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview, .vibe-preview-wrap, .img-toolbar, .edit-target-chip, .ie-modal {
                 display: none !important;
             }
             #chat-container { 
@@ -3110,7 +3209,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.11.0 - Dernière version : ",
+            creditVersion: "Version 1.12.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 23 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3224,6 +3323,39 @@
             editPlaceholder: "Décris la modification (ex. « remplace le fond par une plage »)...",
             editNeedOpenAI: "⚠️ L'édition d'image utilise OpenAI : ajoute ta clé OpenAI dans le panneau des clés.",
             editSourceError: "Impossible de lire l'image source (elle n'est peut-être plus disponible).",
+            imgErase: "🧽 Effacer",
+            imgEraseTip: "Peins au pinceau sur ce que tu veux effacer (un objet, une personne, un texte…) : le modèle supprime la zone et la remplit naturellement. Tu peux aussi dire quoi mettre à la place.",
+            imgMarkup: "🖍️ Annoter",
+            imgMarkupTip: "Dessine directement sur l'image (cercles, flèches, traits) pour montrer ce qu'il faut changer, et ajoute une consigne si besoin : le modèle applique les changements et retire tes annotations.",
+            imgComment: "💬 Commenter",
+            imgCommentTip: "Clique à un endroit précis de l'image et écris une note (« rends ce mur bleu »). Tu peux poser plusieurs notes numérotées : chacune est appliquée à son endroit.",
+            ieTitleErase: "🧽 Effacer une zone",
+            ieHelpErase: "Peins sur ce qu'il faut effacer : la zone apparaît en rouge translucide.",
+            ieTitleMarkup: "🖍️ Annoter l'image",
+            ieHelpMarkup: "Dessine sur l'image pour indiquer les changements : entoure, fais une flèche, barre…",
+            ieTitleComment: "💬 Commenter l'image",
+            ieHelpComment: "Clique sur l'image pour poser une note numérotée, puis écris ta demande dans la liste.",
+            ieBrush: "Pinceau",
+            ieBrushTip: "Épaisseur du trait : plus il est grand, plus la zone est couverte vite.",
+            ieColor: "Couleur",
+            ieColorTip: "Couleur des annotations : choisis-en une qui contraste bien avec l'image.",
+            ieUndo: "↶ Annuler",
+            ieUndoTip: "Retire le dernier trait ou la dernière note.",
+            ieClear: "🗑️ Tout effacer",
+            ieClearTip: "Retire tous les traits ou toutes les notes, sans fermer l'éditeur.",
+            ieInstrErase: "Quoi mettre à la place ? (optionnel — par défaut, le fond est reconstitué)",
+            ieInstrMarkup: "Que demandent tes annotations ? (optionnel, ex. « agrandis ce qui est entouré »)",
+            ieCommentPh: "Note pour ce point (ex. « rends ce mur bleu »)",
+            ieCommentDel: "Supprimer cette note",
+            ieNoComments: "Aucune note pour l'instant : clique sur l'image.",
+            ieApply: "✓ Appliquer",
+            ieApplyTip: "Envoie l'image et tes indications à OpenAI GPT Image. Coût : environ le prix d'une image.",
+            ieCancel: "Annuler",
+            ieCancelTip: "Ferme l'éditeur sans rien envoyer.",
+            ieCostNote: "💡 Le résultat apparaît comme une nouvelle image dans la conversation, elle-même modifiable.",
+            ieDisplayErase: "🧽 Effacer la zone peinte",
+            ieDisplayMarkup: "🖍️ Appliquer les annotations",
+            ieDisplayComment: "💬 Appliquer les notes",
             fileReadError: "Impossible de lire : ",
             filesReady: "fichier(s) prêt(s)",
             filesAttached: "fichier(s) joint(s)",
@@ -3335,7 +3467,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.11.0 - Latest version: ",
+            creditVersion: "Version 1.12.0 - Latest version: ",
             appUpdated: "📅 Updated: October 23, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3449,6 +3581,39 @@
             editPlaceholder: "Describe the change (e.g. \"replace the background with a beach\")...",
             editNeedOpenAI: "⚠️ Image editing uses OpenAI: add your OpenAI key in the keys panel.",
             editSourceError: "Unable to read the source image (it may no longer be available).",
+            imgErase: "🧽 Erase",
+            imgEraseTip: "Paint over what you want to erase (an object, a person, some text…): the model removes the area and fills it in naturally. You can also say what to put there instead.",
+            imgMarkup: "🖍️ Markup",
+            imgMarkupTip: "Draw directly on the image (circles, arrows, strokes) to show what to change, and add an instruction if needed: the model applies the changes and removes your drawings.",
+            imgComment: "💬 Comment",
+            imgCommentTip: "Click a precise spot on the image and write a note (\"make this wall blue\"). You can place several numbered notes: each one is applied at its spot.",
+            ieTitleErase: "🧽 Erase an area",
+            ieHelpErase: "Paint over what should be erased: the area shows in translucent red.",
+            ieTitleMarkup: "🖍️ Mark up the image",
+            ieHelpMarkup: "Draw on the image to show the changes: circle, draw an arrow, cross out…",
+            ieTitleComment: "💬 Comment on the image",
+            ieHelpComment: "Click the image to place a numbered note, then write your request in the list.",
+            ieBrush: "Brush",
+            ieBrushTip: "Stroke width: the bigger it is, the faster the area is covered.",
+            ieColor: "Color",
+            ieColorTip: "Drawing color: pick one that contrasts well with the image.",
+            ieUndo: "↶ Undo",
+            ieUndoTip: "Removes the last stroke or the last note.",
+            ieClear: "🗑️ Clear all",
+            ieClearTip: "Removes all strokes or all notes, without closing the editor.",
+            ieInstrErase: "What should go there instead? (optional — by default, the background is rebuilt)",
+            ieInstrMarkup: "What do your drawings ask for? (optional, e.g. \"enlarge what is circled\")",
+            ieCommentPh: "Note for this spot (e.g. \"make this wall blue\")",
+            ieCommentDel: "Delete this note",
+            ieNoComments: "No notes yet: click the image.",
+            ieApply: "✓ Apply",
+            ieApplyTip: "Sends the image and your directions to OpenAI GPT Image. Cost: about the price of one image.",
+            ieCancel: "Cancel",
+            ieCancelTip: "Closes the editor without sending anything.",
+            ieCostNote: "💡 The result appears as a new image in the conversation, which can be edited again.",
+            ieDisplayErase: "🧽 Erase the painted area",
+            ieDisplayMarkup: "🖍️ Apply the markup",
+            ieDisplayComment: "💬 Apply the notes",
             fileReadError: "Unable to read: ",
             filesReady: "file(s) ready",
             filesAttached: "file(s) attached",
@@ -3560,7 +3725,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.11.0 - Última versión: ",
+            creditVersion: "Versión 1.12.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 23 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -3674,6 +3839,39 @@
             editPlaceholder: "Describe el cambio (p. ej. \"reemplaza el fondo por una playa\")...",
             editNeedOpenAI: "⚠️ La edición de imágenes usa OpenAI: agrega tu clave de OpenAI en el panel de claves.",
             editSourceError: "No se puede leer la imagen de origen (quizás ya no esté disponible).",
+            imgErase: "🧽 Borrar",
+            imgEraseTip: "Pinta sobre lo que quieres borrar (un objeto, una persona, un texto…): el modelo elimina la zona y la rellena de forma natural. También puedes decir qué poner en su lugar.",
+            imgMarkup: "🖍️ Anotar",
+            imgMarkupTip: "Dibuja directamente sobre la imagen (círculos, flechas, trazos) para mostrar qué cambiar, y agrega una indicación si hace falta: el modelo aplica los cambios y quita tus dibujos.",
+            imgComment: "💬 Comentar",
+            imgCommentTip: "Haz clic en un punto preciso de la imagen y escribe una nota (\"pinta esta pared de azul\"). Puedes poner varias notas numeradas: cada una se aplica en su lugar.",
+            ieTitleErase: "🧽 Borrar una zona",
+            ieHelpErase: "Pinta sobre lo que hay que borrar: la zona se ve en rojo translúcido.",
+            ieTitleMarkup: "🖍️ Anotar la imagen",
+            ieHelpMarkup: "Dibuja sobre la imagen para indicar los cambios: encierra en un círculo, haz una flecha, tacha…",
+            ieTitleComment: "💬 Comentar la imagen",
+            ieHelpComment: "Haz clic en la imagen para poner una nota numerada y escribe tu pedido en la lista.",
+            ieBrush: "Pincel",
+            ieBrushTip: "Grosor del trazo: cuanto más grande, más rápido se cubre la zona.",
+            ieColor: "Color",
+            ieColorTip: "Color de las anotaciones: elige uno que contraste bien con la imagen.",
+            ieUndo: "↶ Deshacer",
+            ieUndoTip: "Quita el último trazo o la última nota.",
+            ieClear: "🗑️ Borrar todo",
+            ieClearTip: "Quita todos los trazos o todas las notas, sin cerrar el editor.",
+            ieInstrErase: "¿Qué poner en su lugar? (opcional — por defecto, se reconstruye el fondo)",
+            ieInstrMarkup: "¿Qué piden tus anotaciones? (opcional, p. ej. \"agranda lo que está encerrado\")",
+            ieCommentPh: "Nota para este punto (p. ej. \"pinta esta pared de azul\")",
+            ieCommentDel: "Eliminar esta nota",
+            ieNoComments: "Todavía no hay notas: haz clic en la imagen.",
+            ieApply: "✓ Aplicar",
+            ieApplyTip: "Envía la imagen y tus indicaciones a OpenAI GPT Image. Costo: aproximadamente el precio de una imagen.",
+            ieCancel: "Cancelar",
+            ieCancelTip: "Cierra el editor sin enviar nada.",
+            ieCostNote: "💡 El resultado aparece como una nueva imagen en la conversación, que también se puede editar.",
+            ieDisplayErase: "🧽 Borrar la zona pintada",
+            ieDisplayMarkup: "🖍️ Aplicar las anotaciones",
+            ieDisplayComment: "💬 Aplicar las notas",
             fileReadError: "No se puede leer: ",
             filesReady: "archivo(s) listo(s)",
             filesAttached: "archivo(s) adjunto(s)",
@@ -7483,7 +7681,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const EDIT_PROMPTS = {
         edit: (t) => `Edit the provided image as follows, and keep everything else unchanged: ${t}`,
         removeBg: 'Remove the background completely. Keep the main subject exactly as it is (same pose, colors, details and edges), on a fully transparent background.',
-        resize: (ratio) => `Recompose this image to a ${ratio} aspect ratio. Keep the main subject identical (same identity, pose, colors and style). Extend or adapt the background naturally to fill the new frame; do not stretch or distort anything.`
+        resize: (ratio) => `Recompose this image to a ${ratio} aspect ratio. Keep the main subject identical (same identity, pose, colors and style). Extend or adapt the background naturally to fill the new frame; do not stretch or distort anything.`,
+        // Effacer : le masque (zone transparente) délimite la zone à modifier.
+        erase: (instr) => `The transparent area of the mask marks a region to edit. ${instr ? `Replace what is in that region with: ${instr}.` : 'Remove whatever is in that region and fill it in naturally so it blends seamlessly with its surroundings, as if it had never been there.'} Keep everything outside that region unchanged.`,
+        // Annoter / Commenter : image 1 = originale, image 2 = même image avec indications.
+        markup: (instr) => `Image 1 is the original. Image 2 is the same image with hand-drawn annotations (strokes, circles, arrows, scribbles) showing the changes wanted. Apply those changes to image 1${instr ? `; the user explains: "${instr}"` : ''}. Do not include any of the annotations in the result, and keep everything else unchanged.`,
+        comment: (lines) => `Image 1 is the original. Image 2 is the same image with numbered markers. Apply each instruction at the location of its marker:\n${lines}\nDo not draw the markers, numbers or any text labels in the result, and keep everything else unchanged.`
     };
     let pendingImageEdit = null;  // { src } : image ciblée par « ✏️ Modifier »
 
@@ -7510,6 +7713,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const bar = document.createElement('div');
         bar.className = 'img-toolbar';
         bar.appendChild(imgTool(t.imgEdit, t.imgEditTip, () => setImageEditTarget(src)));
+        bar.appendChild(imgTool(t.imgErase, t.imgEraseTip, () => openImageEditor(src, 'erase')));
+        bar.appendChild(imgTool(t.imgMarkup, t.imgMarkupTip, () => openImageEditor(src, 'markup')));
+        bar.appendChild(imgTool(t.imgComment, t.imgCommentTip, () => openImageEditor(src, 'comment')));
         bar.appendChild(imgTool(t.imgRemoveBg, t.imgRemoveBgTip, () =>
             runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.removeBg, display: t.imgRemoveBg, transparent: true })));
 
@@ -7606,6 +7812,267 @@ A small follow-up tweak the user asks for can be done right away without a new p
         pendingImageEdit = null;
     }
 
+    // ===== ÉDITEUR DE DESSIN : 🧽 Effacer / 🖍️ Annoter / 💬 Commenter =====
+    // Fenêtre plein écran : l'image + un canvas superposé à la résolution RÉELLE de l'image
+    // (bornée à 2048 px) : traits et notes sont en pixels réels → masque et image annotée à la
+    // bonne taille. Effacer → masque (champ mask) ; Annoter / Commenter → 2 images (originale +
+    // version annotée) avec une consigne demandant d'appliquer puis de retirer les indications.
+    const IE_COLORS = ['#ff2d55', '#ffcc00', '#34c759', '#0a84ff', '#ffffff', '#000000'];
+    const IE_MAX_SIDE = 2048;
+
+    function canvasToBlob(canvas) {
+        return new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png'));
+    }
+
+    async function openImageEditor(src, mode) {
+        const t = I18N[currentLang];
+        if (isProcessing) return;
+        let objUrl;
+        const img = new Image();
+        try {
+            objUrl = URL.createObjectURL(await srcToBlob(src));  // blob local → canvas non « teinté »
+            img.src = objUrl;
+            await img.decode();
+        } catch (e) {
+            if (objUrl) URL.revokeObjectURL(objUrl);
+            showToast(t.editSourceError, 'error');
+            return;
+        }
+        const S = Math.min(1, IE_MAX_SIDE / Math.max(img.naturalWidth, img.naturalHeight));
+        const W = Math.round(img.naturalWidth * S), H = Math.round(img.naturalHeight * S);
+
+        const strokes = [];  // { size, color, points: [{x, y}] } en pixels réels
+        const pins = [];     // { x, y, text }
+        let color = IE_COLORS[0];
+        let brush = mode === 'erase' ? 40 : 8;  // épaisseur à l'écran (px)
+        let current = null;
+
+        const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+        const tipped = (e, tip) => { e.dataset.tip = tip; e.setAttribute('aria-label', (e.textContent ? e.textContent + ' — ' : '') + tip); return e; };
+        const button = (cls, txt, tip) => { const b = tipped(el('button', cls, txt), tip); b.type = 'button'; return b; };
+
+        // --- Structure de la fenêtre ---
+        const overlay = el('div', 'ie-modal');
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        const box = el('div', 'ie-box');
+        const head = el('div', 'ie-head');
+        const titles = { erase: [t.ieTitleErase, t.ieHelpErase], markup: [t.ieTitleMarkup, t.ieHelpMarkup], comment: [t.ieTitleComment, t.ieHelpComment] };
+        head.append(el('h3', null, titles[mode][0]), el('p', null, titles[mode][1]));
+
+        const tools = el('div', 'ie-tools');
+        if (mode !== 'comment') {
+            const lab = tipped(el('label', null, t.ieBrush), t.ieBrushTip);
+            const range = document.createElement('input');
+            range.type = 'range';
+            range.min = '2';
+            range.max = mode === 'erase' ? '120' : '40';
+            range.value = String(brush);
+            range.addEventListener('input', () => { brush = +range.value; });
+            lab.appendChild(range);
+            tools.appendChild(lab);
+        }
+        if (mode === 'markup') {
+            const group = tipped(el('span', 'ie-group', t.ieColor), t.ieColorTip);
+            const sw = el('span', 'ie-swatches');
+            IE_COLORS.forEach((c, i) => {
+                const b = el('button', 'ie-swatch');
+                b.type = 'button';
+                b.style.background = c;
+                b.setAttribute('aria-label', c);
+                b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+                b.addEventListener('click', () => {
+                    color = c;
+                    sw.querySelectorAll('.ie-swatch').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+                });
+                sw.appendChild(b);
+            });
+            group.appendChild(sw);
+            tools.appendChild(group);
+        }
+        const undoBtn = button('ie-btn', t.ieUndo, t.ieUndoTip);
+        const clearBtn = button('ie-btn', t.ieClear, t.ieClearTip);
+        tools.append(undoBtn, clearBtn);
+
+        const body = el('div', 'ie-body');
+        const stage = el('div', 'ie-stage');
+        const frame = el('div', 'ie-frame');
+        const view = el('img');
+        view.src = objUrl;
+        view.alt = '';
+        view.draggable = false;
+        const canvas = document.createElement('canvas');
+        canvas.width = W;
+        canvas.height = H;
+        if (mode === 'erase') canvas.style.opacity = '0.55';  // zone peinte en rouge translucide
+        frame.append(view, canvas);
+        stage.appendChild(frame);
+        const side = el('div', 'ie-side');
+        let instr = null, pinList = null;
+        if (mode === 'comment') {
+            pinList = el('div');
+            side.appendChild(pinList);
+        } else {
+            instr = el('textarea', 'ie-instr');
+            instr.rows = 3;
+            instr.placeholder = mode === 'erase' ? t.ieInstrErase : t.ieInstrMarkup;
+            side.appendChild(instr);
+        }
+        body.append(stage, side);
+
+        const foot = el('div', 'ie-foot');
+        const actions = el('div', 'ie-actions');
+        const cancelBtn = button('ie-btn', t.ieCancel, t.ieCancelTip);
+        const applyBtn = button('ie-btn primary', t.ieApply, t.ieApplyTip);
+        actions.append(cancelBtn, applyBtn);
+        foot.append(el('div', 'ie-note', t.ieCostNote), actions);
+        box.append(head, tools, body, foot);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+
+        // --- Dessin ---
+        const ctx = canvas.getContext('2d');
+        const pinRadius = () => Math.max(14, Math.round(Math.min(W, H) * 0.022));
+        const drawStrokes = (c, forcedColor) => {
+            c.lineCap = 'round';
+            c.lineJoin = 'round';
+            strokes.forEach(s => {
+                c.strokeStyle = forcedColor || s.color;
+                c.lineWidth = s.size;
+                c.beginPath();
+                c.moveTo(s.points[0].x, s.points[0].y);
+                s.points.forEach(p => c.lineTo(p.x, p.y));
+                if (s.points.length === 1) c.lineTo(s.points[0].x + 0.1, s.points[0].y);  // simple clic = point
+                c.stroke();
+            });
+        };
+        const drawPins = (c, list) => {
+            const r = pinRadius();
+            list.forEach((p, i) => {
+                c.beginPath();
+                c.arc(p.x, p.y, r, 0, Math.PI * 2);
+                c.fillStyle = '#ff2d55';
+                c.fill();
+                c.lineWidth = Math.max(2, r / 6);
+                c.strokeStyle = '#fff';
+                c.stroke();
+                c.fillStyle = '#fff';
+                c.font = `bold ${Math.round(r * 1.1)}px sans-serif`;
+                c.textAlign = 'center';
+                c.textBaseline = 'middle';
+                c.fillText(String(i + 1), p.x, p.y + 1);
+            });
+        };
+        const updateApply = () => {
+            applyBtn.disabled = mode === 'comment' ? !pins.some(p => p.text.trim()) : strokes.length === 0;
+        };
+        const redraw = () => {
+            ctx.clearRect(0, 0, W, H);
+            if (mode === 'comment') drawPins(ctx, pins);
+            else drawStrokes(ctx, mode === 'erase' ? '#ff2d55' : null);
+            updateApply();
+        };
+        const renderPinList = () => {
+            pinList.innerHTML = '';
+            if (!pins.length) { pinList.appendChild(el('div', 'ie-empty', t.ieNoComments)); return; }
+            pins.forEach((p, i) => {
+                const row = el('div', 'ie-pin-row');
+                const ta = document.createElement('textarea');
+                ta.rows = 2;
+                ta.placeholder = t.ieCommentPh;
+                ta.value = p.text;
+                ta.addEventListener('input', () => { p.text = ta.value; updateApply(); });
+                const del = button(null, '✕', t.ieCommentDel);
+                del.addEventListener('click', () => { pins.splice(i, 1); renderPinList(); redraw(); });
+                row.append(el('span', 'ie-pin-num', String(i + 1)), ta, del);
+                pinList.appendChild(row);
+            });
+        };
+        const pointAt = (e) => {
+            const r = canvas.getBoundingClientRect();
+            return { x: (e.clientX - r.left) * (W / r.width), y: (e.clientY - r.top) * (H / r.height) };
+        };
+        canvas.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            const pt = pointAt(e);
+            if (mode === 'comment') {
+                pins.push({ x: pt.x, y: pt.y, text: '' });
+                renderPinList();
+                redraw();
+                const tas = pinList.querySelectorAll('textarea');
+                if (tas.length) tas[tas.length - 1].focus();
+                return;
+            }
+            canvas.setPointerCapture(e.pointerId);
+            current = { size: brush * (W / canvas.getBoundingClientRect().width), color, points: [pt] };
+            strokes.push(current);
+            redraw();
+        });
+        canvas.addEventListener('pointermove', (e) => { if (!current) return; current.points.push(pointAt(e)); redraw(); });
+        const endStroke = () => { current = null; };
+        canvas.addEventListener('pointerup', endStroke);
+        canvas.addEventListener('pointercancel', endStroke);
+
+        undoBtn.addEventListener('click', () => {
+            if (mode === 'comment') { pins.pop(); renderPinList(); } else strokes.pop();
+            redraw();
+        });
+        clearBtn.addEventListener('click', () => {
+            strokes.length = 0;
+            pins.length = 0;
+            if (pinList) renderPinList();
+            redraw();
+        });
+        const onKey = (e) => { if (e.key === 'Escape') close(); };
+        const close = () => { document.removeEventListener('keydown', onKey); overlay.remove(); URL.revokeObjectURL(objUrl); };
+        document.addEventListener('keydown', onKey);
+        cancelBtn.addEventListener('click', close);
+
+        // --- Appliquer : prépare image(s) / masque, ferme la fenêtre et lance l'édition ---
+        applyBtn.addEventListener('click', async () => {
+            applyBtn.disabled = true;
+            try {
+                const newCanvas = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
+                const baseC = newCanvas();
+                baseC.getContext('2d').drawImage(img, 0, 0, W, H);
+                const base = await canvasToBlob(baseC);  // PNG, même taille que le masque
+                let job;
+                if (mode === 'erase') {
+                    const m = newCanvas();
+                    const mc = m.getContext('2d');
+                    mc.fillStyle = '#000';
+                    mc.fillRect(0, 0, W, H);                       // opaque = à conserver
+                    mc.globalCompositeOperation = 'destination-out';
+                    drawStrokes(mc, '#000');                       // transparent = à modifier
+                    const txt = instr.value.trim();
+                    job = { blobs: [base], mask: await canvasToBlob(m), prompt: EDIT_PROMPTS.erase(txt), display: t.ieDisplayErase + (txt ? ` : ${txt}` : '') };
+                } else {
+                    const a = newCanvas();
+                    const ac = a.getContext('2d');
+                    ac.drawImage(img, 0, 0, W, H);
+                    if (mode === 'markup') {
+                        drawStrokes(ac);
+                        const txt = instr.value.trim();
+                        job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.markup(txt), display: t.ieDisplayMarkup + (txt ? ` : ${txt}` : '') };
+                    } else {
+                        const used = pins.filter(p => p.text.trim());  // notes vides ignorées, renumérotées
+                        drawPins(ac, used);
+                        const lines = used.map((p, i) => `${i + 1}) at about ${Math.round(p.x / W * 100)}% from the left and ${Math.round(p.y / H * 100)}% from the top: ${p.text.trim()}`).join('\n');
+                        job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.comment(lines), display: `${t.ieDisplayComment} : ${used.map((p, i) => `${i + 1}. ${p.text.trim()}`).join(' · ')}` };
+                    }
+                }
+                close();
+                await runImageEdit(job);
+            } catch (e) {
+                applyBtn.disabled = false;
+                showToast(e.message, 'error');
+            }
+        });
+
+        if (mode === 'comment') renderPinList();
+        updateApply();
+    }
+
     async function srcToBlob(src) {
         const r = await fetch(src);
         if (!r.ok) throw new Error(I18N[currentLang].editSourceError);
@@ -7648,6 +8115,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const ext = (b.type && b.type.split('/')[1]) || 'png';
             fd.append(blobs.length > 1 ? 'image[]' : 'image', b, `image_${i + 1}.${ext}`);
         });
+        // Masque (Effacer) : PNG de même taille que la 1re image, zone à modifier = transparente.
+        if (opts.mask) fd.append('mask', opts.mask, 'mask.png');
         const res = await fetchWithRetry('https://api.openai.com/v1/images/edits', {
             method: 'POST', signal, headers: { 'Authorization': `Bearer ${key}` }, body: fd
         });
@@ -7662,7 +8131,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Crée la bulle IA, édite, affiche et persiste le résultat. Suppose l'état « occupé » géré
     // par l'appelant (handleSend ou runImageEdit). sources = blobs OU srcs (URL / data / blob:).
-    async function performImageEdit({ blobs, srcs, prompt, display, size, transparent }, key) {
+    async function performImageEdit({ blobs, srcs, prompt, display, size, transparent, mask }, key) {
         const model = openAIEditModel();
         const loadingDiv = addMessage(null, 'ai', 'openai', model, true);
         try {
@@ -7672,7 +8141,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 transparent = true;
                 prompt += ' Keep the background fully transparent, exactly as in the source image, with clean and sharp edges.';
             }
-            const imageData = await editImageOpenAI(inputs, prompt, { size, transparent }, key, currentAbortController.signal);
+            const imageData = await editImageOpenAI(inputs, prompt, { size, transparent, mask }, key, currentAbortController.signal);
             await displayAndStoreImage(loadingDiv, imageData, display, 'openai', model, true);
         } catch (error) {
             updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'openai')}`);

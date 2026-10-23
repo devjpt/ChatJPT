@@ -8,6 +8,24 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.12.0] — 2026-10-23
+  Added
+    - Image editor, drawing tools (OpenAI GPT Image). Three new buttons under
+      every image open a full-screen editor, with a help tooltip on each
+      control:
+      - 🧽 Erase: paint over what should go (in translucent red), and
+        optionally say what to put there instead. A precise mask of the
+        painted area is sent, so only that area changes.
+      - 🖍️ Markup: draw on the image (6 colors, adjustable brush) and
+        optionally explain your drawings. The model applies the changes and
+        removes the annotations.
+      - 💬 Comment: click to pin numbered notes on precise spots and write a
+        request for each one. Each request is applied at its spot.
+    - Every editor has Undo, Clear all, Cancel (or Esc) and Apply (enabled
+      once there is something to apply). The result is a new image in the
+      conversation that can be edited again; a removed background stays
+      transparent.
+
 [1.11.0] — 2026-10-23
   Added
     - Image editor (OpenAI GPT Image 2.5), in a toolbar under every image —
@@ -386,6 +404,25 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.12.0] — 2026-10-23
+  Ajouté
+    - Éditeur d'image, outils de dessin (OpenAI GPT Image). Trois nouveaux
+      boutons sous chaque image ouvrent un éditeur plein écran, avec une
+      infobulle d'aide sur chaque contrôle :
+      - 🧽 Effacer : peignez sur ce qui doit disparaître (en rouge
+        translucide) et, si vous voulez, dites quoi mettre à la place. Un
+        masque précis de la zone peinte est envoyé : seule cette zone change.
+      - 🖍️ Annoter : dessinez sur l'image (6 couleurs, pinceau réglable) et,
+        si besoin, expliquez vos dessins. Le modèle applique les changements
+        et retire les annotations.
+      - 💬 Commenter : cliquez pour épingler des notes numérotées à des
+        endroits précis et écrivez une demande pour chacune. Chaque demande
+        est appliquée à son endroit.
+    - Chaque éditeur a Annuler le dernier trait, Tout effacer, Annuler (ou
+      Échap) et Appliquer (actif dès qu'il y a quelque chose à appliquer). Le
+      résultat est une nouvelle image dans la conversation, elle-même
+      modifiable ; un fond retiré reste transparent.
 
 [1.11.0] — 2026-10-23
   Ajouté
@@ -791,6 +828,24 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.12.0] — 2026-10-23
+  Añadido
+    - Editor de imágenes, herramientas de dibujo (OpenAI GPT Image). Tres
+      botones nuevos debajo de cada imagen abren un editor a pantalla
+      completa, con una ayuda emergente en cada control:
+      - 🧽 Borrar: pinta sobre lo que debe desaparecer (en rojo translúcido)
+        y, si quieres, di qué poner en su lugar. Se envía una máscara precisa
+        de la zona pintada: solo esa zona cambia.
+      - 🖍️ Anotar: dibuja sobre la imagen (6 colores, pincel ajustable) y, si
+        hace falta, explica tus dibujos. El modelo aplica los cambios y quita
+        las anotaciones.
+      - 💬 Comentar: haz clic para fijar notas numeradas en puntos precisos y
+        escribe un pedido para cada una. Cada pedido se aplica en su lugar.
+    - Cada editor tiene Deshacer, Borrar todo, Cancelar (o Esc) y Aplicar
+      (activo en cuanto hay algo que aplicar). El resultado es una nueva
+      imagen en la conversación, que también se puede editar; un fondo
+      quitado sigue transparente.
 
 [1.11.0] — 2026-10-23
   Añadido
