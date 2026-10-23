@@ -8,6 +8,44 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.13.0] — 2026-10-23
+  Added
+    - The image editor now works with Gemini (Nano Banana), Qwen Image and
+      Grok Imagine, not only OpenAI. Edits use the selected provider if it
+      can edit images, otherwise OpenAI (or another provider with a key);
+      the drawing editor shows which model will be used.
+      - Gemini, Qwen and Grok have no mask and no transparent background:
+        🧽 Erase sends the area painted in red, and ✂️ Remove background
+        asks for a plain green background that is then removed in your
+        browser (edges slightly less precise than with OpenAI).
+      - An attached photo in Image mode is edited with all four providers.
+    - Three new formats in ⬚ Format, as in Grok: Photo 3:2, Cinematic 21:9
+      and Banner 5:2 (Banner is hidden for Gemini, which does not support
+      it). Grok edits use the resolution chosen in the Image panel.
+    - Alibaba: a second key field for the Mainland China region, under the
+      International one. The "Region" dropdown picks both the key and the
+      server; if only one key is filled in, the region follows it, and a
+      warning appears if the chosen region has no key.
+    - 🎬 Animate (Grok), under every image: turns it into a 10-second video
+      whose first frame is your image, with Grok Imagine Video — always
+      Grok, whichever provider is selected, so an xAI key is required (the
+      button and its menu say so). Three choices, as in Grok:
+      - ✏️ With a prompt: describe the motion in your next message.
+      - ⚡ Quick animate: Grok animates the image on its own.
+      - 🔁 Loop: your image is pinned again just before the end, so the
+        video ends where it starts and loops seamlessly (it also replays
+        continuously in the player).
+  Fixed
+    - Grok: the drawing tools failed on a freshly generated image ("the
+      image may no longer be available"). Grok images are now received
+      directly instead of through a temporary link, which also keeps them
+      in the conversation for good.
+    - Qwen (International region): its image storage does not let the
+      browser read the pixels. The tools that need them are greyed out
+      with an explanation instead of failing; Edit and Format still work.
+    - Qwen edits keep the proportions of the source image, and Comment no
+      longer leaves the numbered marker in the result.
+
 [1.12.0] — 2026-10-23
   Added
     - Image editor, drawing tools (OpenAI GPT Image). Three new buttons under
@@ -404,6 +442,50 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.13.0] — 2026-10-23
+  Ajouté
+    - L'éditeur d'image fonctionne maintenant avec Gemini (Nano Banana),
+      Qwen Image et Grok Imagine, plus seulement OpenAI. L'édition passe par
+      le fournisseur sélectionné s'il sait éditer les images, sinon par
+      OpenAI (ou un autre fournisseur qui a une clé) ; l'éditeur de dessin
+      indique le modèle utilisé.
+      - Gemini, Qwen et Grok n'ont ni masque ni fond transparent : 🧽 Effacer
+        envoie la zone peinte en rouge, et ✂️ Retirer le fond demande un fond
+        vert uni, retiré ensuite dans votre navigateur (contours un peu moins
+        fins qu'avec OpenAI).
+      - En mode Image, une photo jointe est modifiée avec les quatre
+        fournisseurs.
+    - Trois nouveaux formats dans ⬚ Format, comme dans Grok : Photo 3:2,
+      Cinéma 21:9 et Bannière 5:2 (Bannière masquée pour Gemini, qui ne la
+      prend pas en charge). Les éditions Grok utilisent la résolution
+      choisie dans le panneau Image.
+    - Alibaba : un second champ de clé pour la région Chine continentale,
+      sous celui de la région International. Le menu « Région » choisit à
+      la fois la clé et le serveur ; si une seule clé est saisie, la région
+      la suit, et un avertissement s'affiche si la région choisie n'a pas
+      de clé.
+    - 🎬 Animer (Grok), sous chaque image : la transforme en vidéo de
+      10 secondes dont la première image est la vôtre, avec Grok Imagine
+      Vidéo — toujours Grok, quel que soit le fournisseur sélectionné, donc
+      une clé xAI est requise (le bouton et son menu l'indiquent). Trois
+      choix, comme dans Grok :
+      - ✏️ Avec une consigne : décrivez le mouvement dans le message suivant.
+      - ⚡ Animation rapide : Grok anime l'image tout seul.
+      - 🔁 Boucle : votre image est de nouveau imposée juste avant la fin, la
+        vidéo finit donc là où elle commence et boucle sans coupure (elle se
+        répète aussi en continu dans le lecteur).
+  Corrigé
+    - Grok : les outils de dessin échouaient sur une image tout juste
+      générée (« l'image n'est peut-être plus disponible »). Les images Grok
+      sont maintenant reçues directement plutôt que par un lien temporaire,
+      ce qui les conserve aussi pour de bon dans la conversation.
+    - Qwen (région International) : son stockage d'images interdit au
+      navigateur d'en lire les pixels. Les outils qui en ont besoin sont
+      grisés avec une explication au lieu d'échouer ; Modifier et Format
+      fonctionnent toujours.
+    - Les éditions Qwen gardent les proportions de l'image source, et
+      Commenter ne laisse plus le marqueur numéroté dans le résultat.
 
 [1.12.0] — 2026-10-23
   Ajouté
@@ -828,6 +910,47 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.13.0] — 2026-10-23
+  Añadido
+    - El editor de imágenes ahora funciona con Gemini (Nano Banana), Qwen
+      Image y Grok Imagine, no solo con OpenAI. La edición usa el proveedor
+      seleccionado si edita imágenes; si no, OpenAI (u otro proveedor con
+      clave). El editor de dibujo indica qué modelo se usará.
+      - Gemini, Qwen y Grok no tienen máscara ni fondo transparente:
+        🧽 Borrar envía la zona pintada de rojo, y ✂️ Quitar el fondo pide un
+        fondo verde liso que luego se quita en tu navegador (bordes algo
+        menos precisos que con OpenAI).
+      - En modo Imagen, una foto adjunta se edita con los cuatro
+        proveedores.
+    - Tres formatos nuevos en ⬚ Formato, como en Grok: Foto 3:2, Cine 21:9 y
+      Banner 5:2 (Banner se oculta para Gemini, que no lo admite). Las
+      ediciones con Grok usan la resolución elegida en el panel Imagen.
+    - Alibaba: un segundo campo de clave para la región China continental,
+      debajo del de la región Internacional. El menú "Región" elige a la
+      vez la clave y el servidor; si solo hay una clave, la región la sigue,
+      y aparece un aviso si la región elegida no tiene clave.
+    - 🎬 Animar (Grok), debajo de cada imagen: la convierte en un video de
+      10 segundos cuyo primer cuadro es tu imagen, con Grok Imagine Video —
+      siempre Grok, sea cual sea el proveedor seleccionado, así que se
+      requiere una clave de xAI (el botón y su menú lo indican). Tres
+      opciones, como en Grok:
+      - ✏️ Con una indicación: describe el movimiento en tu próximo mensaje.
+      - ⚡ Animación rápida: Grok anima la imagen por sí solo.
+      - 🔁 Bucle: tu imagen se fija de nuevo justo antes del final, así el
+        video termina donde empieza y se repite sin cortes (también se
+        reproduce en bucle en el reproductor).
+  Corregido
+    - Grok: las herramientas de dibujo fallaban con una imagen recién
+      generada ("la imagen quizá ya no esté disponible"). Las imágenes de
+      Grok ahora se reciben directamente en lugar de por un enlace temporal,
+      lo que además las conserva en la conversación.
+    - Qwen (región Internacional): su almacenamiento de imágenes no deja que
+      el navegador lea los píxeles. Las herramientas que los necesitan
+      aparecen en gris con una explicación en lugar de fallar; Editar y
+      Formato siguen funcionando.
+    - Las ediciones con Qwen conservan las proporciones de la imagen de
+      origen, y Comentar ya no deja el marcador numerado en el resultado.
 
 [1.12.0] — 2026-10-23
   Añadido

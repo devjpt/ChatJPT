@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.12.0
+  Version 1.13.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -21,7 +21,7 @@ FEATURES
       • Grok       (xAI — chat, image, and video; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Alibaba    (Qwen + Z.ai GLM — chat and image; selectable DashScope region)
+      • Alibaba    (Qwen + Z.ai GLM — chat and image; International and/or Mainland China key)
 
   - Conversation modes:
       • Chat       : general conversation
@@ -94,14 +94,17 @@ FEATURES
     and a per-conversation total in the footer bar — so you can see what each
     turn really costs.
 
-  - Image editor (OpenAI GPT Image): under each image, ✏️ Edit (describe a
-    change in your next message), ✂️ Remove background (transparent PNG, kept
-    across later edits), ⬚ Format (square 1:1, portrait 3:4, story 9:16,
-    landscape 4:3, widescreen 16:9) and 💾 Download, each with a help tooltip.
-    Drawing tools: 🧽 Erase (paint over an area to remove or replace it),
-    🖍️ Markup (draw on the image to show the changes) and 💬 Comment (pin
-    numbered notes on precise spots). Your own photos can be edited too
-    (Image mode, OpenAI).
+  - Image editor (OpenAI, Gemini, Qwen, Grok): under each image, ✏️ Edit
+    (describe a change in your next message), ✂️ Remove background
+    (transparent PNG, kept across later edits), ⬚ Format (square, portrait,
+    story, photo, landscape, widescreen, cinematic, banner) and 💾 Download,
+    each with a help tooltip. Drawing tools: 🧽 Erase (paint over an area to
+    remove or replace it), 🖍️ Markup (draw on the image to show the changes)
+    and 💬 Comment (pin numbered notes on precise spots). Edits use the
+    selected provider if it can edit images, otherwise OpenAI. Your own
+    photos can be edited too (Image mode). 🎬 Animate (Grok) turns the image
+    into a 10-second video: with a prompt, quick animate or seamless loop
+    (always Grok Imagine Video — requires an xAI key).
 
   - Attach files and PDFs (📎): text files, images and PDFs. Scanned PDFs
     (pages made of images) can be transcribed to text once by the selected
@@ -120,7 +123,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_12_0.html
+  1. Download the file ChatJPT_1_13_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -152,7 +155,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.12.0
+  Version 1.13.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -174,7 +177,7 @@ FONCTIONNALITÉS
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Alibaba    (Qwen + Z.ai GLM — chat et image ; région DashScope au choix)
+      • Alibaba    (Qwen + Z.ai GLM — chat et image ; clé International et/ou Chine continentale)
 
   - Modes de conversation :
       • Chat       : conversation générale
@@ -252,14 +255,18 @@ FONCTIONNALITÉS
     (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
     pour voir ce que coûte réellement chaque échange.
 
-  - Éditeur d'image (OpenAI GPT Image) : sous chaque image, ✏️ Modifier (décrivez
-    le changement dans le message suivant), ✂️ Retirer le fond (PNG transparent,
-    conservé lors des modifications suivantes), ⬚ Format (carré 1:1, portrait 3:4,
-    story 9:16, paysage 4:3, grand écran 16:9) et 💾 Télécharger, chacun avec une
-    infobulle d'aide. Outils de dessin : 🧽 Effacer (peindre une zone pour la
-    retirer ou la remplacer), 🖍️ Annoter (dessiner sur l'image pour montrer les
-    changements) et 💬 Commenter (épingler des notes numérotées à des endroits
-    précis). Vos propres photos peuvent aussi être modifiées (mode Image, OpenAI).
+  - Éditeur d'image (OpenAI, Gemini, Qwen, Grok) : sous chaque image, ✏️ Modifier
+    (décrivez le changement dans le message suivant), ✂️ Retirer le fond (PNG
+    transparent, conservé lors des modifications suivantes), ⬚ Format (carré,
+    portrait, story, photo, paysage, grand écran, cinéma, bannière) et
+    💾 Télécharger, chacun avec une infobulle d'aide. Outils de dessin : 🧽 Effacer
+    (peindre une zone pour la retirer ou la remplacer), 🖍️ Annoter (dessiner sur
+    l'image pour montrer les changements) et 💬 Commenter (épingler des notes
+    numérotées à des endroits précis). L'édition passe par le fournisseur
+    sélectionné s'il sait éditer les images, sinon par OpenAI. Vos propres photos
+    peuvent aussi être modifiées (mode Image). 🎬 Animer (Grok) transforme
+    l'image en vidéo de 10 s : avec une consigne, animation rapide ou boucle
+    continue (toujours Grok Imagine Vidéo — clé xAI requise).
 
   - Fichiers et PDF joints (📎) : fichiers texte, images et PDF. Les PDF scannés
     (pages composées d'images) peuvent être transcrits en texte une seule fois
@@ -278,7 +285,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_12_0.html
+  1. Téléchargez le fichier ChatJPT_1_13_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -312,7 +319,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.12.0
+  Versión 1.13.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -334,7 +341,7 @@ CARACTERÍSTICAS
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
-      • Alibaba    (Qwen + Z.ai GLM — chat e imagen; región DashScope a elegir)
+      • Alibaba    (Qwen + Z.ai GLM — chat e imagen; clave Internacional y/o China continental)
 
   - Modos de conversación:
       • Chat       : conversación general
@@ -384,15 +391,18 @@ CARACTERÍSTICAS
 
   - Teclado: Esc detiene la generación en curso.
 
-  - Editor de imágenes (OpenAI GPT Image): debajo de cada imagen, ✏️ Editar
-    (describe el cambio en tu próximo mensaje), ✂️ Quitar el fondo (PNG
-    transparente, conservado en las ediciones siguientes), ⬚ Formato (cuadrado
-    1:1, vertical 3:4, historia 9:16, horizontal 4:3, panorámico 16:9) y
-    💾 Descargar, cada uno con una ayuda emergente. Herramientas de dibujo:
+  - Editor de imágenes (OpenAI, Gemini, Qwen, Grok): debajo de cada imagen,
+    ✏️ Editar (describe el cambio en tu próximo mensaje), ✂️ Quitar el fondo
+    (PNG transparente, conservado en las ediciones siguientes), ⬚ Formato
+    (cuadrado, vertical, historia, foto, horizontal, panorámico, cine, banner)
+    y 💾 Descargar, cada uno con una ayuda emergente. Herramientas de dibujo:
     🧽 Borrar (pinta una zona para quitarla o reemplazarla), 🖍️ Anotar (dibuja
     sobre la imagen para mostrar los cambios) y 💬 Comentar (fija notas
-    numeradas en puntos precisos). También puedes editar tus propias fotos
-    (modo Imagen, OpenAI).
+    numeradas en puntos precisos). La edición usa el proveedor seleccionado si
+    edita imágenes; si no, OpenAI. También puedes editar tus propias fotos
+    (modo Imagen). 🎬 Animar (Grok) convierte la imagen en un video de 10 s:
+    con una indicación, animación rápida o bucle continuo (siempre Grok
+    Imagine Video — requiere una clave de xAI).
 
   - Archivos y PDF adjuntos (📎): archivos de texto, imágenes y PDF. Los PDF
     escaneados (páginas compuestas de imágenes) pueden transcribirse a texto una
@@ -435,7 +445,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_12_0.html
+  1. Descarga el archivo ChatJPT_1_13_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

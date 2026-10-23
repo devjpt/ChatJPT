@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.12.0
+  Version 1.13.0
 -->
 
 
@@ -261,6 +261,16 @@
             flex: 1;
             min-width: 200px;
         }
+        /* Champs empilés (2 clés Alibaba) : grille 2 colonnes → saisies alignées l'une sous l'autre */
+        .config-stack {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            min-width: 380px;  /* libellés longs : passe à la ligne plutôt que d'écraser les saisies */
+        }
+        .config-stack .config-group { display: contents; }
 
         .config-group label {
             font-size: 0.72rem;
@@ -1454,6 +1464,7 @@
             transition: var(--transition);
         }
         .img-tool:hover, .img-tool[aria-expanded="true"] { background: var(--surface-hover); border-color: var(--border); }
+        .img-tool[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }  /* image distante illisible (CORS) */
         .img-format-menu {
             position: absolute;
             bottom: calc(100% + 6px);   /* s'ouvre vers le haut : jamais coupé sous la dernière image */
@@ -1465,6 +1476,12 @@
             box-shadow: var(--shadow);
             padding: 6px;
             z-index: 60;
+        }
+        .img-menu-note {  /* en-tête non cliquable d'un menu (ex. « Grok Imagine Vidéo · clé xAI requise ») */
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            padding: 6px 12px 4px;
+            white-space: nowrap;
         }
         .img-format-item {
             display: flex;
@@ -2428,7 +2445,7 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .config-row { flex-direction: column; }
-            .config-group { min-width: 100%; }
+            .config-group, .config-stack { min-width: 100%; }
             .selector-row { flex-direction: column; align-items: stretch; }
             .mode-tabs { margin-left: 0; justify-content: center; }
             .header-actions { margin-left: 0; justify-content: center; }
@@ -2687,9 +2704,16 @@
                     <label class="deepseek-label">🔷 DeepSeek</label>
                     <input type="password" class="api-key-input" id="key-deepseek" placeholder="sk-..." autocomplete="off" aria-label="Clé API DeepSeek">
                 </div>
-                <div class="config-group">
-                    <label class="qwen-label">🟣 Alibaba (Qwen, GLM)</label>
-                    <input type="password" class="api-key-input" id="key-qwen" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen, GLM)">
+                <!-- 2 clés Alibaba empilées : une clé DashScope ne vaut que pour SA région (sélecteur « Région ») -->
+                <div class="config-stack">
+                    <div class="config-group">
+                        <label class="qwen-label" title="Qwen, GLM">🟣 Alibaba · <span data-i18n="qwenRegionIntl">International</span></label>
+                        <input type="password" class="api-key-input" id="key-qwen" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen, GLM) — International">
+                    </div>
+                    <div class="config-group">
+                        <label class="qwen-label" title="Qwen, GLM">🟣 Alibaba · <span data-i18n="qwenRegionMainland">Chine continentale</span></label>
+                        <input type="password" class="api-key-input" id="key-qwen-cn" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen, GLM) — Chine continentale">
+                    </div>
                 </div>
             </div>
             <p class="keys-hint" data-i18n="keysHint">🔒 Les clés sont enregistrées séparément dans chaque navigateur.</p>
@@ -3077,11 +3101,14 @@
         grok: $('key-grok'),
         perplexity: $('key-perplexity'),
         deepseek: $('key-deepseek'),
-        qwen: $('key-qwen')
+        qwen: $('key-qwen'),        // Alibaba, région internationale
+        qwen_cn: $('key-qwen-cn')   // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', deepseek: '🔷', qwen: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', deepseek: '🔷', qwen: '🟣', qwen_cn: '🟣' };
+    // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
+    const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
     const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', deepseek: 'DeepSeek', qwen: 'Alibaba' };
 
@@ -3166,6 +3193,7 @@
             lblQwenRegion: "Région",
             qwenRegionIntl: "International",
             qwenRegionMainland: "Chine continentale",
+            qwenRegionNoKey: "⚠️ Aucune clé Alibaba pour cette région : saisis-la dans le panneau des clés (une clé ne vaut que pour sa région).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Code",
             tabImage: "🎨 Image",
@@ -3209,7 +3237,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.12.0 - Dernière version : ",
+            creditVersion: "Version 1.13.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 23 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3306,11 +3334,11 @@
             imgGeneratedFor: "🎨 Image générée pour : ",
             imgEditedFor: "✏️ Image modifiée : ",
             imgEdit: "✏️ Modifier",
-            imgEditTip: "Décris le changement voulu dans ton prochain message (ex. « ajoute un chapeau », « style aquarelle », « remplace le fond par une plage ») : OpenAI GPT Image modifie l'image en gardant le reste intact. Coût : environ le prix d'une image.",
+            imgEditTip: "Décris le changement voulu dans ton prochain message (ex. « ajoute un chapeau », « style aquarelle », « remplace le fond par une plage ») : l'image est modifiée en gardant le reste intact, par le fournisseur sélectionné s'il édite les images (OpenAI, Gemini, Qwen, Grok), sinon par OpenAI. Coût : environ le prix d'une image.",
             imgRemoveBg: "✂️ Retirer le fond",
-            imgRemoveBgTip: "Détoure le sujet principal et rend le fond transparent (PNG). Idéal pour un logo, un produit ou un portrait. Coût : environ le prix d'une image.",
+            imgRemoveBgTip: "Détoure le sujet principal et rend le fond transparent (PNG). Idéal pour un logo, un produit ou un portrait. Avec Gemini, Qwen ou Grok, le fond est d'abord remplacé par un vert uni puis retiré dans ton navigateur (contours un peu moins fins qu'avec OpenAI). Coût : environ le prix d'une image.",
             imgResize: "⬚ Format ▾",
-            imgResizeTip: "Recompose l'image dans un autre format (carré, portrait, story, paysage, grand écran) : le modèle complète les bords sans déformer le sujet. Coût : environ le prix d'une image.",
+            imgResizeTip: "Recompose l'image dans un autre format (carré, portrait, story, photo, paysage, grand écran, cinéma, bannière) : le modèle complète les bords sans déformer le sujet. Coût : environ le prix d'une image.",
             imgDownload: "💾 Télécharger",
             imgDownloadTip: "Enregistre l'image sur ton ordinateur.",
             fmtSquare: "Carré", fmtSquareTip: "1:1 — publications Instagram, photos de profil, icônes.",
@@ -3318,10 +3346,30 @@
             fmtStory: "Story", fmtStoryTip: "9:16 — stories Instagram / Facebook, TikTok, fonds d'écran de téléphone.",
             fmtLandscape: "Paysage", fmtLandscapeTip: "4:3 — photos classiques, présentations.",
             fmtWidescreen: "Grand écran", fmtWidescreenTip: "16:9 — vidéos YouTube, bannières, fonds d'écran d'ordinateur.",
+            fmtPhoto: "Photo", fmtPhotoTip: "3:2 — format des tirages photo (10 × 15 cm) et des appareils photo.",
+            fmtCinematic: "Cinéma", fmtCinematicTip: "21:9 — cadrage panoramique de cinéma, écrans ultra-larges.",
+            fmtBanner: "Bannière", fmtBannerTip: "5:2 — bannières de site web, en-têtes de réseaux sociaux (non proposé avec Gemini).",
             editChip: "Modification de cette image : décris le changement, puis envoie.",
             editChipCancel: "Annuler la modification",
             editPlaceholder: "Décris la modification (ex. « remplace le fond par une plage »)...",
-            editNeedOpenAI: "⚠️ L'édition d'image utilise OpenAI : ajoute ta clé OpenAI dans le panneau des clés.",
+            editNeedKey: "⚠️ L'édition d'image demande une clé OpenAI, Google (Gemini), Alibaba (Qwen) ou xAI (Grok) : ajoute-la dans le panneau des clés.",
+            editKeyFailed: "⚠️ Le fond produit n'était pas assez uni pour être retiré automatiquement : l'image est affichée telle quelle.",
+            imgAnimate: "🎬 Animer (Grok) ▾",
+            animMenuNote: "Grok Imagine Vidéo · clé xAI requise",
+            imgAnimateTip: "Transforme l'image en courte vidéo (10 s) avec Grok Imagine Vidéo : l'image devient la première image de la vidéo. Clé xAI requise, quel que soit le fournisseur sélectionné. Coût : celui d'une vidéo Grok.",
+            animPrompt: "✏️ Avec une consigne",
+            animPromptTip: "Décris le mouvement voulu dans ton prochain message (ex. « le chat cligne des yeux et la neige tombe »).",
+            animQuick: "⚡ Animation rapide",
+            animQuickTip: "Grok anime l'image tout seul, avec un mouvement naturel adapté à la scène.",
+            animLoop: "🔁 Boucle",
+            animLoopTip: "Vidéo en boucle continue : la fin rejoint le début, idéal pour un fond animé ou un GIF.",
+            animChip: "Animation de cette image : décris le mouvement, puis envoie.",
+            animPlaceholder: "Décris le mouvement (ex. « le chat cligne des yeux et la neige tombe »)...",
+            animNeedGrok: "⚠️ L'animation d'image utilise Grok Imagine Vidéo : ajoute ta clé xAI (Grok) dans le panneau des clés.",
+            animLoopApprox: "⚠️ Ce modèle vidéo n'accepte pas les images clés : la boucle n'est qu'approximative. Essaie un autre modèle Grok dans le panneau Vidéo.",
+            editKeyUnreadable: "⚠️ Le serveur d'images de ce fournisseur interdit au navigateur de lire l'image : le fond n'a pas pu être retiré. Choisis OpenAI, Gemini ou Grok pour « Retirer le fond ».",
+            editRemoteBlocked: "⚠️ Le serveur qui héberge cette image interdit au navigateur d'en lire les pixels (cas du stockage international de Qwen). Utilise ✏️ Modifier ou ⬚ Format avec Qwen ou Grok, ou télécharge l'image puis joins-la (📎) en mode Image.",
+            imgRemoteTip: "🚫 Indisponible pour cette image : son serveur interdit au navigateur d'en lire les pixels.",
             editSourceError: "Impossible de lire l'image source (elle n'est peut-être plus disponible).",
             imgErase: "🧽 Effacer",
             imgEraseTip: "Peins au pinceau sur ce que tu veux effacer (un objet, une personne, un texte…) : le modèle supprime la zone et la remplit naturellement. Tu peux aussi dire quoi mettre à la place.",
@@ -3349,10 +3397,11 @@
             ieCommentDel: "Supprimer cette note",
             ieNoComments: "Aucune note pour l'instant : clique sur l'image.",
             ieApply: "✓ Appliquer",
-            ieApplyTip: "Envoie l'image et tes indications à OpenAI GPT Image. Coût : environ le prix d'une image.",
+            ieApplyTip: "Envoie l'image et tes indications au modèle d'édition (celui du fournisseur sélectionné s'il édite les images, sinon OpenAI). Coût : environ le prix d'une image.",
             ieCancel: "Annuler",
             ieCancelTip: "Ferme l'éditeur sans rien envoyer.",
             ieCostNote: "💡 Le résultat apparaît comme une nouvelle image dans la conversation, elle-même modifiable.",
+            ieVia: "Modèle : {p}.",
             ieDisplayErase: "🧽 Effacer la zone peinte",
             ieDisplayMarkup: "🖍️ Appliquer les annotations",
             ieDisplayComment: "💬 Appliquer les notes",
@@ -3424,6 +3473,7 @@
             lblQwenRegion: "Region",
             qwenRegionIntl: "International",
             qwenRegionMainland: "Mainland China",
+            qwenRegionNoKey: "⚠️ No Alibaba key for this region: enter it in the keys panel (a key only works for its own region).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Code",
             tabImage: "🎨 Image",
@@ -3467,7 +3517,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.12.0 - Latest version: ",
+            creditVersion: "Version 1.13.0 - Latest version: ",
             appUpdated: "📅 Updated: October 23, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3564,11 +3614,11 @@
             imgGeneratedFor: "🎨 Image generated for: ",
             imgEditedFor: "✏️ Edited image: ",
             imgEdit: "✏️ Edit",
-            imgEditTip: "Describe the change you want in your next message (e.g. \"add a hat\", \"watercolor style\", \"replace the background with a beach\"): OpenAI GPT Image edits the image and keeps the rest intact. Cost: about the price of one image.",
+            imgEditTip: "Describe the change you want in your next message (e.g. \"add a hat\", \"watercolor style\", \"replace the background with a beach\"): the image is edited and the rest kept intact, by the selected provider if it can edit images (OpenAI, Gemini, Qwen, Grok), otherwise by OpenAI. Cost: about the price of one image.",
             imgRemoveBg: "✂️ Remove background",
-            imgRemoveBgTip: "Cuts out the main subject and makes the background transparent (PNG). Great for a logo, a product or a portrait. Cost: about the price of one image.",
+            imgRemoveBgTip: "Cuts out the main subject and makes the background transparent (PNG). Great for a logo, a product or a portrait. With Gemini, Qwen or Grok, the background is first replaced with solid green, then removed in your browser (edges slightly less precise than with OpenAI). Cost: about the price of one image.",
             imgResize: "⬚ Format ▾",
-            imgResizeTip: "Recomposes the image in another format (square, portrait, story, landscape, widescreen): the model fills in the edges without distorting the subject. Cost: about the price of one image.",
+            imgResizeTip: "Recomposes the image in another format (square, portrait, story, photo, landscape, widescreen, cinematic, banner): the model fills in the edges without distorting the subject. Cost: about the price of one image.",
             imgDownload: "💾 Download",
             imgDownloadTip: "Saves the image to your computer.",
             fmtSquare: "Square", fmtSquareTip: "1:1 — Instagram posts, profile pictures, icons.",
@@ -3576,10 +3626,30 @@
             fmtStory: "Story", fmtStoryTip: "9:16 — Instagram / Facebook stories, TikTok, phone wallpapers.",
             fmtLandscape: "Landscape", fmtLandscapeTip: "4:3 — classic photos, presentations.",
             fmtWidescreen: "Widescreen", fmtWidescreenTip: "16:9 — YouTube videos, banners, desktop wallpapers.",
+            fmtPhoto: "Photo", fmtPhotoTip: "3:2 — photo print (4 × 6 in) and camera format.",
+            fmtCinematic: "Cinematic", fmtCinematicTip: "21:9 — panoramic movie framing, ultrawide screens.",
+            fmtBanner: "Banner", fmtBannerTip: "5:2 — website banners, social media headers (not available with Gemini).",
             editChip: "Editing this image: describe the change, then send.",
             editChipCancel: "Cancel the edit",
             editPlaceholder: "Describe the change (e.g. \"replace the background with a beach\")...",
-            editNeedOpenAI: "⚠️ Image editing uses OpenAI: add your OpenAI key in the keys panel.",
+            editNeedKey: "⚠️ Image editing needs an OpenAI, Google (Gemini), Alibaba (Qwen) or xAI (Grok) key: add one in the keys panel.",
+            editKeyFailed: "⚠️ The background produced was not uniform enough to be removed automatically: the image is shown as is.",
+            imgAnimate: "🎬 Animate (Grok) ▾",
+            animMenuNote: "Grok Imagine Video · xAI key required",
+            imgAnimateTip: "Turns the image into a short video (10 s) with Grok Imagine Video: the image becomes the first frame. Requires an xAI key, whichever provider is selected. Cost: that of one Grok video.",
+            animPrompt: "✏️ With a prompt",
+            animPromptTip: "Describe the motion you want in your next message (e.g. \"the cat blinks and snow falls\").",
+            animQuick: "⚡ Quick animate",
+            animQuickTip: "Grok animates the image on its own, with natural motion that fits the scene.",
+            animLoop: "🔁 Loop",
+            animLoopTip: "Seamless looping video: the end joins the beginning, great for an animated background or a GIF.",
+            animChip: "Animating this image: describe the motion, then send.",
+            animPlaceholder: "Describe the motion (e.g. \"the cat blinks and snow falls\")...",
+            animNeedGrok: "⚠️ Image animation uses Grok Imagine Video: add your xAI (Grok) key in the keys panel.",
+            animLoopApprox: "⚠️ This video model does not accept keyframes: the loop is only approximate. Try another Grok model in the Video panel.",
+            editKeyUnreadable: "⚠️ This provider's image server does not let the browser read the image: the background could not be removed. Choose OpenAI, Gemini or Grok for \"Remove background\".",
+            editRemoteBlocked: "⚠️ The server hosting this image does not let the browser read its pixels (as with Qwen's international storage). Use ✏️ Edit or ⬚ Format with Qwen or Grok, or download the image and attach it (📎) in Image mode.",
+            imgRemoteTip: "🚫 Unavailable for this image: its server does not let the browser read its pixels.",
             editSourceError: "Unable to read the source image (it may no longer be available).",
             imgErase: "🧽 Erase",
             imgEraseTip: "Paint over what you want to erase (an object, a person, some text…): the model removes the area and fills it in naturally. You can also say what to put there instead.",
@@ -3607,10 +3677,11 @@
             ieCommentDel: "Delete this note",
             ieNoComments: "No notes yet: click the image.",
             ieApply: "✓ Apply",
-            ieApplyTip: "Sends the image and your directions to OpenAI GPT Image. Cost: about the price of one image.",
+            ieApplyTip: "Sends the image and your directions to the editing model (the selected provider's if it can edit images, otherwise OpenAI's). Cost: about the price of one image.",
             ieCancel: "Cancel",
             ieCancelTip: "Closes the editor without sending anything.",
             ieCostNote: "💡 The result appears as a new image in the conversation, which can be edited again.",
+            ieVia: "Model: {p}.",
             ieDisplayErase: "🧽 Erase the painted area",
             ieDisplayMarkup: "🖍️ Apply the markup",
             ieDisplayComment: "💬 Apply the notes",
@@ -3682,6 +3753,7 @@
             lblQwenRegion: "Región",
             qwenRegionIntl: "Internacional",
             qwenRegionMainland: "China continental",
+            qwenRegionNoKey: "⚠️ No hay clave de Alibaba para esta región: ingrésala en el panel de claves (una clave solo sirve para su región).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Código",
             tabImage: "🎨 Imagen",
@@ -3725,7 +3797,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.12.0 - Última versión: ",
+            creditVersion: "Versión 1.13.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 23 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -3822,11 +3894,11 @@
             imgGeneratedFor: "🎨 Imagen generada para: ",
             imgEditedFor: "✏️ Imagen editada: ",
             imgEdit: "✏️ Editar",
-            imgEditTip: "Describe el cambio que quieres en tu próximo mensaje (p. ej. \"agrega un sombrero\", \"estilo acuarela\", \"reemplaza el fondo por una playa\"): OpenAI GPT Image edita la imagen y conserva el resto. Costo: aproximadamente el precio de una imagen.",
+            imgEditTip: "Describe el cambio que quieres en tu próximo mensaje (p. ej. \"agrega un sombrero\", \"estilo acuarela\", \"reemplaza el fondo por una playa\"): la imagen se edita conservando el resto, con el proveedor seleccionado si edita imágenes (OpenAI, Gemini, Qwen, Grok); si no, con OpenAI. Costo: aproximadamente el precio de una imagen.",
             imgRemoveBg: "✂️ Quitar el fondo",
-            imgRemoveBgTip: "Recorta el sujeto principal y deja el fondo transparente (PNG). Ideal para un logo, un producto o un retrato. Costo: aproximadamente el precio de una imagen.",
+            imgRemoveBgTip: "Recorta el sujeto principal y deja el fondo transparente (PNG). Ideal para un logo, un producto o un retrato. Con Gemini, Qwen o Grok, el fondo se reemplaza primero por un verde liso y luego se quita en tu navegador (bordes algo menos precisos que con OpenAI). Costo: aproximadamente el precio de una imagen.",
             imgResize: "⬚ Formato ▾",
-            imgResizeTip: "Recompone la imagen en otro formato (cuadrado, vertical, historia, horizontal, panorámico): el modelo completa los bordes sin deformar el sujeto. Costo: aproximadamente el precio de una imagen.",
+            imgResizeTip: "Recompone la imagen en otro formato (cuadrado, vertical, historia, foto, horizontal, panorámico, cine, banner): el modelo completa los bordes sin deformar el sujeto. Costo: aproximadamente el precio de una imagen.",
             imgDownload: "💾 Descargar",
             imgDownloadTip: "Guarda la imagen en tu computadora.",
             fmtSquare: "Cuadrado", fmtSquareTip: "1:1 — publicaciones de Instagram, fotos de perfil, íconos.",
@@ -3834,10 +3906,30 @@
             fmtStory: "Historia", fmtStoryTip: "9:16 — historias de Instagram / Facebook, TikTok, fondos de pantalla del teléfono.",
             fmtLandscape: "Horizontal", fmtLandscapeTip: "4:3 — fotos clásicas, presentaciones.",
             fmtWidescreen: "Panorámico", fmtWidescreenTip: "16:9 — videos de YouTube, banners, fondos de pantalla de computadora.",
+            fmtPhoto: "Foto", fmtPhotoTip: "3:2 — formato de impresión fotográfica (10 × 15 cm) y de cámaras.",
+            fmtCinematic: "Cine", fmtCinematicTip: "21:9 — encuadre panorámico de cine, pantallas ultrapanorámicas.",
+            fmtBanner: "Banner", fmtBannerTip: "5:2 — banners de sitios web, encabezados de redes sociales (no disponible con Gemini).",
             editChip: "Editando esta imagen: describe el cambio y envía.",
             editChipCancel: "Cancelar la edición",
             editPlaceholder: "Describe el cambio (p. ej. \"reemplaza el fondo por una playa\")...",
-            editNeedOpenAI: "⚠️ La edición de imágenes usa OpenAI: agrega tu clave de OpenAI en el panel de claves.",
+            editNeedKey: "⚠️ La edición de imágenes requiere una clave de OpenAI, Google (Gemini), Alibaba (Qwen) o xAI (Grok): agrégala en el panel de claves.",
+            editKeyFailed: "⚠️ El fondo generado no era lo bastante uniforme para quitarlo automáticamente: la imagen se muestra tal cual.",
+            imgAnimate: "🎬 Animar (Grok) ▾",
+            animMenuNote: "Grok Imagine Video · requiere clave de xAI",
+            imgAnimateTip: "Convierte la imagen en un video corto (10 s) con Grok Imagine Video: la imagen se vuelve el primer cuadro del video. Requiere una clave de xAI, sea cual sea el proveedor seleccionado. Costo: el de un video de Grok.",
+            animPrompt: "✏️ Con una indicación",
+            animPromptTip: "Describe el movimiento que quieres en tu próximo mensaje (p. ej. \"el gato parpadea y cae la nieve\").",
+            animQuick: "⚡ Animación rápida",
+            animQuickTip: "Grok anima la imagen por sí solo, con un movimiento natural adecuado a la escena.",
+            animLoop: "🔁 Bucle",
+            animLoopTip: "Video en bucle continuo: el final se une con el inicio, ideal para un fondo animado o un GIF.",
+            animChip: "Animación de esta imagen: describe el movimiento y envía.",
+            animPlaceholder: "Describe el movimiento (p. ej. \"el gato parpadea y cae la nieve\")...",
+            animNeedGrok: "⚠️ La animación de imágenes usa Grok Imagine Video: agrega tu clave de xAI (Grok) en el panel de claves.",
+            animLoopApprox: "⚠️ Este modelo de video no acepta cuadros clave: el bucle es solo aproximado. Prueba otro modelo de Grok en el panel Video.",
+            editKeyUnreadable: "⚠️ El servidor de imágenes de este proveedor no deja que el navegador lea la imagen: no se pudo quitar el fondo. Elige OpenAI, Gemini o Grok para \"Quitar el fondo\".",
+            editRemoteBlocked: "⚠️ El servidor que aloja esta imagen no deja que el navegador lea sus píxeles (como el almacenamiento internacional de Qwen). Usa ✏️ Editar o ⬚ Formato con Qwen o Grok, o descarga la imagen y adjúntala (📎) en modo Imagen.",
+            imgRemoteTip: "🚫 No disponible para esta imagen: su servidor no deja que el navegador lea sus píxeles.",
             editSourceError: "No se puede leer la imagen de origen (quizás ya no esté disponible).",
             imgErase: "🧽 Borrar",
             imgEraseTip: "Pinta sobre lo que quieres borrar (un objeto, una persona, un texto…): el modelo elimina la zona y la rellena de forma natural. También puedes decir qué poner en su lugar.",
@@ -3865,10 +3957,11 @@
             ieCommentDel: "Eliminar esta nota",
             ieNoComments: "Todavía no hay notas: haz clic en la imagen.",
             ieApply: "✓ Aplicar",
-            ieApplyTip: "Envía la imagen y tus indicaciones a OpenAI GPT Image. Costo: aproximadamente el precio de una imagen.",
+            ieApplyTip: "Envía la imagen y tus indicaciones al modelo de edición (el del proveedor seleccionado si edita imágenes; si no, el de OpenAI). Costo: aproximadamente el precio de una imagen.",
             ieCancel: "Cancelar",
             ieCancelTip: "Cierra el editor sin enviar nada.",
             ieCostNote: "💡 El resultado aparece como una nueva imagen en la conversación, que también se puede editar.",
+            ieVia: "Modelo: {p}.",
             ieDisplayErase: "🧽 Borrar la zona pintada",
             ieDisplayMarkup: "🖍️ Aplicar las anotaciones",
             ieDisplayComment: "💬 Aplicar las notas",
@@ -4173,15 +4266,33 @@ RULES:
     const GPT6_MODELS = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna'];
     const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro', ...GPT6_MODELS];
 
-    // Qwen (Alibaba DashScope) expose 2 régions ; la clé est liée à UNE région.
-    // L'utilisateur choisit la sienne (sauvegardée dans ai_qwen_region). On stocke le
-    // host : le chat (compatible-mode) et l'image (api/v1/services/aigc) en dérivent.
+    // Qwen (Alibaba DashScope) expose 2 régions ; une clé est liée à UNE région. Deux
+    // emplacements de clé (ai_key_qwen = international, ai_key_qwen_cn = Chine continentale) ;
+    // le sélecteur « Région » (ai_qwen_region) choisit la clé ET le host : le chat
+    // (compatible-mode) et l'image (api/v1/services/aigc) en dérivent.
     const QWEN_REGIONS = {
         intl:     { host: 'https://dashscope-intl.aliyuncs.com', label: { fr: 'International', en: 'International', es: 'Internacional' } },
         mainland: { host: 'https://dashscope.aliyuncs.com',      label: { fr: 'Chine continentale', en: 'Mainland China', es: 'China continental' } }
     };
+    function qwenRegion() {
+        return QWEN_REGIONS[localStorage.getItem('ai_qwen_region')] ? localStorage.getItem('ai_qwen_region') : 'intl';
+    }
+    function qwenKeyFor(region) {
+        const input = keyInputs[region === 'mainland' ? 'qwen_cn' : 'qwen'];
+        return input ? input.value.trim() : '';
+    }
+    // Une seule des deux clés saisie : la région suit cette clé (sélecteur mis à jour),
+    // pour ne jamais envoyer une clé au mauvais host.
+    function syncQwenRegion() {
+        const region = qwenRegion();
+        const other = region === 'intl' ? 'mainland' : 'intl';
+        if (!qwenKeyFor(region) && qwenKeyFor(other)) {
+            localStorage.setItem('ai_qwen_region', other);
+            if (qwenRegionSelect) qwenRegionSelect.value = other;
+        }
+    }
     function getQwenHost() {
-        return (QWEN_REGIONS[localStorage.getItem('ai_qwen_region') || 'intl'] || QWEN_REGIONS.intl).host;
+        return QWEN_REGIONS[qwenRegion()].host;
     }
 
     // Fournisseurs « compatibles OpenAI » (même format Chat Completions + SSE) → résolveur d'endpoint.
@@ -4679,19 +4790,28 @@ A small follow-up tweak the user asks for can be done right away without a new p
         grok: {
             // xAI Grok Imagine — submit POST /v1/videos/generations → { request_id },
             // poll GET /v1/videos/{request_id} → { status, video:{url} }. CORS OK sur api.x.ai.
+            // params.image (🎬 Animer) : 1re image de la vidéo (data URL ou URL publique) ; le
+            // format suit alors celui de l'image (pas d'aspect_ratio).
+            // params.loop (🔁 Boucle) : l'API n'a pas d'option boucle → on épingle la même image juste
+            // avant la fin (keyframes, timestamp strictement < durée) pour que la fin rejoigne le
+            // début. Modèle sans keyframes → nouvel essai sans (params.loopApprox = true).
             async submit(prompt, params, key, signal) {
-                const res = await fetchWithRetry('https://api.x.ai/v1/videos/generations', {
+                const body = { model: params.model, prompt, duration: parseInt(params.duration, 10), resolution: '720p' };
+                if (params.image) body.image = { url: params.image };
+                else body.aspect_ratio = params.aspectRatio;
+                if (params.image && params.loop) body.keyframes = [{ image: { url: params.image }, timestamp_s: Math.max(0.5, body.duration - 0.1) }];
+                const post = () => fetchWithRetry('https://api.x.ai/v1/videos/generations', {
                     method: 'POST',
                     signal,
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-                    body: JSON.stringify({
-                        model: params.model,
-                        prompt,
-                        duration: parseInt(params.duration, 10),
-                        aspect_ratio: params.aspectRatio,
-                        resolution: '720p'
-                    })
+                    body: JSON.stringify(body)
                 });
+                let res = await post();
+                if (!res.ok && body.keyframes && res.status >= 400 && res.status < 500 && res.status !== 429) {
+                    delete body.keyframes;
+                    params.loopApprox = true;
+                    res = await post();
+                }
                 if (!res.ok) {
                     const err = await res.json().catch(() => ({}));
                     const msg = (typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`;
@@ -4764,9 +4884,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 🎬 Video generated for : "${escapeHtml(trimmed)}"
             </p>
             <p class="dp-success-text">
-                ✅ ${I18N[currentLang].videoReady} (${escapeHtml(model)} • ${escapeHtml(String(dimensions))} • ${escapeHtml(String(duration))}s)
+                ✅ ${I18N[currentLang].videoReady} (${[model, dimensions, `${duration}s`].filter(Boolean).map(v => escapeHtml(String(v))).join(' • ')})
             </p>
-            <video class="generated-video" controls autoplay playsinline>
+            <video class="generated-video" controls autoplay playsinline${result.loop ? ' loop' : ''}>
                 <source src="${result.src}" type="video/mp4">
                 Your browser does not support video playback.
             </video>
@@ -5259,8 +5379,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             agentModeCb.checked = true;
         }
         if (qwenRegionSelect) {
-            qwenRegionSelect.value = localStorage.getItem('ai_qwen_region') || 'intl';
+            qwenRegionSelect.value = qwenRegion();
         }
+        syncQwenRegion();
     }
 
     async function saveKey(provider) {
@@ -5284,8 +5405,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     function getActiveKey() {
-        const provider = providerSelect.value;
-        return keyInputs[provider].value.trim();
+        return getKeyForProvider(providerSelect.value);
     }
 
     // Render the per-provider status pills (🟢 OpenAI ✓ = key set, dimmed — = not set)
@@ -5297,7 +5417,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const isSet = keyInputs[provider].value.trim().length > 5;
             const pill = document.createElement('span');
             pill.className = 'key-pill' + (isSet ? '' : ' unset');
-            const name = PROVIDER_SHORT_NAMES[provider] || provider;
+            const name = KEY_SLOT_NAMES[provider] || PROVIDER_SHORT_NAMES[provider] || provider;
             pill.textContent = `${PROVIDER_PILLS[provider] || '⚪'} ${name} ${isSet ? '✓' : '—'}`;
             keysStatusEl.appendChild(pill);
         });
@@ -5386,7 +5506,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     };
 
     // Clé API d'un fournisseur arbitraire (≠ getActiveKey qui lit le fournisseur courant).
+    // Qwen : la clé de la région choisie (une clé DashScope ne vaut que pour sa région).
     function getKeyForProvider(provider) {
+        if (provider === 'qwen') return qwenKeyFor(qwenRegion());
         return keyInputs[provider] ? keyInputs[provider].value.trim() : '';
     }
 
@@ -5618,6 +5740,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             keyInputs[provider].addEventListener('input', () => {
                 saveKey(provider);
                 updateKeysStatus();
+                if (provider === 'qwen' || provider === 'qwen_cn') syncQwenRegion();
             });
         });
 
@@ -5634,6 +5757,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (qwenRegionSelect) {
             qwenRegionSelect.addEventListener('change', () => {
                 localStorage.setItem('ai_qwen_region', qwenRegionSelect.value);
+                // Région sans clé : on prévient tout de suite (sinon échec au prochain envoi)
+                if (!qwenKeyFor(qwenRegionSelect.value)) showToast(I18N[currentLang].qwenRegionNoKey, 'error');
             });
         }
 
@@ -6651,14 +6776,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
             text = text ? text + "\n\n" + agentPrompt : agentPrompt;
         }
 
-        // Image ciblée par « ✏️ Modifier » : le message est la consigne d'édition (OpenAI),
-        // quel que soit le mode ou le fournisseur sélectionné.
+        // Image ciblée par « ✏️ Modifier » : le message est la consigne d'édition, quel que soit
+        // le mode (fournisseur d'édition choisi par editProvider).
         if (pendingImageEdit && text) {
             const target = pendingImageEdit;
             clearImageEditTarget();
             userInput.value = '';
             autoResizeTextarea();
-            await runImageEdit({ srcs: [target.src], prompt: EDIT_PROMPTS.edit(text), display: `✏️ ${text}` });
+            if (target.mode === 'animate') await runAnimate(target.src, 'prompt', text);
+            else await runImageEdit({ srcs: [target.src], prompt: EDIT_PROMPTS.edit(text), display: `✏️ ${text}` });
             return;
         }
 
@@ -6753,11 +6879,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (displayText !== fullPrompt) uEntry.display = displayText;
             conversationHistory.push(uEntry);
             saveHistory();
-            if (provider === 'openai' && pendingImages.length > 0) {
-                // Photo(s) jointe(s) en mode Image avec OpenAI : on MODIFIE l'image au lieu de
-                // l'ignorer (plusieurs images = références combinées).
-                const blobs = pendingImages.map(im => b64ToBlob(im.base64, im.mimeType)).filter(Boolean);
-                await performImageEdit({ blobs, prompt: EDIT_PROMPTS.edit(fullPrompt), display: fullPrompt }, key);
+            if (EDIT_CAPS[provider] && pendingImages.length > 0) {
+                // Photo(s) jointe(s) en mode Image : on MODIFIE l'image au lieu de l'ignorer
+                // (plusieurs images = références combinées, dans la limite du fournisseur).
+                const blobs = pendingImages.map(im => b64ToBlob(im.base64, im.mimeType)).filter(Boolean).slice(0, EDIT_CAPS[provider].max);
+                await performImageEdit({ blobs, prompt: EDIT_PROMPTS.edit(fullPrompt), display: fullPrompt }, provider, key);
             } else {
                 await handleImageGeneration(fullPrompt, provider, key);
             }
@@ -7665,22 +7791,54 @@ A small follow-up tweak the user asks for can be done right away without a new p
         content.appendChild(buildImageToolbar(src));
     }
 
-    // ===== ÉDITEUR D'IMAGE (OpenAI GPT Image, /v1/images/edits) =====
+    // ===== ÉDITEUR D'IMAGE (OpenAI, Gemini, Qwen, Grok) =====
     // Barre d'outils sous chaque image : ✏️ Modifier (la consigne du prochain message s'applique à
-    // cette image), ✂️ Retirer le fond, ⬚ Format (5 formats exacts) et 💾 Télécharger. Chaque option
-    // a une infobulle (data-tip). L'édition passe toujours par OpenAI, quel que soit le fournisseur
-    // qui a produit l'image ; le résultat est une nouvelle image, elle-même modifiable.
+    // cette image), ✂️ Retirer le fond, ⬚ Format et 💾 Télécharger. Chaque option a une infobulle
+    // (data-tip). L'édition passe par le fournisseur sélectionné s'il sait éditer les images
+    // (EDIT_CAPS), sinon par OpenAI ; le résultat est une nouvelle image, elle-même modifiable.
+    // mask : masque natif (Effacer) ; alpha : fond transparent natif ; max : images source par appel.
+    // Sans masque → image peinte en rouge ; sans alpha → fond vert uni détouré localement (chromaKeyToPng).
+    // single : préfère UNE image (Qwen recopie les marqueurs d'une 2e image annotée) → job.single.
+    const EDIT_CAPS = {
+        openai: { mask: true, alpha: true, max: 16 },
+        gemini: { mask: false, alpha: false, max: 10 },
+        qwen: { mask: false, alpha: false, max: 3, single: true },
+        grok: { mask: false, alpha: false, max: 5 }
+    };
+    const EDIT_PROVIDER_NAMES = { openai: 'OpenAI GPT Image', gemini: 'Google Nano Banana', qwen: 'Qwen Image', grok: 'Grok Imagine' };
+    // size = OpenAI (WxH, multiples de 16) ; qwen = DashScope (W*H, ~1 Mpx) ; Gemini / Grok reçoivent
+    // le ratio. skip = fournisseurs qui refusent ce ratio (masqué dans le menu).
     const IMAGE_ASPECTS = [
-        { id: 'square', ratio: '1:1', size: '1024x1024', w: 14, h: 14, label: 'fmtSquare', tip: 'fmtSquareTip' },
-        { id: 'portrait', ratio: '3:4', size: '1152x1536', w: 12, h: 16, label: 'fmtPortrait', tip: 'fmtPortraitTip' },
-        { id: 'story', ratio: '9:16', size: '864x1536', w: 10, h: 17, label: 'fmtStory', tip: 'fmtStoryTip' },
-        { id: 'landscape', ratio: '4:3', size: '1536x1152', w: 16, h: 12, label: 'fmtLandscape', tip: 'fmtLandscapeTip' },
-        { id: 'widescreen', ratio: '16:9', size: '1536x864', w: 18, h: 10, label: 'fmtWidescreen', tip: 'fmtWidescreenTip' }
+        { id: 'square', ratio: '1:1', size: '1024x1024', qwen: '1024*1024', w: 14, h: 14, label: 'fmtSquare', tip: 'fmtSquareTip' },
+        { id: 'portrait', ratio: '3:4', size: '1152x1536', qwen: '864*1152', w: 12, h: 16, label: 'fmtPortrait', tip: 'fmtPortraitTip' },
+        { id: 'story', ratio: '9:16', size: '864x1536', qwen: '720*1280', w: 10, h: 17, label: 'fmtStory', tip: 'fmtStoryTip' },
+        { id: 'photo', ratio: '3:2', size: '1536x1024', qwen: '1248*832', w: 17, h: 11, label: 'fmtPhoto', tip: 'fmtPhotoTip' },
+        { id: 'landscape', ratio: '4:3', size: '1536x1152', qwen: '1152*864', w: 16, h: 12, label: 'fmtLandscape', tip: 'fmtLandscapeTip' },
+        { id: 'widescreen', ratio: '16:9', size: '1536x864', qwen: '1280*720', w: 18, h: 10, label: 'fmtWidescreen', tip: 'fmtWidescreenTip' },
+        { id: 'cinematic', ratio: '21:9', size: '1792x768', qwen: '1568*672', w: 21, h: 9, label: 'fmtCinematic', tip: 'fmtCinematicTip' },
+        { id: 'banner', ratio: '5:2', size: '1920x768', qwen: '1600*640', w: 22, h: 9, label: 'fmtBanner', tip: 'fmtBannerTip', skip: ['gemini'] }
     ];
+    const CHROMA = '#00ff00';  // fond uni demandé aux modèles sans transparence, retiré ensuite
+    // Consigne négative (Qwen) : les indications dessinées ne doivent pas réapparaître.
+    const NEG_MARKS = 'hand-drawn annotations, strokes, red paint, numbered markers, numbers, text labels, watermark';
     // Consignes envoyées au modèle (anglais : meilleure adhérence ; la réponse est une image).
     const EDIT_PROMPTS = {
         edit: (t) => `Edit the provided image as follows, and keep everything else unchanged: ${t}`,
         removeBg: 'Remove the background completely. Keep the main subject exactly as it is (same pose, colors, details and edges), on a fully transparent background.',
+        // Sans transparence native : fond vert uni, détouré ensuite dans le navigateur.
+        removeBgKey: 'Remove the background completely and replace it with a perfectly flat, uniform, pure chroma-key green (#00FF00) background: one single solid color, with no gradient, shadow, texture, reflection or vignette. Keep the main subject exactly as it is (same pose, colors, details and edges). If the subject itself contains bright green, use pure magenta (#FF00FF) for the background instead.',
+        // 🎬 Animer (Grok Imagine Vidéo) : l'image est la 1re image de la vidéo.
+        animate: (t) => `Animate this image: ${t}. Keep the subject, style and framing consistent with the image.`,
+        animateQuick: 'Bring this image to life with natural, lifelike motion that fits the scene. Keep the subject, style and framing consistent with the image.',
+        animateLoop: 'Animate this image as a seamless loop: gentle, continuous motion, ending on a frame identical to the first one so the video loops perfectly. Keep the subject, style and framing consistent with the image.',
+        keepAlpha: ' Keep the background fully transparent, exactly as in the source image, with clean and sharp edges.',
+        keepKey: ' Keep the flat pure green (#00FF00) background exactly as it is: one solid uniform color, with no shadow, gradient or texture.',
+        // Variantes à UNE image (EDIT_CAPS.single) : indications sur l'image même, ou positions en texte.
+        eraseSingle: (instr) => `The translucent red paint marks an area of this image. ${instr ? `Replace what is under the red paint with: ${instr}.` : 'Remove the object under the red paint and fill the area naturally so it blends seamlessly with its surroundings.'} Remove all of the red paint. Keep everything else unchanged.`,
+        markupSingle: (instr) => `This image has hand-drawn annotations (strokes, circles, arrows) showing the changes wanted. Apply those changes${instr ? `: ${instr}` : ''}, then remove every annotation completely. Keep everything else unchanged.`,
+        commentText: (lines) => `Apply each instruction at its location in the image (positions are given as a percentage of the image width from the left and of its height from the top):\n${lines}\nKeep everything else unchanged.`,
+        // Effacer sans masque : image 2 = zone peinte en rouge translucide.
+        eraseOverlay: (instr) => `Image 1 is the original. Image 2 is the same image with a region painted over in translucent red, marking an area to edit. ${instr ? `Replace what is in that region with: ${instr}.` : 'Remove whatever is in that region and fill it in naturally so it blends seamlessly with its surroundings, as if it had never been there.'} Apply this to image 1. Do not include any red paint in the result, and keep everything outside that region unchanged.`,
         resize: (ratio) => `Recompose this image to a ${ratio} aspect ratio. Keep the main subject identical (same identity, pose, colors and style). Extend or adapt the background naturally to fill the new frame; do not stretch or distort anything.`,
         // Effacer : le masque (zone transparente) délimite la zone à modifier.
         erase: (instr) => `The transparent area of the mask marks a region to edit. ${instr ? `Replace what is in that region with: ${instr}.` : 'Remove whatever is in that region and fill it in naturally so it blends seamlessly with its surroundings, as if it had never been there.'} Keep everything outside that region unchanged.`,
@@ -7697,6 +7855,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return /^gpt-image-2\.5/.test(sel) ? sel : 'gpt-image-2.5-sunburst';
     }
 
+    // Fournisseur qui fera l'édition : le fournisseur sélectionné s'il édite les images et a une
+    // clé, sinon OpenAI, sinon le premier fournisseur d'édition disponible (null = aucune clé).
+    function editProvider() {
+        const p = providerSelect.value;
+        if (EDIT_CAPS[p] && getKeyForProvider(p)) return p;
+        if (getKeyForProvider('openai')) return 'openai';
+        return Object.keys(EDIT_CAPS).find(x => getKeyForProvider(x)) || null;
+    }
+
+    // Modèle d'édition : celui choisi dans le panneau Image s'il appartient à ce fournisseur.
+    function editModelFor(p) {
+        if (p === 'openai') return openAIEditModel();
+        const sel = providerSelect.value === p && imageModelSelect ? imageModelSelect.value : '';
+        return IMAGE_MODELS[p].some(m => m.id === sel) ? sel : IMAGE_MODELS[p][0].id;
+    }
+
     function imgTool(label, tip, onClick) {
         const b = document.createElement('button');
         b.type = 'button';
@@ -7708,37 +7882,70 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return b;
     }
 
-    function buildImageToolbar(src) {
-        const t = I18N[currentLang];
-        const bar = document.createElement('div');
-        bar.className = 'img-toolbar';
-        bar.appendChild(imgTool(t.imgEdit, t.imgEditTip, () => setImageEditTarget(src)));
-        bar.appendChild(imgTool(t.imgErase, t.imgEraseTip, () => openImageEditor(src, 'erase')));
-        bar.appendChild(imgTool(t.imgMarkup, t.imgMarkupTip, () => openImageEditor(src, 'markup')));
-        bar.appendChild(imgTool(t.imgComment, t.imgCommentTip, () => openImageEditor(src, 'comment')));
-        bar.appendChild(imgTool(t.imgRemoveBg, t.imgRemoveBgTip, () =>
-            runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.removeBg, display: t.imgRemoveBg, transparent: true })));
-
-        // Menu des formats (ouvert/fermé au clic, fermé par un clic ailleurs ou Échap)
-        const fmtBtn = imgTool(t.imgResize, t.imgResizeTip, (e) => {
-            e.stopPropagation();
-            if (menu.hidden) { menu.hidden = false; fmtBtn.setAttribute('aria-expanded', 'true'); document.addEventListener('click', closeMenu); document.addEventListener('keydown', escMenu); }
-            else closeMenu();
-        });
-        fmtBtn.setAttribute('aria-haspopup', 'menu');
-        fmtBtn.setAttribute('aria-expanded', 'false');
+    // Bouton + menu déroulant de la barre (ouvert/fermé au clic, fermé par un clic ailleurs ou
+    // Échap ; s'ouvre vers le haut). onOpen(menu) adapte les entrées à l'ouverture.
+    function toolMenu(label, tip, onOpen) {
         const menu = document.createElement('div');
         menu.className = 'img-format-menu';
         menu.setAttribute('role', 'menu');
         menu.hidden = true;
-        const closeMenu = () => { menu.hidden = true; fmtBtn.setAttribute('aria-expanded', 'false'); document.removeEventListener('click', closeMenu); document.removeEventListener('keydown', escMenu); };
-        const escMenu = (e) => { if (e.key === 'Escape') closeMenu(); };
+        const btn = imgTool(label, tip, (e) => {
+            e.stopPropagation();
+            if (!menu.hidden) { close(); return; }
+            if (onOpen) onOpen(menu);
+            menu.hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+            document.addEventListener('click', close);
+            document.addEventListener('keydown', esc);
+        });
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-expanded', 'false');
+        const close = () => { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); document.removeEventListener('click', close); document.removeEventListener('keydown', esc); };
+        const esc = (e) => { if (e.key === 'Escape') close(); };
+        const wrap = document.createElement('span');
+        wrap.style.position = 'relative';
+        wrap.append(btn, menu);
+        const item = (itemTip, onClick) => {
+            const it = document.createElement('button');
+            it.type = 'button';
+            it.className = 'img-format-item';
+            it.setAttribute('role', 'menuitem');
+            it.dataset.tip = itemTip;
+            it.addEventListener('click', (e) => { e.stopPropagation(); close(); onClick(); });
+            menu.appendChild(it);
+            return it;
+        };
+        return { wrap, item };
+    }
+
+    function buildImageToolbar(src) {
+        const t = I18N[currentLang];
+        const bar = document.createElement('div');
+        bar.className = 'img-toolbar';
+        // Image restée une URL distante = son serveur interdit la lecture par le navigateur (CORS,
+        // ex. stockage OSS international de Qwen) : les outils qui ont besoin des pixels sont grisés.
+        // Modifier et Format restent possibles (Qwen / Grok téléchargent l'URL eux-mêmes).
+        const remote = /^https?:\/\//i.test(src);
+        const pixelTool = (label, tip, onClick) => {
+            if (!remote) return imgTool(label, tip, onClick);
+            const b = imgTool(label, `${t.imgRemoteTip} ${tip}`, () => showToast(t.editRemoteBlocked, 'error'));
+            b.setAttribute('aria-disabled', 'true');
+            return b;
+        };
+        bar.appendChild(imgTool(t.imgEdit, t.imgEditTip, () => setImageEditTarget(src)));
+        bar.appendChild(pixelTool(t.imgErase, t.imgEraseTip, () => openImageEditor(src, 'erase')));
+        bar.appendChild(pixelTool(t.imgMarkup, t.imgMarkupTip, () => openImageEditor(src, 'markup')));
+        bar.appendChild(pixelTool(t.imgComment, t.imgCommentTip, () => openImageEditor(src, 'comment')));
+        bar.appendChild(pixelTool(t.imgRemoveBg, t.imgRemoveBgTip, () =>
+            runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.removeBg, display: t.imgRemoveBg, transparent: true })));
+
+        // Menu des formats : proposés selon le fournisseur qui fera l'édition
+        const fmt = toolMenu(t.imgResize, t.imgResizeTip, (menu) => {
+            const p = editProvider();
+            menu.querySelectorAll('.img-format-item').forEach(it => { it.hidden = !!(p && it._skip && it._skip.includes(p)); });
+        });
         IMAGE_ASPECTS.forEach(a => {
-            const item = document.createElement('button');
-            item.type = 'button';
-            item.className = 'img-format-item';
-            item.setAttribute('role', 'menuitem');
-            item.dataset.tip = t[a.tip];
+            const item = fmt.item(t[a.tip], () => runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.resize(a.ratio), display: `⬚ ${t[a.label]} (${a.ratio})`, size: a.size, ratio: a.ratio, qwenSize: a.qwen }));
             item.setAttribute('aria-label', `${t[a.label]} ${a.ratio} — ${t[a.tip]}`);
             const shape = document.createElement('span');
             shape.className = 'fmt-shape';
@@ -7751,17 +7958,25 @@ A small follow-up tweak the user asks for can be done right away without a new p
             ratio.className = 'fmt-ratio';
             ratio.textContent = a.ratio;
             item.append(shape, label, ratio);
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeMenu();
-                runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.resize(a.ratio), display: `⬚ ${t[a.label]} (${a.ratio})`, size: a.size });
-            });
-            menu.appendChild(item);
+            item._skip = a.skip;
         });
-        const fmtWrap = document.createElement('span');
-        fmtWrap.style.position = 'relative';
-        fmtWrap.append(fmtBtn, menu);
-        bar.appendChild(fmtWrap);
+        bar.appendChild(fmt.wrap);
+
+        // 🎬 Animer (Grok Imagine Vidéo, image de départ) : les 3 choix de Grok
+        const anim = toolMenu(t.imgAnimate, t.imgAnimateTip);
+        const animNote = document.createElement('div');
+        animNote.className = 'img-menu-note';
+        animNote.textContent = t.animMenuNote;
+        anim.wrap.querySelector('.img-format-menu').appendChild(animNote);
+        [['prompt', t.animPrompt, t.animPromptTip], ['quick', t.animQuick, t.animQuickTip], ['loop', t.animLoop, t.animLoopTip]].forEach(([kind, label, tip]) => {
+            const item = anim.item(tip, () => kind === 'prompt' ? setImageEditTarget(src, 'animate') : runAnimate(src, kind));
+            const l = document.createElement('span');
+            l.className = 'fmt-label';
+            l.textContent = label;
+            item.appendChild(l);
+            item.setAttribute('aria-label', `${label} — ${tip}`);
+        });
+        bar.appendChild(anim.wrap);
 
         bar.appendChild(imgTool(t.imgDownload, t.imgDownloadTip, async () => {
             if (/^https?:\/\//i.test(src)) {
@@ -7782,10 +7997,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // « ✏️ Modifier » : affiche l'image ciblée au-dessus de la saisie ; le prochain envoi l'édite.
-    function setImageEditTarget(src) {
+    // mode 'animate' (🎬 Animer → Avec une consigne) : le prochain envoi décrit l'animation.
+    function setImageEditTarget(src, mode) {
         clearImageEditTarget();
         const t = I18N[currentLang];
-        pendingImageEdit = { src, placeholder: userInput.placeholder };
+        const animate = mode === 'animate';
+        pendingImageEdit = { src, mode: animate ? 'animate' : 'edit', placeholder: userInput.placeholder };
         const chip = document.createElement('div');
         chip.className = 'edit-target-chip';
         chip.id = 'edit-target-chip';
@@ -7793,7 +8010,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         thumb.src = src;
         thumb.alt = '';
         const txt = document.createElement('span');
-        txt.textContent = t.editChip;
+        txt.textContent = animate ? t.animChip : t.editChip;
         const x = document.createElement('button');
         x.type = 'button';
         x.textContent = '✕';
@@ -7802,7 +8019,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         x.addEventListener('click', clearImageEditTarget);
         chip.append(thumb, txt, x);
         document.querySelector('.input-area').appendChild(chip);
-        userInput.placeholder = t.editPlaceholder;
+        userInput.placeholder = animate ? t.animPlaceholder : t.editPlaceholder;
         userInput.focus();
     }
     function clearImageEditTarget() {
@@ -7925,7 +8142,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const cancelBtn = button('ie-btn', t.ieCancel, t.ieCancelTip);
         const applyBtn = button('ie-btn primary', t.ieApply, t.ieApplyTip);
         actions.append(cancelBtn, applyBtn);
-        foot.append(el('div', 'ie-note', t.ieCostNote), actions);
+        const via = editProvider();
+        foot.append(el('div', 'ie-note', t.ieCostNote + (via ? ' ' + t.ieVia.replace('{p}', EDIT_PROVIDER_NAMES[via]) : '')), actions);
         box.append(head, tools, body, foot);
         overlay.appendChild(box);
         document.body.appendChild(overlay);
@@ -8044,8 +8262,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     mc.fillRect(0, 0, W, H);                       // opaque = à conserver
                     mc.globalCompositeOperation = 'destination-out';
                     drawStrokes(mc, '#000');                       // transparent = à modifier
+                    // Version sans masque (Gemini / Qwen / Grok) : zone peinte en rouge translucide,
+                    // opacité appliquée une seule fois (comme à l'écran) pour que les traits ne s'empilent pas.
+                    const s = newCanvas();
+                    drawStrokes(s.getContext('2d'), '#ff2d55');
+                    const o = newCanvas();
+                    const oc = o.getContext('2d');
+                    oc.drawImage(img, 0, 0, W, H);
+                    oc.globalAlpha = 0.55;
+                    oc.drawImage(s, 0, 0);
                     const txt = instr.value.trim();
-                    job = { blobs: [base], mask: await canvasToBlob(m), prompt: EDIT_PROMPTS.erase(txt), display: t.ieDisplayErase + (txt ? ` : ${txt}` : '') };
+                    const overlay = await canvasToBlob(o);
+                    job = {
+                        blobs: [base], mask: await canvasToBlob(m), prompt: EDIT_PROMPTS.erase(txt), display: t.ieDisplayErase + (txt ? ` : ${txt}` : ''),
+                        noMask: { blobs: [base, overlay], prompt: EDIT_PROMPTS.eraseOverlay(txt) },
+                        single: { blobs: [overlay], prompt: EDIT_PROMPTS.eraseSingle(txt) }, negative: NEG_MARKS
+                    };
                 } else {
                     const a = newCanvas();
                     const ac = a.getContext('2d');
@@ -8053,12 +8285,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     if (mode === 'markup') {
                         drawStrokes(ac);
                         const txt = instr.value.trim();
-                        job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.markup(txt), display: t.ieDisplayMarkup + (txt ? ` : ${txt}` : '') };
+                        const annotated = await canvasToBlob(a);
+                        job = { blobs: [base, annotated], prompt: EDIT_PROMPTS.markup(txt), display: t.ieDisplayMarkup + (txt ? ` : ${txt}` : ''),
+                            single: { blobs: [annotated], prompt: EDIT_PROMPTS.markupSingle(txt) }, negative: NEG_MARKS };
                     } else {
                         const used = pins.filter(p => p.text.trim());  // notes vides ignorées, renumérotées
                         drawPins(ac, used);
                         const lines = used.map((p, i) => `${i + 1}) at about ${Math.round(p.x / W * 100)}% from the left and ${Math.round(p.y / H * 100)}% from the top: ${p.text.trim()}`).join('\n');
-                        job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.comment(lines), display: `${t.ieDisplayComment} : ${used.map((p, i) => `${i + 1}. ${p.text.trim()}`).join(' · ')}` };
+                        // Variante une image : l'originale SANS marqueurs, positions décrites en texte
+                        job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.comment(lines), display: `${t.ieDisplayComment} : ${used.map((p, i) => `${i + 1}. ${p.text.trim()}`).join(' · ')}`,
+                            single: { blobs: [base], prompt: EDIT_PROMPTS.commentText(lines) }, negative: NEG_MARKS };
                     }
                 }
                 close();
@@ -8129,22 +8365,264 @@ A small follow-up tweak the user asks for can be done right away without a new p
         throw new Error("Unexpected response format from OpenAI.");
     }
 
+    function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+            const r = new FileReader();
+            r.onload = () => resolve(r.result);
+            r.onerror = () => reject(r.error);
+            r.readAsDataURL(blob);
+        });
+    }
+
+    // Image source → data URL pour Gemini / Qwen / Grok (corps JSON). Grande image (> 2048 px
+    // ou > 3 Mo) : réduite et convertie en JPEG pour rester sous les limites de requête.
+    async function prepareEditInput(blob) {
+        let out = blob;
+        try {
+            const bmp = await createImageBitmap(blob);
+            const s = Math.min(1, IE_MAX_SIDE / Math.max(bmp.width, bmp.height));
+            if (s < 1 || blob.size > 3e6 || !/png|jpe?g|webp/i.test(blob.type || '')) {
+                const c = document.createElement('canvas');
+                c.width = Math.round(bmp.width * s);
+                c.height = Math.round(bmp.height * s);
+                const cx = c.getContext('2d');
+                cx.fillStyle = '#fff';  // JPEG sans alpha
+                cx.fillRect(0, 0, c.width, c.height);
+                cx.drawImage(bmp, 0, 0, c.width, c.height);
+                out = await new Promise((resolve, reject) => c.toBlob(b => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/jpeg', 0.92));
+            }
+            bmp.close();
+        } catch (e) { /* illisible ici : envoyée telle quelle, l'API tranchera */ }
+        return blobToDataUrl(out);
+    }
+
+    // Pose une image transparente sur un fond uni (CHROMA) avant l'envoi à un modèle sans alpha.
+    async function flattenOnColor(blob, color) {
+        const bmp = await createImageBitmap(blob);
+        const c = document.createElement('canvas');
+        c.width = bmp.width;
+        c.height = bmp.height;
+        const cx = c.getContext('2d');
+        cx.fillStyle = color;
+        cx.fillRect(0, 0, c.width, c.height);
+        cx.drawImage(bmp, 0, 0);
+        bmp.close();
+        return canvasToBlob(c);
+    }
+
+    // Détourage local (Gemini / Qwen / Grok n'ont pas de fond transparent) : le modèle pose le sujet
+    // sur un fond uni vert (ou magenta). On mesure la couleur réelle du fond sur le pourtour, puis
+    // keyer « différence de couleur » (comme un fond vert de tournage) : plus le canal du fond domine
+    // les deux autres, plus le pixel est transparent (bord progressif). Les pixels de bord sont
+    // « démélangés » de la couleur du fond et leur reflet coloré est retiré.
+    // Renvoie du base64 PNG, ou null si le fond n'est pas assez uni pour être retiré.
+    async function chromaKeyToPng(blob) {
+        const bmp = await createImageBitmap(blob);
+        const W = bmp.width, H = bmp.height;
+        const c = document.createElement('canvas');
+        c.width = W;
+        c.height = H;
+        const ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(bmp, 0, 0);
+        bmp.close();
+        const im = ctx.getImageData(0, 0, W, H), d = im.data;
+        const rs = [], gs = [], bs = [];
+        const step = Math.max(1, Math.floor((W + H) / 800));
+        const sample = (x, y) => { const i = (y * W + x) * 4; rs.push(d[i]); gs.push(d[i + 1]); bs.push(d[i + 2]); };
+        for (let x = 0; x < W; x += step) { sample(x, 0); sample(x, H - 1); }
+        for (let y = 0; y < H; y += step) { sample(0, y); sample(W - 1, y); }
+        const median = (a) => a.slice().sort((p, q) => p - q)[a.length >> 1];
+        const kr = median(rs), kg = median(gs), kb = median(bs);
+        // Dominance du canal du fond : vert → g − max(r, b) ; magenta → min(r, b) − g
+        const greenKey = kg >= kr && kg >= kb;
+        const spill = greenKey ? (r, g, b) => g - Math.max(r, b) : (r, g, b) => Math.min(r, b) - g;
+        const K = spill(kr, kg, kb);
+        // Fond nettement vert / magenta, et présent sur la majeure partie du pourtour
+        if (K < 120) return null;
+        let near = 0;
+        for (let k = 0; k < rs.length; k++) if (spill(rs[k], gs[k], bs[k]) > K * 0.7) near++;
+        if (near < rs.length * 0.6) return null;
+        const S0 = K * 0.05, S1 = K * 0.85;  // ≤ S0 : sujet (opaque) ; ≥ S1 : fond (transparent)
+        for (let i = 0; i < d.length; i += 4) {
+            let r = d[i], g = d[i + 1], b = d[i + 2];
+            const s = spill(r, g, b);
+            if (s <= S0) continue;
+            if (s >= S1) { d[i + 3] = 0; continue; }
+            const a = 1 - (s - S0) / (S1 - S0);
+            // pixel de bord = mélange sujet + fond → on retire la part du fond, puis son reflet
+            r = (r - (1 - a) * kr) / a;
+            g = (g - (1 - a) * kg) / a;
+            b = (b - (1 - a) * kb) / a;
+            if (greenKey) g = Math.min(g, Math.max(r, b));
+            else { const e = Math.min(r, b) - g; if (e > 0) { r -= e; b -= e; } }
+            d[i] = Math.max(0, Math.min(255, r));
+            d[i + 1] = Math.max(0, Math.min(255, g));
+            d[i + 2] = Math.max(0, Math.min(255, b));
+            d[i + 3] = Math.round(a * 255);
+        }
+        ctx.putImageData(im, 0, 0);
+        return c.toDataURL('image/png').split(',')[1];
+    }
+
+    // Résultat d'édition (base64 ou URL) → détouré ; null = fond pas assez uni ; false = image
+    // illisible par le navigateur (URL distante sans CORS, ex. OSS international de Qwen).
+    async function keyOutResult(data) {
+        let blob;
+        try {
+            blob = /^https?:\/\//i.test(data) ? await (await fetch(data)).blob() : b64ToBlob(data, 'image/png');
+        } catch (e) { return false; }
+        if (!blob) return false;
+        try { return await chromaKeyToPng(blob); } catch (e) { return null; }
+    }
+
+    // Erreurs : xAI renvoie une STRING (err.error), DashScope { code, message } à la racine.
+    async function editApiError(res) {
+        const err = await res.json().catch(() => ({}));
+        return new Error((typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`);
+    }
+
+    function geminiImageSize(model) {
+        // Nano Banana 2 Lite n'accepte que 1K
+        return model === 'gemini-3.1-flash-lite-image' ? '1K' : ((imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K');
+    }
+
+    // Gemini (Nano Banana) : generateContent avec les images en ligne avant la consigne.
+    // Sans ratio demandé, la sortie garde celui de l'image source.
+    async function editImageGemini(images, prompt, opts, model, key, signal) {
+        const parts = images.map(u => {
+            const m = /^data:([^;]+);base64,(.*)$/.exec(u);
+            if (!m) throw new Error(I18N[currentLang].editSourceError);
+            return { inlineData: { mimeType: m[1], data: m[2] } };
+        });
+        parts.push({ text: prompt });
+        const imageConfig = { imageSize: geminiImageSize(model) };
+        if (opts.ratio) imageConfig.aspectRatio = opts.ratio;
+        const res = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            method: 'POST', signal, headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts }], generationConfig: { responseModalities: ['IMAGE'], imageConfig } })
+        });
+        if (!res.ok) throw await editApiError(res);
+        const data = await res.json();
+        const outParts = data.candidates?.[0]?.content?.parts || [];
+        const imgPart = outParts.find(p => p.inlineData && p.inlineData.data);
+        if (imgPart) return imgPart.inlineData.data;
+        // Refus ou réponse texte : on remonte l'explication du modèle
+        const txt = outParts.map(p => p.text).filter(Boolean).join(' ').trim();
+        throw new Error(txt || data.candidates?.[0]?.finishReason || 'No image generated.');
+    }
+
+    // Qwen Image 3.0 sans size choisit une taille d'après la consigne (le cadrage peut changer) :
+    // on demande les proportions de la source, aire bornée entre 512² et 2048², multiples de 16.
+    async function qwenSizeOf(blob) {
+        try {
+            const bmp = await createImageBitmap(blob);
+            const w = bmp.width, h = bmp.height;
+            bmp.close();
+            const area = w * h;
+            const s = Math.sqrt(Math.min(Math.max(area, 512 * 512), 2048 * 2048) / area);
+            const r16 = (v) => Math.max(16, Math.floor(v * s / 16) * 16);
+            return `${r16(w)}*${r16(h)}`;
+        } catch (e) { return null; }
+    }
+
+    // Qwen Image (DashScope) : même endpoint synchrone que la génération, 1 à 3 images + 1 texte.
+    // Réécriture de consigne (prompt_extend) laissée active : la doc la recommande pour l'édition.
+    // Renvoie une URL (24 h).
+    async function editImageQwen(images, prompt, opts, model, key, signal) {
+        const content = images.map(image => ({ image }));
+        content.push({ text: prompt });
+        const parameters = { n: 1, watermark: false };
+        if (opts.qwenSize) parameters.size = opts.qwenSize;
+        if (opts.negative) parameters.negative_prompt = opts.negative;
+        const res = await fetchWithRetry(getQwenHost() + '/api/v1/services/aigc/multimodal-generation/generation', {
+            method: 'POST', signal,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify({ model, input: { messages: [{ role: 'user', content }] }, parameters })
+        });
+        if (!res.ok) throw await editApiError(res);
+        const data = await res.json();
+        const out = data.output?.choices?.[0]?.message?.content;
+        const imgItem = Array.isArray(out) ? out.find(c => c.image) : null;
+        if (imgItem) return imgItem.image;
+        throw new Error(data.message || 'No image generated.');
+    }
+
+    // Grok Imagine : /v1/images/edits (JSON, CORS ouvert). 1 image → image ; 2 à 5 → images[],
+    // désignées dans la consigne par <IMAGE_0>, <IMAGE_1>… Sans aspect_ratio, la sortie suit la
+    // 1re image. Résolution = réglage Grok du panneau Image. Base64 → pas d'URL distante à lire.
+    async function editImageGrok(images, prompt, opts, model, key, signal) {
+        const body = { model, prompt: prompt.replace(/\b[Ii]mage (\d)\b/g, (m, n) => `<IMAGE_${n - 1}>`), n: 1, response_format: 'b64_json' };
+        if (images.length > 1) body.images = images.map(url => ({ url }));
+        else body.image = { url: images[0], type: 'image_url' };
+        if (opts.ratio) body.aspect_ratio = opts.ratio;
+        if (imageGrokResolutionSelect && imageGrokResolutionSelect.value) body.resolution = imageGrokResolutionSelect.value;
+        const res = await fetchWithRetry('https://api.x.ai/v1/images/edits', {
+            method: 'POST', signal,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) throw await editApiError(res);
+        const data = await res.json();
+        const d0 = data.data?.[0];
+        if (d0?.b64_json) return d0.b64_json;
+        if (d0?.url) return d0.url;
+        throw new Error('Unexpected response format from xAI.');
+    }
+
     // Crée la bulle IA, édite, affiche et persiste le résultat. Suppose l'état « occupé » géré
     // par l'appelant (handleSend ou runImageEdit). sources = blobs OU srcs (URL / data / blob:).
-    async function performImageEdit({ blobs, srcs, prompt, display, size, transparent, mask }, key) {
-        const model = openAIEditModel();
-        const loadingDiv = addMessage(null, 'ai', 'openai', model, true);
+    async function performImageEdit(job, provider, key) {
+        const caps = EDIT_CAPS[provider];
+        const model = editModelFor(provider);
+        const loadingDiv = addMessage(null, 'ai', provider, model, true);
+        const signal = currentAbortController.signal;
         try {
-            const inputs = blobs || await Promise.all(srcs.map(srcToBlob));
-            // Source déjà transparente → on conserve la transparence (fond + consigne explicite).
-            if (!transparent && await hasTransparency(inputs[0])) {
-                transparent = true;
-                prompt += ' Keep the background fully transparent, exactly as in the source image, with clean and sharp edges.';
+            // Variante une image (Qwen) ; sinon Effacer sans masque natif → originale + version peinte en rouge
+            const src = (caps.single && job.single) ? job.single : (!caps.mask && job.noMask) ? job.noMask : job;
+            let prompt = src.prompt;
+            let inputs = src.blobs || await Promise.all(job.srcs.map(async s => {
+                try { return await srcToBlob(s); }
+                catch (e) {
+                    // URL distante illisible (CORS) : Qwen et Grok savent la télécharger eux-mêmes
+                    if (/^https?:\/\//i.test(s)) {
+                        if (provider === 'qwen' || provider === 'grok') return s;
+                        throw new Error(I18N[currentLang].editRemoteBlocked);
+                    }
+                    throw e;
+                }
+            }));
+            let transparent = !!job.transparent;  // résultat attendu transparent (Retirer le fond)
+            let keyOut = false;
+            const srcAlpha = inputs[0] instanceof Blob && await hasTransparency(inputs[0]);
+            if (caps.alpha) {
+                // Source déjà transparente → on conserve la transparence (fond + consigne explicite).
+                if (!transparent && srcAlpha) { transparent = true; prompt += EDIT_PROMPTS.keepAlpha; }
+            } else if (transparent || srcAlpha) {
+                // Pas d'alpha natif : fond vert uni demandé au modèle, puis détouré ici.
+                keyOut = true;
+                if (transparent) prompt = EDIT_PROMPTS.removeBgKey;
+                else prompt += EDIT_PROMPTS.keepKey;
+                if (srcAlpha) inputs = await Promise.all(inputs.map(b => b instanceof Blob ? flattenOnColor(b, CHROMA) : b));
             }
-            const imageData = await editImageOpenAI(inputs, prompt, { size, transparent, mask }, key, currentAbortController.signal);
-            await displayAndStoreImage(loadingDiv, imageData, display, 'openai', model, true);
+            let imageData;
+            if (provider === 'openai') {
+                imageData = await editImageOpenAI(inputs, prompt, { size: job.size, transparent, mask: job.mask }, key, signal);
+            } else {
+                const images = await Promise.all(inputs.map(x => typeof x === 'string' ? x : prepareEditInput(x)));
+                const opts = { ratio: job.ratio, qwenSize: job.qwenSize, negative: job.negative };
+                if (provider === 'qwen' && !opts.qwenSize && inputs[0] instanceof Blob) opts.qwenSize = await qwenSizeOf(inputs[0]);
+                if (provider === 'gemini') imageData = await editImageGemini(images, prompt, opts, model, key, signal);
+                else if (provider === 'qwen') imageData = await editImageQwen(images, prompt, opts, model, key, signal);
+                else imageData = await editImageGrok(images, prompt, opts, model, key, signal);
+            }
+            if (keyOut) {
+                const keyed = await keyOutResult(imageData);
+                if (keyed) imageData = keyed;
+                else showToast(keyed === false ? I18N[currentLang].editKeyUnreadable : I18N[currentLang].editKeyFailed, 'error');
+            }
+            await displayAndStoreImage(loadingDiv, imageData, job.display, provider, model, true);
         } catch (error) {
-            updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'openai')}`);
+            updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, provider)}`);
         }
     }
 
@@ -8153,8 +8631,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function runImageEdit(job) {
         if (isProcessing) return;
         if (pendingCompareChoice) { showToast(I18N[currentLang].compareMustChoose, 'error'); return; }
-        const key = getKeyForProvider('openai');
-        if (!key) { showToast(I18N[currentLang].editNeedOpenAI, 'error'); return; }
+        const provider = editProvider();
+        if (!provider) { showToast(I18N[currentLang].editNeedKey, 'error'); return; }
+        const key = getKeyForProvider(provider);
         if (welcome) welcome.style.display = 'none';
         isProcessing = true;
         setBusyUI(true);
@@ -8163,7 +8642,47 @@ A small follow-up tweak the user asks for can be done right away without a new p
             addMessage(job.display, 'user');
             conversationHistory.push({ role: 'user', content: job.display });
             saveHistory();
-            await performImageEdit(job, key);
+            await performImageEdit(job, provider, key);
+        } finally {
+            isProcessing = false;
+            setBusyUI(false, false);
+            currentAbortController = null;
+        }
+    }
+
+    // 🎬 Animer : vidéo Grok Imagine à partir de l'image (quel que soit le fournisseur sélectionné ;
+    // seul xAI accepte une image de départ ici). kind = 'prompt' (consigne) | 'quick' | 'loop'.
+    function grokVideoModel() {
+        const sel = providerSelect.value === 'grok' && videoModelSelect ? videoModelSelect.value : '';
+        return VIDEO_MODELS.grok.some(m => m.id === sel) ? sel : VIDEO_MODELS.grok[0].id;
+    }
+    async function runAnimate(src, kind, text) {
+        const t = I18N[currentLang];
+        if (isProcessing) return;
+        if (pendingCompareChoice) { showToast(t.compareMustChoose, 'error'); return; }
+        const key = getKeyForProvider('grok');
+        if (!key) { showToast(t.animNeedGrok, 'error'); return; }
+        let image;
+        try { image = await prepareEditInput(await srcToBlob(src)); }
+        catch (e) {
+            // URL distante illisible (CORS) : xAI la télécharge lui-même
+            if (/^https?:\/\//i.test(src)) image = src;
+            else { showToast(t.editSourceError, 'error'); return; }
+        }
+        const prompt = kind === 'loop' ? EDIT_PROMPTS.animateLoop : kind === 'quick' ? EDIT_PROMPTS.animateQuick : EDIT_PROMPTS.animate(text);
+        const display = kind === 'loop' ? t.animLoop : kind === 'quick' ? t.animQuick : `🎬 ${text}`;
+        if (welcome) welcome.style.display = 'none';
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        try {
+            addMessage(display, 'user');
+            conversationHistory.push({ role: 'user', content: display });
+            saveHistory();
+            await handleVideoGeneration(prompt, key, {
+                provider: 'grok', display,
+                params: { model: grokVideoModel(), duration: VIDEO_DURATIONS.grok[0], image, loop: kind === 'loop' }
+            });
         } finally {
             isProcessing = false;
             setBusyUI(false, false);
@@ -8176,18 +8695,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function displayAndStoreImage(loadingDiv, imageData, prompt, provider, model, edited) {
         // Qwen/Grok renvoient une URL (OSS) ; OpenAI/Gemini du base64.
         const isUrl = typeof imageData === 'string' && /^https?:\/\//i.test(imageData);
-        const displaySrc = isUrl ? imageData : `data:image/png;base64,${imageData}`;
+        let blob = isUrl ? null : b64ToBlob(imageData, 'image/png');
+        if (isUrl) {
+            // URL distante : on récupère d'abord le binaire (persistance + copie locale lisible par
+            // les outils de l'éditeur) ; si CORS bloque, on retombe sur l'URL (temporaire).
+            try { const r = await fetch(imageData); if (r.ok) blob = await r.blob(); } catch (e) { blob = null; }
+        }
+        const displaySrc = isUrl ? (blob ? URL.createObjectURL(blob) : imageData) : `data:image/png;base64,${imageData}`;
         const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
         buildGeneratedImageUI(content, displaySrc, prompt, edited);
         removeLoader(loadingDiv);
 
         const imageId = genImageId();
-        let blob = isUrl ? null : b64ToBlob(imageData, 'image/png');
-        if (isUrl) {
-            // URL distante : on tente de récupérer le binaire pour une vraie
-            // persistance ; si CORS bloque, on retombe sur l'URL (temporaire).
-            try { const r = await fetch(imageData); blob = await r.blob(); } catch (e) { blob = null; }
-        }
         try {
             await ImageStore.put({
                 id: imageId, convId: currentConvId, blob,
@@ -8370,7 +8889,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // Grok image (xAI) — endpoint /v1/images/generations, format OpenAI et SYNCHRONE.
-    // Renvoie data[0].url (URL temporaire) → handleImageGeneration l'affiche via <img src>.
+    // Base64 demandé : l'URL temporaire de xAI bloque la lecture par le navigateur (CORS), ce qui
+    // empêchait les outils de dessin de l'éditeur et la persistance de l'image.
     async function generateImageGrok(prompt, key) {
         const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'grok-imagine-image-2.0';
         const aspectRatio = (imageGrokAspectSelect && imageGrokAspectSelect.value) ? imageGrokAspectSelect.value : '1:1';
@@ -8389,7 +8909,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 aspect_ratio: aspectRatio,
                 resolution,
                 n: 1,
-                response_format: 'url'
+                response_format: 'b64_json'
             })
         });
 
@@ -8401,14 +8921,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res.json();
-        if (data.data?.[0]?.url) return data.data[0].url;            // URL → affichage direct
-        if (data.data?.[0]?.b64_json) return data.data[0].b64_json;  // repli base64
+        if (data.data?.[0]?.b64_json) return data.data[0].b64_json;
+        if (data.data?.[0]?.url) return data.data[0].url;  // repli : URL (affichage direct)
         throw new Error("Unexpected response format from xAI.");
     }
 
     // ===== GÉNÉRATION DE VIDÉO (unified P2 refactor) =====
-    async function handleVideoGeneration(prompt, key) {
-        const provider = providerSelect.value;
+    // override (🎬 Animer) : { provider, display, params } remplace le fournisseur et les réglages
+    // du panneau Vidéo ; display = texte montré à la place de la consigne envoyée.
+    async function handleVideoGeneration(prompt, key, override) {
+        const provider = override ? override.provider : providerSelect.value;
         if (!VIDEO_MODELS[provider] || !VIDEO_ADAPTERS[provider]) {
             showToast(I18N[currentLang].videoNotSupported, 'error');
             return;
@@ -8419,18 +8941,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const adapter = VIDEO_ADAPTERS[provider];
-        const params = {
+        const params = override ? override.params : {
             model: videoModelSelect.value,
             aspectRatio: videoAspectSelect.value,
             duration: videoDurationSelect.value
         };
+        const shown = (override && override.display) || prompt;
 
         const loadingDiv = addMessage(null, 'ai', provider, params.model, true);
         const contentDiv = loadingDiv.querySelector('.msg-content');
 
         try {
             removeLoader(loadingDiv);
-            renderVideoProgressUI(contentDiv, prompt);
+            renderVideoProgressUI(contentDiv, shown);
             chatContainer.scrollTop = chatContainer.scrollHeight;
 
             const signal = currentAbortController.signal;
@@ -8438,7 +8961,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             // 1. Submit the generation request
             const submission = await adapter.submit(prompt, params, key, signal);
             const handle = submission.handle;
-            const dimensions = submission.sizeUsed || params.aspectRatio;
+            const dimensions = submission.sizeUsed || params.aspectRatio || '';
 
             // 2. Poll until done
             const statusText = document.getElementById('video-status-text');
@@ -8511,8 +9034,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
             // 3. Finalize and display
             const result = await adapter.finalize(handle, key, signal, lastStatus);
-            renderVideoResult(contentDiv, prompt, result, params.model, dimensions, params.duration);
-            showToast(I18N[currentLang].videoReady, 'success');
+            if (params.loop) result.loop = true;  // lecture en continu dans le lecteur
+            renderVideoResult(contentDiv, shown, result, params.model, dimensions, params.duration);
+            // Boucle approximative : l'avertissement remplace le toast de succès
+            showToast(params.loopApprox ? I18N[currentLang].animLoopApprox : I18N[currentLang].videoReady, params.loopApprox ? 'error' : 'success');
         } catch (error) {
             showVideoError(contentDiv, error);
         }
