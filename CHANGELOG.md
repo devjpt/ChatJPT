@@ -8,6 +8,27 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.11.0] — 2026-10-23
+  Added
+    - Image editor (OpenAI GPT Image 2.5), in a toolbar under every image —
+      whichever provider created it — with a help tooltip on each option:
+      - ✏️ Edit: the image appears above the input box; your next message
+        describes the change (e.g. "add a hat"). The result is a new image
+        that can be edited again, so changes can be chained.
+      - ✂️ Remove background: cuts out the subject on a transparent
+        background (PNG). The transparency is kept in later edits.
+      - ⬚ Format: Square 1:1, Portrait 3:4, Story 9:16, Landscape 4:3,
+        Widescreen 16:9 — the model fills in the edges without distorting
+        the subject.
+      - 💾 Download.
+    - In Image mode with OpenAI, an attached photo is now edited according to
+      your message (it used to be ignored).
+    - Transparent images are shown on a checkerboard, so a removed background
+      is clearly visible.
+  Changed / Improved
+    - The image caption and the Download button are now translated (they were
+      only in English / French).
+
 [1.10.1] — 2026-10-18
   Added
     - Gemini 4 Argon (gemini-4-argon), Google's new flagship reasoning model
@@ -365,6 +386,28 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.11.0] — 2026-10-23
+  Ajouté
+    - Éditeur d'image (OpenAI GPT Image 2.5), dans une barre d'outils sous
+      chaque image — quel que soit le fournisseur qui l'a créée — avec une
+      infobulle d'aide sur chaque option :
+      - ✏️ Modifier : l'image s'affiche au-dessus de la zone de saisie ; votre
+        message suivant décrit le changement (ex. « ajoute un chapeau »). Le
+        résultat est une nouvelle image, elle-même modifiable : les
+        modifications s'enchaînent.
+      - ✂️ Retirer le fond : détoure le sujet sur fond transparent (PNG). La
+        transparence est conservée lors des modifications suivantes.
+      - ⬚ Format : Carré 1:1, Portrait 3:4, Story 9:16, Paysage 4:3, Grand
+        écran 16:9 — le modèle complète les bords sans déformer le sujet.
+      - 💾 Télécharger.
+    - En mode Image avec OpenAI, une photo jointe est désormais modifiée selon
+      votre message (elle était ignorée auparavant).
+    - Les images transparentes s'affichent sur un damier : un fond retiré est
+      clairement visible.
+  Modifié / Amélioré
+    - La légende des images et le bouton Télécharger sont maintenant traduits
+      (ils n'existaient qu'en anglais / français).
 
 [1.10.1] — 2026-10-18
   Ajouté
@@ -748,6 +791,29 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.11.0] — 2026-10-23
+  Añadido
+    - Editor de imágenes (OpenAI GPT Image 2.5), en una barra de herramientas
+      debajo de cada imagen — sin importar qué proveedor la creó — con una
+      ayuda emergente en cada opción:
+      - ✏️ Editar: la imagen aparece sobre el cuadro de texto; tu próximo
+        mensaje describe el cambio (p. ej. "agrega un sombrero"). El resultado
+        es una nueva imagen que también se puede editar: los cambios se
+        encadenan.
+      - ✂️ Quitar el fondo: recorta el sujeto sobre un fondo transparente
+        (PNG). La transparencia se conserva en las ediciones siguientes.
+      - ⬚ Formato: Cuadrado 1:1, Vertical 3:4, Historia 9:16, Horizontal
+        4:3, Panorámico 16:9 — el modelo completa los bordes sin deformar el
+        sujeto.
+      - 💾 Descargar.
+    - En el modo Imagen con OpenAI, una foto adjunta ahora se edita según tu
+      mensaje (antes se ignoraba).
+    - Las imágenes transparentes se muestran sobre un tablero de cuadros: un
+      fondo quitado se ve claramente.
+  Cambiado / Mejorado
+    - La leyenda de las imágenes y el botón Descargar ahora están traducidos
+      (solo existían en inglés / francés).
 
 [1.10.1] — 2026-10-18
   Añadido

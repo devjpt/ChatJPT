@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.10.1
+  Version 1.11.0
 -->
 
 
@@ -1415,9 +1415,139 @@
             border: 1px solid var(--border);
             cursor: pointer;
             transition: var(--transition);
+            /* Damier sous l'image : rend visible un fond transparent (« Retirer le fond »)
+               au lieu de prendre la couleur du thème (blanc en clair, noir en sombre). */
+            background-color: #fff;
+            background-image:
+                linear-gradient(45deg, #d9dce3 25%, transparent 25%),
+                linear-gradient(-45deg, #d9dce3 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #d9dce3 75%),
+                linear-gradient(-45deg, transparent 75%, #d9dce3 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0;
         }
 
         .generated-image:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+
+        /* ===== ÉDITEUR D'IMAGE (barre d'outils sous les images) ===== */
+        .img-toolbar {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+            padding: 4px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            position: relative;
+        }
+        .img-tool {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--text);
+            font: inherit;
+            font-size: 0.82rem;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+        .img-tool:hover, .img-tool[aria-expanded="true"] { background: var(--surface-hover); border-color: var(--border); }
+        .img-format-menu {
+            position: absolute;
+            bottom: calc(100% + 6px);   /* s'ouvre vers le haut : jamais coupé sous la dernière image */
+            left: 0;
+            min-width: 230px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 6px;
+            z-index: 60;
+        }
+        .img-format-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text);
+            font: inherit;
+            font-size: 0.85rem;
+            padding: 9px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            position: relative;
+            text-align: left;
+        }
+        .img-format-item:hover { background: var(--surface-hover); }
+        .img-format-item .fmt-shape { display: inline-block; border: 1.5px solid var(--text-muted); border-radius: 3px; flex-shrink: 0; }
+        .img-format-item .fmt-label { flex: 1; }
+        .img-format-item .fmt-ratio { color: var(--text-muted); font-size: 0.8rem; }
+        /* Infobulle au survol (data-tip) : au-dessus des boutons, à droite des formats */
+        [data-tip]:hover::after, [data-tip]:focus-visible::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 280px;
+            white-space: normal;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            padding: 7px 10px;
+            font-size: 0.76rem;
+            font-weight: 400;
+            line-height: 1.4;
+            text-align: left;
+            z-index: 70;
+            pointer-events: none;
+        }
+        /* Une seule infobulle à la fois : pas celle du bouton qui garde le focus pendant qu'on en
+           survole un autre, ni celle du bouton Format quand son menu est ouvert. */
+        .img-toolbar:hover .img-tool:not(:hover)::after,
+        .img-tool[aria-expanded="true"]::after { display: none; }
+        .img-format-item[data-tip]:hover::after, .img-format-item[data-tip]:focus-visible::after {
+            bottom: auto;
+            top: 50%;
+            left: calc(100% + 10px);
+            transform: translateY(-50%);
+        }
+        /* Image ciblée par « Modifier » : étiquette au-dessus de la saisie */
+        .edit-target-chip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: calc(100% - 40px);
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 6px 10px 6px 6px;
+            font-size: 0.8rem;
+            color: var(--text);
+            z-index: 20;
+        }
+        .edit-target-chip img { width: 44px; height: 44px; object-fit: cover; border-radius: var(--radius-sm); }
+        .edit-target-chip button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            padding: 2px 6px;
+        }
+        .edit-target-chip button:hover { color: var(--text); }
 
         /* ===== VIDEO DISPLAY ===== */
         .generated-video {
@@ -2215,7 +2345,7 @@
                 background: white; 
                 color: black; 
             }
-            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview, .vibe-preview-wrap {
+            .config-header, .input-area, .support-bar, .msg-copy-btn, .copy-btn, .table-copy-btn, .toast, .image-modal, .msg-actions, .coffee-nudge, .preview-btn, .preview-newtab-btn, .vibe-preview, .vibe-preview-wrap, .img-toolbar, .edit-target-chip {
                 display: none !important;
             }
             #chat-container { 
@@ -2424,7 +2554,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 18 octobre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 23 octobre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2980,8 +3110,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.10.1 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 18 octobre 2026",
+            creditVersion: "Version 1.11.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 23 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3074,6 +3204,26 @@
             ocrDone: "✅ {name} : {n} pages transcrites ({tokens} tokens)",
             ocrStopped: "⚠️ Transcription arrêtée : {i} pages sur {n}",
             ocrImagesAdded: "🖼️ {n} pages jointes comme images",
+            imgGeneratedFor: "🎨 Image générée pour : ",
+            imgEditedFor: "✏️ Image modifiée : ",
+            imgEdit: "✏️ Modifier",
+            imgEditTip: "Décris le changement voulu dans ton prochain message (ex. « ajoute un chapeau », « style aquarelle », « remplace le fond par une plage ») : OpenAI GPT Image modifie l'image en gardant le reste intact. Coût : environ le prix d'une image.",
+            imgRemoveBg: "✂️ Retirer le fond",
+            imgRemoveBgTip: "Détoure le sujet principal et rend le fond transparent (PNG). Idéal pour un logo, un produit ou un portrait. Coût : environ le prix d'une image.",
+            imgResize: "⬚ Format ▾",
+            imgResizeTip: "Recompose l'image dans un autre format (carré, portrait, story, paysage, grand écran) : le modèle complète les bords sans déformer le sujet. Coût : environ le prix d'une image.",
+            imgDownload: "💾 Télécharger",
+            imgDownloadTip: "Enregistre l'image sur ton ordinateur.",
+            fmtSquare: "Carré", fmtSquareTip: "1:1 — publications Instagram, photos de profil, icônes.",
+            fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, affiches, impressions verticales.",
+            fmtStory: "Story", fmtStoryTip: "9:16 — stories Instagram / Facebook, TikTok, fonds d'écran de téléphone.",
+            fmtLandscape: "Paysage", fmtLandscapeTip: "4:3 — photos classiques, présentations.",
+            fmtWidescreen: "Grand écran", fmtWidescreenTip: "16:9 — vidéos YouTube, bannières, fonds d'écran d'ordinateur.",
+            editChip: "Modification de cette image : décris le changement, puis envoie.",
+            editChipCancel: "Annuler la modification",
+            editPlaceholder: "Décris la modification (ex. « remplace le fond par une plage »)...",
+            editNeedOpenAI: "⚠️ L'édition d'image utilise OpenAI : ajoute ta clé OpenAI dans le panneau des clés.",
+            editSourceError: "Impossible de lire l'image source (elle n'est peut-être plus disponible).",
             fileReadError: "Impossible de lire : ",
             filesReady: "fichier(s) prêt(s)",
             filesAttached: "fichier(s) joint(s)",
@@ -3185,8 +3335,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.10.1 - Latest version: ",
-            appUpdated: "📅 Updated: October 18, 2026",
+            creditVersion: "Version 1.11.0 - Latest version: ",
+            appUpdated: "📅 Updated: October 23, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3279,6 +3429,26 @@
             ocrDone: "✅ {name}: {n} pages transcribed ({tokens} tokens)",
             ocrStopped: "⚠️ Transcription stopped: {i} of {n} pages",
             ocrImagesAdded: "🖼️ {n} pages attached as images",
+            imgGeneratedFor: "🎨 Image generated for: ",
+            imgEditedFor: "✏️ Edited image: ",
+            imgEdit: "✏️ Edit",
+            imgEditTip: "Describe the change you want in your next message (e.g. \"add a hat\", \"watercolor style\", \"replace the background with a beach\"): OpenAI GPT Image edits the image and keeps the rest intact. Cost: about the price of one image.",
+            imgRemoveBg: "✂️ Remove background",
+            imgRemoveBgTip: "Cuts out the main subject and makes the background transparent (PNG). Great for a logo, a product or a portrait. Cost: about the price of one image.",
+            imgResize: "⬚ Format ▾",
+            imgResizeTip: "Recomposes the image in another format (square, portrait, story, landscape, widescreen): the model fills in the edges without distorting the subject. Cost: about the price of one image.",
+            imgDownload: "💾 Download",
+            imgDownloadTip: "Saves the image to your computer.",
+            fmtSquare: "Square", fmtSquareTip: "1:1 — Instagram posts, profile pictures, icons.",
+            fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, posters, vertical prints.",
+            fmtStory: "Story", fmtStoryTip: "9:16 — Instagram / Facebook stories, TikTok, phone wallpapers.",
+            fmtLandscape: "Landscape", fmtLandscapeTip: "4:3 — classic photos, presentations.",
+            fmtWidescreen: "Widescreen", fmtWidescreenTip: "16:9 — YouTube videos, banners, desktop wallpapers.",
+            editChip: "Editing this image: describe the change, then send.",
+            editChipCancel: "Cancel the edit",
+            editPlaceholder: "Describe the change (e.g. \"replace the background with a beach\")...",
+            editNeedOpenAI: "⚠️ Image editing uses OpenAI: add your OpenAI key in the keys panel.",
+            editSourceError: "Unable to read the source image (it may no longer be available).",
             fileReadError: "Unable to read: ",
             filesReady: "file(s) ready",
             filesAttached: "file(s) attached",
@@ -3390,8 +3560,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.10.1 - Última versión: ",
-            appUpdated: "📅 Actualizado: 18 de octubre de 2026",
+            creditVersion: "Versión 1.11.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 23 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -3484,6 +3654,26 @@
             ocrDone: "✅ {name}: {n} páginas transcritas ({tokens} tokens)",
             ocrStopped: "⚠️ Transcripción detenida: {i} de {n} páginas",
             ocrImagesAdded: "🖼️ {n} páginas adjuntadas como imágenes",
+            imgGeneratedFor: "🎨 Imagen generada para: ",
+            imgEditedFor: "✏️ Imagen editada: ",
+            imgEdit: "✏️ Editar",
+            imgEditTip: "Describe el cambio que quieres en tu próximo mensaje (p. ej. \"agrega un sombrero\", \"estilo acuarela\", \"reemplaza el fondo por una playa\"): OpenAI GPT Image edita la imagen y conserva el resto. Costo: aproximadamente el precio de una imagen.",
+            imgRemoveBg: "✂️ Quitar el fondo",
+            imgRemoveBgTip: "Recorta el sujeto principal y deja el fondo transparente (PNG). Ideal para un logo, un producto o un retrato. Costo: aproximadamente el precio de una imagen.",
+            imgResize: "⬚ Formato ▾",
+            imgResizeTip: "Recompone la imagen en otro formato (cuadrado, vertical, historia, horizontal, panorámico): el modelo completa los bordes sin deformar el sujeto. Costo: aproximadamente el precio de una imagen.",
+            imgDownload: "💾 Descargar",
+            imgDownloadTip: "Guarda la imagen en tu computadora.",
+            fmtSquare: "Cuadrado", fmtSquareTip: "1:1 — publicaciones de Instagram, fotos de perfil, íconos.",
+            fmtPortrait: "Vertical", fmtPortraitTip: "3:4 — retratos, carteles, impresiones verticales.",
+            fmtStory: "Historia", fmtStoryTip: "9:16 — historias de Instagram / Facebook, TikTok, fondos de pantalla del teléfono.",
+            fmtLandscape: "Horizontal", fmtLandscapeTip: "4:3 — fotos clásicas, presentaciones.",
+            fmtWidescreen: "Panorámico", fmtWidescreenTip: "16:9 — videos de YouTube, banners, fondos de pantalla de computadora.",
+            editChip: "Editando esta imagen: describe el cambio y envía.",
+            editChipCancel: "Cancelar la edición",
+            editPlaceholder: "Describe el cambio (p. ej. \"reemplaza el fondo por una playa\")...",
+            editNeedOpenAI: "⚠️ La edición de imágenes usa OpenAI: agrega tu clave de OpenAI en el panel de claves.",
+            editSourceError: "No se puede leer la imagen de origen (quizás ya no esté disponible).",
             fileReadError: "No se puede leer: ",
             filesReady: "archivo(s) listo(s)",
             filesAttached: "archivo(s) adjunto(s)",
@@ -6240,6 +6430,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         currentCompareControllers = [];
         pendingCompareChoice = false;
         document.querySelectorAll('.compare-resolve').forEach(el => el.remove());
+        // Même moment (effacement / changement de conversation) : oublier l'image ciblée
+        // par « ✏️ Modifier », qui appartient à l'ancienne conversation.
+        clearImageEditTarget();
     }
 
     // ===== ENVOI DE MESSAGE =====
@@ -6258,6 +6451,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (currentMode === 'code' && agentModeCb && agentModeCb.checked) {
             const agentPrompt = "Let's proceed step by step. Please give me the instructions in English so my coding agent can integrate them one by one. Only provide the next instruction after I confirm the previous one is integrated.";
             text = text ? text + "\n\n" + agentPrompt : agentPrompt;
+        }
+
+        // Image ciblée par « ✏️ Modifier » : le message est la consigne d'édition (OpenAI),
+        // quel que soit le mode ou le fournisseur sélectionné.
+        if (pendingImageEdit && text) {
+            const target = pendingImageEdit;
+            clearImageEditTarget();
+            userInput.value = '';
+            autoResizeTextarea();
+            await runImageEdit({ srcs: [target.src], prompt: EDIT_PROMPTS.edit(text), display: `✏️ ${text}` });
+            return;
         }
 
         if (!text && uploadedFiles.length === 0) return;
@@ -6351,7 +6555,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (displayText !== fullPrompt) uEntry.display = displayText;
             conversationHistory.push(uEntry);
             saveHistory();
-            await handleImageGeneration(fullPrompt, provider, key);
+            if (provider === 'openai' && pendingImages.length > 0) {
+                // Photo(s) jointe(s) en mode Image avec OpenAI : on MODIFIE l'image au lieu de
+                // l'ignorer (plusieurs images = références combinées).
+                const blobs = pendingImages.map(im => b64ToBlob(im.base64, im.mimeType)).filter(Boolean);
+                await performImageEdit({ blobs, prompt: EDIT_PROMPTS.edit(fullPrompt), display: fullPrompt }, key);
+            } else {
+                await handleImageGeneration(fullPrompt, provider, key);
+            }
         } else if (currentMode === 'video') {
             await handleVideoGeneration(fullPrompt, key);
         } else {
@@ -7234,13 +7445,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } catch (e) { return null; }
     }
 
-    // Construit l'UI d'une image générée (titre + <img> + bouton télécharger).
-    // Réutilisé à la génération en direct ET au rechargement depuis IndexedDB.
-    function buildGeneratedImageUI(content, src, prompt) {
+    // Construit l'UI d'une image générée (titre + <img> + barre d'outils d'édition).
+    // Réutilisé à la génération en direct, après une édition ET au rechargement depuis IndexedDB.
+    function buildGeneratedImageUI(content, src, prompt, edited) {
+        const t = I18N[currentLang];
         content.innerHTML = '';
         const p = document.createElement('p');
         const short = (prompt || '').substring(0, 80);
-        p.textContent = `🎨 Image generated for : "${short}${(prompt || '').length > 80 ? '...' : ''}"`;
+        p.textContent = `${edited ? t.imgEditedFor : t.imgGeneratedFor}"${short}${(prompt || '').length > 80 ? '...' : ''}"`;
         p.className = 'dp-info-text-lg';
         content.appendChild(p);
 
@@ -7251,10 +7463,101 @@ A small follow-up tweak the user asks for can be done right away without a new p
         img.addEventListener('click', () => { modalImg.src = img.src; imageModal.classList.add('show'); });
         content.appendChild(img);
 
-        const dlBtn = document.createElement('button');
-        dlBtn.className = 'copy-btn dp-mt-sm';
-        dlBtn.innerHTML = '💾 Télécharger';
-        dlBtn.addEventListener('click', async () => {
+        content.appendChild(document.createElement('br'));
+        content.appendChild(buildImageToolbar(src));
+    }
+
+    // ===== ÉDITEUR D'IMAGE (OpenAI GPT Image, /v1/images/edits) =====
+    // Barre d'outils sous chaque image : ✏️ Modifier (la consigne du prochain message s'applique à
+    // cette image), ✂️ Retirer le fond, ⬚ Format (5 formats exacts) et 💾 Télécharger. Chaque option
+    // a une infobulle (data-tip). L'édition passe toujours par OpenAI, quel que soit le fournisseur
+    // qui a produit l'image ; le résultat est une nouvelle image, elle-même modifiable.
+    const IMAGE_ASPECTS = [
+        { id: 'square', ratio: '1:1', size: '1024x1024', w: 14, h: 14, label: 'fmtSquare', tip: 'fmtSquareTip' },
+        { id: 'portrait', ratio: '3:4', size: '1152x1536', w: 12, h: 16, label: 'fmtPortrait', tip: 'fmtPortraitTip' },
+        { id: 'story', ratio: '9:16', size: '864x1536', w: 10, h: 17, label: 'fmtStory', tip: 'fmtStoryTip' },
+        { id: 'landscape', ratio: '4:3', size: '1536x1152', w: 16, h: 12, label: 'fmtLandscape', tip: 'fmtLandscapeTip' },
+        { id: 'widescreen', ratio: '16:9', size: '1536x864', w: 18, h: 10, label: 'fmtWidescreen', tip: 'fmtWidescreenTip' }
+    ];
+    // Consignes envoyées au modèle (anglais : meilleure adhérence ; la réponse est une image).
+    const EDIT_PROMPTS = {
+        edit: (t) => `Edit the provided image as follows, and keep everything else unchanged: ${t}`,
+        removeBg: 'Remove the background completely. Keep the main subject exactly as it is (same pose, colors, details and edges), on a fully transparent background.',
+        resize: (ratio) => `Recompose this image to a ${ratio} aspect ratio. Keep the main subject identical (same identity, pose, colors and style). Extend or adapt the background naturally to fill the new frame; do not stretch or distort anything.`
+    };
+    let pendingImageEdit = null;  // { src } : image ciblée par « ✏️ Modifier »
+
+    // Les formats personnalisés et le fond transparent sont garantis sur GPT Image 2.5 :
+    // on garde le modèle 2.5 choisi par l'utilisateur, sinon Sunburst (précision d'édition).
+    function openAIEditModel() {
+        const sel = providerSelect.value === 'openai' && imageModelSelect ? imageModelSelect.value : '';
+        return /^gpt-image-2\.5/.test(sel) ? sel : 'gpt-image-2.5-sunburst';
+    }
+
+    function imgTool(label, tip, onClick) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'img-tool';
+        b.textContent = label;
+        b.dataset.tip = tip;
+        b.setAttribute('aria-label', `${label} — ${tip}`);
+        b.addEventListener('click', onClick);
+        return b;
+    }
+
+    function buildImageToolbar(src) {
+        const t = I18N[currentLang];
+        const bar = document.createElement('div');
+        bar.className = 'img-toolbar';
+        bar.appendChild(imgTool(t.imgEdit, t.imgEditTip, () => setImageEditTarget(src)));
+        bar.appendChild(imgTool(t.imgRemoveBg, t.imgRemoveBgTip, () =>
+            runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.removeBg, display: t.imgRemoveBg, transparent: true })));
+
+        // Menu des formats (ouvert/fermé au clic, fermé par un clic ailleurs ou Échap)
+        const fmtBtn = imgTool(t.imgResize, t.imgResizeTip, (e) => {
+            e.stopPropagation();
+            if (menu.hidden) { menu.hidden = false; fmtBtn.setAttribute('aria-expanded', 'true'); document.addEventListener('click', closeMenu); document.addEventListener('keydown', escMenu); }
+            else closeMenu();
+        });
+        fmtBtn.setAttribute('aria-haspopup', 'menu');
+        fmtBtn.setAttribute('aria-expanded', 'false');
+        const menu = document.createElement('div');
+        menu.className = 'img-format-menu';
+        menu.setAttribute('role', 'menu');
+        menu.hidden = true;
+        const closeMenu = () => { menu.hidden = true; fmtBtn.setAttribute('aria-expanded', 'false'); document.removeEventListener('click', closeMenu); document.removeEventListener('keydown', escMenu); };
+        const escMenu = (e) => { if (e.key === 'Escape') closeMenu(); };
+        IMAGE_ASPECTS.forEach(a => {
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'img-format-item';
+            item.setAttribute('role', 'menuitem');
+            item.dataset.tip = t[a.tip];
+            item.setAttribute('aria-label', `${t[a.label]} ${a.ratio} — ${t[a.tip]}`);
+            const shape = document.createElement('span');
+            shape.className = 'fmt-shape';
+            shape.style.width = `${a.w}px`;
+            shape.style.height = `${a.h}px`;
+            const label = document.createElement('span');
+            label.className = 'fmt-label';
+            label.textContent = t[a.label];
+            const ratio = document.createElement('span');
+            ratio.className = 'fmt-ratio';
+            ratio.textContent = a.ratio;
+            item.append(shape, label, ratio);
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeMenu();
+                runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.resize(a.ratio), display: `⬚ ${t[a.label]} (${a.ratio})`, size: a.size });
+            });
+            menu.appendChild(item);
+        });
+        const fmtWrap = document.createElement('span');
+        fmtWrap.style.position = 'relative';
+        fmtWrap.append(fmtBtn, menu);
+        bar.appendChild(fmtWrap);
+
+        bar.appendChild(imgTool(t.imgDownload, t.imgDownloadTip, async () => {
             if (/^https?:\/\//i.test(src)) {
                 try {
                     const r = await fetch(src);
@@ -7268,12 +7571,169 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 const a = document.createElement('a');
                 a.href = src; a.download = `image_${Date.now()}.png`; a.click();
             }
+        }));
+        return bar;
+    }
+
+    // « ✏️ Modifier » : affiche l'image ciblée au-dessus de la saisie ; le prochain envoi l'édite.
+    function setImageEditTarget(src) {
+        clearImageEditTarget();
+        const t = I18N[currentLang];
+        pendingImageEdit = { src, placeholder: userInput.placeholder };
+        const chip = document.createElement('div');
+        chip.className = 'edit-target-chip';
+        chip.id = 'edit-target-chip';
+        const thumb = document.createElement('img');
+        thumb.src = src;
+        thumb.alt = '';
+        const txt = document.createElement('span');
+        txt.textContent = t.editChip;
+        const x = document.createElement('button');
+        x.type = 'button';
+        x.textContent = '✕';
+        x.dataset.tip = t.editChipCancel;
+        x.setAttribute('aria-label', t.editChipCancel);
+        x.addEventListener('click', clearImageEditTarget);
+        chip.append(thumb, txt, x);
+        document.querySelector('.input-area').appendChild(chip);
+        userInput.placeholder = t.editPlaceholder;
+        userInput.focus();
+    }
+    function clearImageEditTarget() {
+        const chip = $('edit-target-chip');
+        if (chip) chip.remove();
+        if (pendingImageEdit && pendingImageEdit.placeholder) userInput.placeholder = pendingImageEdit.placeholder;
+        pendingImageEdit = null;
+    }
+
+    async function srcToBlob(src) {
+        const r = await fetch(src);
+        if (!r.ok) throw new Error(I18N[currentLang].editSourceError);
+        return r.blob();
+    }
+
+    // L'image a-t-elle de la transparence (ex. après « Retirer le fond ») ? Sans ça, une édition
+    // suivante revient opaque : la zone transparente devient noire et les bords détourés
+    // (semi-transparents) bavent sur ce noir. Analyse sur une copie réduite (rapide).
+    async function hasTransparency(blob) {
+        if (!/png|webp|gif/i.test(blob.type || '')) return false;  // JPEG : jamais d'alpha
+        try {
+            const bmp = await createImageBitmap(blob);
+            const scale = Math.min(1, 256 / Math.max(bmp.width, bmp.height));
+            const w = Math.max(1, Math.round(bmp.width * scale)), h = Math.max(1, Math.round(bmp.height * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.drawImage(bmp, 0, 0, w, h);
+            bmp.close();
+            const px = ctx.getImageData(0, 0, w, h).data;
+            for (let i = 3; i < px.length; i += 4) if (px[i] < 250) return true;
+        } catch (e) { /* image illisible : on considère opaque */ }
+        return false;
+    }
+
+    // Appel /v1/images/edits (multipart). blobs = image(s) source ; opts = { size, transparent }.
+    async function editImageOpenAI(blobs, prompt, opts, key, signal) {
+        const fd = new FormData();
+        fd.append('model', openAIEditModel());
+        fd.append('prompt', prompt);
+        fd.append('n', '1');
+        fd.append('size', opts.size || 'auto');
+        fd.append('quality', (imageQualitySelect && imageQualitySelect.value) ? imageQualitySelect.value : 'medium');
+        if (opts.transparent) {
+            fd.append('background', 'transparent');
+            fd.append('output_format', 'png');
+        }
+        blobs.forEach((b, i) => {
+            const ext = (b.type && b.type.split('/')[1]) || 'png';
+            fd.append(blobs.length > 1 ? 'image[]' : 'image', b, `image_${i + 1}.${ext}`);
         });
-        content.appendChild(dlBtn);
+        const res = await fetchWithRetry('https://api.openai.com/v1/images/edits', {
+            method: 'POST', signal, headers: { 'Authorization': `Bearer ${key}` }, body: fd
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.data && data.data[0] && data.data[0].b64_json) return data.data[0].b64_json;
+        throw new Error("Unexpected response format from OpenAI.");
+    }
+
+    // Crée la bulle IA, édite, affiche et persiste le résultat. Suppose l'état « occupé » géré
+    // par l'appelant (handleSend ou runImageEdit). sources = blobs OU srcs (URL / data / blob:).
+    async function performImageEdit({ blobs, srcs, prompt, display, size, transparent }, key) {
+        const model = openAIEditModel();
+        const loadingDiv = addMessage(null, 'ai', 'openai', model, true);
+        try {
+            const inputs = blobs || await Promise.all(srcs.map(srcToBlob));
+            // Source déjà transparente → on conserve la transparence (fond + consigne explicite).
+            if (!transparent && await hasTransparency(inputs[0])) {
+                transparent = true;
+                prompt += ' Keep the background fully transparent, exactly as in the source image, with clean and sharp edges.';
+            }
+            const imageData = await editImageOpenAI(inputs, prompt, { size, transparent }, key, currentAbortController.signal);
+            await displayAndStoreImage(loadingDiv, imageData, display, 'openai', model, true);
+        } catch (error) {
+            updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'openai')}`);
+        }
+    }
+
+    // Action directe de la barre d'outils (Retirer le fond, Format) : gère l'état « occupé »,
+    // le message utilisateur et l'historique comme handleSend.
+    async function runImageEdit(job) {
+        if (isProcessing) return;
+        if (pendingCompareChoice) { showToast(I18N[currentLang].compareMustChoose, 'error'); return; }
+        const key = getKeyForProvider('openai');
+        if (!key) { showToast(I18N[currentLang].editNeedOpenAI, 'error'); return; }
+        if (welcome) welcome.style.display = 'none';
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        try {
+            addMessage(job.display, 'user');
+            conversationHistory.push({ role: 'user', content: job.display });
+            saveHistory();
+            await performImageEdit(job, key);
+        } finally {
+            isProcessing = false;
+            setBusyUI(false, false);
+            currentAbortController = null;
+        }
+    }
+
+    // Affiche une image produite (génération ou édition) dans sa bulle, puis la persiste :
+    // blob dans IndexedDB + tour image dans l'historique (l'historique ne garde que l'imageId).
+    async function displayAndStoreImage(loadingDiv, imageData, prompt, provider, model, edited) {
+        // Qwen/Grok renvoient une URL (OSS) ; OpenAI/Gemini du base64.
+        const isUrl = typeof imageData === 'string' && /^https?:\/\//i.test(imageData);
+        const displaySrc = isUrl ? imageData : `data:image/png;base64,${imageData}`;
+        const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
+        buildGeneratedImageUI(content, displaySrc, prompt, edited);
+        removeLoader(loadingDiv);
+
+        const imageId = genImageId();
+        let blob = isUrl ? null : b64ToBlob(imageData, 'image/png');
+        if (isUrl) {
+            // URL distante : on tente de récupérer le binaire pour une vraie
+            // persistance ; si CORS bloque, on retombe sur l'URL (temporaire).
+            try { const r = await fetch(imageData); blob = await r.blob(); } catch (e) { blob = null; }
+        }
+        try {
+            await ImageStore.put({
+                id: imageId, convId: currentConvId, blob,
+                url: (isUrl && !blob) ? imageData : null,
+                mime: 'image/png', prompt, createdAt: Date.now()
+            });
+        } catch (e) { /* IndexedDB indispo → image affichée mais non persistée */ }
+        const entry = { role: 'assistant', type: 'image', imageId, prompt, content: (edited ? '✏️ ' : '🎨 ') + prompt, provider, model };
+        if (edited) entry.edited = true;
+        conversationHistory.push(entry);
+        saveHistory();
     }
 
     // Chargement async d'une image persistée (au rendu d'une conversation).
-    async function loadAndDisplayImage(content, imageId, prompt) {
+    async function loadAndDisplayImage(content, imageId, prompt, edited) {
         let src = null;
         try {
             const rec = await ImageStore.get(imageId);
@@ -7283,7 +7743,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
         } catch (e) { /* IndexedDB indisponible */ }
         if (src) {
-            buildGeneratedImageUI(content, src, prompt);
+            buildGeneratedImageUI(content, src, prompt, edited);
         } else {
             content.innerHTML = '';
             const p = document.createElement('p');
@@ -7311,32 +7771,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 throw new Error("Image generation is not available for this provider.");
             }
 
-            // Qwen/Grok renvoient une URL (OSS) ; OpenAI/Gemini du base64.
-            const isUrl = typeof imageData === 'string' && /^https?:\/\//i.test(imageData);
-            const displaySrc = isUrl ? imageData : `data:image/png;base64,${imageData}`;
-
-            const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
-            buildGeneratedImageUI(content, displaySrc, prompt);
-            removeLoader(loadingDiv);
-
-            // Persistance : blob dans IndexedDB + tour image enregistré dans l'historique
-            // (l'historique ne garde que l'imageId, léger → localStorage non gonflé).
-            const imageId = genImageId();
-            let blob = isUrl ? null : b64ToBlob(imageData, 'image/png');
-            if (isUrl) {
-                // URL distante : on tente de récupérer le binaire pour une vraie
-                // persistance ; si CORS bloque, on retombe sur l'URL (temporaire).
-                try { const r = await fetch(imageData); blob = await r.blob(); } catch (e) { blob = null; }
-            }
-            try {
-                await ImageStore.put({
-                    id: imageId, convId: currentConvId, blob,
-                    url: (isUrl && !blob) ? imageData : null,
-                    mime: 'image/png', prompt, createdAt: Date.now()
-                });
-            } catch (e) { /* IndexedDB indispo → image affichée mais non persistée */ }
-            conversationHistory.push({ role: 'assistant', type: 'image', imageId, prompt, content: '🎨 ' + prompt, provider, model: imgModel });
-            saveHistory();
+            await displayAndStoreImage(loadingDiv, imageData, prompt, provider, imgModel, false);
 
         } catch (error) {
             updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, provider)}`);
@@ -9315,7 +9750,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 // Tour image : on recharge le blob depuis IndexedDB (async).
                 const div = addMessage('', 'ai', msg.provider, msg.model, false);
                 const imgContent = div.querySelector('.msg-content');
-                if (imgContent) loadAndDisplayImage(imgContent, msg.imageId, msg.prompt);
+                if (imgContent) loadAndDisplayImage(imgContent, msg.imageId, msg.prompt, msg.edited);
             } else if (msg.role === 'assistant') {
                 const div = addMessage(msg.content, 'ai', msg.provider, msg.model, false);
                 const copyBtn = div.querySelector('.msg-copy-btn');
