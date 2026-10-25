@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.15.0
+  Version 1.16.0
 -->
 
 
@@ -44,6 +44,7 @@
             --qwen: #9d4edd;
             --mistral: #fa500f;
             --kimi: #ec4899;
+            --augure: #e5322d;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -311,6 +312,7 @@
         .config-group label.qwen-label { color: var(--qwen); }
         .config-group label.mistral-label { color: var(--mistral); }
         .config-group label.kimi-label { color: var(--kimi); }
+        .config-group label.augure-label { color: var(--augure); }
 
         .api-key-input {
             flex: 1;
@@ -747,6 +749,7 @@
         .provider-indicator.qwen { background: var(--qwen); box-shadow: 0 0 8px var(--qwen); }
         .provider-indicator.mistral { background: var(--mistral); box-shadow: 0 0 8px var(--mistral); }
         .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
+        .provider-indicator.augure { background: var(--augure); box-shadow: 0 0 8px var(--augure); }
 
         .mode-tabs {
             display: flex;
@@ -861,6 +864,16 @@
         .model-badge.qwen { background: rgba(157, 78, 221, 0.15); color: var(--qwen); }
         .model-badge.mistral { background: rgba(250, 80, 15, 0.15); color: var(--mistral); }
         .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
+        .model-badge.augure { background: rgba(229, 50, 45, 0.15); color: var(--augure); }
+        /* Mention exigée par les conditions de l'API Augure (« Powered by Augure ») */
+        .powered-by {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            vertical-align: top;
+            padding-top: 2px;
+        }
 
         .message .msg-content { white-space: pre-wrap; }
 
@@ -2734,6 +2747,15 @@
             </div>
             </section>
             <section class="key-region">
+            <h4 class="key-region-title" data-i18n="keysRegionCA">Canada</h4>
+            <div class="config-row">
+                <div class="config-group">
+                    <label class="augure-label">🍁 Augure</label>
+                    <input type="password" class="api-key-input" id="key-augure" placeholder="..." autocomplete="off" aria-label="Clé API Augure">
+                </div>
+            </div>
+            </section>
+            <section class="key-region">
             <h4 class="key-region-title" data-i18n="keysRegionFR">France</h4>
             <div class="config-row">
                 <div class="config-group">
@@ -2792,6 +2814,9 @@
                     <option value="gemini">Google (Gemini)</option>
                     <option value="grok">xAI (Grok)</option>
                     <option value="perplexity">Perplexity</option>
+                </optgroup>
+                <optgroup label="Canada" data-i18n-label="keysRegionCA">
+                    <option value="augure">Augure</option>
                 </optgroup>
                 <optgroup label="France" data-i18n-label="keysRegionFR">
                     <option value="mistral">Mistral AI</option>
@@ -3160,6 +3185,7 @@
         gemini: $('key-gemini'),
         grok: $('key-grok'),
         perplexity: $('key-perplexity'),
+        augure: $('key-augure'),
         mistral: $('key-mistral'),
         deepseek: $('key-deepseek'),
         kimi: $('key-kimi'),
@@ -3168,11 +3194,11 @@
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', augure: '🍁', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', augure: 'Augure', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3303,7 +3329,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.15.0 - Dernière version : ",
+            creditVersion: "Version 1.16.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 25 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3587,7 +3613,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.15.0 - Latest version: ",
+            creditVersion: "Version 1.16.0 - Latest version: ",
             appUpdated: "📅 Updated: October 25, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3871,7 +3897,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.15.0 - Última versión: ",
+            creditVersion: "Versión 1.16.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 25 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4124,6 +4150,15 @@
             { id: 'high', name: { fr: 'Recherche approfondie (High, lent)', en: 'Deep research (High, slow)', es: 'Investigación profunda (High, lenta)' } },
             { id: 'xhigh', name: { fr: 'Agent de recherche avancé (X-High, très lent, coûteux)', en: 'Advanced research agent (X-High, very slow, costly)', es: 'Agente de investigación avanzado (X-High, muy lento, costoso)' } },
         ],
+        augure: [
+            // Augure (Montréal, Canada) — API compatible OpenAI api.augureai.ca/v1 (CORS ouvert, testé
+            // 2026-10-25). Hébergement Canada / UE, jamais aux États-Unis. Ossington 4 (10 req/min)
+            // et les modèles « Augure Open » en aperçu (GLM, Qwen, déjà offerts via Alibaba) écartés.
+            { id: 'ossington-5', name: { fr: 'Ossington 5 (Dernier, raisonnement)', en: 'Ossington 5 (Latest, reasoning)', es: 'Ossington 5 (Último, razonamiento)' } },
+            { id: 'rosedale-1', name: { fr: 'Rosedale One (Premium, contexte 1M)', en: 'Rosedale One (Premium, 1M context)', es: 'Rosedale One (Premium, contexto 1M)' } },
+            { id: 'tofino-3', name: { fr: 'Tofino 3 (Rapide, économique)', en: 'Tofino 3 (Fast, low cost)', es: 'Tofino 3 (Rápido, económico)' } },
+            { id: 'ossington-4-1', name: { fr: 'Ossington 4.1 (Droit canadien, français du Québec)', en: 'Ossington 4.1 (Canadian law, Quebec French)', es: 'Ossington 4.1 (Derecho canadiense, francés de Quebec)' } }
+        ],
         mistral: [
             // Mistral AI (France) — Chat Completions compatible OpenAI (CORS ouvert, testé 2026-10-25).
             // IDs = ceux affichés sur chaque fiche modèle (pas le slug de l'URL de la doc, ex.
@@ -4290,7 +4325,7 @@ RULES:
 
     // ===== EXTENDED THINKING SUPPORT =====
     // Fournisseurs « configurable » sans budget : la case Réflexion suffit (sélecteur masqué).
-    const NO_BUDGET_PROVIDERS = ['mistral'];
+    const NO_BUDGET_PROVIDERS = ['mistral', 'augure'];
     const THINKING_SUPPORT = {
         openai: {
             native: ['o3', 'o4-mini'],  // Thinking intégré, toujours actif
@@ -4324,6 +4359,13 @@ RULES:
                 'gemini-2.5-pro',              // Gemini 2.5: configurable via thinkingBudget
                 'gemini-2.5-flash'
             ]
+        },
+        augure: {
+            // Réflexion streamée en reasoning_content. Activée = reasoning_effort non envoyé (défaut du
+            // modèle, conseillé par la doc) ; coupée = 'none' (Rosedale : 'low', son minimum).
+            // Tofino 3 : jamais de réflexion → hors table.
+            native: [],
+            configurable: ['ossington-5', 'rosedale-1', 'ossington-4-1']
         },
         mistral: {
             // Raisonnement par reasoning_effort : 'high' (bloc de réflexion) ou 'none'.
@@ -4405,6 +4447,7 @@ RULES:
     // Routés vers callOpenAICompatibleStream (SANS reasoning_effort, sauf DeepSeek V4 qui l'accepte).
     // Valeur = fonction (l'endpoint Qwen dépend de la région choisie, lue à l'exécution).
     const OPENAI_COMPATIBLE_ENDPOINTS = {
+        augure: () => 'https://api.augureai.ca/v1/chat/completions',
         mistral: () => 'https://api.mistral.ai/v1/chat/completions',
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
         kimi: () => 'https://api.moonshot.ai/v1/chat/completions',
@@ -4486,7 +4529,7 @@ RULES:
         // Transcription OCR des PDF scannés (mode interne, jamais affiché : utilisé page par page
         // par ocrTranscribePage via un currentMode temporaire). Court : envoyé à chaque page.
         ocr: "You are an OCR engine. Transcribe ALL the text visible in the page image exactly as written, in its original language. Keep the reading order, paragraphs, headings and lists. Render tables as Markdown tables. For a figure, chart or photo, write a short description in square brackets, e.g. [Figure: ...]. Do not summarize, translate, correct, comment or add anything else. If the page has no text, answer exactly: [blank page]",
-        chat: "You are a versatile, helpful, and accurate AI assistant. Always detect the language of the user's input and respond in that exact same language (e.g., if the user writes in Spanish, reply in Spanish). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
+        chat: "You are a versatile, helpful, and accurate AI assistant. Always reply in the same language as the user's latest message (a message in French gets an answer in French, a message in English an answer in English, and so on). Be concise but comprehensive." + CHART_SYSTEM_INSTRUCTION,
         code: `You are a Senior Software Engineer (Staff Engineer). Your goal is to produce production-quality, clean, secure, and maintainable code.
 
 Your absolute directives:
@@ -4667,6 +4710,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // que l'API Chat Completions d'OpenAI.
     HISTORY_STRATEGIES.deepseek = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.mistral = HISTORY_STRATEGIES.openai;
+    HISTORY_STRATEGIES.augure = HISTORY_STRATEGIES.openai;
     // Kimi K3 : la doc demande de renvoyer le message assistant complet, réflexion comprise
     // (reasoning_content), aux tours suivants → conservée dans l'entrée (entry.reasoning).
     HISTORY_STRATEGIES.kimi = (m) => {
@@ -5632,6 +5676,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         gemini: 'Google (Gemini)',
         grok: 'xAI (Grok)',
         perplexity: 'Perplexity',
+        augure: 'Augure',
         mistral: 'Mistral AI',
         deepseek: 'DeepSeek',
         kimi: 'Moonshot (Kimi)',
@@ -7268,10 +7313,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
             if (thinkingChunkCount === 1) {
                 removeLoader(loadingDiv);
-                // Insert thinking block and response container into contentDiv
-                contentDiv.innerHTML = '';
-                contentDiv.appendChild(thinkingBlockDiv);
-                contentDiv.appendChild(responseContentDiv);
+                if (chunkCount === 0) {
+                    // Insert thinking block and response container into contentDiv
+                    contentDiv.innerHTML = '';
+                    contentDiv.appendChild(thinkingBlockDiv);
+                    contentDiv.appendChild(responseContentDiv);
+                } else {
+                    // Réflexion arrivée après le début de la réponse : bloc inséré avant, sans effacer
+                    contentDiv.insertBefore(thinkingBlockDiv, responseContentDiv);
+                }
             }
 
             // Update thinking text periodically
@@ -7321,14 +7371,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (chunkCount === 1) {
                 removeLoader(loadingDiv);
 
-                // If thinking was active, finalize thinking block
-                if (isThinkingActive && thinkingBlockDiv) {
-                    if (thinkingChunkCount === 0) {
-                        // No thinking content received, insert containers now
-                        contentDiv.innerHTML = '';
-                        contentDiv.appendChild(thinkingBlockDiv);
-                        contentDiv.appendChild(responseContentDiv);
-                    }
+                // If thinking was active, finalize thinking block — seulement si une réflexion est
+                // réellement arrivée (sinon bloc 🧠 vide « ~0 tokens », ex. Ossington 4.1 d'Augure)
+                if (isThinkingActive && thinkingBlockDiv && thinkingChunkCount > 0) {
                     // Mark thinking as complete
                     const label = thinkingBlockDiv.querySelector('.thinking-label');
                     if (label) label.textContent = I18N[currentLang].thinkingComplete || 'Réflexion terminée';
@@ -7548,6 +7593,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
             body.enable_thinking = !!onThinkingChunk;
             if (onThinkingChunk) body.thinking_budget = parseInt(thinkingBudgetSelect?.value) || 10000;
+        }
+
+        // Augure : modèles à réflexion → pas de max_tokens (la doc demande de l'omettre) ; réflexion
+        // coupée par reasoning_effort 'none' ('low' pour Rosedale), sinon défaut du modèle.
+        if (THINKING_SUPPORT.augure.configurable.includes(model)) {
+            delete body.max_tokens;
+            if (!onThinkingChunk) body.reasoning_effort = model === 'rosedale-1' ? 'low' : 'none';
         }
 
         // Mistral : reasoning_effort 'high' (réflexion streamée en chunks « thinking », voir
@@ -9214,6 +9266,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
             badge.className = `model-badge ${p}`;
             badge.textContent = `${p.toUpperCase()} · ${m}`;
             div.appendChild(badge);
+            if (p === 'augure') {
+                // Conditions de l'API Augure : afficher « Powered by Augure » (marque, non traduite)
+                const pb = document.createElement('span');
+                pb.className = 'powered-by';
+                pb.textContent = 'Powered by Augure';
+                div.appendChild(pb);
+            }
 
             const copyMsgBtn = document.createElement('button');
             copyMsgBtn.className = 'msg-copy-btn';
@@ -11445,6 +11504,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             // Usage (stream_options.include_usage) arrive dans un chunk final
                             // SÉPARÉ, après le finish_reason. On ne termine donc qu'au [DONE]
                             // pour ne pas rater ce chunk.
+                            // Erreur survenue en cours de génération (Augure… : HTTP 200 déjà envoyé,
+                            // puis un événement { error } avant [DONE]) → affichée au lieu d'être ignorée.
+                            if (json.error) {
+                                const em = typeof json.error === 'string' ? json.error : (json.error.message || json.error.code || 'error');
+                                onChunk(`\n\n❌ ${em}`);
+                                continue;
+                            }
                             // (Kimi / Moonshot : usage dans choices[0].usage du dernier chunk)
                             const usage = json.usage || json.choices?.[0]?.usage;
                             if (usage && onMeta) onMeta({ usage: { input: usage.prompt_tokens, output: usage.completion_tokens } });

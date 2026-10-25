@@ -8,6 +8,23 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.16.0] — 2026-10-25
+  Added
+    - New provider: Augure (Montreal), in a new "Canada" key group. Models:
+      Ossington 5 (latest, reasoning), Rosedale One (premium, 1M context),
+      Tofino 3 (fast, low cost) and Ossington 4.1 (Canadian law, Quebec
+      French). Hosted in Canada or with EU partners, never in the United
+      States. Reasoning can be turned on or off (except Tofino 3, which
+      does not reason); attached images are accepted. As Augure's terms
+      require, "Powered by Augure" is shown next to each Augure answer.
+  Fixed
+    - The 🧠 reasoning block no longer appears empty ("~0 tokens") when a
+      model sends no reasoning text.
+    - Some models answered in Spanish to a question in French: the
+      language instruction no longer uses Spanish as its example.
+    - An error occurring in the middle of an answer is now shown instead
+      of being silently ignored.
+
 [1.15.0] — 2026-10-25
   Added
     - New provider: Kimi by Moonshot AI (China group). Models: Kimi K3.1
@@ -466,6 +483,26 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.16.0] — 2026-10-25
+  Ajouté
+    - Nouveau fournisseur : Augure (Montréal), dans un nouveau groupe de
+      clés « Canada ». Modèles : Ossington 5 (dernier, raisonnement),
+      Rosedale One (premium, contexte de 1 M), Tofino 3 (rapide,
+      économique) et Ossington 4.1 (droit canadien, français du Québec).
+      Hébergé au Canada ou chez des partenaires européens, jamais aux
+      États-Unis. La réflexion s'active ou se désactive (sauf Tofino 3,
+      qui ne réfléchit pas) ; les images jointes sont acceptées. Comme
+      l'exigent les conditions d'Augure, « Powered by Augure » s'affiche à
+      côté de chaque réponse d'Augure.
+  Corrigé
+    - Le bloc de réflexion 🧠 ne s'affiche plus vide (« ~0 tokens ») quand
+      un modèle n'envoie aucun texte de réflexion.
+    - Certains modèles répondaient en espagnol à une question en
+      français : la consigne de langue ne prend plus l'espagnol en
+      exemple.
+    - Une erreur survenue au milieu d'une réponse s'affiche maintenant au
+      lieu d'être ignorée en silence.
 
 [1.15.0] — 2026-10-25
   Ajouté
@@ -961,6 +998,24 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.16.0] — 2026-10-25
+  Añadido
+    - Nuevo proveedor: Augure (Montreal), en un nuevo grupo de claves
+      "Canadá". Modelos: Ossington 5 (último, razonamiento), Rosedale One
+      (premium, contexto de 1M), Tofino 3 (rápido, económico) y Ossington
+      4.1 (derecho canadiense, francés de Quebec). Alojado en Canadá o con
+      socios europeos, nunca en Estados Unidos. El razonamiento se activa
+      o desactiva (salvo Tofino 3, que no razona); se aceptan imágenes
+      adjuntas. Como exigen las condiciones de Augure, "Powered by Augure"
+      aparece junto a cada respuesta de Augure.
+  Corregido
+    - El bloque de razonamiento 🧠 ya no aparece vacío ("~0 tokens") cuando
+      un modelo no envía texto de razonamiento.
+    - Algunos modelos respondían en español a una pregunta en francés: la
+      instrucción de idioma ya no usa el español como ejemplo.
+    - Un error que ocurre a mitad de una respuesta ahora se muestra en
+      lugar de ignorarse en silencio.
 
 [1.15.0] — 2026-10-25
   Añadido

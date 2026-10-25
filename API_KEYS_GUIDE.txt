@@ -160,16 +160,34 @@ your plan).
 
 
 ----------------------------------------------------------------
+  10. AUGURE (Canada)
+      Key looks like: a string of letters and digits
+----------------------------------------------------------------
+
+  1. Go to: https://chat.augureai.ca/developers/dashboard
+  2. Create an account or sign in.
+  3. Generate an API key and copy it — it is shown only once.
+
+  Note: Augure is a Montreal company; its models run in Canada (or
+        with EU partners), never in the United States. Billing is
+        metered in Canadian dollars; a new key is capped at
+        C$25 per day until the first successful payment. Augure's
+        terms require the "Powered by Augure" mention, which ChatJPT
+        shows next to each Augure answer.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_15_0.html in your browser.
-  2. In the keys panel (grouped by country), locate the fields:
+  1. Open ChatJPT_1_16_0.html in your browser.
+  2. In the keys panel (grouped by country: United States, Canada, France, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
        ⚫ Grok     → paste your xai-... key
        🔎 Perplexity → paste your pplx-... key
+       🍁 Augure   → paste your key
        🟧 Mistral  → paste your key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
@@ -362,16 +380,35 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  10. AUGURE (Canada)
+      La clé ressemble à : une suite de lettres et de chiffres
+----------------------------------------------------------------
+
+  1. Allez sur : https://chat.augureai.ca/developers/dashboard
+  2. Créez un compte ou connectez-vous.
+  3. Générez une clé API et copiez-la — elle n'est affichée qu'une fois.
+
+  Note : Augure est une entreprise de Montréal ; ses modèles tournent
+         au Canada (ou chez des partenaires européens), jamais aux
+         États-Unis. La facturation est à l'usage, en dollars
+         canadiens ; une nouvelle clé est plafonnée à 25 $ CA par jour
+         jusqu'au premier paiement réussi. Les conditions d'Augure
+         exigent la mention « Powered by Augure », que ChatJPT affiche
+         à côté de chaque réponse d'Augure.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_15_0.html dans votre navigateur.
-  2. Dans le panneau des clés (groupé par pays), repérez les champs :
+  1. Ouvrez ChatJPT_1_16_0.html dans votre navigateur.
+  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
        ⚫ Grok     → collez votre clé xai-...
        🔎 Perplexity → collez votre clé pplx-...
+       🍁 Augure   → collez votre clé
        🟧 Mistral  → collez votre clé
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
@@ -564,16 +601,34 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  10. AUGURE (Canadá)
+      La clave se ve así: una serie de letras y números
+----------------------------------------------------------------
+
+  1. Ve a: https://chat.augureai.ca/developers/dashboard
+  2. Crea una cuenta o inicia sesión.
+  3. Genera una clave API y cópiala — solo se muestra una vez.
+
+  Nota: Augure es una empresa de Montreal; sus modelos funcionan en
+        Canadá (o con socios europeos), nunca en Estados Unidos. Se
+        factura por uso, en dólares canadienses; una clave nueva tiene
+        un tope de 25 $ CA por día hasta el primer pago exitoso. Las
+        condiciones de Augure exigen la mención "Powered by Augure",
+        que ChatJPT muestra junto a cada respuesta de Augure.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_15_0.html en tu navegador.
-  2. En el panel de claves (agrupado por país), ubica los campos:
+  1. Abre ChatJPT_1_16_0.html en tu navegador.
+  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
        ⚫ Grok     → pega tu clave xai-...
        🔎 Perplexity → pega tu clave pplx-...
+       🍁 Augure   → pega tu clave
        🟧 Mistral  → pega tu clave
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...
