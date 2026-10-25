@@ -8,6 +8,21 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.14.0] — 2026-10-25
+  Added
+    - New provider: Mistral AI (France). Models: Mistral Large 4 (preview,
+      paid plan), Mistral Medium 3.5 (agents, code), Mistral Small 4 (fast,
+      low cost) and Codestral (code). Reasoning can be turned on or off;
+      the model's thinking appears in the usual 🧠 block. Images can be
+      attached to Large 4 and Medium 3.5. Mistral also works in Compare
+      mode and for scanned PDF transcription.
+  Changed / Improved
+    - API keys are grouped by country: United States, France and China.
+      The provider list uses the same groups.
+    - Error messages now also show the provider's exact message in
+      parentheses (e.g. a rate limit versus a model not included in your
+      plan), which makes problems easier to understand.
+
 [1.13.0] — 2026-10-23
   Added
     - The image editor now works with Gemini (Nano Banana), Qwen Image and
@@ -442,6 +457,23 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.14.0] — 2026-10-25
+  Ajouté
+    - Nouveau fournisseur : Mistral AI (France). Modèles : Mistral Large 4
+      (aperçu, forfait payant), Mistral Medium 3.5 (agents, code), Mistral
+      Small 4 (rapide, économique) et Codestral (code). La réflexion
+      s'active ou se désactive ; elle s'affiche dans le bloc 🧠 habituel.
+      Des images peuvent être jointes à Large 4 et Medium 3.5. Mistral
+      fonctionne aussi en mode comparaison et pour la transcription des
+      PDF scannés.
+  Modifié / Amélioré
+    - Les clés API sont regroupées par pays : États-Unis, France et Chine.
+      La liste des fournisseurs utilise les mêmes groupes.
+    - Les messages d'erreur affichent aussi, entre parenthèses, le message
+      exact du fournisseur (par exemple une limite de débit plutôt qu'un
+      modèle non inclus dans votre forfait), pour mieux comprendre le
+      problème.
 
 [1.13.0] — 2026-10-23
   Ajouté
@@ -910,6 +942,22 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.14.0] — 2026-10-25
+  Añadido
+    - Nuevo proveedor: Mistral AI (Francia). Modelos: Mistral Large 4
+      (vista previa, plan de pago), Mistral Medium 3.5 (agentes, código),
+      Mistral Small 4 (rápido, económico) y Codestral (código). El
+      razonamiento se activa o desactiva; aparece en el bloque 🧠
+      habitual. Se pueden adjuntar imágenes a Large 4 y Medium 3.5.
+      Mistral también funciona en modo comparación y para la
+      transcripción de PDF escaneados.
+  Cambiado / Mejorado
+    - Las claves API se agrupan por país: Estados Unidos, Francia y
+      China. La lista de proveedores usa los mismos grupos.
+    - Los mensajes de error también muestran, entre paréntesis, el mensaje
+      exacto del proveedor (por ejemplo, un límite de solicitudes frente a
+      un modelo no incluido en tu plan), para entender mejor el problema.
 
 [1.13.0] — 2026-10-23
   Añadido

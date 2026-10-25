@@ -126,16 +126,34 @@ your plan).
 
 
 ----------------------------------------------------------------
+  8. MISTRAL AI
+     Key looks like: a string of letters and digits
+----------------------------------------------------------------
+
+  1. Go to: https://console.mistral.ai/
+  2. Create an account or sign in.
+  3. Open "API Keys" and click "Create new key".
+  4. Copy the key immediately — it will not be shown again.
+
+  Note: Turn on pay-as-you-go in "Billing". In Free mode the limits
+        are very low ("Rate limit exceeded" after a message or two),
+        and Mistral Large 4 (preview) is not available. You keep the
+        same key after switching: keys follow your organization's
+        plan.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_13_0.html in your browser.
-  2. In the left panel, locate the fields:
+  1. Open ChatJPT_1_14_0.html in your browser.
+  2. In the keys panel (grouped by country), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
        ⚫ Grok     → paste your xai-... key
        🔎 Perplexity → paste your pplx-... key
+       🟧 Mistral  → paste your key
        🔷 DeepSeek → paste your sk-... key
        🟣 Alibaba · International → paste your sk-... key
        🟣 Alibaba · Mainland China → paste your sk-... key (optional)
@@ -290,16 +308,35 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  8. MISTRAL AI
+     La clé ressemble à : une suite de lettres et de chiffres
+----------------------------------------------------------------
+
+  1. Allez sur : https://console.mistral.ai/
+  2. Créez un compte ou connectez-vous.
+  3. Ouvrez "API Keys" et cliquez sur "Create new key".
+  4. Copiez la clé immédiatement — elle ne sera plus affichée.
+
+  Note : Activez le paiement à l'usage ("pay-as-you-go") dans
+         "Billing". En mode gratuit, les limites sont très basses
+         ("Rate limit exceeded" après un ou deux messages) et Mistral
+         Large 4 (aperçu) n'est pas disponible. La clé reste la même
+         après le changement : elle suit le forfait de votre
+         organisation.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_13_0.html dans votre navigateur.
-  2. Dans le panneau de gauche, repérez les champs :
+  1. Ouvrez ChatJPT_1_14_0.html dans votre navigateur.
+  2. Dans le panneau des clés (groupé par pays), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
        ⚫ Grok     → collez votre clé xai-...
        🔎 Perplexity → collez votre clé pplx-...
+       🟧 Mistral  → collez votre clé
        🔷 DeepSeek → collez votre clé sk-...
        🟣 Alibaba · International → collez votre clé sk-...
        🟣 Alibaba · Chine continentale → collez votre clé sk-... (optionnel)
@@ -456,16 +493,34 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  8. MISTRAL AI
+     La clave se ve así: una serie de letras y números
+----------------------------------------------------------------
+
+  1. Ve a: https://console.mistral.ai/
+  2. Crea una cuenta o inicia sesión.
+  3. Abre "API Keys" y haz clic en "Create new key".
+  4. Copia la clave de inmediato — no se volverá a mostrar.
+
+  Nota: Activa el pago por uso ("pay-as-you-go") en "Billing". En
+        modo gratuito los límites son muy bajos ("Rate limit
+        exceeded" tras uno o dos mensajes) y Mistral Large 4 (vista
+        previa) no está disponible. La clave sigue siendo la misma
+        después del cambio: sigue el plan de tu organización.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_13_0.html en tu navegador.
-  2. En el panel izquierdo, ubica los campos:
+  1. Abre ChatJPT_1_14_0.html en tu navegador.
+  2. En el panel de claves (agrupado por país), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
        ⚫ Grok     → pega tu clave xai-...
        🔎 Perplexity → pega tu clave pplx-...
+       🟧 Mistral  → pega tu clave
        🔷 DeepSeek → pega tu clave sk-...
        🟣 Alibaba · Internacional → pega tu clave sk-...
        🟣 Alibaba · China continental → pega tu clave sk-... (opcional)
