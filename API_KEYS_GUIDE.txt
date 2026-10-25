@@ -143,10 +143,27 @@ your plan).
 
 
 ----------------------------------------------------------------
+  9. KIMI (Moonshot AI)
+     Key looks like: sk-...
+----------------------------------------------------------------
+
+  1. Go to: https://platform.kimi.ai/ (international platform)
+  2. Create an account or sign in.
+  3. Open "API Keys" and create a key.
+  4. Copy the key immediately.
+
+  Note: Kimi is pay-as-you-go (add credit first). ChatJPT uses the
+        international platform only: a key from the Chinese
+        platform (platform.moonshot.cn) will not work. Kimi K3
+        always reasons; choose the effort (Low, High, Max) next to
+        the model.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_14_0.html in your browser.
+  1. Open ChatJPT_1_15_0.html in your browser.
   2. In the keys panel (grouped by country), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -155,6 +172,7 @@ your plan).
        🔎 Perplexity → paste your pplx-... key
        🟧 Mistral  → paste your key
        🔷 DeepSeek → paste your sk-... key
+       🌙 Kimi     → paste your sk-... key
        🟣 Alibaba · International → paste your sk-... key
        🟣 Alibaba · Mainland China → paste your sk-... key (optional)
   3. Keys are saved locally in your browser.
@@ -326,10 +344,28 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  9. KIMI (Moonshot AI)
+     La clé ressemble à : sk-...
+----------------------------------------------------------------
+
+  1. Allez sur : https://platform.kimi.ai/ (plateforme internationale)
+  2. Créez un compte ou connectez-vous.
+  3. Ouvrez "API Keys" et créez une clé.
+  4. Copiez la clé immédiatement.
+
+  Note : Kimi fonctionne au paiement à l'usage (ajoutez du crédit
+         d'abord). ChatJPT utilise seulement la plateforme
+         internationale : une clé de la plateforme chinoise
+         (platform.moonshot.cn) ne fonctionnera pas. Kimi K3 réfléchit
+         toujours ; choisissez l'effort (Léger, Élevé, Maximum) à côté
+         du modèle.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_14_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_15_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -338,6 +374,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        🔎 Perplexity → collez votre clé pplx-...
        🟧 Mistral  → collez votre clé
        🔷 DeepSeek → collez votre clé sk-...
+       🌙 Kimi     → collez votre clé sk-...
        🟣 Alibaba · International → collez votre clé sk-...
        🟣 Alibaba · Chine continentale → collez votre clé sk-... (optionnel)
   3. Les clés sont sauvegardées localement dans votre navigateur.
@@ -510,10 +547,27 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  9. KIMI (Moonshot AI)
+     La clave se ve así: sk-...
+----------------------------------------------------------------
+
+  1. Ve a: https://platform.kimi.ai/ (plataforma internacional)
+  2. Crea una cuenta o inicia sesión.
+  3. Abre "API Keys" y crea una clave.
+  4. Copia la clave de inmediato.
+
+  Nota: Kimi funciona con pago por uso (agrega crédito primero).
+        ChatJPT usa solo la plataforma internacional: una clave de
+        la plataforma china (platform.moonshot.cn) no funcionará.
+        Kimi K3 siempre razona; elige el esfuerzo (Bajo, Alto,
+        Máximo) junto al modelo.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_14_0.html en tu navegador.
+  1. Abre ChatJPT_1_15_0.html en tu navegador.
   2. En el panel de claves (agrupado por país), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
@@ -522,6 +576,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        🔎 Perplexity → pega tu clave pplx-...
        🟧 Mistral  → pega tu clave
        🔷 DeepSeek → pega tu clave sk-...
+       🌙 Kimi     → pega tu clave sk-...
        🟣 Alibaba · Internacional → pega tu clave sk-...
        🟣 Alibaba · China continental → pega tu clave sk-... (opcional)
   3. Las claves se guardan localmente en tu navegador.

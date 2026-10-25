@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.14.0
+  Version 1.15.0
 -->
 
 
@@ -43,6 +43,7 @@
             --perplexity: #20b8cd;
             --qwen: #9d4edd;
             --mistral: #fa500f;
+            --kimi: #ec4899;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -309,6 +310,7 @@
         .config-group label.perplexity-label { color: var(--perplexity); }
         .config-group label.qwen-label { color: var(--qwen); }
         .config-group label.mistral-label { color: var(--mistral); }
+        .config-group label.kimi-label { color: var(--kimi); }
 
         .api-key-input {
             flex: 1;
@@ -744,6 +746,7 @@
         .provider-indicator.perplexity { background: var(--perplexity); box-shadow: 0 0 8px var(--perplexity); }
         .provider-indicator.qwen { background: var(--qwen); box-shadow: 0 0 8px var(--qwen); }
         .provider-indicator.mistral { background: var(--mistral); box-shadow: 0 0 8px var(--mistral); }
+        .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
 
         .mode-tabs {
             display: flex;
@@ -857,6 +860,7 @@
         .model-badge.perplexity { background: rgba(32, 184, 205, 0.15); color: var(--perplexity); }
         .model-badge.qwen { background: rgba(157, 78, 221, 0.15); color: var(--qwen); }
         .model-badge.mistral { background: rgba(250, 80, 15, 0.15); color: var(--mistral); }
+        .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
 
         .message .msg-content { white-space: pre-wrap; }
 
@@ -2745,6 +2749,10 @@
                     <label class="deepseek-label">🔷 DeepSeek</label>
                     <input type="password" class="api-key-input" id="key-deepseek" placeholder="sk-..." autocomplete="off" aria-label="Clé API DeepSeek">
                 </div>
+                <div class="config-group">
+                    <label class="kimi-label" title="Moonshot AI">🌙 Kimi</label>
+                    <input type="password" class="api-key-input" id="key-kimi" placeholder="sk-..." autocomplete="off" aria-label="Clé API Kimi (Moonshot AI)">
+                </div>
                 <!-- 2 clés Alibaba empilées : une clé DashScope ne vaut que pour SA région (sélecteur « Région ») -->
                 <div class="config-stack">
                     <div class="config-group">
@@ -2790,6 +2798,7 @@
                 </optgroup>
                 <optgroup label="Chine" data-i18n-label="keysRegionCN">
                     <option value="deepseek">DeepSeek</option>
+                    <option value="kimi">Moonshot (Kimi)</option>
                     <option value="qwen">Alibaba (Qwen, GLM)</option>
                 </optgroup>
             </select>
@@ -3153,16 +3162,17 @@
         perplexity: $('key-perplexity'),
         mistral: $('key-mistral'),
         deepseek: $('key-deepseek'),
+        kimi: $('key-kimi'),
         qwen: $('key-qwen'),        // Alibaba, région internationale
         qwen_cn: $('key-qwen-cn')   // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', mistral: '🟧', deepseek: '🔷', qwen: '🟣', qwen_cn: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', mistral: 'Mistral', deepseek: 'DeepSeek', qwen: 'Alibaba' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3293,7 +3303,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.14.0 - Dernière version : ",
+            creditVersion: "Version 1.15.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 25 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3577,7 +3587,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.14.0 - Latest version: ",
+            creditVersion: "Version 1.15.0 - Latest version: ",
             appUpdated: "📅 Updated: October 25, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3861,7 +3871,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.14.0 - Última versión: ",
+            creditVersion: "Versión 1.15.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 25 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4129,6 +4139,14 @@
             { id: 'deepseek-v4-pro', name: { fr: 'DeepSeek V4 Pro (Dernier)', en: 'DeepSeek V4 Pro (Latest)', es: 'DeepSeek V4 Pro (Último)' } },
             { id: 'deepseek-flash', name: { fr: 'DeepSeek Flash (Rapide)', en: 'DeepSeek Flash (Fast)', es: 'DeepSeek Flash (Rápido)' } },
         ],
+        kimi: [
+            // Moonshot AI (Chine), plateforme internationale api.moonshot.ai (CORS : origine reflétée,
+            // testé 2026-10-25). Série K3 seulement : la K2 est fermée aux nouveaux comptes le
+            // 31/10/2026 et retirée fin 12/2026 (kimi-latest, moonshot-v1, k2.5 déjà arrêtés).
+            { id: 'kimi-k3.1-pro', name: { fr: 'Kimi K3.1 Pro (Dernier)', en: 'Kimi K3.1 Pro (Latest)', es: 'Kimi K3.1 Pro (Último)' } },
+            { id: 'kimi-k3.1-pro-highspeed', name: { fr: 'Kimi K3.1 Pro Highspeed (Rapide)', en: 'Kimi K3.1 Pro Highspeed (Fast)', es: 'Kimi K3.1 Pro Highspeed (Rápido)' } },
+            { id: 'kimi-k3', name: { fr: 'Kimi K3', en: 'Kimi K3', es: 'Kimi K3' } }
+        ],
         qwen: [
             // Gamme Qwen3.8 / 3.7 (thinking hybride, actif par défaut → piloté par le toggle 🧠)
             { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max (Dernier)', en: 'Qwen3.8 Max (Latest)', es: 'Qwen3.8 Max (Último)' } },
@@ -4319,6 +4337,12 @@ RULES:
             native: [],
             configurable: ['deepseek-v4-pro', 'deepseek-flash']
         },
+        kimi: {
+            // K3 / K3.1 : réflexion toujours active (pas de paramètre thinking), effort réglable par
+            // reasoning_effort low | high | max → sélecteur d'effort (EFFORT_PROVIDERS).
+            native: ['kimi-k3.1-pro', 'kimi-k3.1-pro-highspeed', 'kimi-k3'],
+            configurable: []
+        },
         qwen: {
             // Thinking hybride via enable_thinking (+ thinking_budget), reasoning_content streamé.
             // Envoyé explicitement (true/false) : défaut ON sur 3.x récents, OFF sur les alias.
@@ -4383,6 +4407,7 @@ RULES:
     const OPENAI_COMPATIBLE_ENDPOINTS = {
         mistral: () => 'https://api.mistral.ai/v1/chat/completions',
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
+        kimi: () => 'https://api.moonshot.ai/v1/chat/completions',
         qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions',
         grok: () => 'https://api.x.ai/v1/chat/completions'
     };
@@ -4406,7 +4431,7 @@ RULES:
     // Effort pour les modèles à raisonnement natif réglable (Claude adaptatif, Grok 4.5+).
     // Remplace le budget de tokens (refusé par ces modèles). Défaut : high. Mémorisé par
     // fournisseur dans ai_<provider>_effort.
-    const EFFORT_PROVIDERS = ['claude', 'grok'];
+    const EFFORT_PROVIDERS = ['claude', 'grok', 'kimi'];
     const EFFORT_LEVELS = [
         { id: 'low', label: { fr: 'Effort léger', en: 'Low effort', es: 'Esfuerzo bajo' } },
         { id: 'medium', label: { fr: 'Effort modéré', en: 'Medium effort', es: 'Esfuerzo medio' } },
@@ -4414,8 +4439,10 @@ RULES:
         { id: 'xhigh', label: { fr: 'Effort très élevé', en: 'Extra-high effort', es: 'Esfuerzo muy alto' } },
         { id: 'max', label: { fr: 'Effort maximum', en: 'Max effort', es: 'Esfuerzo máximo' } }
     ];
-    // Niveaux acceptés par modèle : Claude = tous ; Grok = low → xhigh (pas de xhigh sur 4.5).
+    // Niveaux acceptés par modèle : Claude = tous ; Grok = low → xhigh (pas de xhigh sur 4.5) ;
+    // Kimi K3 = low | high | max.
     function effortLevelsFor(provider, model) {
+        if (provider === 'kimi') return EFFORT_LEVELS.filter(l => ['low', 'high', 'max'].includes(l.id));
         if (provider !== 'grok') return EFFORT_LEVELS;
         const ok = model === 'grok-4.5' ? ['low', 'medium', 'high'] : ['low', 'medium', 'high', 'xhigh'];
         return EFFORT_LEVELS.filter(l => ok.includes(l.id));
@@ -4640,6 +4667,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // que l'API Chat Completions d'OpenAI.
     HISTORY_STRATEGIES.deepseek = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.mistral = HISTORY_STRATEGIES.openai;
+    // Kimi K3 : la doc demande de renvoyer le message assistant complet, réflexion comprise
+    // (reasoning_content), aux tours suivants → conservée dans l'entrée (entry.reasoning).
+    HISTORY_STRATEGIES.kimi = (m) => {
+        const msg = HISTORY_STRATEGIES.openai(m);
+        if (m.role === 'assistant' && m.reasoning) msg.reasoning_content = m.reasoning;
+        return msg;
+    };
     HISTORY_STRATEGIES.qwen = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.grok = HISTORY_STRATEGIES.openai;
     // Perplexity Agent API : format Responses (input_text / input_image) + type 'message' par tour.
@@ -5600,6 +5634,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         perplexity: 'Perplexity',
         mistral: 'Mistral AI',
         deepseek: 'DeepSeek',
+        kimi: 'Moonshot (Kimi)',
         qwen: 'Alibaba (Qwen, GLM)'
     };
 
@@ -7025,6 +7060,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const entry = { role: 'assistant', content: result.fullResponse, provider, model };
             if (result.usage) entry.usage = result.usage;
             if (result.citations) entry.citations = result.citations;
+            if (provider === 'kimi' && result.thinking) entry.reasoning = result.thinking;  // renvoyée aux tours suivants
             conversationHistory.push(entry);
             saveHistory();
             attachRatingButtons(loadingDiv, entry);
@@ -7108,6 +7144,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const entry = { role: 'assistant', content: chosen.res.fullResponse, provider: chosen.meta.provider, model: chosen.meta.model };
             if (chosen.res.usage) entry.usage = chosen.res.usage;
             if (chosen.res.citations) entry.citations = chosen.res.citations;
+            if (chosen.meta.provider === 'kimi' && chosen.res.thinking) entry.reasoning = chosen.res.thinking;
             conversationHistory.push(entry);
             saveHistory();
             updateTokenTotals();
@@ -7339,7 +7376,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             renderSourcesInto(loadingDiv, citations);
             renderUsageLine(loadingDiv, usage);
 
-            return { fullResponse, error: null, usage, citations };
+            return { fullResponse, error: null, usage, citations, thinking: fullThinking };
 
         } catch (error) {
             removeLoader(loadingDiv);
@@ -7477,11 +7514,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // (paramètre propre à OpenAI, rejeté par Qwen/Grok). L'endpoint est paramétré.
     async function callOpenAICompatibleStream(endpoint, model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const isKimi = MODELS.kimi.some(m => m.id === model);
         const messages = [
             { role: 'system', content: systemPrompt },
-            ...formatHistory(conversationHistory, 'openai')
+            ...formatHistory(conversationHistory, isKimi ? 'kimi' : 'openai')  // Kimi : + reasoning_content
         ];
         const body = { model, messages, stream: true, max_tokens: maxOut(), stream_options: { include_usage: true } };
+
+        // Kimi K3 : réflexion toujours active, effort low | high | max (sélecteur d'effort) ; la
+        // réflexion compte dans max_tokens (doc : ≥ 16 000) → plafond large. Ni thinking ni
+        // temperature (fixés par le modèle) ; l'usage arrive dans choices[0].usage (voir readStream).
+        if (isKimi) {
+            delete body.stream_options;
+            body.reasoning_effort = savedEffortFor('kimi', model);
+            body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal;
+        }
 
         // DeepSeek V4 : thinking actif par défaut côté API → toujours explicite selon le
         // toggle (onThinkingChunk fourni = thinking actif). Budget UI → reasoning_effort
@@ -11398,7 +11445,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             // Usage (stream_options.include_usage) arrive dans un chunk final
                             // SÉPARÉ, après le finish_reason. On ne termine donc qu'au [DONE]
                             // pour ne pas rater ce chunk.
-                            if (json.usage && onMeta) onMeta({ usage: { input: json.usage.prompt_tokens, output: json.usage.completion_tokens } });
+                            // (Kimi / Moonshot : usage dans choices[0].usage du dernier chunk)
+                            const usage = json.usage || json.choices?.[0]?.usage;
+                            if (usage && onMeta) onMeta({ usage: { input: usage.prompt_tokens, output: usage.completion_tokens } });
                             const delta = json.choices?.[0]?.delta;
                             // Parse reasoning_content for reasoning models (o3, o4-mini, gpt-5.x)
                             if (delta?.reasoning_content && onThinkingChunk) {

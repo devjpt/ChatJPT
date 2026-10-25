@@ -8,6 +8,15 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.15.0] — 2026-10-25
+  Added
+    - New provider: Kimi by Moonshot AI (China group). Models: Kimi K3.1
+      Pro, Kimi K3.1 Pro Highspeed (faster) and Kimi K3, all with image
+      input. They always reason: pick the effort (Low, High, Max) next to
+      the model; the thinking appears in the 🧠 block and is sent back to
+      Kimi on the following turns, as Moonshot recommends. Kimi also works
+      in Compare mode. Uses the international platform (platform.kimi.ai).
+
 [1.14.0] — 2026-10-25
   Added
     - New provider: Mistral AI (France). Models: Mistral Large 4 (preview,
@@ -457,6 +466,16 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.15.0] — 2026-10-25
+  Ajouté
+    - Nouveau fournisseur : Kimi de Moonshot AI (groupe Chine). Modèles :
+      Kimi K3.1 Pro, Kimi K3.1 Pro Highspeed (plus rapide) et Kimi K3, tous
+      avec entrée d'images. Ils réfléchissent toujours : choisissez
+      l'effort (Léger, Élevé, Maximum) à côté du modèle ; la réflexion
+      s'affiche dans le bloc 🧠 et est renvoyée à Kimi aux tours suivants,
+      comme le recommande Moonshot. Kimi fonctionne aussi en mode
+      comparaison. Plateforme internationale (platform.kimi.ai).
 
 [1.14.0] — 2026-10-25
   Ajouté
@@ -942,6 +961,16 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.15.0] — 2026-10-25
+  Añadido
+    - Nuevo proveedor: Kimi de Moonshot AI (grupo China). Modelos: Kimi
+      K3.1 Pro, Kimi K3.1 Pro Highspeed (más rápido) y Kimi K3, todos con
+      entrada de imágenes. Siempre razonan: elige el esfuerzo (Bajo, Alto,
+      Máximo) junto al modelo; el razonamiento aparece en el bloque 🧠 y se
+      reenvía a Kimi en los turnos siguientes, como recomienda Moonshot.
+      Kimi también funciona en modo comparación. Plataforma internacional
+      (platform.kimi.ai).
 
 [1.14.0] — 2026-10-25
   Añadido
