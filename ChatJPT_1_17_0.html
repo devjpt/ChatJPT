@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.16.0
+  Version 1.17.0
 -->
 
 
@@ -3329,7 +3329,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.16.0 - Dernière version : ",
+            creditVersion: "Version 1.17.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 25 octobre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3613,7 +3613,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.16.0 - Latest version: ",
+            creditVersion: "Version 1.17.0 - Latest version: ",
             appUpdated: "📅 Updated: October 25, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3897,7 +3897,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.16.0 - Última versión: ",
+            creditVersion: "Versión 1.17.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 25 de octubre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4130,6 +4130,9 @@
             { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro', en: 'Gemini 2.5 Pro' } },
             { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash', en: 'Gemini 2.5 Flash' } },
             { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
+            // Gemma 4 (open source de Google, 02/04/2026) : même API et même clé que Gemini (GEMMA_MODELS).
+            { id: 'gemma-4-31b-it', name: { fr: 'Gemma 4 31B (Open source)', en: 'Gemma 4 31B (Open source)', es: 'Gemma 4 31B (Código abierto)' } },
+            { id: 'gemma-4-26b-a4b-it', name: { fr: 'Gemma 4 26B A4B (Open source, rapide)', en: 'Gemma 4 26B A4B (Open source, fast)', es: 'Gemma 4 26B A4B (Código abierto, rápido)' } },
         ],
         grok: [
             { id: 'grok-4.7', name: { fr: 'Grok 4.7 (Dernier)', en: 'Grok 4.7 (Latest)', es: 'Grok 4.7 (Último)' } },
@@ -4357,7 +4360,9 @@ RULES:
                 'gemini-3.5-flash',            // Gemini 3.5 Flash: configurable via thinkingLevel
                 'gemini-3-flash-preview',      // Gemini 3 Flash: configurable via thinkingLevel
                 'gemini-2.5-pro',              // Gemini 2.5: configurable via thinkingBudget
-                'gemini-2.5-flash'
+                'gemini-2.5-flash',
+                'gemma-4-31b-it',              // Gemma 4 : thinkingLevel high (activée) / minimal (coupée)
+                'gemma-4-26b-a4b-it'
             ]
         },
         augure: {
@@ -4504,6 +4509,9 @@ RULES:
     // Gemini dont la réflexion (souvent longue) compte dans maxOutputTokens → plafond large
     // (TOKEN_LIMITS.adaptive*), sinon une réflexion « Profonde » peut tout consommer.
     const GEMINI_LONG_THINKERS = ['gemini-4-argon'];
+    // Gemma 4 (open source) via l'API Gemini : réflexion = thinkingLevel 'high' ou 'minimal'
+    // seulement → simple interrupteur (sélecteur de niveau masqué).
+    const GEMMA_MODELS = ['gemma-4-31b-it', 'gemma-4-26b-a4b-it'];
 
     const THINKING_MODES = ['chat', 'code', 'vibecoder'];  // Modes où thinking est pertinent
 
@@ -5215,7 +5223,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             thinkingModeLabel.style.display = 'flex';
             thinkingModeLabel.classList.remove('disabled');
             // Mistral : réflexion activée / désactivée seulement, pas de budget à régler
-            thinkingBudgetSelect.style.display = (thinkingModeCb.checked && !NO_BUDGET_PROVIDERS.includes(provider)) ? 'inline-block' : 'none';
+            thinkingBudgetSelect.style.display = (thinkingModeCb.checked && !NO_BUDGET_PROVIDERS.includes(provider) && !GEMMA_MODELS.includes(model)) ? 'inline-block' : 'none';
             thinkingNativeBadge.style.display = 'none';
         }
     }
@@ -5278,8 +5286,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // Lecture des liens : mêmes modes texte que la recherche web.
-    function supportsReadLinks(provider, mode) {
-        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
+    // Gemma 4 : l'API refuse url_context (« Url Context as tool is not enabled for this model »).
+    function supportsReadLinks(provider, mode, model) {
+        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model);
     }
 
     function updateWebSearchUI() {
@@ -5306,9 +5315,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (compareMode && (currentMode === 'chat' || currentMode === 'code')) {
             const a = parseCompareValue(compareModelA ? compareModelA.value : '');
             const b = parseCompareValue(compareModelB ? compareModelB.value : '');
-            show = supportsReadLinks(a.provider, currentMode) || supportsReadLinks(b.provider, currentMode);
+            show = supportsReadLinks(a.provider, currentMode, a.model) || supportsReadLinks(b.provider, currentMode, b.model);
         } else {
-            show = supportsReadLinks(providerSelect.value, currentMode);
+            show = supportsReadLinks(providerSelect.value, currentMode, modelSelect.value);
         }
         readLinksModeContainer.classList.toggle('show', show);
     }
@@ -5950,6 +5959,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         modelSelect.addEventListener('change', () => {
             localStorage.setItem('ai_model', modelSelect.value);
             updateThinkingUI();
+            updateWebSearchUI();  // 🔗 dépend aussi du modèle (masqué pour Gemma)
         });
 
         if (webSearchModeCb) {
@@ -7873,7 +7883,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 ? (isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal)
                 : maxOut()
         };
-        if (useThinking || isNativeThinking) {
+        if (GEMMA_MODELS.includes(model)) {
+            // Gemma 4 : 'high' = réflexion activée, 'minimal' = coupée (toujours explicite)
+            generationConfig.thinkingConfig = useThinking ? { includeThoughts: true, thinkingLevel: 'high' } : { thinkingLevel: 'minimal' };
+            if (useThinking) generationConfig.maxOutputTokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+        } else if (useThinking || isNativeThinking) {
             const thinkingConfig = {
                 includeThoughts: true  // Required to receive thought summaries in stream
             };
@@ -7900,7 +7914,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // les deux outils sont cumulables. Sources : groundingMetadata (recherche) +
         // urlContextMetadata (liens lus), extraites par le parser 'gemini'.
         const geminiTools = [];
-        if (readLinksEnabled && READ_LINK_SUPPORT.gemini) geminiTools.push({ url_context: {} });
+        if (readLinksEnabled && READ_LINK_SUPPORT.gemini && !GEMMA_MODELS.includes(model)) geminiTools.push({ url_context: {} });
         if (webSearchEnabled && WEB_SEARCH_SUPPORT.gemini) geminiTools.push({ google_search: {} });
         if (geminiTools.length) body.tools = geminiTools;
 

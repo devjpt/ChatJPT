@@ -49,6 +49,8 @@ your plan).
   5. Copy the key displayed.
 
   Note: Google offers a generous free tier for Gemini via AI Studio.
+        The same key also gives access to Gemma 4, Google's open-source
+        models (Gemma 4 31B and 26B A4B), in the Gemini model list.
 
 
 ----------------------------------------------------------------
@@ -180,7 +182,7 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_16_0.html in your browser.
+  1. Open ChatJPT_1_17_0.html in your browser.
   2. In the keys panel (grouped by country: United States, Canada, France, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -263,6 +265,8 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   5. Copiez la clé affichée.
 
   Note : Google offre un niveau gratuit généreux pour Gemini via AI Studio.
+         La même clé donne aussi accès à Gemma 4, les modèles open
+         source de Google (Gemma 4 31B et 26B A4B), dans la liste Gemini.
 
 
 ----------------------------------------------------------------
@@ -401,7 +405,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_16_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_17_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -487,6 +491,9 @@ crear (facturación según el uso, dependiendo de tu plan).
   5. Copia la clave mostrada.
 
   Nota: Google ofrece un nivel gratuito generoso para Gemini vía AI Studio.
+        La misma clave también da acceso a Gemma 4, los modelos de
+        código abierto de Google (Gemma 4 31B y 26B A4B), en la lista
+        de Gemini.
 
 
 ----------------------------------------------------------------
@@ -621,7 +628,7 @@ crear (facturación según el uso, dependiendo de tu plan).
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_16_0.html en tu navegador.
+  1. Abre ChatJPT_1_17_0.html en tu navegador.
   2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...

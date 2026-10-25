@@ -8,6 +8,14 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.17.0] — 2026-10-25
+  Added
+    - Gemma 4, Google's open-source models, in the Gemini list: Gemma 4
+      31B and Gemma 4 26B A4B (faster). Same key as Gemini. Reasoning can
+      be turned on or off; images, system instructions and web search 🌐
+      work. Link reading 🔗 is hidden for Gemma (not supported by Google
+      for these models).
+
 [1.16.0] — 2026-10-25
   Added
     - New provider: Augure (Montreal), in a new "Canada" key group. Models:
@@ -483,6 +491,14 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.17.0] — 2026-10-25
+  Ajouté
+    - Gemma 4, les modèles open source de Google, dans la liste Gemini :
+      Gemma 4 31B et Gemma 4 26B A4B (plus rapide). Même clé que Gemini.
+      La réflexion s'active ou se désactive ; images, consignes système et
+      recherche web 🌐 fonctionnent. La lecture des liens 🔗 est masquée
+      pour Gemma (non prise en charge par Google pour ces modèles).
 
 [1.16.0] — 2026-10-25
   Ajouté
@@ -998,6 +1014,15 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.17.0] — 2026-10-25
+  Añadido
+    - Gemma 4, los modelos de código abierto de Google, en la lista de
+      Gemini: Gemma 4 31B y Gemma 4 26B A4B (más rápido). Misma clave que
+      Gemini. El razonamiento se activa o desactiva; funcionan las
+      imágenes, las instrucciones de sistema y la búsqueda web 🌐. La
+      lectura de enlaces 🔗 se oculta para Gemma (Google no la admite
+      para estos modelos).
 
 [1.16.0] — 2026-10-25
   Añadido
