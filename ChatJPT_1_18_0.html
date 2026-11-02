@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.17.0
+  Version 1.18.0
 -->
 
 
@@ -45,6 +45,7 @@
             --mistral: #fa500f;
             --kimi: #ec4899;
             --augure: #e5322d;
+            --cohere: #3fa37a;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -313,6 +314,7 @@
         .config-group label.mistral-label { color: var(--mistral); }
         .config-group label.kimi-label { color: var(--kimi); }
         .config-group label.augure-label { color: var(--augure); }
+        .config-group label.cohere-label { color: var(--cohere); }
 
         .api-key-input {
             flex: 1;
@@ -750,6 +752,7 @@
         .provider-indicator.mistral { background: var(--mistral); box-shadow: 0 0 8px var(--mistral); }
         .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
         .provider-indicator.augure { background: var(--augure); box-shadow: 0 0 8px var(--augure); }
+        .provider-indicator.cohere { background: var(--cohere); box-shadow: 0 0 8px var(--cohere); }
 
         .mode-tabs {
             display: flex;
@@ -865,6 +868,7 @@
         .model-badge.mistral { background: rgba(250, 80, 15, 0.15); color: var(--mistral); }
         .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
         .model-badge.augure { background: rgba(229, 50, 45, 0.15); color: var(--augure); }
+        .model-badge.cohere { background: rgba(63, 163, 122, 0.15); color: var(--cohere); }
         /* Mention exigée par les conditions de l'API Augure (« Powered by Augure ») */
         .powered-by {
             display: inline-block;
@@ -2710,7 +2714,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 25 octobre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 2 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2752,6 +2756,10 @@
                 <div class="config-group">
                     <label class="augure-label">🍁 Augure</label>
                     <input type="password" class="api-key-input" id="key-augure" placeholder="..." autocomplete="off" aria-label="Clé API Augure">
+                </div>
+                <div class="config-group">
+                    <label class="cohere-label">🟩 Cohere</label>
+                    <input type="password" class="api-key-input" id="key-cohere" placeholder="..." autocomplete="off" aria-label="Clé API Cohere">
                 </div>
             </div>
             </section>
@@ -2817,6 +2825,7 @@
                 </optgroup>
                 <optgroup label="Canada" data-i18n-label="keysRegionCA">
                     <option value="augure">Augure</option>
+                    <option value="cohere">Cohere</option>
                 </optgroup>
                 <optgroup label="France" data-i18n-label="keysRegionFR">
                     <option value="mistral">Mistral AI</option>
@@ -3186,6 +3195,7 @@
         grok: $('key-grok'),
         perplexity: $('key-perplexity'),
         augure: $('key-augure'),
+        cohere: $('key-cohere'),
         mistral: $('key-mistral'),
         deepseek: $('key-deepseek'),
         kimi: $('key-kimi'),
@@ -3194,11 +3204,11 @@
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', augure: '🍁', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', augure: 'Augure', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3329,8 +3339,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.17.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 25 octobre 2026",
+            creditVersion: "Version 1.18.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 2 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3613,8 +3623,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.17.0 - Latest version: ",
-            appUpdated: "📅 Updated: October 25, 2026",
+            creditVersion: "Version 1.18.0 - Latest version: ",
+            appUpdated: "📅 Updated: November 2, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3897,8 +3907,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.17.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 25 de octubre de 2026",
+            creditVersion: "Versión 1.18.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 2 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -4162,6 +4172,18 @@
             { id: 'tofino-3', name: { fr: 'Tofino 3 (Rapide, économique)', en: 'Tofino 3 (Fast, low cost)', es: 'Tofino 3 (Rápido, económico)' } },
             { id: 'ossington-4-1', name: { fr: 'Ossington 4.1 (Droit canadien, français du Québec)', en: 'Ossington 4.1 (Canadian law, Quebec French)', es: 'Ossington 4.1 (Derecho canadiense, francés de Quebec)' } }
         ],
+        cohere: [
+            // Cohere (Toronto, Canada) — API de compatibilité OpenAI api.cohere.ai/compatibility/v1
+            // (CORS « * », même sur les erreurs, testé 2026-11-02). Clé d'essai gratuite : 1 000 appels
+            // par mois, 20 req/min. Command R / R+ (2024) et Aya (recherche) écartés.
+            { id: 'command-a-plus-05-2026', name: { fr: 'Command A+ (Dernier, raisonnement, vision)', en: 'Command A+ (Latest, reasoning, vision)', es: 'Command A+ (Último, razonamiento, visión)' } },
+            { id: 'command-a-reasoning-08-2025', name: { fr: 'Command A Reasoning (Raisonnement)', en: 'Command A Reasoning (Reasoning)', es: 'Command A Reasoning (Razonamiento)' } },
+            { id: 'command-a-vision-07-2025', name: { fr: 'Command A Vision (Images, documents)', en: 'Command A Vision (Images, documents)', es: 'Command A Vision (Imágenes, documentos)' } },
+            { id: 'command-a-03-2025', name: { fr: 'Command A (Contexte 256k)', en: 'Command A (256k context)', es: 'Command A (Contexto 256k)' } },
+            { id: 'north-mini-code-1.0', name: { fr: 'North Mini Code (Code)', en: 'North Mini Code (Code)', es: 'North Mini Code (Código)' } },
+            { id: 'command-r7b-12-2024', name: { fr: 'Command R7B (Rapide, économique)', en: 'Command R7B (Fast, low cost)', es: 'Command R7B (Rápido, económico)' } },
+            { id: 'command-a-translate-08-2025', name: { fr: 'Command A Translate (Traduction)', en: 'Command A Translate (Translation)', es: 'Command A Translate (Traducción)' } }
+        ],
         mistral: [
             // Mistral AI (France) — Chat Completions compatible OpenAI (CORS ouvert, testé 2026-10-25).
             // IDs = ceux affichés sur chaque fiche modèle (pas le slug de l'URL de la doc, ex.
@@ -4328,7 +4350,7 @@ RULES:
 
     // ===== EXTENDED THINKING SUPPORT =====
     // Fournisseurs « configurable » sans budget : la case Réflexion suffit (sélecteur masqué).
-    const NO_BUDGET_PROVIDERS = ['mistral', 'augure'];
+    const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere'];
     const THINKING_SUPPORT = {
         openai: {
             native: ['o3', 'o4-mini'],  // Thinking intégré, toujours actif
@@ -4371,6 +4393,12 @@ RULES:
             // Tofino 3 : jamais de réflexion → hors table.
             native: [],
             configurable: ['ossington-5', 'rosedale-1', 'ossington-4-1']
+        },
+        cohere: {
+            // Modèles hybrides : réflexion ACTIVE par défaut → toujours explicite (reasoning_effort
+            // 'high' | 'none', seules valeurs acceptées par l'API de compatibilité ; pas de budget).
+            native: [],
+            configurable: ['command-a-plus-05-2026', 'command-a-reasoning-08-2025']
         },
         mistral: {
             // Raisonnement par reasoning_effort : 'high' (bloc de réflexion) ou 'none'.
@@ -4453,6 +4481,7 @@ RULES:
     // Valeur = fonction (l'endpoint Qwen dépend de la région choisie, lue à l'exécution).
     const OPENAI_COMPATIBLE_ENDPOINTS = {
         augure: () => 'https://api.augureai.ca/v1/chat/completions',
+        cohere: () => 'https://api.cohere.ai/compatibility/v1/chat/completions',
         mistral: () => 'https://api.mistral.ai/v1/chat/completions',
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
         kimi: () => 'https://api.moonshot.ai/v1/chat/completions',
@@ -4719,6 +4748,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     HISTORY_STRATEGIES.deepseek = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.mistral = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.augure = HISTORY_STRATEGIES.openai;
+    HISTORY_STRATEGIES.cohere = HISTORY_STRATEGIES.openai;
     // Kimi K3 : la doc demande de renvoyer le message assistant complet, réflexion comprise
     // (reasoning_content), aux tours suivants → conservée dans l'entrée (entry.reasoning).
     HISTORY_STRATEGIES.kimi = (m) => {
@@ -5154,8 +5184,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!error) return '';
         const raw = error.message || String(error);
         const translated = translateApiErrorBase(error, provider, raw);
-        if (translated === raw || !raw || /^HTTP Error \d+$/.test(raw) || error.name === 'AbortError' || error.name === 'TypeError') return translated;
-        return `${translated} (${raw.length > 200 ? raw.slice(0, 200) + '…' : raw})`;
+        // Alibaba : la clé ET le serveur dépendent de la région → on l'indique (clé de l'autre
+        // région ou mauvais champ = cause la plus fréquente de « clé invalide »)
+        const region = provider === 'qwen' && error.name !== 'AbortError'
+            ? ` — ${I18N[currentLang].lblQwenRegion} : ${QWEN_REGIONS[qwenRegion()].label[currentLang] || QWEN_REGIONS[qwenRegion()].label.fr}`
+            : '';
+        if (translated === raw || !raw || /^HTTP Error \d+$/.test(raw) || error.name === 'AbortError' || error.name === 'TypeError') return translated + region;
+        return `${translated} (${raw.length > 200 ? raw.slice(0, 200) + '…' : raw})${region}`;
     }
     function translateApiErrorBase(error, provider, raw) {
         const msg = raw.toLowerCase();
@@ -5686,6 +5721,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         grok: 'xAI (Grok)',
         perplexity: 'Perplexity',
         augure: 'Augure',
+        cohere: 'Cohere',
         mistral: 'Mistral AI',
         deepseek: 'DeepSeek',
         kimi: 'Moonshot (Kimi)',
@@ -6462,7 +6498,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         deepseek: 'all',
         qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.1'],
         grok: ['grok-build-0.1'],
-        mistral: ['mistral-small-latest', 'codestral-latest']  // Small 4 : entrée image non documentée
+        mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
+        cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025']
     };
     function supportsVision(provider, model) {
         const r = NO_VISION[provider];
@@ -7621,6 +7658,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 body.reasoning_effort = onThinkingChunk ? 'high' : 'none';
                 if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
             }
+        }
+
+        // Cohere : réflexion active par défaut sur les modèles hybrides → 'high' ou 'none' explicite.
+        // Plafonds de sortie propres aux modèles (Command A : 8k, R7B : 4k) ; Command A Translate a
+        // un contexte de 8k entrée comprise → max_tokens omis. stream_options non documenté.
+        if (MODELS.cohere.some(m => m.id === model)) {
+            delete body.stream_options;
+            if (THINKING_SUPPORT.cohere.configurable.includes(model)) {
+                body.reasoning_effort = onThinkingChunk ? 'high' : 'none';
+                if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+            }
+            const cap = { 'command-a-03-2025': 8000, 'command-r7b-12-2024': 4000 }[model];
+            if (cap) body.max_tokens = Math.min(body.max_tokens, cap);
+            if (model === 'command-a-translate-08-2025') delete body.max_tokens;
         }
 
         await postStream({
@@ -11530,8 +11581,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             if (usage && onMeta) onMeta({ usage: { input: usage.prompt_tokens, output: usage.completion_tokens } });
                             const delta = json.choices?.[0]?.delta;
                             // Parse reasoning_content for reasoning models (o3, o4-mini, gpt-5.x)
-                            if (delta?.reasoning_content && onThinkingChunk) {
-                                onThinkingChunk(delta.reasoning_content);
+                            // (variante delta.reasoning : certaines API compatibles, ex. Cohere)
+                            const reasoningDelta = delta?.reasoning_content || (typeof delta?.reasoning === 'string' ? delta.reasoning : '');
+                            if (reasoningDelta && onThinkingChunk) {
+                                onThinkingChunk(reasoningDelta);
                             }
                             const content = delta?.content;
                             if (Array.isArray(content)) {

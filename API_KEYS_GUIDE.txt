@@ -179,10 +179,27 @@ your plan).
 
 
 ----------------------------------------------------------------
+  11. COHERE (Canada)
+      Key looks like: a string of letters and digits
+----------------------------------------------------------------
+
+  1. Go to: https://dashboard.cohere.com/api-keys
+  2. Create an account or sign in.
+  3. Create a key and copy it.
+
+  Note: Cohere is a Toronto company. A free trial key is available
+        (1,000 calls per month, 20 per minute); a production key
+        is paid by usage. For the newest models (Command A+,
+        A Reasoning, A Vision, A Translate), Cohere applies trial
+        limits even to production keys. Reasoning can be turned
+        on or off for Command A+ and Command A Reasoning.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_17_0.html in your browser.
+  1. Open ChatJPT_1_18_0.html in your browser.
   2. In the keys panel (grouped by country: United States, Canada, France, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -190,6 +207,7 @@ your plan).
        ⚫ Grok     → paste your xai-... key
        🔎 Perplexity → paste your pplx-... key
        🍁 Augure   → paste your key
+       🟩 Cohere   → paste your key
        🟧 Mistral  → paste your key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
@@ -402,10 +420,28 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  11. COHERE (Canada)
+      La clé ressemble à : une suite de lettres et de chiffres
+----------------------------------------------------------------
+
+  1. Allez sur : https://dashboard.cohere.com/api-keys
+  2. Créez un compte ou connectez-vous.
+  3. Créez une clé et copiez-la.
+
+  Note : Cohere est une entreprise de Toronto. Une clé d'essai
+         gratuite est offerte (1 000 appels par mois, 20 par minute) ;
+         une clé de production se paie à l'usage. Pour les modèles
+         les plus récents (Command A+, A Reasoning, A Vision,
+         A Translate), Cohere applique les limites d'essai même aux
+         clés de production. La réflexion s'active ou se désactive
+         pour Command A+ et Command A Reasoning.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_17_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_18_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -413,6 +449,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        ⚫ Grok     → collez votre clé xai-...
        🔎 Perplexity → collez votre clé pplx-...
        🍁 Augure   → collez votre clé
+       🟩 Cohere   → collez votre clé
        🟧 Mistral  → collez votre clé
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
@@ -625,10 +662,28 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  11. COHERE (Canadá)
+      La clave se ve así: una serie de letras y números
+----------------------------------------------------------------
+
+  1. Ve a: https://dashboard.cohere.com/api-keys
+  2. Crea una cuenta o inicia sesión.
+  3. Crea una clave y cópiala.
+
+  Nota: Cohere es una empresa de Toronto. Hay una clave de prueba
+        gratuita (1 000 llamadas por mes, 20 por minuto); una clave
+        de producción se paga por uso. Para los modelos más
+        recientes (Command A+, A Reasoning, A Vision, A Translate),
+        Cohere aplica los límites de prueba incluso a las claves de
+        producción. El razonamiento se activa o desactiva en
+        Command A+ y Command A Reasoning.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_17_0.html en tu navegador.
+  1. Abre ChatJPT_1_18_0.html en tu navegador.
   2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
@@ -636,6 +691,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        ⚫ Grok     → pega tu clave xai-...
        🔎 Perplexity → pega tu clave pplx-...
        🍁 Augure   → pega tu clave
+       🟩 Cohere   → pega tu clave
        🟧 Mistral  → pega tu clave
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...

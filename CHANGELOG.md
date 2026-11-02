@@ -8,6 +8,18 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.18.0] — 2026-11-02
+  Added
+    - New provider: Cohere (Toronto), in the "Canada" key group. Models:
+      Command A+ (latest, reasoning, images), Command A Reasoning,
+      Command A Vision (images, documents), Command A (256k context),
+      North Mini Code (code), Command R7B (fast, low cost) and Command A
+      Translate (translation). Reasoning can be turned on or off for
+      Command A+ and Command A Reasoning. A free trial key is available.
+  Improved
+    - Alibaba errors now show which region (International or Mainland
+      China) was used, to spot a key entered in the wrong region.
+
 [1.17.0] — 2026-10-25
   Added
     - Gemma 4, Google's open-source models, in the Gemini list: Gemma 4
@@ -491,6 +503,20 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.18.0] — 2026-11-02
+  Ajouté
+    - Nouveau fournisseur : Cohere (Toronto), dans le groupe de clés
+      « Canada ». Modèles : Command A+ (dernier, raisonnement, images),
+      Command A Reasoning, Command A Vision (images, documents), Command A
+      (contexte de 256k), North Mini Code (code), Command R7B (rapide,
+      économique) et Command A Translate (traduction). La réflexion
+      s'active ou se désactive pour Command A+ et Command A Reasoning.
+      Une clé d'essai gratuite est offerte.
+  Amélioré
+    - Les erreurs d'Alibaba indiquent maintenant la région utilisée
+      (International ou Chine continentale), pour repérer une clé saisie
+      dans la mauvaise région.
 
 [1.17.0] — 2026-10-25
   Ajouté
@@ -1014,6 +1040,20 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.18.0] — 2026-11-02
+  Añadido
+    - Nuevo proveedor: Cohere (Toronto), en el grupo de claves "Canadá".
+      Modelos: Command A+ (último, razonamiento, imágenes), Command A
+      Reasoning, Command A Vision (imágenes, documentos), Command A
+      (contexto de 256k), North Mini Code (código), Command R7B (rápido,
+      económico) y Command A Translate (traducción). El razonamiento se
+      activa o desactiva en Command A+ y Command A Reasoning. Hay una
+      clave de prueba gratuita.
+  Mejorado
+    - Los errores de Alibaba ahora indican la región usada (Internacional
+      o China continental), para detectar una clave ingresada en la
+      región equivocada.
 
 [1.17.0] — 2026-10-25
   Añadido
