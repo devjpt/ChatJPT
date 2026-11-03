@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.19.0
+  Version 1.20.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -27,6 +27,7 @@ FEATURES
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • Alibaba    (Qwen + Z.ai GLM — chat and image; International and/or Mainland China key)
+      • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
 
   - Conversation modes:
       • Chat       : general conversation
@@ -128,7 +129,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_19_0.html
+  1. Download the file ChatJPT_1_20_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -160,7 +161,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.19.0
+  Version 1.20.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -188,6 +189,7 @@ FONCTIONNALITÉS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • Alibaba    (Qwen + Z.ai GLM — chat et image ; clé International et/ou Chine continentale)
+      • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
 
   - Modes de conversation :
       • Chat       : conversation générale
@@ -295,7 +297,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_19_0.html
+  1. Téléchargez le fichier ChatJPT_1_20_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -329,7 +331,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.19.0
+  Versión 1.20.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -357,6 +359,7 @@ CARACTERÍSTICAS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • Alibaba    (Qwen + Z.ai GLM — chat e imagen; clave Internacional y/o China continental)
+      • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
 
   - Modos de conversación:
       • Chat       : conversación general
@@ -460,7 +463,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_19_0.html
+  1. Descarga el archivo ChatJPT_1_20_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

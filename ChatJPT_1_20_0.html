@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.19.0
+  Version 1.20.0
 -->
 
 
@@ -47,6 +47,7 @@
             --kimi: #ec4899;
             --augure: #e5322d;
             --cohere: #3fa37a;
+            --upstage: #d97706;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -289,6 +290,8 @@
         .key-region-wide .config-group { min-width: 0; }
         .key-region-wide .api-key-input { min-width: 0; }
         .key-region-2x { flex: 2 1 560px; }
+        .key-region-col { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+        .key-region-col > .key-region { flex: 0 0 auto; }  /* sinon la base de 260px devient une hauteur */
         .key-region-title {
             font-size: 0.68rem;
             font-weight: 600;
@@ -321,6 +324,7 @@
         .config-group label.kimi-label { color: var(--kimi); }
         .config-group label.augure-label { color: var(--augure); }
         .config-group label.cohere-label { color: var(--cohere); }
+        .config-group label.upstage-label { color: var(--upstage); }
 
         .api-key-input {
             flex: 1;
@@ -760,6 +764,7 @@
         .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
         .provider-indicator.augure { background: var(--augure); box-shadow: 0 0 8px var(--augure); }
         .provider-indicator.cohere { background: var(--cohere); box-shadow: 0 0 8px var(--cohere); }
+        .provider-indicator.upstage { background: var(--upstage); box-shadow: 0 0 8px var(--upstage); }
 
         .mode-tabs {
             display: flex;
@@ -877,6 +882,7 @@
         .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
         .model-badge.augure { background: rgba(229, 50, 45, 0.15); color: var(--augure); }
         .model-badge.cohere { background: rgba(63, 163, 122, 0.15); color: var(--cohere); }
+        .model-badge.upstage { background: rgba(217, 119, 6, 0.15); color: var(--upstage); }
         /* Mention exigée par les conditions de l'API Augure (« Powered by Augure ») */
         .powered-by {
             display: inline-block;
@@ -2775,6 +2781,8 @@
                 </div>
             </div>
             </section>
+            <!-- France + Corée du Sud empilées (une clé chacune) : comble la colonne au lieu d'une ligne seule -->
+            <div class="key-region-col">
             <section class="key-region">
             <h4 class="key-region-title" data-i18n="keysRegionFR">France</h4>
             <div class="config-row">
@@ -2784,6 +2792,16 @@
                 </div>
             </div>
             </section>
+            <section class="key-region">
+            <h4 class="key-region-title" data-i18n="keysRegionKR">Corée du Sud</h4>
+            <div class="config-row">
+                <div class="config-group">
+                    <label class="upstage-label" title="Solar">☀️ Upstage</label>
+                    <input type="password" class="api-key-input" id="key-upstage" placeholder="up_..." autocomplete="off" aria-label="Clé API Upstage (Solar)">
+                </div>
+            </div>
+            </section>
+            </div>
             <section class="key-region key-region-2x">
             <h4 class="key-region-title" data-i18n="keysRegionCN">Chine</h4>
             <div class="config-row">
@@ -2847,6 +2865,9 @@
                     <option value="deepseek">DeepSeek</option>
                     <option value="kimi">Moonshot (Kimi)</option>
                     <option value="qwen">Alibaba (Qwen, GLM)</option>
+                </optgroup>
+                <optgroup label="Corée du Sud" data-i18n-label="keysRegionKR">
+                    <option value="upstage">Upstage (Solar)</option>
                 </optgroup>
             </select>
         </div>
@@ -3053,7 +3074,7 @@
     <button class="scroll-bottom-btn" id="scroll-bottom-btn" title="Revenir en bas" data-i18n-title="scrollToBottom" aria-label="Revenir en bas">↓</button>
     <div class="file-btn" title="Joindre un fichier" role="button" aria-label="Joindre un fichier" tabindex="0">
         📎
-        <input type="file" id="file-input" multiple accept=".pdf,.txt,.csv,.json,.xml,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.md,.yaml,.yml,.toml,.sql,.sh,.bat,.log,.png,.jpg,.jpeg,.gif,.webp,.xlsx,.docx" aria-label="Joindre un fichier">
+        <input type="file" id="file-input" multiple accept=".pdf,.txt,.csv,.json,.xml,.html,.css,.js,.ts,.py,.java,.c,.cpp,.h,.md,.yaml,.yml,.toml,.sql,.sh,.bat,.log,.png,.jpg,.jpeg,.gif,.webp,.bmp,.avif,.xlsx,.docx" aria-label="Joindre un fichier">
     </div>
     <div class="input-wrapper">
         <textarea id="user-input" placeholder="Écrivez votre message ici..." rows="1" aria-label="Message à envoyer"></textarea>
@@ -3214,15 +3235,16 @@
         deepseek: $('key-deepseek'),
         kimi: $('key-kimi'),
         qwen: $('key-qwen'),        // Alibaba, région internationale
-        qwen_cn: $('key-qwen-cn')   // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
+        qwen_cn: $('key-qwen-cn'),  // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
+        upstage: $('key-upstage')
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba', upstage: 'Upstage' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3309,6 +3331,7 @@
             keysRegionCA: "Canada",
             keysRegionFR: "France",
             keysRegionCN: "Chine",
+            keysRegionKR: "Corée du Sud",
             qwenRegionNoKey: "⚠️ Aucune clé Alibaba pour cette région : saisis-la dans le panneau des clés (une clé ne vaut que pour sa région).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Code",
@@ -3353,7 +3376,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.19.0 - Dernière version : ",
+            creditVersion: "Version 1.20.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 3 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3438,6 +3461,8 @@
             ocrOptImages: "🖼️ Joindre les pages comme images",
             ocrOptImagesDesc: "Le modèle « voit » les pages (meilleur pour les schémas et la mise en page). ⚠️ Coût élevé : ≈ {tokens} tokens à CHAQUE question, car les pages sont renvoyées avec l'historique. Au-delà d'environ 100 pages, certains fournisseurs refusent la requête.",
             ocrNoVision: "⚠️ Le modèle sélectionné ({model}) ne lit pas les images. Choisis un modèle qui les lit (GPT, Claude, Gemini, Grok, Qwen3.8…), puis joins le PDF à nouveau.",
+            imgNoVisionAttach: "⚠️ {model} ne lit pas les images : elles ne lui seront pas envoyées. Choisis un modèle qui les lit pour les analyser.",
+            imgNoVisionSend: "⚠️ {model} ne lit pas les images : message envoyé sans elles.",
             ocrNoOcrPerplexity: "La transcription n'est pas proposée avec Perplexity (chaque requête lancerait des recherches web). Choisis un autre fournisseur pour transcrire, ou joins les pages comme images.",
             ocrNeedKey: "⚠️ Clé API manquante pour {provider} : ajoute-la pour transcrire ce PDF.",
             ocrCancel: "Annuler",
@@ -3522,6 +3547,8 @@
             ieDisplayMarkup: "🖍️ Appliquer les annotations",
             ieDisplayComment: "💬 Appliquer les notes",
             fileReadError: "Impossible de lire : ",
+            imgFormatUnsupported: "🖼️ {name} : format d'image illisible ici (ex. HEIC) — convertis-la en JPG ou PNG, puis joins-la à nouveau",
+            fileBinaryUnsupported: "📎 {name} : fichier binaire non pris en charge — non joint",
             regenReattached: "🔄 [Fichiers et images joints de nouveau pour la régénération]",
             filesReady: "fichier(s) prêt(s)",
             filesAttached: "fichier(s) joint(s)",
@@ -3594,6 +3621,7 @@
             keysRegionCA: "Canada",
             keysRegionFR: "France",
             keysRegionCN: "China",
+            keysRegionKR: "South Korea",
             qwenRegionNoKey: "⚠️ No Alibaba key for this region: enter it in the keys panel (a key only works for its own region).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Code",
@@ -3638,7 +3666,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.19.0 - Latest version: ",
+            creditVersion: "Version 1.20.0 - Latest version: ",
             appUpdated: "📅 Updated: November 3, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -3723,6 +3751,8 @@
             ocrOptImages: "🖼️ Attach the pages as images",
             ocrOptImagesDesc: "The model \"sees\" the pages (better for diagrams and layout). ⚠️ High cost: ≈ {tokens} tokens for EVERY question, since the pages are resent with the history. Above about 100 pages, some providers reject the request.",
             ocrNoVision: "⚠️ The selected model ({model}) cannot read images. Pick a model that can (GPT, Claude, Gemini, Grok, Qwen3.8…), then attach the PDF again.",
+            imgNoVisionAttach: "⚠️ {model} cannot read images: they won't be sent to it. Pick a model that can read them to analyze them.",
+            imgNoVisionSend: "⚠️ {model} cannot read images: message sent without them.",
             ocrNoOcrPerplexity: "Transcription is not offered with Perplexity (each request would run web searches). Pick another provider to transcribe, or attach the pages as images.",
             ocrNeedKey: "⚠️ Missing API key for {provider}: add it to transcribe this PDF.",
             ocrCancel: "Cancel",
@@ -3807,6 +3837,8 @@
             ieDisplayMarkup: "🖍️ Apply the markup",
             ieDisplayComment: "💬 Apply the notes",
             fileReadError: "Unable to read: ",
+            imgFormatUnsupported: "🖼️ {name}: image format not readable here (e.g. HEIC) — convert it to JPG or PNG, then attach it again",
+            fileBinaryUnsupported: "📎 {name}: binary file not supported — not attached",
             regenReattached: "🔄 [Files and images reattached for regeneration]",
             filesReady: "file(s) ready",
             filesAttached: "file(s) attached",
@@ -3879,6 +3911,7 @@
             keysRegionCA: "Canadá",
             keysRegionFR: "Francia",
             keysRegionCN: "China",
+            keysRegionKR: "Corea del Sur",
             qwenRegionNoKey: "⚠️ No hay clave de Alibaba para esta región: ingrésala en el panel de claves (una clave solo sirve para su región).",
             tabChat: "💬 Chat",
             tabCode: "👨‍💻 Código",
@@ -3923,7 +3956,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.19.0 - Última versión: ",
+            creditVersion: "Versión 1.20.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4008,6 +4041,8 @@
             ocrOptImages: "🖼️ Adjuntar las páginas como imágenes",
             ocrOptImagesDesc: "El modelo \"ve\" las páginas (mejor para diagramas y diseño). ⚠️ Costo alto: ≈ {tokens} tokens en CADA pregunta, porque las páginas se reenvían con el historial. Por encima de unas 100 páginas, algunos proveedores rechazan la solicitud.",
             ocrNoVision: "⚠️ El modelo seleccionado ({model}) no lee imágenes. Elige un modelo que las lea (GPT, Claude, Gemini, Grok, Qwen3.8…) y adjunta el PDF de nuevo.",
+            imgNoVisionAttach: "⚠️ {model} no lee imágenes: no se le enviarán. Elige un modelo que las lea para analizarlas.",
+            imgNoVisionSend: "⚠️ {model} no lee imágenes: mensaje enviado sin ellas.",
             ocrNoOcrPerplexity: "La transcripción no está disponible con Perplexity (cada solicitud lanzaría búsquedas web). Elige otro proveedor para transcribir, o adjunta las páginas como imágenes.",
             ocrNeedKey: "⚠️ Falta la clave API de {provider}: agrégala para transcribir este PDF.",
             ocrCancel: "Cancelar",
@@ -4092,6 +4127,8 @@
             ieDisplayMarkup: "🖍️ Aplicar las anotaciones",
             ieDisplayComment: "💬 Aplicar las notas",
             fileReadError: "No se puede leer: ",
+            imgFormatUnsupported: "🖼️ {name}: formato de imagen ilegible aquí (ej. HEIC) — conviértela a JPG o PNG y adjúntala de nuevo",
+            fileBinaryUnsupported: "📎 {name}: archivo binario no compatible — no adjuntado",
             regenReattached: "🔄 [Archivos e imágenes adjuntados de nuevo para la regeneración]",
             filesReady: "archivo(s) listo(s)",
             filesAttached: "archivo(s) adjunto(s)",
@@ -4256,6 +4293,14 @@
             { id: 'glm-5.3', name: { fr: 'GLM-5.3 (Z.ai, via Alibaba)', en: 'GLM-5.3 (Z.ai, via Alibaba)', es: 'GLM-5.3 (Z.ai, vía Alibaba)' } },
             { id: 'glm-5.2', name: { fr: 'GLM-5.2 (Z.ai, via Alibaba)', en: 'GLM-5.2 (Z.ai, via Alibaba)', es: 'GLM-5.2 (Z.ai, vía Alibaba)' } },
             { id: 'glm-5.1', name: { fr: 'GLM-5.1 (Z.ai, via Alibaba)', en: 'GLM-5.1 (Z.ai, via Alibaba)', es: 'GLM-5.1 (Z.ai, vía Alibaba)' } },
+        ],
+        upstage: [
+            // Upstage (Séoul, Corée du Sud) — compatible OpenAI, api.upstage.ai/v1 (CORS « * », même
+            // sur les erreurs, testé 2026-11-03). Texte seul ; langues officielles : anglais, coréen,
+            // japonais. Alias stables (solar-pro4 → solar-pro4-260806, solar-mini4 → solar-mini4-260922).
+            // Solar Pro 3 / Pro 2 / Mini / Syn arrêtés le 30/10/2026 ; Syn Pro (japonais) écarté.
+            { id: 'solar-pro4', name: { fr: 'Solar Pro 4 (Phare, contexte 512k)', en: 'Solar Pro 4 (Flagship, 512k context)', es: 'Solar Pro 4 (Insignia, contexto 512k)' } },
+            { id: 'solar-mini4', name: { fr: 'Solar Mini 4 (Rapide, très économique)', en: 'Solar Mini 4 (Fast, very low cost)', es: 'Solar Mini 4 (Rápido, muy económico)' } }
         ]
     };
 
@@ -4379,7 +4424,7 @@ RULES:
 
     // ===== EXTENDED THINKING SUPPORT =====
     // Fournisseurs « configurable » sans budget : la case Réflexion suffit (sélecteur masqué).
-    const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere'];
+    const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere', 'upstage'];
     const THINKING_SUPPORT = {
         openai: {
             native: ['o3'],  // Thinking intégré, toujours actif
@@ -4455,6 +4500,12 @@ RULES:
             native: ['glm-5.3'],
             configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.1']
         },
+        upstage: {
+            // Réflexion COUPÉE par défaut (paramètre omis) ; reasoning_effort low → max l'active,
+            // none la coupe. Réflexion streamée en delta.reasoning (lue par le parser openai).
+            native: [],
+            configurable: ['solar-pro4', 'solar-mini4']
+        },
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
             // n'est visible que via l'API Responses → ces modèles y sont toujours routés.
@@ -4523,6 +4574,7 @@ RULES:
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
         kimi: () => 'https://api.moonshot.ai/v1/chat/completions',
         qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions',
+        upstage: () => 'https://api.upstage.ai/v1/chat/completions',
         grok: () => 'https://api.x.ai/v1/chat/completions'
     };
 
@@ -4796,6 +4848,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return msg;
     };
     HISTORY_STRATEGIES.qwen = HISTORY_STRATEGIES.openai;
+    HISTORY_STRATEGIES.upstage = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.grok = HISTORY_STRATEGIES.openai;
     // Perplexity Agent API : format Responses (input_text / input_image) + type 'message' par tour.
     HISTORY_STRATEGIES.perplexity = (m) => ({ type: 'message', ...HISTORY_STRATEGIES['openai-responses'](m) });
@@ -5239,7 +5292,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (msg.includes('cors')) return t.errCors || raw;
         if (msg.includes('invalid_api_key') || msg.includes('invalid api key') ||
             msg.includes('incorrect api key') || msg.includes('authentication') ||
-            msg.includes('unauthorized')) return t.errInvalidKey || raw;  // Meta : « Unauthorized »
+            msg.includes('unauthorized') ||
+            msg.includes('api key is invalid')) return t.errInvalidKey || raw;  // Meta : « Unauthorized », Upstage : « Your API key is invalid »
         if (msg.includes('insufficient_quota') || msg.includes('quota') ||
             msg.includes('billing') || msg.includes('credit')) {
             return (t.errQuota || raw).replace('{provider}', provider || '');
@@ -5766,7 +5820,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         mistral: 'Mistral AI',
         deepseek: 'DeepSeek',
         kimi: 'Moonshot (Kimi)',
-        qwen: 'Alibaba (Qwen, GLM)'
+        qwen: 'Alibaba (Qwen, GLM)',
+        upstage: 'Upstage (Solar)'
     };
 
     // Clé API d'un fournisseur arbitraire (≠ getActiveKey qui lit le fournisseur courant).
@@ -6614,6 +6669,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const files = Array.from(e.target.files);
         if (!files.length) return;
         let scannedNotice = null;  // bilan d'un PDF scanné (OCR / images), affiché en dernier
+        const problems = [];       // fichiers refusés / illisibles, affichés dans le bilan final
 
         for (const file of files) {
             try {
@@ -6640,13 +6696,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
                     const base64 = await fileToBase64(file);
                     uploadedFiles.push({ name: file.name, content: `[Attached image: ${file.name}]`, base64, mimeType: file.type });
+                } else if ((file.type || '').startsWith('image/') || IMAGE_EXTS_TO_CONVERT.includes(ext)) {
+                    // Format refusé par les API (BMP, AVIF, HEIC…) : converti en JPEG si le navigateur
+                    // sait le décoder ; sinon refusé (lu comme texte, il enverrait des Mo de binaire).
+                    const dataUrl = await imageFileToJpeg(file);
+                    if (!dataUrl) { problems.push(fmtI18n('imgFormatUnsupported', { name: file.name })); continue; }
+                    uploadedFiles.push({ name: file.name, content: `[Attached image: ${file.name}]`, base64: dataUrl.split(',')[1], mimeType: 'image/jpeg' });
+                } else if (await looksBinary(file)) {
+                    problems.push(fmtI18n('fileBinaryUnsupported', { name: file.name }));
                 } else {
                     const text = await file.text();
                     uploadedFiles.push({ name: file.name, content: text });
                 }
             } catch (err) {
                 console.error(`Error reading ${file.name}:`, err);
-                showToast(`${I18N[currentLang].fileReadError}${file.name}`, 'error');
+                problems.push(`${I18N[currentLang].fileReadError}${file.name}`);
             }
         }
 
@@ -6661,7 +6725,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         fileInput.value = '';
         const ready = `${uploadedFiles.length} ${I18N[currentLang].filesReady}`;
-        if (scannedNotice) showToast(`${scannedNotice.msg} — ${ready}`, scannedNotice.type);
+        const blind = uploadedFiles.some(f => f.base64) ? textTargetsWithoutVision() : [];
+        if (problems.length) showToast(`${problems.join(' · ')} — ${ready}`, 'error', 8000);
+        else if (scannedNotice) showToast(`${scannedNotice.msg} — ${ready}`, scannedNotice.type);
+        else if (blind.length) showToast(`${ready} — ${fmtI18n('imgNoVisionAttach', { model: blind.join(' / ') })}`, 'error', 7000);
         else showToast(ready, 'success');
     }
 
@@ -6712,11 +6779,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
         qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.1'],
         grok: ['grok-build-0.1'],
         mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
-        cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025']
+        cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025'],
+        upstage: 'all'  // Solar Pro 4 / Mini 4 : texte seul
     };
     function supportsVision(provider, model) {
         const r = NO_VISION[provider];
         return !(r === 'all' || (Array.isArray(r) && r.includes(model)));
+    }
+    // Libellés des modèles texte visés par le prochain envoi (comparaison : les deux) qui ne lisent
+    // pas les images. Vide en modes Image / Vidéo (les photos jointes y servent à l'édition).
+    function textTargetsWithoutVision() {
+        if (currentMode === 'image' || currentMode === 'video') return [];
+        const targets = (compareMode && (currentMode === 'chat' || currentMode === 'code'))
+            ? [parseCompareValue(compareModelA.value), parseCompareValue(compareModelB.value)]
+            : [{ provider: providerSelect.value, model: modelSelect.value }];
+        return targets.filter(t => t.provider && !supportsVision(t.provider, t.model))
+            .map(t => modelLabel(t.provider, t.model));
     }
     const OCR_TOKENS_PER_PAGE = 2500;    // estimation : image (~1 500) + consignes + texte produit
     const IMAGE_TOKENS_PER_PAGE = 1500;  // estimation : une page en image, renvoyée à CHAQUE question
@@ -6942,6 +7020,31 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         placeholder();
         return { msg: `⚠️ ${file.name} : ${I18N[currentLang].pdfScanned}`, type: 'error' };
+    }
+
+    // Images que les API refusent (formats acceptés : PNG, JPEG, GIF, WEBP) → converties en JPEG.
+    const IMAGE_EXTS_TO_CONVERT = ['bmp', 'avif', 'heic', 'heif', 'tif', 'tiff', 'jfif', 'ico'];
+    // JPEG (data URL, côté long ≤ IE_MAX_SIDE, fond blanc) ; null si le navigateur ne décode pas
+    // le format (ex. HEIC hors Safari, TIFF hors Safari).
+    async function imageFileToJpeg(file) {
+        let bmp;
+        try { bmp = await createImageBitmap(file); } catch (e) { return null; }
+        const k = Math.min(1, IE_MAX_SIDE / Math.max(bmp.width, bmp.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(bmp.width * k));
+        c.height = Math.max(1, Math.round(bmp.height * k));
+        const cx = c.getContext('2d');
+        cx.fillStyle = '#fff';
+        cx.fillRect(0, 0, c.width, c.height);
+        cx.drawImage(bmp, 0, 0, c.width, c.height);
+        bmp.close();
+        return c.toDataURL('image/jpeg', 0.9);
+    }
+    // Fichier binaire (octet nul dans les 8 premiers Ko) : lu comme texte, il enverrait des
+    // milliers de caractères illisibles au modèle (et dépasserait souvent son contexte).
+    async function looksBinary(file) {
+        const head = new Uint8Array(await file.slice(0, 8192).arrayBuffer());
+        return head.includes(0);
     }
 
     function fileToBase64(file) {
@@ -7313,6 +7416,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         addMessage(displayText, 'user');
+
+        if (pendingImages.length) {
+            const blind = textTargetsWithoutVision();
+            if (blind.length) showToast(fmtI18n('imgNoVisionSend', { model: blind.join(' / ') }), 'error', 6000);
+        }
 
         const provider = providerSelect.value;
         const model = modelSelect.value;
@@ -7892,6 +8000,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (model === 'command-a-translate-08-2025') delete body.max_tokens;
         }
 
+        // Upstage (Solar) : réflexion coupée si reasoning_effort est omis → 'high' ou 'none' explicite.
+        // La réflexion compte dans max_tokens (sinon content null + finish_reason length) → plafond
+        // relevé quand elle est active (sortie max des modèles : 128k).
+        if (MODELS.upstage.some(m => m.id === model)) {
+            body.reasoning_effort = onThinkingChunk ? 'high' : 'none';
+            if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+        }
+
         await postStream({
             url: endpoint,
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
@@ -8054,6 +8170,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // conversationHistory, currentMode et les toggles de façon SYNCHRONE au début de l'appel
     // (avant leur premier await) — l'OCR s'appuie sur cette propriété (voir ocrTranscribePage).
     function dispatchStream(provider, model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        if (supportsVision(provider, model) || !conversationHistory.some(m => m && m.images && m.images.length)) {
+            return routeStream(provider, model, key, onChunk, onThinkingChunk, signal, onMeta);
+        }
+        const saved = conversationHistory;
+        // Le modèle est prévenu qu'une image était jointe (et le message n'est jamais vide).
+        const note = m => m.images.map(im => `[Attached image: ${im.name || 'image'} — not readable by this model]`).join('\n');
+        conversationHistory = saved.map(m => (m && m.images && m.images.length)
+            ? { ...m, images: [], content: [m.content, note(m)].filter(Boolean).join('\n') } : m);
+        try {
+            return routeStream(provider, model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } finally {
+            conversationHistory = saved;
+        }
+    }
+    function routeStream(provider, model, key, onChunk, onThinkingChunk, signal, onMeta) {
         // OpenAI/Grok n'ont pas de primitive de lecture d'URL distincte : l'outil
         // web_search ouvre aussi les liens collés. Donc on l'active si recherche web
         // OU lecture de liens est demandée (les deux passent par l'API Responses).
@@ -11753,10 +11884,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== TOAST =====
-    function showToast(message, type = '') {
+    function showToast(message, type = '', ms = 3000) {
         toast.textContent = message;
         toast.className = `toast ${type} show`;
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        setTimeout(() => toast.classList.remove('show'), ms);
     }
 
     // ===== DÉMARRAGE =====

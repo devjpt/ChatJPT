@@ -214,11 +214,25 @@ your plan).
 
 
 ----------------------------------------------------------------
+  13. UPSTAGE — SOLAR (South Korea)
+      Key looks like: up_...
+----------------------------------------------------------------
+
+  1. Go to: https://console.upstage.ai/
+  2. Sign up (new accounts get $10 of free credit).
+  3. Open "API keys", click "Create new key", then copy it.
+
+  Note: Solar Pro 4 and Solar Mini 4 are text only and very low
+        cost. Their official languages are English, Korean and
+        Japanese. Reasoning 🧠 can be turned on or off.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_19_0.html in your browser.
-  2. In the keys panel (grouped by country: United States, Canada, France, China), locate the fields:
+  1. Open ChatJPT_1_20_0.html in your browser.
+  2. In the keys panel (grouped by country: United States, Canada, France, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
@@ -228,6 +242,7 @@ your plan).
        🍁 Augure   → paste your key
        🟩 Cohere   → paste your key
        🟧 Mistral  → paste your key
+       ☀️ Upstage  → paste your up_... key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
        🟣 Alibaba · International → paste your sk-... key
@@ -475,11 +490,27 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  13. UPSTAGE — SOLAR (Corée du Sud)
+      La clé ressemble à : up_...
+----------------------------------------------------------------
+
+  1. Allez sur : https://console.upstage.ai/
+  2. Créez un compte (10 $ de crédit gratuit à l'inscription).
+  3. Ouvrez « API keys », cliquez sur « Create new key », puis
+     copiez-la.
+
+  Note : Solar Pro 4 et Solar Mini 4 font du texte seulement et
+         sont très économiques. Leurs langues officielles sont
+         l'anglais, le coréen et le japonais. La réflexion 🧠 peut
+         être activée ou coupée.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_19_0.html dans votre navigateur.
-  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Chine), repérez les champs :
+  1. Ouvrez ChatJPT_1_20_0.html dans votre navigateur.
+  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
@@ -489,6 +520,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        🍁 Augure   → collez votre clé
        🟩 Cohere   → collez votre clé
        🟧 Mistral  → collez votre clé
+       ☀️ Upstage  → collez votre clé up_...
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
        🟣 Alibaba · International → collez votre clé sk-...
@@ -736,11 +768,25 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  13. UPSTAGE — SOLAR (Corea del Sur)
+      La clave se ve así: up_...
+----------------------------------------------------------------
+
+  1. Ve a: https://console.upstage.ai/
+  2. Crea una cuenta (10 $ de crédito gratis al registrarte).
+  3. Abre "API keys", haz clic en "Create new key" y cópiala.
+
+  Nota: Solar Pro 4 y Solar Mini 4 son solo de texto y muy
+        económicos. Sus idiomas oficiales son inglés, coreano y
+        japonés. El razonamiento 🧠 se puede activar o desactivar.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_19_0.html en tu navegador.
-  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, China), ubica los campos:
+  1. Abre ChatJPT_1_20_0.html en tu navegador.
+  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
@@ -750,6 +796,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        🍁 Augure   → pega tu clave
        🟩 Cohere   → pega tu clave
        🟧 Mistral  → pega tu clave
+       ☀️ Upstage  → pega tu clave up_...
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...
        🟣 Alibaba · Internacional → pega tu clave sk-...

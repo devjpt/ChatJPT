@@ -8,6 +8,28 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.20.0] — 2026-11-03
+  Added
+    - New provider: Upstage (Solar), in a new "South Korea" key group
+      (shown under France). Models: Solar Pro 4 (flagship, 512k context)
+      and Solar Mini 4 (fast, very low cost). Text only; official
+      languages are English, Korean and Japanese. Reasoning 🧠 can be
+      turned on or off.
+  Improved
+    - Attaching an image with a model that cannot read images (DeepSeek,
+      Upstage, some Qwen, Cohere and Mistral models…) now shows a warning,
+      and the image is no longer sent to that model (the request failed).
+      The model is told an image was attached; the image stays in the
+      conversation for models that can read it, including in comparison.
+    - BMP and AVIF images are converted to JPEG when attached.
+  Fixed
+    - Images in other formats (HEIC, TIFF…) and binary files were read as
+      text: megabytes of unreadable characters were sent to the model
+      ("conversation too long" error). They are now refused, with a
+      message saying what to do.
+    - A file that cannot be read now keeps its error message, instead of
+      being replaced by "N file(s) ready".
+
 [1.19.0] — 2026-11-03
   Added
     - New provider: Meta (Muse), in the "United States" key group. Models:
@@ -533,6 +555,29 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.20.0] — 2026-11-03
+  Ajouté
+    - Nouveau fournisseur : Upstage (Solar), dans un nouveau groupe de
+      clés « Corée du Sud » (affiché sous la France). Modèles : Solar Pro 4
+      (phare, contexte 512k) et Solar Mini 4 (rapide, très économique).
+      Texte seulement ; langues officielles : anglais, coréen et japonais.
+      La réflexion 🧠 peut être activée ou coupée.
+  Amélioré
+    - Joindre une image avec un modèle qui ne lit pas les images
+      (DeepSeek, Upstage, certains modèles Qwen, Cohere et Mistral…)
+      affiche maintenant un avertissement, et l'image n'est plus envoyée
+      à ce modèle (la requête échouait). Le modèle est prévenu qu'une
+      image était jointe ; elle reste dans la conversation pour les
+      modèles qui la lisent, y compris en comparaison.
+    - Les images BMP et AVIF sont converties en JPEG à la pièce jointe.
+  Corrigé
+    - Les images d'autres formats (HEIC, TIFF…) et les fichiers binaires
+      étaient lus comme du texte : des mégaoctets de caractères illisibles
+      partaient au modèle (erreur « conversation trop longue »). Ils sont
+      maintenant refusés, avec un message qui dit quoi faire.
+    - Un fichier illisible garde son message d'erreur, au lieu d'être
+      remplacé par « N fichier(s) prêt(s) ».
 
 [1.19.0] — 2026-11-03
   Ajouté
@@ -1103,6 +1148,29 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.20.0] — 2026-11-03
+  Añadido
+    - Nuevo proveedor: Upstage (Solar), en un nuevo grupo de claves
+      "Corea del Sur" (debajo de Francia). Modelos: Solar Pro 4 (insignia,
+      contexto 512k) y Solar Mini 4 (rápido, muy económico). Solo texto;
+      idiomas oficiales: inglés, coreano y japonés. El razonamiento 🧠 se
+      puede activar o desactivar.
+  Mejorado
+    - Adjuntar una imagen con un modelo que no lee imágenes (DeepSeek,
+      Upstage, algunos modelos de Qwen, Cohere y Mistral…) ahora muestra
+      un aviso, y la imagen ya no se envía a ese modelo (la solicitud
+      fallaba). Se le indica al modelo que había una imagen adjunta; la
+      imagen se queda en la conversación para los modelos que la leen,
+      también en la comparación.
+    - Las imágenes BMP y AVIF se convierten a JPEG al adjuntarlas.
+  Corregido
+    - Las imágenes en otros formatos (HEIC, TIFF…) y los archivos
+      binarios se leían como texto: se enviaban megabytes de caracteres
+      ilegibles al modelo (error "conversación demasiado larga"). Ahora se
+      rechazan, con un mensaje que dice qué hacer.
+    - Un archivo ilegible conserva su mensaje de error, en lugar de ser
+      reemplazado por "N archivo(s) listo(s)".
 
 [1.19.0] — 2026-11-03
   Añadido
