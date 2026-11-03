@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.18.0
+  Version 1.19.0
 -->
 
 
@@ -41,6 +41,7 @@
             --deepseek: #4d6bfe;
             --grok: #c9d1d9;
             --perplexity: #20b8cd;
+            --meta: #0866ff;
             --qwen: #9d4edd;
             --mistral: #fa500f;
             --kimi: #ec4899;
@@ -283,6 +284,10 @@
         }
         .key-region { flex: 1 1 260px; min-width: 0; }
         .key-region-wide { flex-basis: 100%; }
+        /* États-Unis (6 clés) : colonnes égales → une ligne si la place suffit, sinon 3 + 3 (jamais une clé seule) */
+        .key-region-wide .config-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+        .key-region-wide .config-group { min-width: 0; }
+        .key-region-wide .api-key-input { min-width: 0; }
         .key-region-2x { flex: 2 1 560px; }
         .key-region-title {
             font-size: 0.68rem;
@@ -310,6 +315,7 @@
         .config-group label.deepseek-label { color: var(--deepseek); }
         .config-group label.grok-label { color: var(--grok); }
         .config-group label.perplexity-label { color: var(--perplexity); }
+        .config-group label.meta-label { color: var(--meta); }
         .config-group label.qwen-label { color: var(--qwen); }
         .config-group label.mistral-label { color: var(--mistral); }
         .config-group label.kimi-label { color: var(--kimi); }
@@ -748,6 +754,7 @@
         .provider-indicator.deepseek { background: var(--deepseek); box-shadow: 0 0 8px var(--deepseek); }
         .provider-indicator.grok { background: var(--grok); box-shadow: 0 0 8px var(--grok); }
         .provider-indicator.perplexity { background: var(--perplexity); box-shadow: 0 0 8px var(--perplexity); }
+        .provider-indicator.meta { background: var(--meta); box-shadow: 0 0 8px var(--meta); }
         .provider-indicator.qwen { background: var(--qwen); box-shadow: 0 0 8px var(--qwen); }
         .provider-indicator.mistral { background: var(--mistral); box-shadow: 0 0 8px var(--mistral); }
         .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
@@ -864,6 +871,7 @@
         .model-badge.deepseek { background: rgba(77, 107, 254, 0.15); color: var(--deepseek); }
         .model-badge.grok { background: rgba(201, 209, 217, 0.15); color: var(--grok); }
         .model-badge.perplexity { background: rgba(32, 184, 205, 0.15); color: var(--perplexity); }
+        .model-badge.meta { background: rgba(8, 102, 255, 0.15); color: var(--meta); }
         .model-badge.qwen { background: rgba(157, 78, 221, 0.15); color: var(--qwen); }
         .model-badge.mistral { background: rgba(250, 80, 15, 0.15); color: var(--mistral); }
         .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
@@ -2714,7 +2722,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 2 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 3 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -2747,6 +2755,10 @@
                 <div class="config-group">
                     <label class="perplexity-label">🔎 Perplexity</label>
                     <input type="password" class="api-key-input" id="key-perplexity" placeholder="pplx-..." autocomplete="off" aria-label="Clé API Perplexity">
+                </div>
+                <div class="config-group">
+                    <label class="meta-label" title="Muse Spark, Muse Wonder">♾️ Meta</label>
+                    <input type="password" class="api-key-input" id="key-meta" placeholder="LLM_..." autocomplete="off" aria-label="Clé API Meta (Muse)">
                 </div>
             </div>
             </section>
@@ -2822,6 +2834,7 @@
                     <option value="gemini">Google (Gemini)</option>
                     <option value="grok">xAI (Grok)</option>
                     <option value="perplexity">Perplexity</option>
+                    <option value="meta">Meta (Muse)</option>
                 </optgroup>
                 <optgroup label="Canada" data-i18n-label="keysRegionCA">
                     <option value="augure">Augure</option>
@@ -3194,6 +3207,7 @@
         gemini: $('key-gemini'),
         grok: $('key-grok'),
         perplexity: $('key-perplexity'),
+        meta: $('key-meta'),
         augure: $('key-augure'),
         cohere: $('key-cohere'),
         mistral: $('key-mistral'),
@@ -3204,11 +3218,11 @@
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3339,8 +3353,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.18.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 2 novembre 2026",
+            creditVersion: "Version 1.19.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 3 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3508,6 +3522,7 @@
             ieDisplayMarkup: "🖍️ Appliquer les annotations",
             ieDisplayComment: "💬 Appliquer les notes",
             fileReadError: "Impossible de lire : ",
+            regenReattached: "🔄 [Fichiers et images joints de nouveau pour la régénération]",
             filesReady: "fichier(s) prêt(s)",
             filesAttached: "fichier(s) joint(s)",
             truncatedContinue: "⚠️ Réponse tronquée. Cliquez ici pour continuer la génération.",
@@ -3623,8 +3638,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.18.0 - Latest version: ",
-            appUpdated: "📅 Updated: November 2, 2026",
+            creditVersion: "Version 1.19.0 - Latest version: ",
+            appUpdated: "📅 Updated: November 3, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -3792,6 +3807,7 @@
             ieDisplayMarkup: "🖍️ Apply the markup",
             ieDisplayComment: "💬 Apply the notes",
             fileReadError: "Unable to read: ",
+            regenReattached: "🔄 [Files and images reattached for regeneration]",
             filesReady: "file(s) ready",
             filesAttached: "file(s) attached",
             truncatedContinue: "⚠️ Response truncated. Click here to continue generation.",
@@ -3907,8 +3923,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.18.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 2 de noviembre de 2026",
+            creditVersion: "Versión 1.19.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -4076,6 +4092,7 @@
             ieDisplayMarkup: "🖍️ Aplicar las anotaciones",
             ieDisplayComment: "💬 Aplicar las notas",
             fileReadError: "No se puede leer: ",
+            regenReattached: "🔄 [Archivos e imágenes adjuntados de nuevo para la regeneración]",
             filesReady: "archivo(s) listo(s)",
             filesAttached: "archivo(s) adjunto(s)",
             truncatedContinue: "⚠️ Respuesta truncada. Haz clic aquí para continuar la generación.",
@@ -4090,7 +4107,13 @@
         openai: [
             { id: 'gpt-6-astra', name: { fr: 'GPT-6 Astra (Dernier, le plus puissant)', en: 'GPT-6 Astra (Latest, most capable)', es: 'GPT-6 Astra (Último, el más potente)' } },
             { id: 'gpt-6.1-sol', name: { fr: 'GPT-6.1 Sol (Équilibré)', en: 'GPT-6.1 Sol (Balanced)', es: 'GPT-6.1 Sol (Equilibrado)' } },
+            { id: 'gpt-6.1-terra', name: { fr: 'GPT-6.1 Terra (Rapide, images, rédaction)', en: 'GPT-6.1 Terra (Fast, images, writing)', es: 'GPT-6.1 Terra (Rápido, imágenes, redacción)' } },
             { id: 'gpt-6-luna', name: { fr: 'GPT-6 Luna (Rapide, économique)', en: 'GPT-6 Luna (Fast, low cost)', es: 'GPT-6 Luna (Rápido, económico)' } },
+            { id: 'gpt-6-sol', name: { fr: 'GPT-6 Sol (Code, agents)', en: 'GPT-6 Sol (Coding, agents)', es: 'GPT-6 Sol (Código, agentes)' } },
+            { id: 'gpt-5.6-sol', name: { fr: 'GPT-5.6 Sol', en: 'GPT-5.6 Sol', es: 'GPT-5.6 Sol' } },
+            { id: 'gpt-5.6-terra', name: { fr: 'GPT-5.6 Terra (Équilibré)', en: 'GPT-5.6 Terra (Balanced)', es: 'GPT-5.6 Terra (Equilibrado)' } },
+            { id: 'gpt-5.6-luna', name: { fr: 'GPT-5.6 Luna (Très économique)', en: 'GPT-5.6 Luna (Very low cost)', es: 'GPT-5.6 Luna (Muy económico)' } },
+            { id: 'chat-latest', name: { fr: 'Chat Latest (Modèle Instant de ChatGPT)', en: 'Chat Latest (ChatGPT Instant model)', es: 'Chat Latest (Modelo Instant de ChatGPT)' } },
             { id: 'gpt-5.5', name: { fr: 'GPT-5.5', en: 'GPT-5.5', es: 'GPT-5.5' } },
             { id: 'gpt-5.5-pro', name: { fr: 'GPT-5.5 Pro (Lent, Précis)', en: 'GPT-5.5 Pro (Slow, Precise)', es: 'GPT-5.5 Pro (Lento, Preciso)' } },
             { id: 'gpt-5.4', name: { fr: 'GPT-5.4', en: 'GPT-5.4' } },
@@ -4104,11 +4127,9 @@
             { id: 'gpt-5-nano', name: { fr: 'GPT-5 nano', en: 'GPT-5 nano' } },
             { id: 'gpt-4.1', name: { fr: 'GPT-4.1', en: 'GPT-4.1' } },
             { id: 'gpt-4.1-mini', name: { fr: 'GPT-4.1 mini', en: 'GPT-4.1 mini' } },
-            { id: 'gpt-4.1-nano', name: { fr: 'GPT-4.1 nano', en: 'GPT-4.1 nano' } },
             { id: 'gpt-4o', name: { fr: 'GPT-4o', en: 'GPT-4o' } },
             { id: 'gpt-4o-mini', name: { fr: 'GPT-4o mini', en: 'GPT-4o mini' } },
             { id: 'o3', name: { fr: 'o3 (Raisonnement)', en: 'o3 (Reasoning)', es: 'o3 (Razonamiento)' } },
-            { id: 'o4-mini', name: { fr: 'o4-mini (Raisonnement rapide)', en: 'o4-mini (Fast Reasoning)', es: 'o4-mini (Razonamiento rápido)' } },
         ],
         claude: [
             { id: 'claude-fable-5-1', name: { fr: 'Claude Fable 5.1 (Dernier)', en: 'Claude Fable 5.1 (Latest)', es: 'Claude Fable 5.1 (Último)' } },
@@ -4162,6 +4183,15 @@
             { id: 'medium', name: { fr: 'Recherche multi-sources (Medium)', en: 'Multi-source research (Medium)', es: 'Investigación multifuente (Medium)' } },
             { id: 'high', name: { fr: 'Recherche approfondie (High, lent)', en: 'Deep research (High, slow)', es: 'Investigación profunda (High, lenta)' } },
             { id: 'xhigh', name: { fr: 'Agent de recherche avancé (X-High, très lent, coûteux)', en: 'Advanced research agent (X-High, very slow, costly)', es: 'Agente de investigación avanzado (X-High, muy lento, costoso)' } },
+        ],
+        meta: [
+            // Meta Model API (api.meta.ai/v1, CORS « * » même sur les erreurs, testé 2026-11-03),
+            // appelée en API Responses (callMetaResponsesStream). Spark 1.1 / 1.2 et Muse Spark 1.2
+            // Contributor écartés. « Contributor » = prix réduit en échange de l'utilisation des
+            // échanges pour entraîner les modèles de Meta (dit dans le libellé).
+            { id: 'muse-spark-1.3', name: { fr: 'Muse Spark 1.3 (Dernier, recommandé)', en: 'Muse Spark 1.3 (Latest, recommended)', es: 'Muse Spark 1.3 (Último, recomendado)' } },
+            { id: 'muse-wonder-1.0', name: { fr: 'Muse Wonder (Aperçu, le plus puissant, coûteux)', en: 'Muse Wonder (Preview, most capable, costly)', es: 'Muse Wonder (Vista previa, el más potente, costoso)' } },
+            { id: 'muse-spark-1.3-contributor', name: { fr: 'Muse Spark 1.3 Contributor (Très économique — vos échanges entraînent Meta)', en: 'Muse Spark 1.3 Contributor (Very low cost — your chats train Meta)', es: 'Muse Spark 1.3 Contributor (Muy económico — tus chats entrenan a Meta)' } }
         ],
         augure: [
             // Augure (Montréal, Canada) — API compatible OpenAI api.augureai.ca/v1 (CORS ouvert, testé
@@ -4232,11 +4262,10 @@
     const IMAGE_MODELS = {
         openai: [
             // GPT Image 2.5 (sept. 2026) : Sunburst = qualité / précision, Flare = ~2× plus rapide, même prix.
-            // gpt-image-1.5 et gpt-image-1-mini retirés (arrêt OpenAI le 01/12/2026).
+            // gpt-image-1.5 et gpt-image-1-mini retirés (arrêt OpenAI le 01/12/2026) ; gpt-image-1 arrêté le 23/10/2026.
             { id: 'gpt-image-2.5-sunburst', name: { fr: 'GPT Image 2.5 Sunburst (Dernier, qualité)', en: 'GPT Image 2.5 Sunburst (Latest, quality)', es: 'GPT Image 2.5 Sunburst (Último, calidad)' } },
             { id: 'gpt-image-2.5-flare', name: { fr: 'GPT Image 2.5 Flare (Rapide)', en: 'GPT Image 2.5 Flare (Fast)', es: 'GPT Image 2.5 Flare (Rápido)' } },
-            { id: 'gpt-image-2', name: { fr: 'GPT Image 2', en: 'GPT Image 2', es: 'GPT Image 2' } },
-            { id: 'gpt-image-1', name: { fr: 'GPT Image 1', en: 'GPT Image 1' } }
+            { id: 'gpt-image-2', name: { fr: 'GPT Image 2', en: 'GPT Image 2', es: 'GPT Image 2' } }
         ],
         gemini: [
             // Versions stables (les *-preview ont été arrêtées le 25/06/2026, Imagen 4 le 17/08/2026).
@@ -4353,8 +4382,8 @@ RULES:
     const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere'];
     const THINKING_SUPPORT = {
         openai: {
-            native: ['o3', 'o4-mini'],  // Thinking intégré, toujours actif
-            configurable: ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna', 'gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
+            native: ['o3'],  // Thinking intégré, toujours actif
+            configurable: ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
         },
         claude: {
             // Thinking adaptatif toujours actif : seul { type: 'adaptive' } est accepté
@@ -4433,6 +4462,12 @@ RULES:
             native: ['grok-4.7', 'grok-4.6', 'grok-4.5'],
             configurable: []
         },
+        meta: {
+            // Réflexion toujours active (« none » refusé) ; seul un résumé est visible (chaîne de
+            // pensée brute privée). Effort minimal → max (max absent du Contributor).
+            native: ['muse-spark-1.3', 'muse-wonder-1.0', 'muse-spark-1.3-contributor'],
+            configurable: []
+        },
         perplexity: {
             // Tous les presets : la progression de la recherche (pensées, requêtes, pages lues)
             // arrive en événements response.reasoning.* → affichée dans le bloc 🧠.
@@ -4442,9 +4477,11 @@ RULES:
     };
 
     // Modèles OpenAI qui nécessitent l'API Responses (/v1/responses) au lieu de Chat Completions
-    // GPT-6 : routés aussi vers Responses pour le résumé de réflexion (Chat Completions ne le
-    // streame pas). Astra / 6.1 Sol refusent reasoning.effort 'none' → raisonnement toujours actif.
-    const GPT6_MODELS = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna'];
+    // GPT-6 et GPT-5.6 : routés aussi vers Responses pour le résumé de réflexion (Chat Completions
+    // ne le streame pas). Astra / 6.1 Sol refusent reasoning.effort 'none' → 'low' quand la réflexion
+    // est coupée (OPENAI_NO_NONE) ; les autres acceptent 'none'.
+    const GPT6_MODELS = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'];
+    const OPENAI_NO_NONE = ['gpt-6-astra', 'gpt-6.1-sol'];
     const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro', ...GPT6_MODELS];
 
     // Qwen (Alibaba DashScope) expose 2 régions ; une clé est liée à UNE région. Deux
@@ -4508,21 +4545,23 @@ RULES:
     // Effort pour les modèles à raisonnement natif réglable (Claude adaptatif, Grok 4.5+).
     // Remplace le budget de tokens (refusé par ces modèles). Défaut : high. Mémorisé par
     // fournisseur dans ai_<provider>_effort.
-    const EFFORT_PROVIDERS = ['claude', 'grok', 'kimi'];
+    const EFFORT_PROVIDERS = ['claude', 'grok', 'kimi', 'meta'];
     const EFFORT_LEVELS = [
+        { id: 'minimal', label: { fr: 'Effort minimal', en: 'Minimal effort', es: 'Esfuerzo mínimo' } },
         { id: 'low', label: { fr: 'Effort léger', en: 'Low effort', es: 'Esfuerzo bajo' } },
         { id: 'medium', label: { fr: 'Effort modéré', en: 'Medium effort', es: 'Esfuerzo medio' } },
         { id: 'high', label: { fr: 'Effort élevé', en: 'High effort', es: 'Esfuerzo alto' } },
         { id: 'xhigh', label: { fr: 'Effort très élevé', en: 'Extra-high effort', es: 'Esfuerzo muy alto' } },
         { id: 'max', label: { fr: 'Effort maximum', en: 'Max effort', es: 'Esfuerzo máximo' } }
     ];
-    // Niveaux acceptés par modèle : Claude = tous ; Grok = low → xhigh (pas de xhigh sur 4.5) ;
-    // Kimi K3 = low | high | max.
+    // Niveaux acceptés par modèle : Claude = low → max ; Grok = low → xhigh (pas de xhigh sur 4.5) ;
+    // Kimi K3 = low | high | max ; Meta = minimal → max (pas de max sur Spark 1.3 Contributor).
     function effortLevelsFor(provider, model) {
-        if (provider === 'kimi') return EFFORT_LEVELS.filter(l => ['low', 'high', 'max'].includes(l.id));
-        if (provider !== 'grok') return EFFORT_LEVELS;
-        const ok = model === 'grok-4.5' ? ['low', 'medium', 'high'] : ['low', 'medium', 'high', 'xhigh'];
-        return EFFORT_LEVELS.filter(l => ok.includes(l.id));
+        const only = ids => EFFORT_LEVELS.filter(l => ids.includes(l.id));
+        if (provider === 'meta') return model === 'muse-spark-1.3-contributor' ? EFFORT_LEVELS.filter(l => l.id !== 'max') : EFFORT_LEVELS;
+        if (provider === 'kimi') return only(['low', 'high', 'max']);
+        if (provider === 'grok') return only(model === 'grok-4.5' ? ['low', 'medium', 'high'] : ['low', 'medium', 'high', 'xhigh']);
+        return EFFORT_LEVELS.filter(l => l.id !== 'minimal');
     }
     // Effort enregistré, ramené au plus haut niveau accepté par le modèle si besoin.
     function savedEffortFor(provider, model) {
@@ -4552,7 +4591,7 @@ RULES:
     // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool).
     // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
     // OpenAI (testé), et DeepSeek n'a pas de recherche native.
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true };
 
     // ===== LECTURE DES LIENS COLLÉS (URL → contenu de la page) =====
     // Toggle séparé de la recherche web : « lis cette page précise » ≠ « explore le web ».
@@ -5199,7 +5238,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (error.name === 'TypeError' && msg.includes('failed to fetch')) return t.errNetwork || raw;
         if (msg.includes('cors')) return t.errCors || raw;
         if (msg.includes('invalid_api_key') || msg.includes('invalid api key') ||
-            msg.includes('incorrect api key') || msg.includes('authentication')) return t.errInvalidKey || raw;
+            msg.includes('incorrect api key') || msg.includes('authentication') ||
+            msg.includes('unauthorized')) return t.errInvalidKey || raw;  // Meta : « Unauthorized »
         if (msg.includes('insufficient_quota') || msg.includes('quota') ||
             msg.includes('billing') || msg.includes('credit')) {
             return (t.errQuota || raw).replace('{provider}', provider || '');
@@ -5720,6 +5760,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         gemini: 'Google (Gemini)',
         grok: 'xAI (Grok)',
         perplexity: 'Perplexity',
+        meta: 'Meta (Muse)',
         augure: 'Augure',
         cohere: 'Cohere',
         mistral: 'Mistral AI',
@@ -6401,6 +6442,173 @@ A small follow-up tweak the user asks for can be done right away without a new p
         userInput.style.height = Math.min(userInput.scrollHeight, 200) + 'px';
     }
 
+    // ===== DOCX / XLSX (archives ZIP de fichiers XML) =====
+    // Lus sans bibliothèque : répertoire central du ZIP, décompression native
+    // (DecompressionStream 'deflate-raw'), puis XML via DOMParser. Taille décompressée plafonnée
+    // en cours de lecture (la taille annoncée dans l'archive peut mentir : « bombe zip »).
+    const OFFICE_MAX_UNZIPPED = 64 * 1024 * 1024;
+    async function inflateCapped(data, budget) {
+        const reader = new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+        const chunks = [];
+        let size = 0;
+        for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            size += value.length;
+            if (size > budget) { reader.cancel(); throw new Error('Archive trop volumineuse'); }
+            chunks.push(value);
+        }
+        return { text: new TextDecoder().decode(await new Blob(chunks).arrayBuffer()), size };
+    }
+    // Entrées dont le nom satisfait wanted(name) → { nom: texte XML }
+    async function readZipEntries(file, wanted) {
+        const buf = new Uint8Array(await file.arrayBuffer());
+        const dv = new DataView(buf.buffer);
+        // Fin du répertoire central (0x06054b50), cherchée depuis la fin (commentaire ≤ 64 Ko)
+        let eocd = -1;
+        for (let i = buf.length - 22; i >= Math.max(0, buf.length - 22 - 65535); i--) {
+            if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+        }
+        if (eocd < 0) throw new Error('ZIP invalide');
+        const count = dv.getUint16(eocd + 10, true);
+        let ptr = dv.getUint32(eocd + 16, true);
+        const names = new TextDecoder();
+        const out = {};
+        let budget = OFFICE_MAX_UNZIPPED;
+        for (let n = 0; n < count; n++) {
+            if (ptr + 46 > buf.length || dv.getUint32(ptr, true) !== 0x02014b50) throw new Error('ZIP invalide');
+            const method = dv.getUint16(ptr + 10, true);
+            const csize = dv.getUint32(ptr + 20, true);
+            const nameLen = dv.getUint16(ptr + 28, true);
+            const local = dv.getUint32(ptr + 42, true);
+            const name = names.decode(buf.subarray(ptr + 46, ptr + 46 + nameLen));
+            ptr += 46 + nameLen + dv.getUint16(ptr + 30, true) + dv.getUint16(ptr + 32, true);
+            if (!wanted(name)) continue;
+            const start = local + 30 + dv.getUint16(local + 26, true) + dv.getUint16(local + 28, true);
+            const data = buf.subarray(start, start + csize);
+            if (method === 0) {
+                if (data.length > budget) throw new Error('Archive trop volumineuse');
+                budget -= data.length;
+                out[name] = new TextDecoder().decode(data);
+            } else if (method === 8) {
+                const { text, size } = await inflateCapped(data, budget);
+                budget -= size;
+                out[name] = text;
+            }
+        }
+        return out;
+    }
+    const parseXml = (xml) => new DOMParser().parseFromString(xml, 'application/xml');
+    const OOXML_W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+    const OOXML_S = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+    const OOXML_R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+
+    // DOCX : corps du document (word/document.xml) → paragraphes + tableaux en Markdown.
+    // Texte supprimé en suivi des modifications (w:delText) ignoré ; en-têtes / pieds de page omis.
+    async function extractDocxText(file) {
+        const xml = (await readZipEntries(file, n => n === 'word/document.xml'))['word/document.xml'];
+        if (!xml) throw new Error('DOCX invalide');
+        const body = parseXml(xml).getElementsByTagNameNS(OOXML_W, 'body')[0];
+        if (!body) throw new Error('DOCX invalide');
+        const paraText = (para) => {
+            let t = '';
+            for (const el of para.getElementsByTagNameNS(OOXML_W, '*')) {
+                if (el.localName === 't') t += el.textContent;
+                else if (el.localName === 'tab' && el.parentNode.localName !== 'tabs') t += '\t';  // ≠ taquets de tabulation
+                else if (el.localName === 'br' || el.localName === 'cr') t += '\n';
+            }
+            return t;
+        };
+        const lines = [];
+        const kids = (node, name) => Array.from(node.children).filter(c => c.localName === name);
+        const walk = (node) => {
+            for (const el of node.children) {
+                if (el.localName === 'p') lines.push(paraText(el));
+                else if (el.localName === 'tbl') {
+                    const rows = kids(el, 'tr').map(tr => kids(tr, 'tc').map(tc =>
+                        Array.from(tc.getElementsByTagNameNS(OOXML_W, 'p')).map(paraText).join(' ').replace(/\s+/g, ' ').trim().replace(/\|/g, '\\|')));
+                    if (rows.length) {
+                        lines.push('');
+                        rows.forEach((r, i) => {
+                            lines.push('| ' + r.join(' | ') + ' |');
+                            if (i === 0) lines.push('|' + r.map(() => ' --- |').join(''));
+                        });
+                        lines.push('');
+                    }
+                } else walk(el);  // w:sdt (contrôles de contenu), w:customXml…
+            }
+        };
+        walk(body);
+        return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    }
+
+    // XLSX : chaque feuille → CSV (valeurs calculées en cache, dates détectées par leur format).
+    async function extractXlsxText(file) {
+        const z = await readZipEntries(file, n => ['xl/workbook.xml', 'xl/_rels/workbook.xml.rels', 'xl/sharedStrings.xml', 'xl/styles.xml'].includes(n) || /^xl\/worksheets\/[^/]+\.xml$/.test(n));
+        if (!z['xl/workbook.xml']) throw new Error('XLSX invalide');
+        const wb = parseXml(z['xl/workbook.xml']);
+        const shared = z['xl/sharedStrings.xml']
+            ? Array.from(parseXml(z['xl/sharedStrings.xml']).getElementsByTagNameNS(OOXML_S, 'si')).map(si =>
+                Array.from(si.getElementsByTagNameNS(OOXML_S, 't')).filter(t => t.parentNode.localName !== 'rPh').map(t => t.textContent).join(''))
+            : [];
+        // Styles : formats de nombre de type date (intégrés 14–22, 45–47, ou personnalisés en j/m/a/h)
+        const dateStyles = new Set();
+        if (z['xl/styles.xml']) {
+            const st = parseXml(z['xl/styles.xml']);
+            const custom = {};
+            for (const f of st.getElementsByTagNameNS(OOXML_S, 'numFmt')) custom[f.getAttribute('numFmtId')] = f.getAttribute('formatCode') || '';
+            const xfs = st.getElementsByTagNameNS(OOXML_S, 'cellXfs')[0];
+            Array.from(xfs ? xfs.children : []).forEach((xf, i) => {
+                const id = parseInt(xf.getAttribute('numFmtId')) || 0;
+                const code = (custom[id] || '').replace(/"[^"]*"|\[[^\]]*\]|\\./g, '');
+                if ((id >= 14 && id <= 22) || (id >= 45 && id <= 47) || (custom[id] && /[dmyhs]/i.test(code))) dateStyles.add(i);
+            });
+        }
+        const date1904 = Array.from(wb.getElementsByTagNameNS(OOXML_S, 'workbookPr')).some(e => /^(1|true)$/.test(e.getAttribute('date1904') || ''));
+        const fmtDate = (v) => {
+            const d = new Date(Math.round((v + (date1904 ? 1462 : 0) - 25569) * 86400000));
+            if (isNaN(d)) return String(v);
+            const iso = d.toISOString();
+            return v % 1 ? iso.slice(0, 16).replace('T', ' ') : iso.slice(0, 10);
+        };
+        // Feuilles dans l'ordre du classeur → fichier XML via les relations
+        const targets = {};
+        if (z['xl/_rels/workbook.xml.rels']) {
+            for (const r of parseXml(z['xl/_rels/workbook.xml.rels']).getElementsByTagName('Relationship')) {
+                const t = r.getAttribute('Target') || '';
+                targets[r.getAttribute('Id')] = t.startsWith('/') ? t.slice(1) : 'xl/' + t.replace(/^\.\//, '');
+            }
+        }
+        const csv = (v) => /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+        const colIndex = (ref) => { let n = 0; for (const ch of ref.replace(/[0-9]/g, '')) n = n * 26 + ch.charCodeAt(0) - 64; return n - 1; };
+        const parts = [];
+        for (const sh of wb.getElementsByTagNameNS(OOXML_S, 'sheet')) {
+            const xml = z[targets[sh.getAttributeNS(OOXML_R, 'id')]];
+            if (!xml) continue;
+            const rows = [];
+            for (const row of parseXml(xml).getElementsByTagNameNS(OOXML_S, 'row')) {
+                const cells = [];
+                for (const c of row.getElementsByTagNameNS(OOXML_S, 'c')) {
+                    const ref = c.getAttribute('r');
+                    const idx = ref ? colIndex(ref) : cells.length;
+                    const type = c.getAttribute('t');
+                    const v = c.getElementsByTagNameNS(OOXML_S, 'v')[0]?.textContent ?? '';
+                    let val;
+                    if (type === 's') val = shared[parseInt(v)] ?? '';
+                    else if (type === 'inlineStr') val = Array.from(c.getElementsByTagNameNS(OOXML_S, 't')).map(t => t.textContent).join('');
+                    else if (type === 'b') val = v === '1' ? 'TRUE' : 'FALSE';
+                    else if ((!type || type === 'n') && v !== '' && dateStyles.has(parseInt(c.getAttribute('s')))) val = fmtDate(parseFloat(v));
+                    else val = v;
+                    cells[idx] = val;
+                }
+                const line = Array.from(cells, x => csv(x ?? '')).join(',').replace(/,+$/, '');
+                if (line) rows.push(line);
+            }
+            parts.push(`### Sheet: ${sh.getAttribute('name')}\n${rows.join('\n')}`);
+        }
+        return parts.join('\n\n');
+    }
+
     // ===== GESTION DES FICHIERS =====
     async function handleFiles(e) {
         const files = Array.from(e.target.files);
@@ -6424,6 +6632,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     } finally {
                         release();
                     }
+                } else if (ext === 'docx' || ext === 'xlsx') {
+                    // Archives ZIP de XML : file.text() renverrait le binaire de l'archive
+                    const text = ext === 'docx' ? await extractDocxText(file) : await extractXlsxText(file);
+                    if (!text.trim()) throw new Error('Aucun texte extractible');
+                    uploadedFiles.push({ name: file.name, content: text });
                 } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
                     const base64 = await fileToBase64(file);
                     uploadedFiles.push({ name: file.name, content: `[Attached image: ${file.name}]`, base64, mimeType: file.type });
@@ -6760,12 +6973,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         if (!lastUserMsg) return;
 
-        conversationHistory.push({ role: 'user', content: lastUserMsg.content });
+        // Copie fidèle du message multimodal d'origine : sans images, le modèle régénérerait
+        // sans voir la photo jointe (les images ne sont pas dans content).
+        const copy = { role: 'user', content: lastUserMsg.content };
+        if (lastUserMsg.images && lastUserMsg.images.length) copy.images = lastUserMsg.images.map(im => ({ ...im }));
+        if (lastUserMsg.display) copy.display = lastUserMsg.display;
+        conversationHistory.push(copy);
         saveHistory();
 
-        let displayText = lastUserMsg.content.split('\n--- FILE:')[0];
-        if (lastUserMsg.content.includes('--- FILE:')) {
-             displayText += '\n🔄 [Files reattached for regeneration]';
+        let displayText = lastUserMsg.display || lastUserMsg.content.split('\n--- FILE:')[0];
+        if (lastUserMsg.content.includes('--- FILE:') || copy.images) {
+            displayText += '\n' + I18N[currentLang].regenReattached;
         }
         addMessage(displayText, 'user');
 
@@ -7557,7 +7775,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const isConfigurableReasoning = THINKING_SUPPORT.openai.configurable.some(m => model === m);
         const isReasoning = isNativeReasoning || isConfigurableReasoning;
 
-        // For reasoning models (o3, o4-mini, gpt-5.x), system prompt goes as developer message
+        // For reasoning models (o3, gpt-5.x), system prompt goes as developer message
         // P1-2: Use multimodal formatter for image support
         const formattedHistory = formatHistory(conversationHistory, 'openai');
         const messages = isReasoning
@@ -7727,7 +7945,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Reasoning effort for Responses API models
         // gpt-5.4-pro supports: medium, high, xhigh only (no 'none' or 'low')
-        // GPT-6 : low → max (pas de 'none' sur Astra / 6.1 Sol) → 'low' quand le thinking est coupé.
+        // GPT-6 / 5.6 : 'none' quand le thinking est coupé, sauf Astra / 6.1 Sol ('low', leur minimum).
         const isConfigurableReasoning = THINKING_SUPPORT.openai.configurable.some(m => model === m);
         if (isConfigurableReasoning && thinkingEnabled) {
             const budgetVal = parseInt(thinkingBudgetSelect?.value) || 10000;
@@ -7738,8 +7956,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             else effort = 'xhigh';
             bodyParams.reasoning = { effort: effort, summary: 'auto' };
         } else if (isConfigurableReasoning) {
-            // Default to medium (minimum supported for gpt-5.4-pro) ; GPT-6 : low (le plus léger accepté)
-            bodyParams.reasoning = { effort: isGpt6 ? 'low' : 'medium' };
+            // Default to medium (minimum supported for gpt-5.4-pro) ; GPT-6 / 5.6 : none (Astra, 6.1 Sol : low)
+            bodyParams.reasoning = { effort: isGpt6 ? (OPENAI_NO_NONE.includes(model) ? 'low' : 'none') : 'medium' };
         }
 
         // Recherche web ET lecture des liens collés passent par l'outil web_search de
@@ -7804,6 +8022,32 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
     }
 
+    // ===== Meta (Muse Spark / Wonder) — API Responses (api.meta.ai/v1) =====
+    // Responses plutôt que Chat Completions : seul format qui renvoie un résumé de la réflexion
+    // (reasoning.summary ; la chaîne de pensée brute reste privée) et qui offre la recherche web
+    // (outil web_search, citations url_citation). Mêmes formateur et parser que l'API Responses
+    // d'OpenAI. store: false → la conversation n'est pas conservée chez Meta.
+    async function callMetaResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const body = {
+            model,
+            instructions: systemPrompt,
+            input: formatHistory(conversationHistory, 'openai-responses'),
+            stream: true,
+            store: false,
+            // Réflexion + réponse dans le même plafond
+            max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal,
+            reasoning: { effort: savedEffortFor('meta', model), summary: 'detailed' }
+        };
+        if (webSearchEnabled && WEB_SEARCH_SUPPORT.meta) body.tools = [{ type: 'web_search' }];
+
+        await postStream({
+            url: 'https://api.meta.ai/v1/responses',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
+        });
+    }
+
     // ===== AIGUILLAGE PAR FOURNISSEUR =====
     // Choisit la fonction d'appel selon le fournisseur / modèle / toggles. Utilisé par streamInto
     // (chat, comparaison) et par l'OCR des PDF scannés. Toutes les fonctions call*Stream lisent
@@ -7824,6 +8068,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             // Grok + recherche web / lecture de liens, ou Grok 4.5+ (réflexion visible) : API
             // Responses de xAI. Le Grok-chat normal (4.3, 4.20…) reste sur Chat Completions.
             return callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'meta') {
+            return callMetaResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'perplexity') {
             return callPerplexityStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
@@ -9018,7 +9264,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     async function handleImageGeneration(prompt, provider, key) {
-        const imgModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : (IMAGE_MODELS[provider] ? IMAGE_MODELS[provider][0].id : 'gpt-image-1');
+        const imgModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : (IMAGE_MODELS[provider] ? IMAGE_MODELS[provider][0].id : IMAGE_MODELS.openai[0].id);
         const loadingDiv = addMessage(null, 'ai', provider, imgModel, true);
 
         try {
@@ -9043,7 +9289,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     async function generateImageOpenAI(prompt, key) {
-        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'gpt-image-1';
+        const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : IMAGE_MODELS.openai[0].id;
         const res = await fetchWithRetry('https://api.openai.com/v1/images/generations', {
             method: 'POST',
             signal: currentAbortController.signal,
@@ -11580,7 +11826,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             const usage = json.usage || json.choices?.[0]?.usage;
                             if (usage && onMeta) onMeta({ usage: { input: usage.prompt_tokens, output: usage.completion_tokens } });
                             const delta = json.choices?.[0]?.delta;
-                            // Parse reasoning_content for reasoning models (o3, o4-mini, gpt-5.x)
+                            // Parse reasoning_content for reasoning models (o3, gpt-5.x)
                             // (variante delta.reasoning : certaines API compatibles, ex. Cohere)
                             const reasoningDelta = delta?.reasoning_content || (typeof delta?.reasoning === 'string' ? delta.reasoning : '');
                             if (reasoningDelta && onThinkingChunk) {
@@ -11635,8 +11881,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 const a = json.annotation || json.delta;
                                 if (a && a.url && onMeta) onMeta({ citations: [{ title: a.title || a.url, url: a.url }] });
                             }
-                            // Stream completed
-                            else if (evt === 'response.completed') {
+                            // Échec en cours de génération (HTTP 200 déjà envoyé) → affiché
+                            else if (evt === 'response.failed' || evt === 'error') {
+                                const er = json.response?.error || json.error || json;
+                                const em = typeof er === 'string' ? er : (er?.message || er?.code || 'error');
+                                onChunk(`\n\n❌ ${em}`);
+                                streamDone = true;
+                                return;
+                            }
+                            // Stream completed (response.incomplete = fin tronquée, même contenu)
+                            else if (evt === 'response.completed' || evt === 'response.incomplete') {
                                 // Check for truncation (incomplete status)
                                 const status = json.response?.status;
                                 if (status === 'incomplete') {

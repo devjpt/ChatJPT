@@ -8,6 +8,36 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.19.0] — 2026-11-03
+  Added
+    - New provider: Meta (Muse), in the "United States" key group. Models:
+      Muse Spark 1.3 (latest, recommended), Muse Wonder (preview, most
+      capable) and Muse Spark 1.3 Contributor (much cheaper, but Meta uses
+      your conversations to train its models — stated in its name).
+      Reasoning is always on: choose the effort, from Minimal to Max; a
+      summary of the reasoning is shown. Web search 🌐 with sources,
+      attached images and PDFs. Meta does not keep the conversation.
+    - New OpenAI models: GPT-6.1 Terra, GPT-6 Sol, GPT-5.6 Sol, GPT-5.6
+      Terra, GPT-5.6 Luna and Chat Latest (ChatGPT's Instant model). The
+      GPT-6 and GPT-5.6 models show a summary of their reasoning.
+  Improved
+    - Word (.docx) and Excel (.xlsx) files are now really read: text,
+      tables and spreadsheet sheets (dates included) are sent to the
+      model, instead of the unreadable content of the file.
+    - The US key group spreads its 6 keys over equal columns.
+  Fixed
+    - Regenerate 🔄 now resends the attached images too: a question about
+      a photo was regenerated without the photo.
+    - With reasoning turned off, GPT-6 Luna (and the new GPT-6 / 5.6
+      models) really turn it off; GPT-6 Astra and 6.1 Sol stay at their
+      lightest level.
+    - An answer cut off for lack of room shows the "Continue" button, and
+      a failure in the middle of an answer shows its error (OpenAI,
+      Grok and Meta with reasoning or web search).
+  Removed
+    - o4-mini, GPT-4.1 nano and GPT Image 1, shut down by OpenAI on
+      October 23, 2026.
+
 [1.18.0] — 2026-11-02
   Added
     - New provider: Cohere (Toronto), in the "Canada" key group. Models:
@@ -503,6 +533,39 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.19.0] — 2026-11-03
+  Ajouté
+    - Nouveau fournisseur : Meta (Muse), dans le groupe de clés
+      « États-Unis ». Modèles : Muse Spark 1.3 (dernier, recommandé), Muse
+      Wonder (aperçu, le plus puissant) et Muse Spark 1.3 Contributor
+      (beaucoup moins cher, mais Meta utilise vos conversations pour
+      entraîner ses modèles — indiqué dans son nom). La réflexion est
+      toujours active : choisissez l'effort, de Minimal à Maximum ; un
+      résumé de la réflexion s'affiche. Recherche web 🌐 avec sources,
+      images et PDF joints. Meta ne conserve pas la conversation.
+    - Nouveaux modèles OpenAI : GPT-6.1 Terra, GPT-6 Sol, GPT-5.6 Sol,
+      GPT-5.6 Terra, GPT-5.6 Luna et Chat Latest (le modèle Instant de
+      ChatGPT). Les modèles GPT-6 et GPT-5.6 affichent un résumé de leur
+      réflexion.
+  Amélioré
+    - Les fichiers Word (.docx) et Excel (.xlsx) sont maintenant vraiment
+      lus : le texte, les tableaux et les feuilles de calcul (dates
+      comprises) sont envoyés au modèle, au lieu du contenu illisible du
+      fichier.
+    - Le groupe de clés États-Unis répartit ses 6 clés en colonnes égales.
+  Corrigé
+    - Régénérer 🔄 renvoie aussi les images jointes : une question sur une
+      photo était régénérée sans la photo.
+    - Réflexion coupée : GPT-6 Luna (et les nouveaux modèles GPT-6 / 5.6)
+      la coupent vraiment ; GPT-6 Astra et 6.1 Sol restent à leur niveau
+      le plus léger.
+    - Une réponse coupée faute de place affiche le bouton « Continuer »,
+      et une panne au milieu d'une réponse affiche son erreur (OpenAI,
+      Grok et Meta avec réflexion ou recherche web).
+  Retiré
+    - o4-mini, GPT-4.1 nano et GPT Image 1, arrêtés par OpenAI le
+      23 octobre 2026.
 
 [1.18.0] — 2026-11-02
   Ajouté
@@ -1040,6 +1103,40 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.19.0] — 2026-11-03
+  Añadido
+    - Nuevo proveedor: Meta (Muse), en el grupo de claves "Estados
+      Unidos". Modelos: Muse Spark 1.3 (último, recomendado), Muse Wonder
+      (vista previa, el más potente) y Muse Spark 1.3 Contributor (mucho
+      más barato, pero Meta usa tus conversaciones para entrenar sus
+      modelos — indicado en su nombre). El razonamiento siempre está
+      activo: elige el esfuerzo, de Mínimo a Máximo; se muestra un resumen
+      del razonamiento. Búsqueda web 🌐 con fuentes, imágenes y PDF
+      adjuntos. Meta no conserva la conversación.
+    - Nuevos modelos de OpenAI: GPT-6.1 Terra, GPT-6 Sol, GPT-5.6 Sol,
+      GPT-5.6 Terra, GPT-5.6 Luna y Chat Latest (el modelo Instant de
+      ChatGPT). Los modelos GPT-6 y GPT-5.6 muestran un resumen de su
+      razonamiento.
+  Mejorado
+    - Los archivos de Word (.docx) y Excel (.xlsx) ahora se leen de
+      verdad: el texto, las tablas y las hojas de cálculo (fechas
+      incluidas) se envían al modelo, en lugar del contenido ilegible del
+      archivo.
+    - El grupo de claves Estados Unidos reparte sus 6 claves en columnas
+      iguales.
+  Corregido
+    - Regenerar 🔄 ahora reenvía también las imágenes adjuntas: una
+      pregunta sobre una foto se regeneraba sin la foto.
+    - Con el razonamiento desactivado, GPT-6 Luna (y los nuevos modelos
+      GPT-6 / 5.6) lo desactivan de verdad; GPT-6 Astra y 6.1 Sol se
+      quedan en su nivel más ligero.
+    - Una respuesta cortada por falta de espacio muestra el botón
+      "Continuar", y una falla a mitad de una respuesta muestra su error
+      (OpenAI, Grok y Meta con razonamiento o búsqueda web).
+  Eliminado
+    - o4-mini, GPT-4.1 nano y GPT Image 1, retirados por OpenAI el 23 de
+      octubre de 2026.
 
 [1.18.0] — 2026-11-02
   Añadido

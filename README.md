@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.18.0
+  Version 1.19.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -15,11 +15,12 @@ from your browser — no installation required.
 FEATURES
 --------
   - Multi-provider support:
-      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, o-series, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
       • Grok       (xAI — chat, image, and video; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
+      • Meta       (Muse Spark 1.3, Muse Wonder — reasoning summary, web search)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
@@ -110,7 +111,7 @@ FEATURES
     into a 10-second video: with a prompt, quick animate or seamless loop
     (always Grok Imagine Video — requires an xAI key).
 
-  - Attach files and PDFs (📎): text files, images and PDFs. Scanned PDFs
+  - Attach files and PDFs (📎): text files, Word and Excel documents, images and PDFs. Scanned PDFs
     (pages made of images) can be transcribed to text once by the selected
     model (OCR, no page limit, estimated and actual cost shown), or attached
     as page images.
@@ -127,7 +128,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_18_0.html
+  1. Download the file ChatJPT_1_19_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -159,7 +160,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.18.0
+  Version 1.19.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -175,11 +176,12 @@ votre navigateur, sans installation requise.
 FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
-      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, série o, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
       • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
+      • Meta       (Muse Spark 1.3, Muse Wonder — résumé de la réflexion, recherche web)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
@@ -276,7 +278,7 @@ FONCTIONNALITÉS
     l'image en vidéo de 10 s : avec une consigne, animation rapide ou boucle
     continue (toujours Grok Imagine Vidéo — clé xAI requise).
 
-  - Fichiers et PDF joints (📎) : fichiers texte, images et PDF. Les PDF scannés
+  - Fichiers et PDF joints (📎) : fichiers texte, documents Word et Excel, images et PDF. Les PDF scannés
     (pages composées d'images) peuvent être transcrits en texte une seule fois
     par le modèle sélectionné (OCR, sans limite de pages, coût estimé puis réel
     affiché), ou joints comme images de pages.
@@ -293,7 +295,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_18_0.html
+  1. Téléchargez le fichier ChatJPT_1_19_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -327,7 +329,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.18.0
+  Versión 1.19.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -343,11 +345,12 @@ navegador, sin necesidad de instalación.
 CARACTERÍSTICAS
 ---------------
   - Soporte multiproveedor:
-      • OpenAI     (GPT-6 Astra / Sol / Luna, GPT-5.x, serie o, etc.)
+      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
       • Grok       (xAI — chat, imagen y video; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
+      • Meta       (Muse Spark 1.3, Muse Wonder — resumen del razonamiento, búsqueda web)
       • Augure     (Canadá — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canadá — Command A+, A Reasoning, A Vision, North Mini Code, etc.)
       • Mistral    (Francia — Mistral Large 4, Medium 3.5, Small 4, Codestral)
@@ -416,7 +419,7 @@ CARACTERÍSTICAS
     con una indicación, animación rápida o bucle continuo (siempre Grok
     Imagine Video — requiere una clave de xAI).
 
-  - Archivos y PDF adjuntos (📎): archivos de texto, imágenes y PDF. Los PDF
+  - Archivos y PDF adjuntos (📎): archivos de texto, documentos de Word y Excel, imágenes y PDF. Los PDF
     escaneados (páginas compuestas de imágenes) pueden transcribirse a texto una
     sola vez con el modelo seleccionado (OCR, sin límite de páginas, con costo
     estimado y real), o adjuntarse como imágenes de las páginas.
@@ -457,7 +460,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_18_0.html
+  1. Descarga el archivo ChatJPT_1_19_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
