@@ -8,6 +8,33 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.22.0] — 2026-11-03
+  Added
+    - New provider: Bria (images only, trained on licensed images), in a
+      new "Israel" key group. Picking it switches ChatJPT to the Image tab.
+      Models: Fibo 2 (quality; the prompt is first rewritten by Google
+      Gemini) and Fibo Lite (fast, no Google step). Options: up to 21
+      formats, 1 or 4 MP resolution, 4 photo looks, seed; an attached
+      photo is used as the starting point.
+    - Three Bria menus under every image, from any provider (Bria key
+      required):
+      • 🪄 Bria: remove the background (or say what to keep), replace or
+        blur it, remove the subject, erase or fill an area, remove an
+        object by naming it, add or replace an object, rewrite the text in
+        the image, free editing with Fibo, blend.
+      • 🎨 Bria Style: restore an old photo, colorize, change the style
+        (13 styles or your own), the lighting or the season, sketch to
+        image, enhance, ×2 / ×4 resolution, expand the frame, crop to the
+        subject.
+      • 🛍️ Bria Product: product cutout, packshot, shadow, lifestyle shots
+        (from text or a reference image), integrate a product into a
+        scene, product held in hand, virtual try-on, vehicles (staging,
+        effects, harmonize, reflections, tires) and resizing a finished
+        ad to up to 10 formats.
+  Improved
+    - With Bria selected, ✂️ Remove background, ⬚ Format and ✏️ Edit use
+      Bria.
+
 [1.21.0] — 2026-11-03
   Added
     - New provider: Recraft (images only), in a new "United Kingdom" key
@@ -590,6 +617,34 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.22.0] — 2026-11-03
+  Ajouté
+    - Nouveau fournisseur : Bria (images seulement, entraîné sur des images
+      sous licence), dans un nouveau groupe de clés « Israël ». Le choisir
+      fait passer ChatJPT à l'onglet Image. Modèles : Fibo 2 (qualité ; la
+      consigne est d'abord reformulée par Google Gemini) et Fibo Lite
+      (rapide, sans passage par Google). Options : jusqu'à 21 formats,
+      résolution 1 ou 4 Mpx, 4 rendus photo, graine ; une photo jointe sert
+      de point de départ.
+    - Trois menus Bria sous chaque image, de n'importe quel fournisseur
+      (clé Bria requise) :
+      • 🪄 Bria : retirer le fond (ou dire ce qu'on garde), le remplacer ou
+        le flouter, retirer le sujet, effacer ou remplir une zone, retirer
+        un objet en le nommant, ajouter ou remplacer un objet, réécrire le
+        texte de l'image, modification libre avec Fibo, fusion.
+      • 🎨 Bria Style : restaurer une vieille photo, coloriser, changer le
+        style (13 styles ou le tien), l'éclairage ou la saison, croquis →
+        image, améliorer, résolution ×2 / ×4, agrandir le cadre, recadrer
+        sur le sujet.
+      • 🛍️ Bria Produit : détourage produit, packshot, ombre, mises en
+        scène (par texte ou image de référence), intégrer un produit dans
+        une scène, produit tenu en main, essayage virtuel, véhicules (mise
+        en scène, effets, harmonisation, reflets, pneus) et déclinaison
+        d'une pub finie en 10 formats au plus.
+  Amélioré
+    - Quand Bria est choisi, ✂️ Retirer le fond, ⬚ Format et ✏️ Modifier
+      passent par Bria.
 
 [1.21.0] — 2026-11-03
   Ajouté
@@ -1222,6 +1277,33 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.22.0] — 2026-11-03
+  Añadido
+    - Nuevo proveedor: Bria (solo imágenes, entrenado con imágenes con
+      licencia), en un nuevo grupo de claves "Israel". Al elegirlo, ChatJPT
+      pasa a la pestaña Imagen. Modelos: Fibo 2 (calidad; la instrucción
+      se reformula primero con Google Gemini) y Fibo Lite (rápido, sin pasar
+      por Google). Opciones: hasta 21 formatos, resolución de 1 o 4 MP, 4
+      estilos de foto, semilla; una foto adjunta sirve como punto de
+      partida.
+    - Tres menús de Bria debajo de cada imagen, de cualquier proveedor (se
+      requiere clave de Bria):
+      • 🪄 Bria: quitar el fondo (o decir qué conservar), reemplazarlo o
+        desenfocarlo, quitar el sujeto, borrar o rellenar una zona, quitar
+        un objeto nombrándolo, agregar o reemplazar un objeto, reescribir el
+        texto de la imagen, edición libre con Fibo, fusión.
+      • 🎨 Bria Estilo: restaurar una foto antigua, colorear, cambiar el
+        estilo (13 estilos o el tuyo), la iluminación o la estación, boceto
+        → imagen, mejorar, resolución ×2 / ×4, ampliar el encuadre,
+        recortar al sujeto.
+      • 🛍️ Bria Producto: recorte de producto, packshot, sombra,
+        escenificaciones (por texto o imagen de referencia), integrar un
+        producto en una escena, producto en la mano, prueba virtual,
+        vehículos (escenificación, efectos, armonización, reflejos,
+        llantas) y adaptación de un anuncio terminado a hasta 10 formatos.
+  Mejorado
+    - Con Bria elegido, ✂️ Quitar el fondo, ⬚ Formato y ✏️ Editar usan Bria.
 
 [1.21.0] — 2026-11-03
   Añadido

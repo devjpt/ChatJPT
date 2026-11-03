@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.21.0
+  Version 1.22.0
 -->
 
 
@@ -49,6 +49,7 @@
             --cohere: #3fa37a;
             --upstage: #d97706;
             --recraft: #65a30d;
+            --bria: #64748b;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -327,6 +328,7 @@
         .config-group label.cohere-label { color: var(--cohere); }
         .config-group label.upstage-label { color: var(--upstage); }
         .config-group label.recraft-label { color: var(--recraft); }
+        .config-group label.bria-label { color: var(--bria); }
 
         .api-key-input {
             flex: 1;
@@ -768,6 +770,7 @@
         .provider-indicator.cohere { background: var(--cohere); box-shadow: 0 0 8px var(--cohere); }
         .provider-indicator.upstage { background: var(--upstage); box-shadow: 0 0 8px var(--upstage); }
         .provider-indicator.recraft { background: var(--recraft); box-shadow: 0 0 8px var(--recraft); }
+        .provider-indicator.bria { background: var(--bria); box-shadow: 0 0 8px var(--bria); }
 
         .mode-tabs {
             display: flex;
@@ -887,6 +890,7 @@
         .model-badge.cohere { background: rgba(63, 163, 122, 0.15); color: var(--cohere); }
         .model-badge.upstage { background: rgba(217, 119, 6, 0.15); color: var(--upstage); }
         .model-badge.recraft { background: rgba(101, 163, 13, 0.15); color: var(--recraft); }
+        .model-badge.bria { background: rgba(100, 116, 139, 0.18); color: var(--bria); }
         /* Mention exigée par les conditions de l'API Augure (« Powered by Augure ») */
         .powered-by {
             display: inline-block;
@@ -2820,7 +2824,7 @@
                 </div>
             </div>
             </section>
-            <!-- France, Royaume-Uni et Corée du Sud empilés (une clé chacun) : comble la colonne au lieu de lignes seules -->
+            <!-- France, Royaume-Uni, Israël et Corée du Sud empilés (une clé chacun) : comble la colonne au lieu de lignes seules -->
             <div class="key-region-col">
             <section class="key-region">
             <h4 class="key-region-title" data-i18n="keysRegionFR">France</h4>
@@ -2837,6 +2841,15 @@
                 <div class="config-group">
                     <label class="recraft-label" title="Images, SVG">🖌️ Recraft</label>
                     <input type="password" class="api-key-input" id="key-recraft" placeholder="..." autocomplete="off" aria-label="Clé API Recraft (images)">
+                </div>
+            </div>
+            </section>
+            <section class="key-region">
+            <h4 class="key-region-title" data-i18n="keysRegionIL">Israël</h4>
+            <div class="config-row">
+                <div class="config-group">
+                    <label class="bria-label" title="Fibo">🪄 Bria</label>
+                    <input type="password" class="api-key-input" id="key-bria" placeholder="..." autocomplete="off" aria-label="Clé API Bria (images)">
                 </div>
             </div>
             </section>
@@ -2911,6 +2924,9 @@
                 </optgroup>
                 <optgroup label="Royaume-Uni" data-i18n-label="keysRegionUK">
                     <option value="recraft">Recraft (images)</option>
+                </optgroup>
+                <optgroup label="Israël" data-i18n-label="keysRegionIL">
+                    <option value="bria">Bria (images)</option>
                 </optgroup>
                 <optgroup label="Chine" data-i18n-label="keysRegionCN">
                     <option value="deepseek">DeepSeek</option>
@@ -3049,6 +3065,29 @@
                     <option value="2k" selected>2K</option>
                 </select>
             </div>
+        </div>
+        <!-- Options Bria : visibles seulement avec Bria (populateImageModels / updateBriaOptions) -->
+        <div class="video-config-row" id="bria-options">
+            <div class="select-group">
+                <label data-i18n="lblBrRatio">Format</label>
+                <select id="br-ratio" aria-label="Format image Bria"></select>
+            </div>
+            <div class="select-group" id="br-res-group">
+                <label data-i18n="lblBrResolution">Résolution</label>
+                <select id="br-res" aria-label="Résolution Bria">
+                    <option value="1MP" selected data-i18n="brRes1">1 Mpx (rapide)</option>
+                    <option value="4MP" data-i18n="brRes4">4 Mpx (détaillé, plus lent)</option>
+                </select>
+            </div>
+            <div class="select-group" id="br-style-group">
+                <label data-i18n="lblBrStyle">Rendu photo</label>
+                <select id="br-style" aria-label="Rendu photo Bria"></select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblBrSeed">Graine</label>
+                <input type="number" class="rc-input rc-seed" id="br-seed" min="0" step="1" aria-label="Graine Bria">
+            </div>
+            <span class="rc-balance" data-i18n="brNote">Images sous licence, sûres pour un usage commercial.</span>
         </div>
         <!-- Options Recraft : visibles seulement avec Recraft (populateImageModels / updateRecraftOptions) -->
         <div class="video-config-row" id="rc-options">
@@ -3293,6 +3332,7 @@
     const imageRecraftSizeSelect = $('image-recraft-size-select');
     const imageRecraftSizeGroup = $('image-recraft-size-group');
     const rcOptions = $('rc-options');
+    const briaOptions = $('bria-options');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
     const videoModelSelect = $('video-model-select');
@@ -3352,15 +3392,16 @@
         qwen: $('key-qwen'),        // Alibaba, région internationale
         qwen_cn: $('key-qwen-cn'),  // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
         upstage: $('key-upstage'),
-        recraft: $('key-recraft')
+        recraft: $('key-recraft'),
+        bria: $('key-bria')
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️', recraft: '🖌️' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️', recraft: '🖌️', bria: '🪄' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba', upstage: 'Upstage', recraft: 'Recraft' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba', upstage: 'Upstage', recraft: 'Recraft', bria: 'Bria' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3493,7 +3534,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.21.0 - Dernière version : ",
+            creditVersion: "Version 1.22.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 3 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3724,6 +3765,147 @@
             rcStyleImportBtn: "Importer",
             rcStyleImported: "🎨 Style « {name} » importé et sélectionné.",
             rcStyleImportBad: "⚠️ Identifiant de style invalide.",
+            keysRegionIL: "Israël",
+            lblBrRatio: "Format",
+            lblBrResolution: "Résolution",
+            brRes1: "1 Mpx (rapide)",
+            brRes4: "4 Mpx (détaillé, plus lent)",
+            lblBrStyle: "Rendu photo",
+            brStyleNone: "— Aucun —",
+            lblBrSeed: "Graine",
+            brSeedTip: "Numéro de tirage : même consigne + même graine = même image. Vide = au hasard.",
+            brNote: "Images sous licence, sûres pour un usage commercial. Une photo jointe sert de point de départ.",
+            imgBria: "🪄 Bria ▾",
+            imgBriaTip: "Retouches de Bria : fond, objets, zones, texte, modification libre. Clé Bria requise, quel que soit le fournisseur sélectionné.",
+            imgBriaStyle: "🎨 Bria Style ▾",
+            imgBriaStyleTip: "Effets de Bria : restaurer, coloriser, changer le style, l'éclairage ou la saison, agrandir, recadrer. Clé Bria requise.",
+            briaMenuNote: "Bria · clé Bria requise",
+            briaNeedKey: "⚠️ Les outils Bria demandent une clé Bria : ajoute-la dans le panneau des clés (section Israël).",
+            briaTimeout: "⏱️ Bria met trop de temps à répondre : réessaie dans un moment.",
+            brRemoveBg: "✂️ Retirer le fond",
+            brRemoveBgTip: "Détoure le sujet (PNG transparent).",
+            brRemoveBgGuided: "✂️ Détourer en précisant…",
+            brRemoveBgGuidedTip: "Dis en mots ce que le détourage garde (ex. « la femme et sa chaise », « seulement la lampe »), dans le message suivant.",
+            brReplaceBg: "🏞️ Remplacer le fond…",
+            brReplaceBgTip: "Garde le sujet et redessine le décor selon ta consigne (message suivant).",
+            brBlurBg: "🌫️ Flouter le fond…",
+            brBlurBgTip: "Effet « portrait » : le fond devient flou, le sujet reste net.",
+            brEraseFg: "🫥 Retirer le sujet",
+            brEraseFgTip: "Retire le sujet principal et reconstruit le décor derrière.",
+            brErase: "🧽 Effacer une zone",
+            brEraseTip: "Peins ce qui doit disparaître : Bria reconstruit le fond.",
+            brRemoveObject: "🗑️ Retirer un objet…",
+            brRemoveObjectTip: "Nomme l'objet à faire disparaître (ex. « la lampe à gauche »), sans rien dessiner, dans le message suivant.",
+            brGenFill: "🎨 Remplir une zone…",
+            brGenFillTip: "Peins une zone, puis décris ce qui doit y apparaître.",
+            brAddObject: "➕ Ajouter un objet…",
+            brAddObjectTip: "Décris l'objet à ajouter et où (ex. « un chat sur le canapé »), dans le message suivant.",
+            brReplaceObject: "🔁 Remplacer un objet…",
+            brReplaceObjectTip: "Dis quel objet remplacer, et par quoi (ex. « remplace la tasse par un verre de vin »).",
+            brRewriteText: "🔤 Réécrire le texte…",
+            brRewriteTextTip: "Remplace le texte visible dans l'image par le tien (message suivant).",
+            brEdit: "✏️ Modifier (Fibo)…",
+            brEditTip: "Modification libre en langage naturel avec Fibo 2 (ex. « rends le ciel orageux »), dans le message suivant.",
+            brBlend: "🧩 Fusionner…",
+            brBlendTip: "Mélange des éléments, applique une texture ou réarrange l'image selon ta consigne (message suivant).",
+            brRestore: "🧓 Restaurer une vieille photo",
+            brRestoreTip: "Retire le bruit, les rayures et le flou.",
+            brColorize: "🌈 Coloriser…",
+            brColorizeTip: "Met en couleurs une photo noir et blanc, ou l'inverse.",
+            brRestyle: "🖼️ Changer le style…",
+            brRestyleTip: "Transforme l'image en peinture à l'huile, dessin animé, BD, art vectoriel…",
+            brRelight: "💡 Changer l'éclairage…",
+            brRelightTip: "Change le type de lumière et sa direction.",
+            brReseason: "🍂 Changer de saison…",
+            brReseasonTip: "Printemps, été, automne, hiver, ou une ambiance décrite par toi.",
+            brSketch: "✍️ Croquis → image",
+            brSketchTip: "Transforme un dessin au trait en image finie, en couleurs.",
+            brEnhance: "💎 Améliorer",
+            brEnhanceTip: "Recrée l'image avec des textures plus nettes et plus de détails.",
+            brUpscale: "🔍 Augmenter la résolution…",
+            brUpscaleTip: "Agrandit l'image ×2 ou ×4.",
+            brExpand: "↔️ Agrandir le cadre…",
+            brExpandTip: "Prolonge l'image jusqu'au format choisi ; Bria invente la suite de la scène.",
+            brCrop: "🎯 Recadrer sur le sujet",
+            brCropTip: "Retire le fond et recadre au plus près du sujet.",
+            brDlgApply: "Appliquer",
+            brBlurScale: "Intensité du flou (1 à 5)",
+            brColorMode: "Rendu",
+            brStyleChoice: "Style",
+            brCustom: "Ou décris le tien (en anglais de préférence)",
+            brLightType: "Lumière",
+            brLightDir: "Direction",
+            brLightDirAuto: "— Garder —",
+            brSeason: "Saison",
+            brFactor: "Agrandissement",
+            brKeepColors: "Garder les couleurs d'origine",
+            brRatio: "Format cible",
+            brExpandPrompt: "Consigne facultative (en anglais) pour guider la suite",
+            ieTitleBriaErase: "🧽 Effacer une zone (Bria)",
+            ieTitleBriaFill: "🎨 Remplir une zone (Bria)",
+            ieHelpBriaFill: "Peins la zone où quelque chose doit apparaître, puis décris-le.",
+            ieInstrBriaFill: "Que faire apparaître dans la zone peinte ? (obligatoire)",
+            brTextPh: "Écris ta consigne pour cette image…",
+            imgBriaProduct: "🛍️ Bria Produit ▾",
+            imgBriaProductTip: "Photos de produits pour la vente en ligne : détourage, packshot, ombre, mise en scène, essayage, véhicules, déclinaison de pubs. Clé Bria requise.",
+            bpCutout: "✂️ Détourer le produit",
+            bpCutoutTip: "Détourage précis du produit (PNG transparent).",
+            bpPackshot: "📦 Packshot…",
+            bpPackshotTip: "Le produit centré sur un fond studio uni (blanc, couleur ou transparent).",
+            bpShadow: "🌑 Ajouter une ombre…",
+            bpShadowTip: "Ombre réaliste sous le produit : portée ou flottante.",
+            bpLifestyleText: "🏡 Mise en scène (texte)…",
+            bpLifestyleTextTip: "Place le produit dans un décor que tu décris (ex. « sur une table en marbre, lumière du matin »).",
+            bpLifestyleImage: "🖼️ Mise en scène (image de référence)…",
+            bpLifestyleImageTip: "Place le produit dans un décor inspiré d'une image que tu fournis.",
+            bpIntegrate: "🧩 Intégrer un produit…",
+            bpIntegrateTip: "Insère l'image d'un produit dans cette scène, à l'endroit que tu dessines.",
+            bpHolding: "🤲 Produit tenu en main…",
+            bpHoldingTip: "La personne de cette photo tient ton produit (1 à 3 images du produit).",
+            bpTryon: "👗 Essayage virtuel…",
+            bpTryonTip: "La personne de cette photo porte les vêtements ou accessoires que tu fournis (1 à 3).",
+            bpVehicleShot: "🚗 Véhicule : mise en scène…",
+            bpVehicleShotTip: "Place le véhicule dans un décor que tu décris.",
+            bpVehicleEffect: "🌨️ Véhicule : effet…",
+            bpVehicleEffectTip: "Ajoute poussière, neige, brouillard, fuites de lumière ou reflet d'objectif.",
+            bpVehicleHarmonize: "🎛️ Véhicule : harmoniser…",
+            bpVehicleHarmonizeTip: "Accorde le véhicule et le décor sur une ambiance (jour ou nuit, chaude ou froide).",
+            bpVehicleReflections: "🪞 Véhicule : reflets",
+            bpVehicleReflectionsTip: "Détecte vitres et carrosserie, puis y ajoute des reflets réalistes.",
+            bpVehicleTires: "🛞 Véhicule : retoucher les pneus",
+            bpVehicleTiresTip: "Détecte les pneus et les rend plus nets et plus réalistes.",
+            bpAdResize: "📐 Décliner la pub en formats…",
+            bpAdResizeTip: "Recompose cette publicité (image finie) à d'autres tailles, mise en page refaite pour chacune. Prend plusieurs minutes.",
+            bpBgColor: "Couleur du fond",
+            bpTransparent: "Fond transparent",
+            bpShadowType: "Type d'ombre",
+            bpShadowRegular: "Ombre portée",
+            bpShadowFloat: "Ombre flottante",
+            bpIntensity: "Intensité (0 à 100)",
+            bpScene: "Décris la scène (en anglais de préférence)",
+            bpExclude: "À exclure (facultatif)",
+            bpCount: "Nombre d'images",
+            bpFormat: "Format",
+            bpFormatOriginal: "Comme l'original",
+            bpRefImage: "Image de référence pour le décor",
+            bpInfluence: "Ressemblance au décor de référence",
+            bpInfl03: "Inspiré",
+            bpInfl06: "Proche",
+            bpInfl10: "Très proche",
+            bpProductImage: "Image du produit (PNG transparent de préférence)",
+            bpPlace: "Dessine l'emplacement du produit sur la scène",
+            bpProductImages: "Images du produit (1 à 3)",
+            bpGarments: "Vêtements ou accessoires (1 à 3)",
+            bpInstruction: "Consigne facultative",
+            bpEffect: "Effet",
+            bpPreset: "Ambiance",
+            bpAdFormats: "Formats à produire (10 au plus)",
+            bpAdCustom: "Autres tailles, en pixels (ex. 300x600, 1200x1200)",
+            bpAdPrompt: "Consigne facultative (ex. « garde le logo en haut à gauche »)",
+            bpNeedField: "✍️ Remplis les champs obligatoires.",
+            bpTooMany: "⚠️ 10 formats au plus.",
+            bpNoMask: "⚠️ Bria n'a détecté aucune zone de véhicule utilisable sur cette image.",
+            bpNoResult: "⚠️ Bria n'a renvoyé aucune image.",
             fmtSquare: "Carré", fmtSquareTip: "1:1 — publications Instagram, photos de profil, icônes.",
             fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, affiches, impressions verticales.",
             fmtStory: "Story", fmtStoryTip: "9:16 — stories Instagram / Facebook, TikTok, fonds d'écran de téléphone.",
@@ -3909,7 +4091,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.21.0 - Latest version: ",
+            creditVersion: "Version 1.22.0 - Latest version: ",
             appUpdated: "📅 Updated: November 3, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4140,6 +4322,147 @@
             rcStyleImportBtn: "Import",
             rcStyleImported: "🎨 Style \"{name}\" imported and selected.",
             rcStyleImportBad: "⚠️ Invalid style ID.",
+            keysRegionIL: "Israel",
+            lblBrRatio: "Format",
+            lblBrResolution: "Resolution",
+            brRes1: "1 MP (fast)",
+            brRes4: "4 MP (detailed, slower)",
+            lblBrStyle: "Photo look",
+            brStyleNone: "— None —",
+            lblBrSeed: "Seed",
+            brSeedTip: "Draw number: same prompt + same seed = same image. Empty = random.",
+            brNote: "Licensed images, safe for commercial use. An attached photo is used as the starting point.",
+            imgBria: "🪄 Bria ▾",
+            imgBriaTip: "Bria retouching: background, objects, areas, text, free editing. Requires a Bria key, whatever provider is selected.",
+            imgBriaStyle: "🎨 Bria Style ▾",
+            imgBriaStyleTip: "Bria effects: restore, colorize, change style, lighting or season, upscale, crop. Requires a Bria key.",
+            briaMenuNote: "Bria · Bria key required",
+            briaNeedKey: "⚠️ Bria tools need a Bria key: add it in the keys panel (Israel section).",
+            briaTimeout: "⏱️ Bria is taking too long to respond: try again in a moment.",
+            brRemoveBg: "✂️ Remove background",
+            brRemoveBgTip: "Cuts out the subject (transparent PNG).",
+            brRemoveBgGuided: "✂️ Cut out, with details…",
+            brRemoveBgGuidedTip: "Say in words what the cutout keeps (e.g. \"the woman and her chair\", \"only the lamp\"), in your next message.",
+            brReplaceBg: "🏞️ Replace background…",
+            brReplaceBgTip: "Keeps the subject and redraws the scene from your prompt (next message).",
+            brBlurBg: "🌫️ Blur background…",
+            brBlurBgTip: "\"Portrait\" effect: the background is blurred, the subject stays sharp.",
+            brEraseFg: "🫥 Remove the subject",
+            brEraseFgTip: "Removes the main subject and rebuilds the scene behind it.",
+            brErase: "🧽 Erase an area",
+            brEraseTip: "Paint what should disappear: Bria rebuilds the background.",
+            brRemoveObject: "🗑️ Remove an object…",
+            brRemoveObjectTip: "Name the object to remove (e.g. \"the lamp on the left\"), without drawing anything, in your next message.",
+            brGenFill: "🎨 Fill an area…",
+            brGenFillTip: "Paint an area, then describe what should appear there.",
+            brAddObject: "➕ Add an object…",
+            brAddObjectTip: "Describe the object to add and where (e.g. \"a cat on the sofa\"), in your next message.",
+            brReplaceObject: "🔁 Replace an object…",
+            brReplaceObjectTip: "Say which object to replace, and with what (e.g. \"replace the mug with a glass of wine\").",
+            brRewriteText: "🔤 Rewrite the text…",
+            brRewriteTextTip: "Replaces the text visible in the image with yours (next message).",
+            brEdit: "✏️ Edit (Fibo)…",
+            brEditTip: "Free editing in plain language with Fibo 2 (e.g. \"make the sky stormy\"), in your next message.",
+            brBlend: "🧩 Blend…",
+            brBlendTip: "Merges elements, applies a texture or rearranges the image from your prompt (next message).",
+            brRestore: "🧓 Restore an old photo",
+            brRestoreTip: "Removes noise, scratches and blur.",
+            brColorize: "🌈 Colorize…",
+            brColorizeTip: "Colors a black-and-white photo, or the opposite.",
+            brRestyle: "🖼️ Change the style…",
+            brRestyleTip: "Turns the image into an oil painting, cartoon, comic, vector art…",
+            brRelight: "💡 Change the lighting…",
+            brRelightTip: "Changes the type of light and its direction.",
+            brReseason: "🍂 Change the season…",
+            brReseasonTip: "Spring, summer, autumn, winter, or an atmosphere you describe.",
+            brSketch: "✍️ Sketch → image",
+            brSketchTip: "Turns a line drawing into a finished, colored image.",
+            brEnhance: "💎 Enhance",
+            brEnhanceTip: "Regenerates the image with sharper textures and richer details.",
+            brUpscale: "🔍 Increase resolution…",
+            brUpscaleTip: "Enlarges the image ×2 or ×4.",
+            brExpand: "↔️ Expand the frame…",
+            brExpandTip: "Extends the image to the chosen format; Bria invents the rest of the scene.",
+            brCrop: "🎯 Crop to the subject",
+            brCropTip: "Removes the background and crops tightly around the subject.",
+            brDlgApply: "Apply",
+            brBlurScale: "Blur strength (1 to 5)",
+            brColorMode: "Look",
+            brStyleChoice: "Style",
+            brCustom: "Or describe your own",
+            brLightType: "Light",
+            brLightDir: "Direction",
+            brLightDirAuto: "— Keep —",
+            brSeason: "Season",
+            brFactor: "Enlargement",
+            brKeepColors: "Keep the original colors",
+            brRatio: "Target format",
+            brExpandPrompt: "Optional prompt to guide the extension",
+            ieTitleBriaErase: "🧽 Erase an area (Bria)",
+            ieTitleBriaFill: "🎨 Fill an area (Bria)",
+            ieHelpBriaFill: "Paint the area where something should appear, then describe it.",
+            ieInstrBriaFill: "What should appear in the painted area? (required)",
+            brTextPh: "Write your instruction for this image…",
+            imgBriaProduct: "🛍️ Bria Product ▾",
+            imgBriaProductTip: "Product photos for online selling: cutout, packshot, shadow, staging, try-on, vehicles, ad resizing. Requires a Bria key.",
+            bpCutout: "✂️ Cut out the product",
+            bpCutoutTip: "Precise product cutout (transparent PNG).",
+            bpPackshot: "📦 Packshot…",
+            bpPackshotTip: "The product centered on a plain studio background (white, color or transparent).",
+            bpShadow: "🌑 Add a shadow…",
+            bpShadowTip: "Realistic shadow under the product: drop or floating.",
+            bpLifestyleText: "🏡 Lifestyle shot (text)…",
+            bpLifestyleTextTip: "Places the product in a scene you describe (e.g. \"on a marble table, morning light\").",
+            bpLifestyleImage: "🖼️ Lifestyle shot (reference image)…",
+            bpLifestyleImageTip: "Places the product in a scene inspired by an image you provide.",
+            bpIntegrate: "🧩 Integrate a product…",
+            bpIntegrateTip: "Inserts a product image into this scene, where you draw it.",
+            bpHolding: "🤲 Product held in hand…",
+            bpHoldingTip: "The person in this photo holds your product (1 to 3 product images).",
+            bpTryon: "👗 Virtual try-on…",
+            bpTryonTip: "The person in this photo wears the garments or accessories you provide (1 to 3).",
+            bpVehicleShot: "🚗 Vehicle: staging…",
+            bpVehicleShotTip: "Places the vehicle in a scene you describe.",
+            bpVehicleEffect: "🌨️ Vehicle: effect…",
+            bpVehicleEffectTip: "Adds dust, snow, fog, light leaks or lens flare.",
+            bpVehicleHarmonize: "🎛️ Vehicle: harmonize…",
+            bpVehicleHarmonizeTip: "Matches vehicle and scene to a mood (day or night, warm or cold).",
+            bpVehicleReflections: "🪞 Vehicle: reflections",
+            bpVehicleReflectionsTip: "Detects windows and body, then adds realistic reflections.",
+            bpVehicleTires: "🛞 Vehicle: refine the tires",
+            bpVehicleTiresTip: "Detects the tires and makes them sharper and more realistic.",
+            bpAdResize: "📐 Resize the ad…",
+            bpAdResizeTip: "Re-lays out this finished ad at other sizes, with the layout redone for each. Takes several minutes.",
+            bpBgColor: "Background color",
+            bpTransparent: "Transparent background",
+            bpShadowType: "Shadow type",
+            bpShadowRegular: "Drop shadow",
+            bpShadowFloat: "Floating shadow",
+            bpIntensity: "Intensity (0 to 100)",
+            bpScene: "Describe the scene",
+            bpExclude: "Exclude (optional)",
+            bpCount: "Number of images",
+            bpFormat: "Format",
+            bpFormatOriginal: "Same as the original",
+            bpRefImage: "Reference image for the scene",
+            bpInfluence: "Resemblance to the reference scene",
+            bpInfl03: "Inspired",
+            bpInfl06: "Close",
+            bpInfl10: "Very close",
+            bpProductImage: "Product image (transparent PNG preferably)",
+            bpPlace: "Draw where the product goes in the scene",
+            bpProductImages: "Product images (1 to 3)",
+            bpGarments: "Garments or accessories (1 to 3)",
+            bpInstruction: "Optional instruction",
+            bpEffect: "Effect",
+            bpPreset: "Mood",
+            bpAdFormats: "Formats to produce (10 at most)",
+            bpAdCustom: "Other sizes, in pixels (e.g. 300x600, 1200x1200)",
+            bpAdPrompt: "Optional guidance (e.g. \"keep the logo in the top-left corner\")",
+            bpNeedField: "✍️ Fill in the required fields.",
+            bpTooMany: "⚠️ 10 formats at most.",
+            bpNoMask: "⚠️ Bria detected no usable vehicle area in this image.",
+            bpNoResult: "⚠️ Bria returned no image.",
             fmtSquare: "Square", fmtSquareTip: "1:1 — Instagram posts, profile pictures, icons.",
             fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, posters, vertical prints.",
             fmtStory: "Story", fmtStoryTip: "9:16 — Instagram / Facebook stories, TikTok, phone wallpapers.",
@@ -4325,7 +4648,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.21.0 - Última versión: ",
+            creditVersion: "Versión 1.22.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4556,6 +4879,147 @@
             rcStyleImportBtn: "Importar",
             rcStyleImported: "🎨 Estilo \"{name}\" importado y seleccionado.",
             rcStyleImportBad: "⚠️ Identificador de estilo no válido.",
+            keysRegionIL: "Israel",
+            lblBrRatio: "Formato",
+            lblBrResolution: "Resolución",
+            brRes1: "1 MP (rápido)",
+            brRes4: "4 MP (detallado, más lento)",
+            lblBrStyle: "Estilo foto",
+            brStyleNone: "— Ninguno —",
+            lblBrSeed: "Semilla",
+            brSeedTip: "Número de tirada: misma instrucción + misma semilla = misma imagen. Vacío = al azar.",
+            brNote: "Imágenes con licencia, seguras para uso comercial. Una foto adjunta sirve como punto de partida.",
+            imgBria: "🪄 Bria ▾",
+            imgBriaTip: "Retoques de Bria: fondo, objetos, zonas, texto, edición libre. Requiere una clave de Bria, sea cual sea el proveedor seleccionado.",
+            imgBriaStyle: "🎨 Bria Estilo ▾",
+            imgBriaStyleTip: "Efectos de Bria: restaurar, colorear, cambiar el estilo, la iluminación o la estación, ampliar, recortar. Requiere una clave de Bria.",
+            briaMenuNote: "Bria · se requiere clave de Bria",
+            briaNeedKey: "⚠️ Las herramientas de Bria necesitan una clave de Bria: agrégala en el panel de claves (sección Israel).",
+            briaTimeout: "⏱️ Bria tarda demasiado en responder: inténtalo de nuevo en un momento.",
+            brRemoveBg: "✂️ Quitar el fondo",
+            brRemoveBgTip: "Recorta el sujeto (PNG transparente).",
+            brRemoveBgGuided: "✂️ Recortar, precisando…",
+            brRemoveBgGuidedTip: "Di con palabras qué conserva el recorte (ej. \"la mujer y su silla\", \"solo la lámpara\"), en el mensaje siguiente.",
+            brReplaceBg: "🏞️ Reemplazar el fondo…",
+            brReplaceBgTip: "Conserva el sujeto y redibuja el escenario según tu instrucción (mensaje siguiente).",
+            brBlurBg: "🌫️ Desenfocar el fondo…",
+            brBlurBgTip: "Efecto \"retrato\": el fondo se desenfoca, el sujeto queda nítido.",
+            brEraseFg: "🫥 Quitar el sujeto",
+            brEraseFgTip: "Quita el sujeto principal y reconstruye el escenario detrás.",
+            brErase: "🧽 Borrar una zona",
+            brEraseTip: "Pinta lo que debe desaparecer: Bria reconstruye el fondo.",
+            brRemoveObject: "🗑️ Quitar un objeto…",
+            brRemoveObjectTip: "Nombra el objeto que quieres quitar (ej. \"la lámpara de la izquierda\"), sin dibujar, en el mensaje siguiente.",
+            brGenFill: "🎨 Rellenar una zona…",
+            brGenFillTip: "Pinta una zona y luego describe qué debe aparecer en ella.",
+            brAddObject: "➕ Agregar un objeto…",
+            brAddObjectTip: "Describe el objeto a agregar y dónde (ej. \"un gato en el sofá\"), en el mensaje siguiente.",
+            brReplaceObject: "🔁 Reemplazar un objeto…",
+            brReplaceObjectTip: "Di qué objeto reemplazar y por qué (ej. \"reemplaza la taza por una copa de vino\").",
+            brRewriteText: "🔤 Reescribir el texto…",
+            brRewriteTextTip: "Reemplaza el texto visible en la imagen por el tuyo (mensaje siguiente).",
+            brEdit: "✏️ Editar (Fibo)…",
+            brEditTip: "Edición libre en lenguaje natural con Fibo 2 (ej. \"haz el cielo tormentoso\"), en el mensaje siguiente.",
+            brBlend: "🧩 Fusionar…",
+            brBlendTip: "Mezcla elementos, aplica una textura o reorganiza la imagen según tu instrucción (mensaje siguiente).",
+            brRestore: "🧓 Restaurar una foto antigua",
+            brRestoreTip: "Quita el ruido, los rayones y el desenfoque.",
+            brColorize: "🌈 Colorear…",
+            brColorizeTip: "Da color a una foto en blanco y negro, o al revés.",
+            brRestyle: "🖼️ Cambiar el estilo…",
+            brRestyleTip: "Transforma la imagen en pintura al óleo, caricatura, cómic, arte vectorial…",
+            brRelight: "💡 Cambiar la iluminación…",
+            brRelightTip: "Cambia el tipo de luz y su dirección.",
+            brReseason: "🍂 Cambiar de estación…",
+            brReseasonTip: "Primavera, verano, otoño, invierno, o un ambiente que tú describas.",
+            brSketch: "✍️ Boceto → imagen",
+            brSketchTip: "Convierte un dibujo de líneas en una imagen terminada, en color.",
+            brEnhance: "💎 Mejorar",
+            brEnhanceTip: "Regenera la imagen con texturas más nítidas y más detalles.",
+            brUpscale: "🔍 Aumentar la resolución…",
+            brUpscaleTip: "Amplía la imagen ×2 o ×4.",
+            brExpand: "↔️ Ampliar el encuadre…",
+            brExpandTip: "Extiende la imagen al formato elegido; Bria inventa el resto de la escena.",
+            brCrop: "🎯 Recortar al sujeto",
+            brCropTip: "Quita el fondo y recorta lo más cerca posible del sujeto.",
+            brDlgApply: "Aplicar",
+            brBlurScale: "Intensidad del desenfoque (1 a 5)",
+            brColorMode: "Resultado",
+            brStyleChoice: "Estilo",
+            brCustom: "O describe el tuyo (de preferencia en inglés)",
+            brLightType: "Luz",
+            brLightDir: "Dirección",
+            brLightDirAuto: "— Conservar —",
+            brSeason: "Estación",
+            brFactor: "Ampliación",
+            brKeepColors: "Conservar los colores originales",
+            brRatio: "Formato final",
+            brExpandPrompt: "Instrucción opcional (en inglés) para guiar la extensión",
+            ieTitleBriaErase: "🧽 Borrar una zona (Bria)",
+            ieTitleBriaFill: "🎨 Rellenar una zona (Bria)",
+            ieHelpBriaFill: "Pinta la zona donde algo debe aparecer y luego descríbelo.",
+            ieInstrBriaFill: "¿Qué debe aparecer en la zona pintada? (obligatorio)",
+            brTextPh: "Escribe tu instrucción para esta imagen…",
+            imgBriaProduct: "🛍️ Bria Producto ▾",
+            imgBriaProductTip: "Fotos de productos para la venta en línea: recorte, packshot, sombra, escenificación, prueba virtual, vehículos, adaptación de anuncios. Requiere una clave de Bria.",
+            bpCutout: "✂️ Recortar el producto",
+            bpCutoutTip: "Recorte preciso del producto (PNG transparente).",
+            bpPackshot: "📦 Packshot…",
+            bpPackshotTip: "El producto centrado sobre un fondo de estudio liso (blanco, color o transparente).",
+            bpShadow: "🌑 Agregar una sombra…",
+            bpShadowTip: "Sombra realista bajo el producto: proyectada o flotante.",
+            bpLifestyleText: "🏡 Escenificación (texto)…",
+            bpLifestyleTextTip: "Coloca el producto en un escenario que describes (ej. \"sobre una mesa de mármol, luz de la mañana\").",
+            bpLifestyleImage: "🖼️ Escenificación (imagen de referencia)…",
+            bpLifestyleImageTip: "Coloca el producto en un escenario inspirado en una imagen que proporcionas.",
+            bpIntegrate: "🧩 Integrar un producto…",
+            bpIntegrateTip: "Inserta la imagen de un producto en esta escena, donde la dibujes.",
+            bpHolding: "🤲 Producto en la mano…",
+            bpHoldingTip: "La persona de esta foto sostiene tu producto (1 a 3 imágenes del producto).",
+            bpTryon: "👗 Prueba virtual…",
+            bpTryonTip: "La persona de esta foto lleva la ropa o los accesorios que proporcionas (1 a 3).",
+            bpVehicleShot: "🚗 Vehículo: escenificación…",
+            bpVehicleShotTip: "Coloca el vehículo en un escenario que describes.",
+            bpVehicleEffect: "🌨️ Vehículo: efecto…",
+            bpVehicleEffectTip: "Agrega polvo, nieve, niebla, fugas de luz o destello de lente.",
+            bpVehicleHarmonize: "🎛️ Vehículo: armonizar…",
+            bpVehicleHarmonizeTip: "Armoniza el vehículo y el escenario en un ambiente (día o noche, cálido o frío).",
+            bpVehicleReflections: "🪞 Vehículo: reflejos",
+            bpVehicleReflectionsTip: "Detecta ventanas y carrocería y luego agrega reflejos realistas.",
+            bpVehicleTires: "🛞 Vehículo: retocar las llantas",
+            bpVehicleTiresTip: "Detecta las llantas y las hace más nítidas y realistas.",
+            bpAdResize: "📐 Adaptar el anuncio a formatos…",
+            bpAdResizeTip: "Recompone este anuncio terminado en otros tamaños, rehaciendo el diseño para cada uno. Tarda varios minutos.",
+            bpBgColor: "Color del fondo",
+            bpTransparent: "Fondo transparente",
+            bpShadowType: "Tipo de sombra",
+            bpShadowRegular: "Sombra proyectada",
+            bpShadowFloat: "Sombra flotante",
+            bpIntensity: "Intensidad (0 a 100)",
+            bpScene: "Describe la escena (de preferencia en inglés)",
+            bpExclude: "Excluir (opcional)",
+            bpCount: "Número de imágenes",
+            bpFormat: "Formato",
+            bpFormatOriginal: "Como el original",
+            bpRefImage: "Imagen de referencia para el escenario",
+            bpInfluence: "Parecido con el escenario de referencia",
+            bpInfl03: "Inspirado",
+            bpInfl06: "Parecido",
+            bpInfl10: "Muy parecido",
+            bpProductImage: "Imagen del producto (PNG transparente de preferencia)",
+            bpPlace: "Dibuja dónde va el producto en la escena",
+            bpProductImages: "Imágenes del producto (1 a 3)",
+            bpGarments: "Ropa o accesorios (1 a 3)",
+            bpInstruction: "Instrucción opcional",
+            bpEffect: "Efecto",
+            bpPreset: "Ambiente",
+            bpAdFormats: "Formatos a producir (10 como máximo)",
+            bpAdCustom: "Otros tamaños, en píxeles (ej. 300x600, 1200x1200)",
+            bpAdPrompt: "Instrucción opcional (ej. \"mantén el logo arriba a la izquierda\")",
+            bpNeedField: "✍️ Completa los campos obligatorios.",
+            bpTooMany: "⚠️ 10 formatos como máximo.",
+            bpNoMask: "⚠️ Bria no detectó ninguna zona de vehículo utilizable en esta imagen.",
+            bpNoResult: "⚠️ Bria no devolvió ninguna imagen.",
             fmtSquare: "Cuadrado", fmtSquareTip: "1:1 — publicaciones de Instagram, fotos de perfil, íconos.",
             fmtPortrait: "Vertical", fmtPortraitTip: "3:4 — retratos, carteles, impresiones verticales.",
             fmtStory: "Historia", fmtStoryTip: "9:16 — historias de Instagram / Facebook, TikTok, fondos de pantalla del teléfono.",
@@ -4852,6 +5316,13 @@
             { id: 'recraftv3_vector', name: { fr: "Recraft V3 Vector (SVG, styles prédéfinis, 0,08 $)", en: "Recraft V3 Vector (SVG, preset styles, $0.08)", es: "Recraft V3 Vector (SVG, estilos predefinidos, 0,08 $)" } },
             { id: 'recraftv2', name: { fr: "Recraft V2 (Économique, 0,022 $)", en: "Recraft V2 (Low cost, $0.022)", es: "Recraft V2 (Económico, 0,022 $)" } },
             { id: 'recraftv2_vector', name: { fr: "Recraft V2 Vector (Icônes, SVG économique, 0,044 $)", en: "Recraft V2 Vector (Icons, low-cost SVG, $0.044)", es: "Recraft V2 Vector (Íconos, SVG económico, 0,044 $)" } }
+        ],
+        bria: [
+            // Bria (Tel-Aviv) — engine.prod.bria-api.com/v2 (CORS « * », testé 2026-11-03). Fournisseur SANS
+            // chat. Entraîné sur des images sous licence. Fibo 2 : la consigne est d'abord reformulée par
+            // Gemini 2.5 Flash (chez Google) ; Fibo Lite : passerelle FIBO-VLM ouverte, sans Gemini.
+            { id: 'fibo-2', name: { fr: 'Fibo 2 (Qualité ; consigne reformulée via Gemini)', en: 'Fibo 2 (Quality; prompt rewritten via Gemini)', es: 'Fibo 2 (Calidad; instrucción reformulada vía Gemini)' } },
+            { id: 'fibo-lite', name: { fr: 'Fibo Lite (Rapide ; sans passage par Google)', en: 'Fibo Lite (Fast; no Google step)', es: 'Fibo Lite (Rápido; sin pasar por Google)' } }
         ]
     };
 
@@ -5813,7 +6284,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (msg.includes('invalid_api_key') || msg.includes('invalid api key') ||
             msg.includes('incorrect api key') || msg.includes('authentication') ||
             msg.includes('unauthorized') ||
-            msg.includes('api key is invalid')) return t.errInvalidKey || raw;  // Meta : « Unauthorized », Upstage : « Your API key is invalid »
+            msg.includes('api key is invalid') || msg.includes('invalid_api_token') || msg.includes('api token provided is invalid')) return t.errInvalidKey || raw;  // Meta : « Unauthorized », Upstage : « Your API key is invalid »
         if (msg.includes('insufficient_quota') || msg.includes('quota') ||
             msg.includes('billing') || msg.includes('credit')) {
             return (t.errQuota || raw).replace('{provider}', provider || '');
@@ -6030,6 +6501,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             populateImageModels();
             if ([...imageModelSelect.options].some(o => o.value === keepModel)) imageModelSelect.value = keepModel;
             if (providerSelect.value === 'recraft') updateRecraftOptions();
+            if (providerSelect.value === 'bria') updateBriaOptions();
         }
         if (videoAspectSelect) {
             const arOpts = videoAspectSelect.options;
@@ -6568,6 +7040,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const isRecraft = providerSelect.value === 'recraft';
         if (imageRecraftSizeGroup) imageRecraftSizeGroup.style.display = isRecraft ? '' : 'none';
         if (rcOptions) rcOptions.style.display = isRecraft ? '' : 'none';
+        const isBria = providerSelect.value === 'bria';
+        if (briaOptions) briaOptions.style.display = isBria ? '' : 'none';
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
         if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
@@ -6590,6 +7064,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         restore(imageGrokResolutionSelect, 'ai_grok_image_resolution');
         restore(imageRecraftSizeSelect, 'ai_recraft_image_size');
         if (isRecraft) { restore(imageModelSelect, 'ai_recraft_model'); updateRecraftOptions(); refreshRecraftBalance(); }
+        if (isBria) { restore(imageModelSelect, 'ai_bria_model'); updateBriaOptions(); }
     }
 
     // ===== EVENT LISTENERS =====
@@ -6726,6 +7201,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             });
         }
         setupRecraftOptions();
+        setupBriaOptions();
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
@@ -7879,6 +8355,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             autoResizeTextarea();
             if (target.mode === 'animate') await runAnimate(target.src, 'prompt', text);
             else if (target.mode === 'rc-bg') await runRecraftTool(target.src, 'replaceBackground', null, text);
+            else if (target.mode.startsWith('bria:')) await runBriaTool(target.src, target.mode.slice(5), { text });
+            else if (briaSelected()) await runBriaTool(target.src, 'edit', { text, display: `✏️ ${text}` });
             else await runImageEdit({ srcs: [target.src], prompt: EDIT_PROMPTS.edit(text), display: `✏️ ${text}` });
             return;
         }
@@ -7979,8 +8457,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (displayText !== fullPrompt) uEntry.display = displayText;
             conversationHistory.push(uEntry);
             saveHistory();
-            if (provider === 'recraft' && pendingImages.length > 0) {
-                // Recraft : nouvelle image à partir de la (première) photo jointe, ressemblance réglable
+            if ((provider === 'recraft' || provider === 'bria') && pendingImages.length > 0) {
+                // Recraft / Bria : nouvelle image à partir de la (première) photo jointe
                 await handleImageGeneration(fullPrompt, provider, key, b64ToBlob(pendingImages[0].base64, pendingImages[0].mimeType));
             } else if (EDIT_CAPS[provider] && pendingImages.length > 0) {
                 // Photo(s) jointe(s) en mode Image : on MODIFIE l'image au lieu de l'ignorer
@@ -9019,8 +9497,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         { id: 'photo', ratio: '3:2', size: '1536x1024', qwen: '1248*832', w: 17, h: 11, label: 'fmtPhoto', tip: 'fmtPhotoTip' },
         { id: 'landscape', ratio: '4:3', size: '1536x1152', qwen: '1152*864', w: 16, h: 12, label: 'fmtLandscape', tip: 'fmtLandscapeTip' },
         { id: 'widescreen', ratio: '16:9', size: '1536x864', qwen: '1280*720', w: 18, h: 10, label: 'fmtWidescreen', tip: 'fmtWidescreenTip' },
-        { id: 'cinematic', ratio: '21:9', size: '1792x768', qwen: '1568*672', w: 21, h: 9, label: 'fmtCinematic', tip: 'fmtCinematicTip', skip: ['recraft'] },
-        { id: 'banner', ratio: '5:2', size: '1920x768', qwen: '1600*640', w: 22, h: 9, label: 'fmtBanner', tip: 'fmtBannerTip', skip: ['gemini', 'recraft'] }
+        { id: 'cinematic', ratio: '21:9', size: '1792x768', qwen: '1568*672', w: 21, h: 9, label: 'fmtCinematic', tip: 'fmtCinematicTip', skip: ['recraft', 'bria'] },
+        { id: 'banner', ratio: '5:2', size: '1920x768', qwen: '1600*640', w: 22, h: 9, label: 'fmtBanner', tip: 'fmtBannerTip', skip: ['gemini', 'recraft', 'bria'] }
     ];
     const CHROMA = '#00ff00';  // fond uni demandé aux modèles sans transparence, retiré ensuite
     // Consigne négative (Qwen) : les indications dessinées ne doivent pas réapparaître.
@@ -9063,6 +9541,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Fournisseur qui fera l'édition : le fournisseur sélectionné s'il édite les images et a une
     // clé, sinon OpenAI, sinon le premier fournisseur d'édition disponible (null = aucune clé).
+    // Bria est le fournisseur choisi et sa clé est présente : ✂️ Retirer le fond, ⬚ Format et ✏️ Modifier passent par Bria
+    function briaSelected() { return providerSelect.value === 'bria' && !!getKeyForProvider('bria'); }
+
     function editProvider() {
         const p = providerSelect.value;
         if (EDIT_CAPS[p] && getKeyForProvider(p)) return p;
@@ -9161,17 +9642,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
         bar.appendChild(pixelTool(t.imgComment, t.imgCommentTip, () => openImageEditor(src, 'comment')));
         // Clé Recraft présente (vérifiée au clic) : détourage natif de Recraft (vraie transparence, 0,01 $),
         // sinon le fournisseur d'édition habituel.
-        bar.appendChild(pixelTool(t.imgRemoveBg, t.imgRemoveBgTip, () => getKeyForProvider('recraft')
+        bar.appendChild(pixelTool(t.imgRemoveBg, t.imgRemoveBgTip, () => briaSelected()
+            ? runBriaTool(src, 'removeBg')
+            : getKeyForProvider('recraft')
             ? runRecraftTool(src, 'removeBackground')
             : runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.removeBg, display: t.imgRemoveBg, transparent: true })));
 
         // Menu des formats : proposés selon le fournisseur qui fera l'édition
         const fmt = toolMenu(t.imgResize, t.imgResizeTip, (menu) => {
-            const p = getKeyForProvider('recraft') ? 'recraft' : editProvider();
+            const p = briaSelected() ? 'bria' : getKeyForProvider('recraft') ? 'recraft' : editProvider();
             menu.querySelectorAll('.img-format-item').forEach(it => { it.hidden = !!(p && it._skip && it._skip.includes(p)); });
         });
         IMAGE_ASPECTS.forEach(a => {
-            const item = fmt.item(t[a.tip], () => getKeyForProvider('recraft')
+            const item = fmt.item(t[a.tip], () => briaSelected()
+                ? runBriaTool(src, 'expand', { params: { aspect_ratio: a.ratio }, display: `⬚ ${t[a.label]} (${a.ratio})` })
+                : getKeyForProvider('recraft')
                 ? runRecraftTool(src, 'outpaint', null, EDIT_PROMPTS.outpaint, { params: { size: a.ratio }, display: `⬚ ${t[a.label]} (${a.ratio})` })
                 : runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.resize(a.ratio), display: `⬚ ${t[a.label]} (${a.ratio})`, size: a.size, ratio: a.ratio, qwenSize: a.qwen }));
             item.setAttribute('aria-label', `${t[a.label]} ${a.ratio} — ${t[a.tip]}`);
@@ -9205,6 +9690,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             item.setAttribute('aria-label', `${label} — ${tip}`);
         });
         bar.appendChild(anim.wrap);
+        bar.appendChild(briaMenu(src, t.imgBria, t.imgBriaTip, BRIA_RETOUCH_OPS, remote));
+        bar.appendChild(briaMenu(src, t.imgBriaStyle, t.imgBriaStyleTip, BRIA_STYLE_OPS, remote));
+        bar.appendChild(briaProductMenu(src));
         bar.appendChild(recraftMenu(src, remote
             ? ['removeBackground', 'replaceBackground', 'outpaintCustom', 'variateImage', 'vectorize', 'vectorizeCut', 'crispUpscale', 'creativeUpscale', 'enhance', 'enhanceSubtle']
             : ['removeBackground', 'replaceBackground', 'generateBackground', 'eraseRegion', 'inpaint', 'outpaintCustom', 'variateImage', 'vectorize', 'vectorizeCut', 'crispUpscale', 'creativeUpscale', 'enhance', 'enhanceSubtle']));
@@ -9233,7 +9721,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const t = I18N[currentLang];
         const animate = mode === 'animate';
         const rcBg = mode === 'rc-bg';
-        pendingImageEdit = { src, mode: animate ? 'animate' : rcBg ? 'rc-bg' : 'edit', placeholder: userInput.placeholder };
+        const briaOp = typeof mode === 'string' && mode.startsWith('bria:') ? mode.slice(5) : null;
+        pendingImageEdit = { src, mode: animate ? 'animate' : rcBg ? 'rc-bg' : briaOp ? mode : 'edit', placeholder: userInput.placeholder };
         const chip = document.createElement('div');
         chip.className = 'edit-target-chip';
         chip.id = 'edit-target-chip';
@@ -9241,7 +9730,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         thumb.src = src;
         thumb.alt = '';
         const txt = document.createElement('span');
-        txt.textContent = animate ? t.animChip : rcBg ? t.rcBgChip : t.editChip;
+        txt.textContent = animate ? t.animChip : rcBg ? t.rcBgChip : briaOp ? t[BRIA_TOOLS[briaOp].label].replace(/…$/, '') : t.editChip;
         const x = document.createElement('button');
         x.type = 'button';
         x.textContent = '✕';
@@ -9250,7 +9739,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         x.addEventListener('click', clearImageEditTarget);
         chip.append(thumb, txt, x);
         document.querySelector('.input-area').appendChild(chip);
-        userInput.placeholder = animate ? t.animPlaceholder : rcBg ? t.rcBgPlaceholder : t.editPlaceholder;
+        userInput.placeholder = animate ? t.animPlaceholder : rcBg ? t.rcBgPlaceholder : briaOp ? t.brTextPh : t.editPlaceholder;
         userInput.focus();
     }
     function clearImageEditTarget() {
@@ -9306,7 +9795,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const box = el('div', 'ie-box');
         const head = el('div', 'ie-head');
         const titles = { erase: [t.ieTitleErase, t.ieHelpErase], markup: [t.ieTitleMarkup, t.ieHelpMarkup], comment: [t.ieTitleComment, t.ieHelpComment],
-            recraft: [t.ieTitleRcErase, t.ieHelpErase], 'recraft-inpaint': [t.ieTitleInpaint, t.ieHelpInpaint], 'recraft-genbg': [t.ieTitleGenBg, t.ieHelpGenBg] };
+            recraft: [t.ieTitleRcErase, t.ieHelpErase], 'recraft-inpaint': [t.ieTitleInpaint, t.ieHelpInpaint], 'recraft-genbg': [t.ieTitleGenBg, t.ieHelpGenBg],
+            'bria-erase': [t.ieTitleBriaErase, t.ieHelpErase], 'bria-fill': [t.ieTitleBriaFill, t.ieHelpBriaFill] };
         const title = titles[editVia] || titles[mode];
         head.append(el('h3', null, title[0]), el('p', null, title[1]));
 
@@ -9366,7 +9856,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             instr = el('textarea', 'ie-instr');
             instr.rows = 3;
             instr.placeholder = mode === 'erase' ? t.ieInstrErase : t.ieInstrMarkup;
-            if (editVia === 'recraft') instr.hidden = true;  // Recraft efface sans consigne
+            if (editVia === 'recraft' || editVia === 'bria-erase') instr.hidden = true;  // effacement sans consigne
+            if (editVia === 'bria-fill') instr.placeholder = t.ieInstrBriaFill;
             if (editVia === 'recraft-inpaint') instr.placeholder = t.ieInstrInpaint;
             if (editVia === 'recraft-genbg') instr.placeholder = t.ieInstrGenBg;
             side.appendChild(instr);
@@ -9379,7 +9870,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const applyBtn = button('ie-btn primary', t.ieApply, t.ieApplyTip);
         actions.append(cancelBtn, applyBtn);
         const via = editProvider();
-        const viaName = editVia ? 'Recraft' : (via ? EDIT_PROVIDER_NAMES[via] : '');
+        const viaName = editVia ? (editVia.startsWith('bria') ? 'Bria' : 'Recraft') : (via ? EDIT_PROVIDER_NAMES[via] : '');
         foot.append(el('div', 'ie-note', t.ieCostNote + (viaName ? ' ' + t.ieVia.replace('{p}', viaName) : '')), actions);
         box.append(head, tools, body, foot);
         overlay.appendChild(box);
@@ -9495,7 +9986,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 if (mode === 'erase' && editVia) {
                     // Convention Recraft : masque en niveaux de gris, blanc = zone à traiter, noir = à garder
                     const txt = instr ? instr.value.trim() : '';
-                    if (editVia !== 'recraft' && !txt) { showToast(t.rcNeedPrompt, 'error'); applyBtn.disabled = false; instr.focus(); return; }
+                    if (editVia !== 'recraft' && editVia !== 'bria-erase' && !txt) { showToast(t.rcNeedPrompt, 'error'); applyBtn.disabled = false; instr.focus(); return; }
                     const rm = newCanvas();
                     const rc = rm.getContext('2d');
                     rc.fillStyle = '#000';
@@ -9503,6 +9994,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     drawStrokes(rc, '#fff');
                     const mask = await canvasToBlob(rm);
                     close();
+                    // Bria : même convention de masque (blanc = à effacer / à remplir)
+                    if (editVia.startsWith('bria')) { await runBriaTool(base, editVia === 'bria-erase' ? 'erase' : 'genFill', { mask, text: editVia === 'bria-erase' ? undefined : txt }); return; }
                     const op = { recraft: 'eraseRegion', 'recraft-inpaint': 'inpaint', 'recraft-genbg': 'generateBackground' }[editVia];
                     await runRecraftTool(base, op, mask, editVia === 'recraft' ? null : txt);
                     return;
@@ -10012,6 +10505,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 imageData = await generateImageGrok(prompt, key);
             } else if (provider === 'recraft') {
                 imageData = await generateImageRecraft(prompt, key, source);
+            } else if (provider === 'bria') {
+                imageData = await generateImageBria(prompt, key, source);
             } else {
                 throw new Error("Image generation is not available for this provider.");
             }
@@ -10850,6 +11345,459 @@ A small follow-up tweak the user asks for can be done right away without a new p
             l.textContent = label;
             it.appendChild(l);
             it.setAttribute('aria-label', `${label} — ${tip}`);
+        });
+        return m.wrap;
+    }
+
+    // ----- Bria -----
+    const BRIA_API = 'https://engine.prod.bria-api.com/v2';
+    // Erreur Bria : { error: { code, message, details } } ou texte
+    async function briaError(res) {
+        const raw = await res.text().catch(() => '');
+        try { const j = JSON.parse(raw); const e = j.error || j; return e.details || e.message || e.detail || raw || `HTTP Error ${res.status}`; } catch (e) { return raw.trim() || `HTTP Error ${res.status}`; }
+    }
+    // POST synchrone (sync: true) par défaut ; opts.sync === false : pas de champ sync (API v1, pubs).
+    // Si Bria répond 202 (tâche longue), suivi de status_url (opts.every ms, opts.max suivis ; 2,5 s ×
+    // 120 par défaut). Renvoie l'objet result ({ image_url, … }).
+    async function briaRequest(path, body, key, signal, opts = {}) {
+        return (await briaPost(BRIA_API + path, body, key, signal, opts)).result;
+    }
+    // Renvoie le corps JSON final (v1 : { result_url } ou { result: [[url, graine, nom]] } ; v2 :
+    // { result: { image_url } } ; pubs : { result: { results: [{ url }] } }).
+    async function briaPost(url, body, key, signal, opts = {}) {
+        const headers = { 'Content-Type': 'application/json', 'api_token': key };
+        const res = await fetchWithRetry(url, { method: 'POST', signal, headers, body: JSON.stringify(opts.sync === false ? body : { ...body, sync: true }) });
+        if (!res.ok) throw new Error(await briaError(res));
+        let j = await res.json();
+        const every = opts.every || 2500, max = opts.max || 120;
+        if (!j.status_url || j.result || j.result_url || j.url) return j;
+        for (let i = 0; !j.result && j.status_url && i < max; i++) {
+            if (j.status === 'ERROR') break;
+            await new Promise(r => setTimeout(r, every));
+            if (signal && signal.aborted) throw new DOMException('Aborted', 'AbortError');
+            const r = await fetchWithRetry(j.status_url, { signal, headers: { 'api_token': key } });
+            if (!r.ok) throw new Error(await briaError(r));
+            const st = await r.json();
+            if (st.status === 'COMPLETED' && st.result) { j = st; break; }
+            if (st.status === 'ERROR') { const e = st.error || {}; throw new Error(e.details || e.message || 'Bria error'); }
+            j = { ...st, status_url: j.status_url };
+        }
+        if (!j.result) throw new Error(j.status === 'ERROR' ? ((j.error || {}).details || (j.error || {}).message || 'Bria error') : I18N[currentLang].briaTimeout);
+        return j;
+    }
+    // Toutes les URL d'images d'une réponse Bria, quelle que soit sa forme
+    function briaUrls(r) {
+        if (!r || typeof r !== 'object') return [];
+        if (typeof r.image_url === 'string') return [r.image_url];
+        if (typeof r.result_url === 'string') return [r.result_url];
+        if (typeof r.url === 'string') return [r.url];
+        if (Array.isArray(r.results)) return r.results.filter(x => x && x.url).map(x => x.url);
+        if (Array.isArray(r.result)) return r.result.map(x => Array.isArray(x) ? x[0] : (x && (x.url || x.image_url))).filter(Boolean);
+        return r.result ? briaUrls(r.result) : [];
+    }
+    // Image → base64 brut (sans préfixe data:) ou URL publique ; JPEG / PNG / WEBP
+    async function briaImageInput(src) {
+        const d = await recraftImageInput(src);
+        return d.startsWith('data:') ? d.split(',')[1] : d;
+    }
+    const BRIA_RATIOS = ['1:1', '2:3', '3:2', '3:4', '4:3', '4:5', '5:4', '9:16', '16:9', '16:10', '10:16', '2:1', '1:2', '21:9', '9:21', '3:1', '1:3', '4:1', '1:4', '5:1', '1:5'];
+    const BRIA_LITE_RATIOS = BRIA_RATIOS.slice(0, 9);
+    const BRIA_PHOTO_STYLES = { kodak_film: T3b('Pellicule Kodak', 'Kodak film', 'Película Kodak'), hard_flash: T3b('Flash direct', 'Hard flash', 'Flash directo'), hazy_dreamy: T3b('Brumeux, onirique', 'Hazy, dreamy', 'Brumoso, onírico'), rough_realism: T3b('Réalisme brut', 'Rough realism', 'Realismo crudo') };
+    function T3b(fr, en, es) { return { fr, en, es }; }
+    const brRatio = $('br-ratio'), brRes = $('br-res'), brStyle = $('br-style'), brSeed = $('br-seed');
+    const brSeedValue = () => { const v = parseInt(brSeed.value, 10); return Number.isFinite(v) && v >= 0 ? v : undefined; };
+
+    async function generateImageBria(prompt, key, source) {
+        const model = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'fibo-2';
+        const lite = model === 'fibo-lite';
+        const body = { prompt, aspect_ratio: brRatio.value || '1:1', output_type: 'png' };
+        if (!lite) {
+            body.resolution = brRes.value || '1MP';
+            if (brStyle.value) body.style = brStyle.value;
+        }
+        if (brSeedValue() !== undefined) body.seed = brSeedValue();
+        if (source) body.images = [await briaImageInput(source)];  // photo jointe : la consigne la retravaille
+        const result = await briaRequest(lite ? '/image/generate/lite' : '/image/generate', body, key, currentAbortController.signal);
+        if (!result.image_url) throw new Error('Unexpected response format from Bria.');
+        return result.image_url;  // URL temporaire (3 jours) : displayAndStoreImage la télécharge si possible
+    }
+
+    function updateBriaOptions() {
+        const t = I18N[currentLang];
+        const model = imageModelSelect.value || 'fibo-2';
+        const lite = model === 'fibo-lite';
+        const prev = localStorage.getItem('ai_bria_ratio') || brRatio.value || '1:1';
+        brRatio.innerHTML = '';
+        (lite ? BRIA_LITE_RATIOS : BRIA_RATIOS).forEach(r => { const o = document.createElement('option'); o.value = r; o.textContent = RC_RATIO_LABELS[r] ? t[RC_RATIO_LABELS[r]] : r; brRatio.appendChild(o); });
+        brRatio.value = [...brRatio.options].some(o => o.value === prev) ? prev : '1:1';
+        const prevStyle = localStorage.getItem('ai_bria_style') || '';
+        brStyle.innerHTML = '';
+        const none = document.createElement('option'); none.value = ''; none.textContent = t.brStyleNone; brStyle.appendChild(none);
+        Object.entries(BRIA_PHOTO_STYLES).forEach(([v, n]) => { const o = document.createElement('option'); o.value = v; o.textContent = n[currentLang] || n.fr; brStyle.appendChild(o); });
+        brStyle.value = prevStyle;
+        $('br-res-group').style.display = lite ? 'none' : '';
+        $('br-style-group').style.display = lite ? 'none' : '';
+        brSeed.placeholder = t.rcSeedPh;
+        brSeed.title = t.brSeedTip;
+    }
+    function setupBriaOptions() {
+        if (!briaOptions) return;
+        brRatio.addEventListener('change', () => localStorage.setItem('ai_bria_ratio', brRatio.value));
+        brStyle.addEventListener('change', () => localStorage.setItem('ai_bria_style', brStyle.value));
+        const r = localStorage.getItem('ai_bria_res'); if (r) brRes.value = r;
+        brRes.addEventListener('change', () => localStorage.setItem('ai_bria_res', brRes.value));
+        brSeed.value = localStorage.getItem('ai_bria_seed') || '';
+        brSeed.addEventListener('input', () => localStorage.setItem('ai_bria_seed', brSeed.value));
+        imageModelSelect.addEventListener('change', () => {
+            if (providerSelect.value !== 'bria') return;
+            localStorage.setItem('ai_bria_model', imageModelSelect.value);
+            updateBriaOptions();
+        });
+    }
+
+    // ----- Outils Bria (menus 🪄 Bria et 🎨 Bria Style) : toujours Bria, quel que soit le fournisseur -----
+    // path : point d'accès sous /v2/image/edit ('' = /v2/image/edit, l'édition Fibo) ; text : paramètre
+    // rempli par le message suivant ; editor : éditeur de dessin (masque) ; dialog : petite fenêtre de
+    // réglages ; images : l'image va dans images[] (et non image) ; seed : la graine du panneau s'applique.
+    const BRIA_TOOLS = {
+        removeBg: { path: 'remove_background', label: 'brRemoveBg' },
+        removeBgGuided: { path: 'remove_background', label: 'brRemoveBgGuided', text: 'prompt' },
+        replaceBg: { path: 'replace_background', label: 'brReplaceBg', text: 'prompt', seed: true },
+        blurBg: { path: 'blur_background', label: 'brBlurBg', dialog: 'blur' },
+        eraseFg: { path: 'erase_foreground', label: 'brEraseFg' },
+        erase: { path: 'erase', label: 'brErase', editor: 'bria-erase' },
+        removeObject: { path: 'remove_object', label: 'brRemoveObject', text: 'prompt' },
+        genFill: { path: 'gen_fill', label: 'brGenFill', editor: 'bria-fill', text: 'prompt', seed: true },
+        addObject: { path: 'add_object_by_text', label: 'brAddObject', text: 'instruction' },
+        replaceObject: { path: 'replace_object_by_text', label: 'brReplaceObject', text: 'instruction' },
+        rewriteText: { path: 'rewrite_text', label: 'brRewriteText', text: 'new_text' },
+        edit: { path: '', label: 'brEdit', text: 'instruction', images: true, seed: true },
+        blend: { path: 'blend', label: 'brBlend', text: 'instruction' },
+        restore: { path: 'restore', label: 'brRestore' },
+        colorize: { path: 'colorize', label: 'brColorize', dialog: 'colorize' },
+        restyle: { path: 'restyle', label: 'brRestyle', dialog: 'restyle' },
+        relight: { path: 'relight', label: 'brRelight', dialog: 'relight' },
+        reseason: { path: 'reseason', label: 'brReseason', dialog: 'reseason' },
+        sketch: { path: 'sketch_to_colored_image', label: 'brSketch' },
+        enhance: { path: 'enhance', label: 'brEnhance', seed: true },
+        upscale: { path: 'increase_resolution', label: 'brUpscale', dialog: 'upscale' },
+        expand: { path: 'expand', label: 'brExpand', dialog: 'expand', seed: true },
+        crop: { path: 'crop_foreground', label: 'brCrop' }
+    };
+    const BRIA_RETOUCH_OPS = ['removeBg', 'removeBgGuided', 'replaceBg', 'blurBg', 'eraseFg', 'erase', 'removeObject', 'genFill', 'addObject', 'replaceObject', 'rewriteText', 'edit', 'blend'];
+    const BRIA_STYLE_OPS = ['restore', 'colorize', 'restyle', 'relight', 'reseason', 'sketch', 'enhance', 'upscale', 'expand', 'crop'];
+    // Libellés des choix proposés par les fenêtres de réglages (valeurs = celles de l'API)
+    const BRIA_CHOICES = {
+        color: { color_contemporary: T3b('Couleurs modernes', 'Contemporary colors', 'Colores modernos'), color_vivid: T3b('Couleurs vives', 'Vivid colors', 'Colores vivos'), black_and_white: T3b('Noir et blanc', 'Black and white', 'Blanco y negro'), sepia_vintage: T3b('Sépia rétro', 'Vintage sepia', 'Sepia retro') },
+        style: { render_3d: T3b('Rendu 3D', '3D render', 'Render 3D'), cubism: T3b('Cubisme', 'Cubism', 'Cubismo'), oil_painting: T3b('Peinture à l\'huile', 'Oil painting', 'Pintura al óleo'), anime: T3b('Anime', 'Anime', 'Anime'), cartoon: T3b('Dessin animé', 'Cartoon', 'Caricatura'), coloring_book: T3b('Livre à colorier', 'Coloring book', 'Libro para colorear'), retro_ad: T3b('Pub rétro', 'Retro ad', 'Anuncio retro'), pop_art_halftone: T3b('Pop art (trame)', 'Pop art halftone', 'Pop art (trama)'), vector_art: T3b('Art vectoriel', 'Vector art', 'Arte vectorial'), story_board: T3b('Storyboard', 'Storyboard', 'Storyboard'), art_nouveau: T3b('Art nouveau', 'Art nouveau', 'Art nouveau'), cross_etching: T3b('Gravure hachurée', 'Cross etching', 'Grabado de tramas'), wood_cut: T3b('Gravure sur bois', 'Woodcut', 'Grabado en madera') },
+        light: { 'midday': T3b('Plein midi', 'Midday', 'Mediodía'), 'blue hour light': T3b('Heure bleue', 'Blue hour', 'Hora azul'), 'low-angle sunlight': T3b('Soleil rasant', 'Low-angle sunlight', 'Sol rasante'), 'sunrise light': T3b('Lever du soleil', 'Sunrise', 'Amanecer'), 'spotlight on subject, keep background settings': T3b('Projecteur sur le sujet', 'Spotlight on subject', 'Foco sobre el sujeto'), 'overcast light': T3b('Ciel couvert', 'Overcast', 'Nublado'), 'soft overcast daylight lighting': T3b('Jour couvert doux', 'Soft overcast daylight', 'Día nublado suave'), 'cloud-filtered lighting': T3b('Lumière filtrée par les nuages', 'Cloud-filtered light', 'Luz filtrada por nubes'), 'fog-diffused lighting': T3b('Brouillard diffus', 'Fog-diffused light', 'Niebla difusa'), 'moonlight lighting': T3b('Clair de lune', 'Moonlight', 'Luz de luna'), 'starlight lighting nighttime': T3b('Nuit étoilée', 'Starlight, nighttime', 'Noche estrellada'), 'soft bokeh lighting': T3b('Bokeh doux', 'Soft bokeh', 'Bokeh suave'), 'harsh studio lighting keep background setting': T3b('Studio contrasté', 'Harsh studio lighting', 'Estudio contrastado') },
+        dir: { front: T3b('De face', 'Front', 'De frente'), side: T3b('De côté', 'Side', 'Lateral'), bottom: T3b('Par le bas', 'From below', 'Desde abajo'), 'top-down': T3b('Par le haut', 'Top-down', 'Desde arriba') },
+        season: { spring: T3b('Printemps', 'Spring', 'Primavera'), summer: T3b('Été', 'Summer', 'Verano'), autumn: T3b('Automne', 'Autumn', 'Otoño'), winter: T3b('Hiver', 'Winter', 'Invierno') }
+    };
+
+    async function runBriaTool(src, op, opts = {}) {
+        const t = I18N[currentLang];
+        if (isProcessing) return;
+        if (pendingCompareChoice) { showToast(t.compareMustChoose, 'error'); return; }
+        const key = getKeyForProvider('bria');
+        if (!key) { showToast(t.briaNeedKey, 'error', 7000); return; }
+        const tool = BRIA_TOOLS[op];
+        const display = opts.display || (opts.text ? `${t[tool.label].replace(/…$/, '')} : ${opts.text}` : t[tool.label].replace(/…$/, ''));
+        if (welcome) welcome.style.display = 'none';
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        try {
+            addMessage(display, 'user');
+            conversationHistory.push({ role: 'user', content: display });
+            saveHistory();
+            const loadingDiv = addMessage(null, 'ai', 'bria', op, true);
+            try {
+                const image = await briaImageInput(src);
+                const body = { ...(tool.images ? { images: [image] } : { image }), ...(opts.params || {}) };
+                if (tool.text && opts.text) body[tool.text] = opts.text;
+                if (opts.mask) body.mask = (await blobToDataUrl(opts.mask)).split(',')[1];
+                if (tool.seed && brSeedValue() !== undefined) body.seed = brSeedValue();
+                const result = await briaRequest('/image/edit' + (tool.path ? '/' + tool.path : ''), body, key, currentAbortController.signal);
+                if (!result.image_url) throw new Error('Unexpected response format from Bria.');
+                await displayAndStoreImage(loadingDiv, result.image_url, display, 'bria', op, true);
+            } catch (error) {
+                updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'bria')}`);
+            }
+        } finally {
+            isProcessing = false;
+            setBusyUI(false, false);
+            currentAbortController = null;
+        }
+    }
+
+    // Fenêtre de réglages d'un outil Bria (listes de choix, texte libre, case à cocher)
+    function openBriaDialog(src, op) {
+        const t = I18N[currentLang];
+        const tool = BRIA_TOOLS[op];
+        const L3 = (obj) => Object.entries(obj).map(([v, n]) => [v, n[currentLang] || n.fr]);
+        const FIELDS = {
+            blur: [{ k: 'scale', label: t.brBlurScale, opts: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5']], def: '3', num: true }],
+            colorize: [{ k: 'color', label: t.brColorMode, opts: L3(BRIA_CHOICES.color) }],
+            restyle: [{ k: 'style', label: t.brStyleChoice, opts: L3(BRIA_CHOICES.style) }, { k: 'style', label: t.brCustom, text: true }],
+            relight: [{ k: 'light_type', label: t.brLightType, opts: L3(BRIA_CHOICES.light) }, { k: 'light_direction', label: t.brLightDir, opts: [['', t.brLightDirAuto]].concat(L3(BRIA_CHOICES.dir)) }],
+            reseason: [{ k: 'season', label: t.brSeason, opts: L3(BRIA_CHOICES.season) }, { k: 'season', label: t.brCustom, text: true }],
+            upscale: [{ k: 'desired_increase', label: t.brFactor, opts: [['2', '×2'], ['4', '×4']], num: true }, { k: 'preserve_color', label: t.brKeepColors, check: true }],
+            expand: [{ k: 'aspect_ratio', label: t.brRatio, opts: BRIA_LITE_RATIOS.map(r => [r, RC_RATIO_LABELS[r] ? `${t[RC_RATIO_LABELS[r]]}` : r]), def: '16:9' }, { k: 'prompt', label: t.brExpandPrompt, text: true }]
+        }[tool.dialog];
+        const d = rcDialog(t[tool.label].replace(/…$/, ''), t[tool.label + 'Tip']);
+        const form = document.createElement('div'); form.className = 'rc-form';
+        const inputs = FIELDS.map(f => {
+            const lab = document.createElement('label'); lab.textContent = f.label;
+            let el;
+            if (f.opts) { el = document.createElement('select'); f.opts.forEach(([v, l]) => { const o = document.createElement('option'); o.value = v; o.textContent = l; el.appendChild(o); }); if (f.def) el.value = f.def; }
+            else if (f.text) { el = document.createElement('input'); el.type = 'text'; el.className = 'rc-input'; el.maxLength = 200; el.style.width = '100%'; }
+            else { el = document.createElement('input'); el.type = 'checkbox'; lab.style.flexDirection = 'row'; lab.style.alignItems = 'center'; }
+            lab.appendChild(el); form.appendChild(lab);
+            return { f, el };
+        });
+        d.box.appendChild(form);
+        const cancel = rcButton(t.ieCancel), apply = rcButton(t.brDlgApply, true);
+        cancel.addEventListener('click', d.close);
+        apply.addEventListener('click', () => {
+            const params = {}, shown = {};
+            // Texte libre prioritaire sur la liste de même clé (style / saison décrits par l'usager)
+            const typed = new Set(inputs.filter(({ f, el }) => f.text && el.value.trim()).map(({ f }) => f.k));
+            inputs.forEach(({ f, el }) => {
+                if (f.opts) { if (el.value !== '' && !typed.has(f.k)) { params[f.k] = f.num ? parseInt(el.value, 10) : el.value; shown[f.k] = el.options[el.selectedIndex].textContent; } }
+                else if (f.text) { const v = el.value.trim(); if (v) { params[f.k] = v; shown[f.k] = v; } }
+                else if (el.checked) { params[f.k] = true; shown[f.k] = f.label; }
+            });
+            d.close();
+            runBriaTool(src, op, { params, display: `${t[tool.label].replace(/…$/, '')} : ${Object.values(shown).join(', ')}` });
+        });
+        rcFoot(d.box, [cancel, apply]);
+    }
+
+    // ----- 🛍️ Bria Produit -----
+    // url : point d'accès complet ; input : nom du champ qui reçoit l'image (v1 : « file » base64 brut
+    // ou « image_url » ; v2 : image / person_image / scene ; pubs : attachments en data URI) ;
+    // fields : fenêtre de réglages ; build(v) : paramètres envoyés ; v2 : contrat v2 (sync: true).
+    const BRIA_V1 = 'https://engine.prod.bria-api.com/v1';
+    const BP_RATIOS = ['1:1', '2:3', '3:2', '3:4', '4:3', '4:5', '5:4', '9:16', '16:9'];
+    const BP_AD_PRESETS = [['feed', 1080, 1080, T3b('Carré (publication)', 'Square (feed)', 'Cuadrado (publicación)')], ['portrait', 1080, 1350, T3b('Portrait 4:5', 'Portrait 4:5', 'Vertical 4:5')], ['story', 1080, 1920, T3b('Story / Reels', 'Story / Reels', 'Story / Reels')], ['link', 1200, 628, T3b('Lien partagé', 'Link share', 'Enlace compartido')], ['youtube', 1280, 720, T3b('YouTube 16:9', 'YouTube 16:9', 'YouTube 16:9')], ['pinterest', 1000, 1500, T3b('Pinterest 2:3', 'Pinterest 2:3', 'Pinterest 2:3')], ['mrec', 300, 250, T3b('Pavé 300×250', 'Medium rectangle 300×250', 'Rectángulo 300×250')], ['leaderboard', 728, 90, T3b('Bannière 728×90', 'Leaderboard 728×90', 'Banner 728×90')], ['billboard', 970, 250, T3b('Grand format 970×250', 'Billboard 970×250', 'Gran formato 970×250')], ['skyscraper', 160, 600, T3b('Gratte-ciel 160×600', 'Skyscraper 160×600', 'Rascacielos 160×600')]];
+    const BP_CHOICES = {
+        effect: { dust: T3b('Poussière', 'Dust', 'Polvo'), snow: T3b('Neige', 'Snow', 'Nieve'), fog: T3b('Brouillard', 'Fog', 'Niebla'), 'light leaks': T3b('Fuites de lumière', 'Light leaks', 'Fugas de luz'), 'lens flare': T3b('Reflet d\'objectif', 'Lens flare', 'Destello de lente') },
+        preset: { 'warm-day': T3b('Jour chaud', 'Warm day', 'Día cálido'), 'cold-day': T3b('Jour froid', 'Cold day', 'Día frío'), 'warm-night': T3b('Nuit chaude', 'Warm night', 'Noche cálida'), 'cold-night': T3b('Nuit froide', 'Cold night', 'Noche fría') }
+    };
+    const bpFormat = (v) => v.format ? { placement_type: 'automatic_aspect_ratio', aspect_ratio: v.format } : {};
+    const BRIA_PRODUCT = {
+        productCutout: { label: 'bpCutout', url: BRIA_API + '/image/edit/product/cutout', input: 'image', v2: true },
+        packshot: { label: 'bpPackshot', url: BRIA_V1 + '/product/packshot', input: 'file',
+            fields: [{ k: 'bg', type: 'color', label: 'bpBgColor', def: '#ffffff' }, { k: 'transparent', type: 'check', label: 'bpTransparent' }],
+            build: v => ({ background_color: v.transparent ? 'transparent' : v.bg }) },
+        shadow: { label: 'bpShadow', url: BRIA_V1 + '/product/shadow', input: 'file',
+            fields: [{ k: 'type', type: 'select', label: 'bpShadowType', opts: [['regular', 'bpShadowRegular'], ['float', 'bpShadowFloat']] }, { k: 'intensity', type: 'number', label: 'bpIntensity', def: 60, min: 0, max: 100 }, { k: 'transparent', type: 'check', label: 'bpTransparent', def: true }, { k: 'bg', type: 'color', label: 'bpBgColor', def: '#ffffff' }],
+            build: v => ({ type: v.type, shadow_intensity: v.intensity, ...(v.transparent ? {} : { background_color: v.bg }) }) },
+        lifestyleText: { label: 'bpLifestyleText', url: BRIA_V1 + '/product/lifestyle_shot_by_text', input: 'file',
+            fields: [{ k: 'scene', type: 'text', label: 'bpScene', req: true }, { k: 'n', type: 'select', label: 'bpCount', opts: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']], def: '2', num: true }, { k: 'format', type: 'format', label: 'bpFormat' }, { k: 'exclude', type: 'text', label: 'bpExclude' }],
+            build: v => ({ scene_description: v.scene, num_results: v.n, ...bpFormat(v), ...(v.exclude ? { exclude_elements: v.exclude } : {}) }), show: v => v.scene },
+        lifestyleImage: { label: 'bpLifestyleImage', url: BRIA_V1 + '/product/lifestyle_shot_by_image', input: 'file',
+            fields: [{ k: 'ref', type: 'files', label: 'bpRefImage', max: 1, req: true }, { k: 'infl', type: 'select', label: 'bpInfluence', opts: [['0.3', 'bpInfl03'], ['0.6', 'bpInfl06'], ['1', 'bpInfl10']], def: '0.6', float: true }, { k: 'n', type: 'select', label: 'bpCount', opts: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']], def: '2', num: true }, { k: 'format', type: 'format', label: 'bpFormat' }],
+            build: v => ({ ref_image_file: v.ref[0], ref_image_influence: v.infl, num_results: v.n, ...bpFormat(v) }) },
+        integrate: { label: 'bpIntegrate', url: BRIA_API + '/image/edit/product/integrate', input: 'scene', v2: true,
+            fields: [{ k: 'product', type: 'files', label: 'bpProductImage', max: 1, req: true }, { k: 'box', type: 'box', label: 'bpPlace', req: true }],
+            build: v => ({ products: [{ image: v.product[0], coordinates: v.box }] }) },
+        holding: { label: 'bpHolding', url: BRIA_API + '/image/edit/product/holding', input: 'person_image', v2: true,
+            fields: [{ k: 'imgs', type: 'files', label: 'bpProductImages', max: 3, req: true }, { k: 'instr', type: 'text', label: 'bpInstruction' }, { k: 'format', type: 'format', label: 'bpFormat' }],
+            build: v => ({ product_images: v.imgs, ...(v.instr ? { instruction: v.instr } : {}), ...(v.format ? { aspect_ratio: v.format } : {}) }), show: v => v.instr },
+        tryon: { label: 'bpTryon', url: BRIA_API + '/image/edit/product/virtual-tryon', input: 'person_image', v2: true,
+            fields: [{ k: 'imgs', type: 'files', label: 'bpGarments', max: 3, req: true }, { k: 'instr', type: 'text', label: 'bpInstruction' }, { k: 'format', type: 'format', label: 'bpFormat' }],
+            build: v => ({ garment_images: v.imgs, ...(v.instr ? { instruction: v.instr } : {}), ...(v.format ? { aspect_ratio: v.format } : {}) }), show: v => v.instr },
+        vehicleShot: { label: 'bpVehicleShot', url: BRIA_V1 + '/product/vehicle/shot_by_text', input: 'file',
+            fields: [{ k: 'scene', type: 'text', label: 'bpScene', req: true }, { k: 'n', type: 'select', label: 'bpCount', opts: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']], def: '2', num: true }, { k: 'format', type: 'format', label: 'bpFormat' }, { k: 'exclude', type: 'text', label: 'bpExclude' }],
+            build: v => ({ scene_description: v.scene, num_results: v.n, ...bpFormat(v), ...(v.exclude ? { exclude_elements: v.exclude } : {}) }), show: v => v.scene },
+        vehicleEffect: { label: 'bpVehicleEffect', url: BRIA_V1 + '/product/vehicle/apply_effect', input: 'file',
+            fields: [{ k: 'effect', type: 'select', label: 'bpEffect', choices: 'effect' }], build: v => ({ effect: v.effect }) },
+        vehicleHarmonize: { label: 'bpVehicleHarmonize', url: BRIA_V1 + '/product/vehicle/harmonize', input: 'file',
+            fields: [{ k: 'preset', type: 'select', label: 'bpPreset', choices: 'preset' }], build: v => ({ preset: v.preset }) },
+        vehicleReflections: { label: 'bpVehicleReflections', url: BRIA_V1 + '/product/vehicle/generate_reflections', input: 'file', segment: ['windshield', 'rear_window', 'side_windows', 'body', 'wheels'] },
+        vehicleTires: { label: 'bpVehicleTires', url: BRIA_V1 + '/product/vehicle/refine_tires', input: 'file', segment: ['tires'] },
+        adResize: { label: 'bpAdResize', url: BRIA_API + '/ads/resize', input: 'attachments', long: true,
+            fields: [{ k: 'formats', type: 'adformats', label: 'bpAdFormats' }, { k: 'custom', type: 'text', label: 'bpAdCustom' }, { k: 'prompt', type: 'text', label: 'bpAdPrompt' }],
+            build: v => ({ formats: v.formats, ...(v.prompt ? { prompt: v.prompt } : {}) }) }
+    };
+    const BRIA_PRODUCT_OPS = Object.keys(BRIA_PRODUCT);
+
+    // Place l'image dans le champ attendu par le point d'accès
+    async function bpInput(spec, src) {
+        const d = await recraftImageInput(src);   // data URL (PNG / JPEG / WEBP) ou URL publique
+        const isUrl = !d.startsWith('data:');
+        if (spec.input === 'attachments') return { attachments: [d] };
+        if (spec.input === 'file') return isUrl ? { image_url: d } : { file: d.split(',')[1] };
+        return { [spec.input]: isUrl ? d : d.split(',')[1] };
+    }
+
+    async function runBriaProduct(src, op, v = {}, display) {
+        const t = I18N[currentLang];
+        if (isProcessing) return;
+        if (pendingCompareChoice) { showToast(t.compareMustChoose, 'error'); return; }
+        const key = getKeyForProvider('bria');
+        if (!key) { showToast(t.briaNeedKey, 'error', 7000); return; }
+        const spec = BRIA_PRODUCT[op];
+        const label = t[spec.label].replace(/…$/, '');
+        const shown = display || (spec.show && spec.show(v) ? `${label} : ${spec.show(v)}` : label);
+        if (welcome) welcome.style.display = 'none';
+        isProcessing = true;
+        setBusyUI(true);
+        currentAbortController = new AbortController();
+        const signal = currentAbortController.signal;
+        try {
+            addMessage(shown, 'user');
+            conversationHistory.push({ role: 'user', content: shown });
+            saveHistory();
+            const loadingDiv = addMessage(null, 'ai', 'bria', op, true);
+            try {
+                const input = await bpInput(spec, src);
+                let body = { ...input, ...(spec.build ? spec.build(v) : {}) };
+                if (spec.segment) {
+                    // Véhicule : détection des zones (masques), puis retouche limitée à ces zones
+                    const seg = await briaPost(BRIA_V1 + '/product/vehicle/segment', { ...input }, key, signal, { sync: false });
+                    const masks = {};
+                    spec.segment.forEach(k => { if (seg[k]) masks[k] = seg[k]; });
+                    if (!Object.keys(masks).length) throw new Error(t.bpNoMask);
+                    body.masks = masks;
+                }
+                const j = await briaPost(spec.url, body, key, signal, spec.v2 ? {} : spec.long ? { sync: false, every: 10000, max: 120 } : { sync: false });
+                const urls = briaUrls(j);
+                if (!urls.length) throw new Error(t.bpNoResult);
+                await displayAndStoreImage(loadingDiv, urls[0], shown, 'bria', op, true);
+                for (const u of urls.slice(1)) await displayAndStoreImage(addMessage(null, 'ai', 'bria', op, true), u, shown, 'bria', op, true);
+            } catch (error) {
+                updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'bria')}`);
+            }
+        } finally {
+            isProcessing = false;
+            setBusyUI(false, false);
+            currentAbortController = null;
+        }
+    }
+
+    // Fenêtre de réglages d'un outil produit (texte, liste, nombre, case, couleur, fichiers, zone, formats de pub)
+    function openBriaProductDialog(src, op) {
+        const t = I18N[currentLang];
+        const spec = BRIA_PRODUCT[op];
+        const d = rcDialog(t[spec.label].replace(/…$/, ''), t[spec.label + 'Tip']);
+        const form = document.createElement('div'); form.className = 'rc-form';
+        const getters = {};
+        spec.fields.forEach(f => {
+            const lab = document.createElement('label'); lab.textContent = t[f.label] + (f.req ? ' *' : '');
+            if (f.type === 'text') {
+                const el = document.createElement('input'); el.type = 'text'; el.className = 'rc-input'; el.maxLength = 500; el.style.width = '100%';
+                lab.appendChild(el); getters[f.k] = () => el.value.trim();
+            } else if (f.type === 'select' || f.type === 'format') {
+                const el = document.createElement('select');
+                const opts = f.type === 'format' ? [['', t.bpFormatOriginal]].concat(BP_RATIOS.map(r => [r, RC_RATIO_LABELS[r] ? t[RC_RATIO_LABELS[r]] : r]))
+                    : f.choices ? Object.entries(BP_CHOICES[f.choices]).map(([v, n]) => [v, n[currentLang] || n.fr])
+                    : f.opts.map(([v, l]) => [v, t[l] || l]);
+                opts.forEach(([v, l]) => { const o = document.createElement('option'); o.value = v; o.textContent = l; el.appendChild(o); });
+                if (f.def) el.value = f.def;
+                lab.appendChild(el); getters[f.k] = () => f.num ? parseInt(el.value, 10) : f.float ? parseFloat(el.value) : el.value;
+            } else if (f.type === 'number') {
+                const el = document.createElement('input'); el.type = 'number'; el.className = 'rc-input'; el.min = String(f.min); el.max = String(f.max); el.value = String(f.def);
+                lab.appendChild(el); getters[f.k] = () => Math.min(f.max, Math.max(f.min, parseInt(el.value, 10) || 0));
+            } else if (f.type === 'check') {
+                const el = document.createElement('input'); el.type = 'checkbox'; el.checked = !!f.def;
+                lab.style.flexDirection = 'row'; lab.style.alignItems = 'center'; lab.prepend(el); getters[f.k] = () => el.checked;
+            } else if (f.type === 'color') {
+                const el = document.createElement('input'); el.type = 'color'; el.value = f.def;
+                lab.appendChild(el); getters[f.k] = () => el.value;
+            } else if (f.type === 'files') {
+                const el = document.createElement('input'); el.type = 'file'; el.accept = 'image/png,image/jpeg,image/webp'; el.multiple = f.max > 1;
+                const thumbs = document.createElement('div'); thumbs.className = 'rc-thumbs';
+                el.addEventListener('change', () => { thumbs.innerHTML = ''; [...el.files].slice(0, f.max).forEach(x => { const im = document.createElement('img'); im.src = URL.createObjectURL(x); im.alt = ''; thumbs.appendChild(im); }); });
+                lab.append(el, thumbs);
+                getters[f.k] = async () => Promise.all([...el.files].slice(0, f.max).map(async x => (await recraftImageInput(x)).split(',')[1]));
+            } else if (f.type === 'box') {
+                // Aperçu de la scène : on dessine l'emplacement ; coordonnées en pixels de l'image source
+                const W = 420;
+                const stage = document.createElement('div'); stage.className = 'rc-tl-stage';
+                const im = document.createElement('img'); im.src = src; im.alt = ''; im.style.width = '100%'; im.style.display = 'block'; im.draggable = false;
+                stage.style.width = W + 'px'; stage.appendChild(im);
+                let box = null, start = null, ghost = null;
+                const rel = e => { const r = stage.getBoundingClientRect(); return { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) }; };
+                stage.addEventListener('pointerdown', e => { e.preventDefault(); start = rel(e); if (ghost) ghost.remove(); ghost = document.createElement('div'); ghost.className = 'rc-tl-box'; stage.appendChild(ghost); stage.setPointerCapture(e.pointerId); });
+                stage.addEventListener('pointermove', e => { if (!start) return; const q = rel(e); const r = stage.getBoundingClientRect();
+                    Object.assign(ghost.style, { left: Math.min(start.x, q.x) * r.width + 'px', top: Math.min(start.y, q.y) * r.height + 'px', width: Math.abs(q.x - start.x) * r.width + 'px', height: Math.abs(q.y - start.y) * r.height + 'px' }); });
+                stage.addEventListener('pointerup', e => { if (!start) return; const q = rel(e); box = { x0: Math.min(start.x, q.x), y0: Math.min(start.y, q.y), x1: Math.max(start.x, q.x), y1: Math.max(start.y, q.y) }; start = null; if (box.x1 - box.x0 < 0.02 || box.y1 - box.y0 < 0.02) { box = null; ghost.remove(); ghost = null; } });
+                lab.appendChild(stage);
+                getters[f.k] = () => box && im.naturalWidth ? { x: Math.round(box.x0 * im.naturalWidth), y: Math.round(box.y0 * im.naturalHeight), width: Math.round((box.x1 - box.x0) * im.naturalWidth), height: Math.round((box.y1 - box.y0) * im.naturalHeight) } : null;
+            } else if (f.type === 'adformats') {
+                const wrap = document.createElement('div'); wrap.className = 'rc-canvas-grid';
+                const boxes = BP_AD_PRESETS.map(([name, w, h, n], i) => {
+                    const l = document.createElement('span'); l.className = 'rc-bg-toggle';
+                    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = i < 3;
+                    const tx = document.createElement('span'); tx.textContent = `${n[currentLang] || n.fr} (${w}×${h})`;
+                    l.append(cb, tx); wrap.appendChild(l);
+                    return { cb, name, w, h };
+                });
+                lab.appendChild(wrap);
+                getters[f.k] = () => boxes.filter(b => b.cb.checked).map(b => ({ name: b.name, width: b.w, height: b.h }));
+            }
+            form.appendChild(lab);
+        });
+        d.box.appendChild(form);
+        const cancel = rcButton(t.ieCancel), apply = rcButton(t.brDlgApply, true);
+        cancel.addEventListener('click', d.close);
+        apply.addEventListener('click', async () => {
+            const v = {};
+            for (const f of spec.fields) v[f.k] = await getters[f.k]();
+            if (op === 'adResize') {
+                // Tailles libres « 300x600, 1200x1200 » ajoutées aux formats cochés
+                (v.custom || '').split(/[,;\s]+/).forEach(x => { const m = x.match(/^(\d{2,4})[x×*](\d{2,4})$/i); if (m) v.formats.push({ name: `${m[1]}x${m[2]}`, width: +m[1], height: +m[2] }); });
+                if (!v.formats.length) { showToast(t.bpNeedField, 'error'); return; }
+                if (v.formats.length > 10) { showToast(t.bpTooMany, 'error'); return; }
+            }
+            const missing = spec.fields.some(f => f.req && (!v[f.k] || (Array.isArray(v[f.k]) && !v[f.k].length)));
+            if (missing) { showToast(t.bpNeedField, 'error'); return; }
+            d.close();
+            const label = t[spec.label].replace(/…$/, '');
+            const extra = op === 'adResize' ? v.formats.map(x => `${x.width}×${x.height}`).join(', ') : (spec.show ? spec.show(v) : '');
+            runBriaProduct(src, op, v, extra ? `${label} : ${extra}` : label);
+        });
+        rcFoot(d.box, [cancel, apply]);
+    }
+
+    function briaProductMenu(src) {
+        const t = I18N[currentLang];
+        const m = toolMenu(t.imgBriaProduct, t.imgBriaProductTip);
+        const note = document.createElement('div');
+        note.className = 'img-menu-note';
+        note.textContent = t.briaMenuNote;
+        m.wrap.querySelector('.img-format-menu').appendChild(note);
+        BRIA_PRODUCT_OPS.forEach(op => {
+            const spec = BRIA_PRODUCT[op];
+            const l = t[spec.label], tp = t[spec.label + 'Tip'];
+            const it = m.item(tp, () => spec.fields ? openBriaProductDialog(src, op) : runBriaProduct(src, op));
+            const span = document.createElement('span'); span.className = 'fmt-label'; span.textContent = l;
+            it.appendChild(span);
+            it.setAttribute('aria-label', `${l} — ${tp}`);
+        });
+        return m.wrap;
+    }
+
+    function briaMenu(src, label, tip, ops, remote) {
+        const t = I18N[currentLang];
+        const m = toolMenu(label, tip);
+        const note = document.createElement('div');
+        note.className = 'img-menu-note';
+        note.textContent = t.briaMenuNote;
+        m.wrap.querySelector('.img-format-menu').appendChild(note);
+        ops.filter(op => !(remote && BRIA_TOOLS[op].editor)).forEach(op => {
+            const tool = BRIA_TOOLS[op];
+            const l = t[tool.label], tp = t[tool.label + 'Tip'];
+            const it = m.item(tp, () => tool.editor ? openImageEditor(src, 'erase', tool.editor)
+                : tool.dialog ? openBriaDialog(src, op)
+                : tool.text ? setImageEditTarget(src, 'bria:' + op)
+                : runBriaTool(src, op));
+            const span = document.createElement('span'); span.className = 'fmt-label'; span.textContent = l;
+            it.appendChild(span);
+            it.setAttribute('aria-label', `${l} — ${tp}`);
         });
         return m.wrap;
     }

@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.21.0
+  Version 1.22.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -29,6 +29,7 @@ FEATURES
       • Alibaba    (Qwen + Z.ai GLM — chat and image; International and/or Mainland China key)
       • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
+      • Bria       (Israel — images only: licensed, photo retouching, product photos, ads)
 
   - Conversation modes:
       • Chat       : general conversation
@@ -40,7 +41,8 @@ FEATURES
                      code block download
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
-                     resolution), Qwen, Grok, and Recraft (vector SVG, styles)
+                     resolution), Qwen, Grok, Recraft (vector SVG, styles), and Bria
+                     (licensed images, retouching, product photos)
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
@@ -101,7 +103,7 @@ FEATURES
     and a per-conversation total in the footer bar — so you can see what each
     turn really costs.
 
-  - Image editor (OpenAI, Gemini, Qwen, Grok, Recraft): under each image, ✏️ Edit
+  - Image editor (OpenAI, Gemini, Qwen, Grok, Recraft, Bria): under each image, ✏️ Edit
     (describe a change in your next message), ✂️ Remove background
     (transparent PNG, kept across later edits), ⬚ Format (square, portrait,
     story, photo, landscape, widescreen, cinematic, banner) and 💾 Download,
@@ -130,7 +132,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_21_0.html
+  1. Download the file ChatJPT_1_22_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -162,7 +164,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.21.0
+  Version 1.22.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -192,6 +194,7 @@ FONCTIONNALITÉS
       • Alibaba    (Qwen + Z.ai GLM — chat et image ; clé International et/ou Chine continentale)
       • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
+      • Bria       (Israël — images seulement : sous licence, retouche photo, photos de produits, pubs)
 
   - Modes de conversation :
       • Chat       : conversation générale
@@ -203,7 +206,8 @@ FONCTIONNALITÉS
                      téléchargement des blocs de code
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
-                     ajustables), Qwen, Grok et Recraft (SVG vectoriel, styles)
+                     ajustables), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
+                     (images sous licence, retouche, photos de produits)
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
@@ -269,7 +273,7 @@ FONCTIONNALITÉS
     (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
     pour voir ce que coûte réellement chaque échange.
 
-  - Éditeur d'image (OpenAI, Gemini, Qwen, Grok, Recraft) : sous chaque image, ✏️ Modifier
+  - Éditeur d'image (OpenAI, Gemini, Qwen, Grok, Recraft, Bria) : sous chaque image, ✏️ Modifier
     (décrivez le changement dans le message suivant), ✂️ Retirer le fond (PNG
     transparent, conservé lors des modifications suivantes), ⬚ Format (carré,
     portrait, story, photo, paysage, grand écran, cinéma, bannière) et
@@ -299,7 +303,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_21_0.html
+  1. Téléchargez le fichier ChatJPT_1_22_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -333,7 +337,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.21.0
+  Versión 1.22.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -363,6 +367,7 @@ CARACTERÍSTICAS
       • Alibaba    (Qwen + Z.ai GLM — chat e imagen; clave Internacional y/o China continental)
       • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
+      • Bria       (Israel — solo imágenes: con licencia, retoque fotográfico, fotos de productos, anuncios)
 
   - Modos de conversación:
       • Chat       : conversación general
@@ -374,7 +379,8 @@ CARACTERÍSTICAS
                      descarga de bloques de código
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
                      tamaño ajustables), Google Gemini (formato y resolución
-                     ajustables), Qwen, Grok y Recraft (SVG vectorial, estilos)
+                     ajustables), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
+                     (imágenes con licencia, retoque, fotos de productos)
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine)
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
@@ -412,7 +418,7 @@ CARACTERÍSTICAS
 
   - Teclado: Esc detiene la generación en curso.
 
-  - Editor de imágenes (OpenAI, Gemini, Qwen, Grok, Recraft): debajo de cada imagen,
+  - Editor de imágenes (OpenAI, Gemini, Qwen, Grok, Recraft, Bria): debajo de cada imagen,
     ✏️ Editar (describe el cambio en tu próximo mensaje), ✂️ Quitar el fondo
     (PNG transparente, conservado en las ediciones siguientes), ⬚ Formato
     (cuadrado, vertical, historia, foto, horizontal, panorámico, cine, banner)
@@ -466,7 +472,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_21_0.html
+  1. Descarga el archivo ChatJPT_1_22_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

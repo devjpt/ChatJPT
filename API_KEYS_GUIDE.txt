@@ -245,11 +245,29 @@ your plan).
 
 
 ----------------------------------------------------------------
+  15. BRIA (Israel) — images only
+----------------------------------------------------------------
+
+  1. Go to: https://platform.bria.ai/organization-management/api-keys
+  2. Create a free account (all tools, at a reduced rate limit),
+     then create an API token and copy it.
+
+  Note: Bria only makes images, trained on licensed images (safe
+        for commercial use). Pick it in the provider list and
+        ChatJPT switches to the Image tab. Fibo 2 first rewrites your
+        prompt with Google Gemini; Fibo Lite does not. With a Bria
+        key, three menus under every image (from any provider) offer
+        retouching (🪄 Bria), effects (🎨 Bria Style) and product
+        photos, vehicles and ad resizing (🛍️ Bria Product). Bria
+        keeps its results for 3 days.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_21_0.html in your browser.
-  2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, South Korea, China), locate the fields:
+  1. Open ChatJPT_1_22_0.html in your browser.
+  2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, Israel, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
@@ -260,6 +278,7 @@ your plan).
        🟩 Cohere   → paste your key
        🟧 Mistral  → paste your key
        🖌️ Recraft  → paste your key
+       🪄 Bria     → paste your key
        ☀️ Upstage  → paste your up_... key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
@@ -543,11 +562,30 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  15. BRIA (Israël) — images seulement
+----------------------------------------------------------------
+
+  1. Allez sur : https://platform.bria.ai/organization-management/api-keys
+  2. Créez un compte gratuit (tous les outils, à débit réduit),
+     puis créez une clé API et copiez-la.
+
+  Note : Bria ne fait que des images, entraîné sur des images sous
+         licence (sans risque pour un usage commercial). Choisissez-le
+         dans la liste des fournisseurs et ChatJPT passe à l'onglet
+         Image. Fibo 2 fait d'abord reformuler votre consigne par
+         Google Gemini ; Fibo Lite, non. Avec une clé Bria, trois menus
+         sous chaque image (de n'importe quel fournisseur) proposent
+         la retouche (🪄 Bria), les effets (🎨 Bria Style) et les
+         photos de produits, véhicules et pubs (🛍️ Bria Produit). Bria
+         garde ses résultats 3 jours.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_21_0.html dans votre navigateur.
-  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Corée du Sud, Chine), repérez les champs :
+  1. Ouvrez ChatJPT_1_22_0.html dans votre navigateur.
+  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Israël, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
@@ -558,6 +596,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        🟩 Cohere   → collez votre clé
        🟧 Mistral  → collez votre clé
        🖌️ Recraft  → collez votre clé
+       🪄 Bria     → collez votre clé
        ☀️ Upstage  → collez votre clé up_...
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
@@ -838,11 +877,30 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  15. BRIA (Israel) — solo imágenes
+----------------------------------------------------------------
+
+  1. Ve a: https://platform.bria.ai/organization-management/api-keys
+  2. Crea una cuenta gratuita (todas las herramientas, con un
+     límite de solicitudes reducido) y luego crea una clave API y
+     cópiala.
+
+  Nota: Bria solo hace imágenes, entrenado con imágenes con licencia
+        (seguras para uso comercial). Elígelo en la lista de
+        proveedores y ChatJPT pasa a la pestaña Imagen. Fibo 2 primero
+        reformula tu instrucción con Google Gemini; Fibo Lite, no.
+        Con una clave de Bria, tres menús debajo de cada imagen (de
+        cualquier proveedor) ofrecen retoque (🪄 Bria), efectos
+        (🎨 Bria Estilo) y fotos de productos, vehículos y anuncios
+        (🛍️ Bria Producto). Bria conserva sus resultados 3 días.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_21_0.html en tu navegador.
-  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Corea del Sur, China), ubica los campos:
+  1. Abre ChatJPT_1_22_0.html en tu navegador.
+  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Israel, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
@@ -853,6 +911,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        🟩 Cohere   → pega tu clave
        🟧 Mistral  → pega tu clave
        🖌️ Recraft  → pega tu clave
+       🪄 Bria     → pega tu clave
        ☀️ Upstage  → pega tu clave up_...
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...
