@@ -8,6 +8,35 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.21.0] — 2026-11-03
+  Added
+    - New provider: Recraft (images only), in a new "United Kingdom" key
+      group. Picking it switches ChatJPT to the Image tab (Chat, Vibe Coder
+      and Code are greyed out). 21 models with their price: V4.1 (Flash,
+      Pro, Utility for products and mockups), V4 Styles, V4, V3 and V2,
+      including vector models that produce SVG images.
+    - Recraft options in the Image panel: up to 6 images at once, preset
+      styles (V2 / V3) and your own styles created from 1 to 10 reference
+      images, color palette and background color, things to avoid,
+      words placed at exact spots (V3), an attached photo as the starting
+      point (with adjustable resemblance), "Improve my prompt", and your
+      remaining Recraft balance.
+    - 🖌️ Recraft menu under every image, from any provider (Recraft key
+      required): remove, replace or generate the background, erase or
+      repaint an area, remix, vectorize to SVG, crisp or creative
+      upscale, enhance details.
+    - SVG images are displayed safely and downloaded as .svg.
+  Improved
+    - With a Recraft key, ✂️ Remove background (real transparency) and
+      ⬚ Format (extends the image beyond its borders, the original stays
+      untouched) use Recraft.
+  Fixed
+    - Menus under an image (Format, Animate, Recraft) were cut off when
+      the image was at the top of the conversation: they now open
+      downward when there is no room above.
+    - Image model names are translated again when switching language.
+    - On mobile, the Image panel lists no longer overflow the screen.
+
 [1.20.0] — 2026-11-03
   Added
     - New provider: Upstage (Solar), in a new "South Korea" key group
@@ -555,6 +584,37 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.21.0] — 2026-11-03
+  Ajouté
+    - Nouveau fournisseur : Recraft (images seulement), dans un nouveau
+      groupe de clés « Royaume-Uni ». Le choisir fait passer ChatJPT à
+      l'onglet Image (Chat, Vibe Coder et Code sont grisés). 21 modèles
+      avec leur prix : V4.1 (Flash, Pro, Utility pour les produits et
+      maquettes), V4 Styles, V4, V3 et V2, dont des modèles vectoriels
+      qui produisent des images SVG.
+    - Options Recraft dans le panneau Image : jusqu'à 6 images d'un coup,
+      styles prédéfinis (V2 / V3) et tes propres styles créés à partir de
+      1 à 10 images de référence, palette de couleurs et couleur de fond,
+      éléments à éviter, mots placés à des endroits précis (V3), photo
+      jointe comme point de départ (ressemblance réglable), « Améliorer ma
+      consigne » et solde Recraft restant.
+    - Menu 🖌️ Recraft sous chaque image, de n'importe quel fournisseur
+      (clé Recraft requise) : retirer, remplacer ou générer le fond,
+      effacer ou repeindre une zone, remix, vectoriser en SVG, agrandir
+      (net ou créatif), améliorer les détails.
+    - Les images SVG s'affichent sans danger et se téléchargent en .svg.
+  Amélioré
+    - Avec une clé Recraft, ✂️ Retirer le fond (vraie transparence) et
+      ⬚ Format (prolonge l'image au-delà de ses bords, l'original reste
+      intact) passent par Recraft.
+  Corrigé
+    - Les menus sous une image (Format, Animer, Recraft) étaient coupés
+      quand l'image était en haut de la conversation : ils s'ouvrent
+      maintenant vers le bas s'il manque de place au-dessus.
+    - Les noms des modèles d'image se traduisent de nouveau au changement
+      de langue.
+    - En mobile, les listes du panneau Image ne dépassent plus de l'écran.
 
 [1.20.0] — 2026-11-03
   Ajouté
@@ -1148,6 +1208,37 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.21.0] — 2026-11-03
+  Añadido
+    - Nuevo proveedor: Recraft (solo imágenes), en un nuevo grupo de
+      claves "Reino Unido". Al elegirlo, ChatJPT pasa a la pestaña Imagen
+      (Chat, Vibe Coder y Código quedan en gris). 21 modelos con su
+      precio: V4.1 (Flash, Pro, Utility para productos y maquetas), V4
+      Styles, V4, V3 y V2, incluidos modelos vectoriales que producen
+      imágenes SVG.
+    - Opciones de Recraft en el panel Imagen: hasta 6 imágenes a la vez,
+      estilos predefinidos (V2 / V3) y tus propios estilos creados a
+      partir de 1 a 10 imágenes de referencia, paleta de colores y color
+      de fondo, elementos a evitar, palabras ubicadas en lugares precisos
+      (V3), foto adjunta como punto de partida (parecido ajustable),
+      "Mejorar mi instrucción" y saldo de Recraft restante.
+    - Menú 🖌️ Recraft debajo de cada imagen, de cualquier proveedor (se
+      requiere clave de Recraft): quitar, reemplazar o generar el fondo,
+      borrar o repintar una zona, remix, vectorizar a SVG, ampliar
+      (nítido o creativo), mejorar los detalles.
+    - Las imágenes SVG se muestran de forma segura y se descargan en .svg.
+  Mejorado
+    - Con una clave de Recraft, ✂️ Quitar el fondo (transparencia real) y
+      ⬚ Formato (extiende la imagen más allá de sus bordes, el original
+      queda intacto) usan Recraft.
+  Corregido
+    - Los menús debajo de una imagen (Formato, Animar, Recraft) se
+      cortaban cuando la imagen estaba arriba en la conversación: ahora se
+      abren hacia abajo si no hay espacio arriba.
+    - Los nombres de los modelos de imagen vuelven a traducirse al cambiar
+      de idioma.
+    - En móvil, las listas del panel Imagen ya no se salen de la pantalla.
 
 [1.20.0] — 2026-11-03
   Añadido

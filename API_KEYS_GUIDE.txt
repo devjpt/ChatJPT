@@ -228,11 +228,28 @@ your plan).
 
 
 ----------------------------------------------------------------
+  14. RECRAFT (United Kingdom) — images only
+----------------------------------------------------------------
+
+  1. Go to: https://www.recraft.ai/app/api/api-keys
+  2. Sign in, add API units (billing page: $1 = 1,000 units, they
+     never expire), then click "Create token" and copy it.
+
+  Note: Recraft only makes images: pick it in the provider list and
+        ChatJPT switches to the Image tab. Vector models produce SVG
+        files. With a Recraft key, the 🖌️ Recraft menu under every
+        image (from any provider) cuts out, erases, vectorizes,
+        upscales or remixes it; ✂️ Remove background and ⬚ Format
+        then use Recraft too. Your remaining balance is shown in the
+        Image panel.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_20_0.html in your browser.
-  2. In the keys panel (grouped by country: United States, Canada, France, South Korea, China), locate the fields:
+  1. Open ChatJPT_1_21_0.html in your browser.
+  2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
        🔵 Gemini   → paste your AIzaSy... key
@@ -242,6 +259,7 @@ your plan).
        🍁 Augure   → paste your key
        🟩 Cohere   → paste your key
        🟧 Mistral  → paste your key
+       🖌️ Recraft  → paste your key
        ☀️ Upstage  → paste your up_... key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
@@ -506,11 +524,30 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  14. RECRAFT (Royaume-Uni) — images seulement
+----------------------------------------------------------------
+
+  1. Allez sur : https://www.recraft.ai/app/api/api-keys
+  2. Connectez-vous, achetez des unités (page de facturation :
+     1 $ = 1 000 unités, sans date d'expiration), puis cliquez sur
+     « Create token » et copiez-la.
+
+  Note : Recraft ne fait que des images : choisissez-le dans la liste
+         des fournisseurs et ChatJPT passe à l'onglet Image. Les
+         modèles « Vector » produisent des fichiers SVG. Avec une clé
+         Recraft, le menu 🖌️ Recraft sous chaque image (de n'importe
+         quel fournisseur) la détoure, l'efface, la vectorise,
+         l'agrandit ou la remixe ; ✂️ Retirer le fond et ⬚ Format
+         passent alors aussi par Recraft. Le solde restant s'affiche
+         dans le panneau Image.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_20_0.html dans votre navigateur.
-  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Corée du Sud, Chine), repérez les champs :
+  1. Ouvrez ChatJPT_1_21_0.html dans votre navigateur.
+  2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
        🔵 Gemini   → collez votre clé AIzaSy...
@@ -520,6 +557,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        🍁 Augure   → collez votre clé
        🟩 Cohere   → collez votre clé
        🟧 Mistral  → collez votre clé
+       🖌️ Recraft  → collez votre clé
        ☀️ Upstage  → collez votre clé up_...
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
@@ -782,11 +820,29 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  14. RECRAFT (Reino Unido) — solo imágenes
+----------------------------------------------------------------
+
+  1. Ve a: https://www.recraft.ai/app/api/api-keys
+  2. Inicia sesión, compra unidades (página de facturación:
+     1 $ = 1000 unidades, no vencen) y luego haz clic en
+     "Create token" y cópiala.
+
+  Nota: Recraft solo hace imágenes: elígelo en la lista de
+        proveedores y ChatJPT pasa a la pestaña Imagen. Los modelos
+        "Vector" producen archivos SVG. Con una clave de Recraft, el
+        menú 🖌️ Recraft debajo de cada imagen (de cualquier
+        proveedor) la recorta, la borra, la vectoriza, la amplía o la
+        remezcla; ✂️ Quitar el fondo y ⬚ Formato también usan
+        Recraft. El saldo restante se muestra en el panel Imagen.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_20_0.html en tu navegador.
-  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Corea del Sur, China), ubica los campos:
+  1. Abre ChatJPT_1_21_0.html en tu navegador.
+  2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
        🔵 Gemini   → pega tu clave AIzaSy...
@@ -796,6 +852,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        🍁 Augure   → pega tu clave
        🟩 Cohere   → pega tu clave
        🟧 Mistral  → pega tu clave
+       🖌️ Recraft  → pega tu clave
        ☀️ Upstage  → pega tu clave up_...
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...
