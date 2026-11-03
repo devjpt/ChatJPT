@@ -21,10 +21,16 @@
       words placed at exact spots (V3), an attached photo as the starting
       point (with adjustable resemblance), "Improve my prompt", and your
       remaining Recraft balance.
+    - Fine settings: seed (to get the same image again), creativity level
+      and "no text" (V3), color weights, all 14 Recraft formats and exact
+      sizes in pixels, and import of an existing style by its ID.
     - 🖌️ Recraft menu under every image, from any provider (Recraft key
       required): remove, replace or generate the background, erase or
       repaint an area, remix, vectorize to SVG, crisp or creative
-      upscale, enhance details.
+      upscale, enhance details (normal or subtle), enlarge the canvas by
+      side or zoom out, vectorize for cutting (no overlapping shapes).
+      Retouching tools follow the panel's variants, style and things to
+      avoid, and work on SVG images too (vector result).
     - SVG images are displayed safely and downloaded as .svg.
   Improved
     - With a Recraft key, ✂️ Remove background (real transparency) and
@@ -599,10 +605,18 @@
       éléments à éviter, mots placés à des endroits précis (V3), photo
       jointe comme point de départ (ressemblance réglable), « Améliorer ma
       consigne » et solde Recraft restant.
+    - Réglages fins : graine (pour retrouver la même image), niveau de
+      créativité et « sans texte » (V3), poids des couleurs, les 14 formats
+      Recraft et des tailles exactes en pixels, import d'un style existant
+      par son identifiant.
     - Menu 🖌️ Recraft sous chaque image, de n'importe quel fournisseur
       (clé Recraft requise) : retirer, remplacer ou générer le fond,
       effacer ou repeindre une zone, remix, vectoriser en SVG, agrandir
-      (net ou créatif), améliorer les détails.
+      (net ou créatif), améliorer les détails (normal ou subtil), agrandir
+      la toile par côté ou dézoomer, vectoriser pour la découpe (formes
+      sans chevauchement). Les retouches suivent les variantes, le style et
+      les éléments à éviter du panneau, et fonctionnent aussi sur les
+      images SVG (résultat vectoriel).
     - Les images SVG s'affichent sans danger et se téléchargent en .svg.
   Amélioré
     - Avec une clé Recraft, ✂️ Retirer le fond (vraie transparence) et
@@ -1223,10 +1237,18 @@
       de fondo, elementos a evitar, palabras ubicadas en lugares precisos
       (V3), foto adjunta como punto de partida (parecido ajustable),
       "Mejorar mi instrucción" y saldo de Recraft restante.
+    - Ajustes finos: semilla (para obtener la misma imagen otra vez), nivel
+      de creatividad y "sin texto" (V3), pesos de los colores, los 14
+      formatos de Recraft y tamaños exactos en píxeles, e importación de un
+      estilo existente por su identificador.
     - Menú 🖌️ Recraft debajo de cada imagen, de cualquier proveedor (se
       requiere clave de Recraft): quitar, reemplazar o generar el fondo,
       borrar o repintar una zona, remix, vectorizar a SVG, ampliar
-      (nítido o creativo), mejorar los detalles.
+      (nítido o creativo), mejorar los detalles (normal o sutil), ampliar el
+      lienzo por lado o alejar, vectorizar para recorte (formas sin
+      superposición). Los retoques siguen las variantes, el estilo y los
+      elementos a evitar del panel, y también funcionan con imágenes SVG
+      (resultado vectorial).
     - Las imágenes SVG se muestran de forma segura y se descargan en .svg.
   Mejorado
     - Con una clave de Recraft, ✂️ Quitar el fondo (transparencia real) y

@@ -1863,6 +1863,10 @@
         .rc-mini-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: var(--radius-sm); font-size: 0.78rem; cursor: pointer; white-space: nowrap; }
         .rc-mini-btn:hover { border-color: var(--accent); }
         .rc-mini-btn[aria-busy="true"] { opacity: 0.6; cursor: progress; }
+        .rc-swatch input[type="number"] { position: absolute; top: 30px; left: -6px; width: 40px; font-size: 0.68rem; padding: 1px 2px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
+        .rc-colors.weighted { padding-bottom: 22px; }
+        .rc-input.rc-seed { width: 96px; }
+        .rc-canvas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
         .rc-bg-toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; color: var(--text-muted); }
         .rc-balance { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
         /* Fenêtres Recraft (style / texte placé) : mêmes bases que l'éditeur de dessin */
@@ -3072,8 +3076,22 @@
                 <label data-i18n="lblRcColors">Couleurs</label>
                 <span class="rc-colors" id="rc-colors"></span>
                 <button type="button" class="rc-mini-btn" id="rc-color-add" data-i18n="rcColorAdd">＋ Couleur</button>
+                <span class="rc-bg-toggle"><input type="checkbox" id="rc-weights-on" aria-label="Poids des couleurs"><span data-i18n="rcWeights">Poids</span></span>
                 <span class="rc-bg-toggle"><input type="checkbox" id="rc-bg-on" aria-label="Couleur de fond"><span data-i18n="rcBgColor">Fond</span>
                     <span class="rc-swatch"><input type="color" id="rc-bg-color" value="#ffffff" aria-label="Couleur de fond"></span></span>
+            </div>
+            <div class="select-group" id="rc-v3-group">
+                <label data-i18n="lblRcArtistic">Créativité</label>
+                <select id="rc-artistic" aria-label="Niveau artistique">
+                    <option value="" data-i18n="rcArtisticAuto">Auto</option>
+                    <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                </select>
+                <span class="rc-bg-toggle"><input type="checkbox" id="rc-notext" aria-label="Sans texte"><span data-i18n="rcNoText">Sans texte</span></span>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblRcSeed">Graine</label>
+                <input type="number" class="rc-input rc-seed" id="rc-seed" min="0" max="4294967295" step="1" placeholder="Aléatoire" aria-label="Graine">
             </div>
             <div class="select-group" id="rc-negative-group">
                 <label data-i18n="lblRcNegative">À éviter</label>
@@ -3675,6 +3693,37 @@
             rcTextApply: "Utiliser",
             rcTextClear: "Tout effacer",
             rcTextIgnored: "ℹ️ Texte placé ignoré : seuls les modèles V3 le prennent en charge.",
+            lblRcSeed: "Graine",
+            rcSeedPh: "Aléatoire",
+            rcSeedTip: "Numéro de tirage : même consigne + même graine = même image. Vide = tirage au hasard.",
+            lblRcArtistic: "Créativité",
+            rcArtisticAuto: "Auto",
+            rcArtisticTip: "Modèles V3 : 0 = rendu sage et fidèle à la consigne, 5 = très créatif.",
+            rcNoText: "Sans texte",
+            rcNoTextTip: "Modèles V3 : interdit tout texte dans l'image.",
+            rcWeights: "Poids",
+            rcWeightsTip: "Donne une importance (en %) à chaque couleur de la palette ; total de 100 % au maximum (réduit automatiquement au-delà).",
+            rcExactSizes: "Taille exacte (px)",
+            rcVectorizeCut: "✒️ Vectoriser (découpe)",
+            rcVectorizeCutTip: "SVG dont les formes ne se chevauchent pas : idéal pour la découpe vinyle, la gravure ou la sérigraphie. 0,01 $.",
+            rcEnhanceSubtle: "💎 Améliorer les détails (subtil)",
+            rcEnhanceSubtleTip: "Comme « Améliorer les détails », en restant au plus près de l'original. 0,21 $.",
+            rcOutpaintCustom: "↔️ Agrandir la toile…",
+            rcOutpaintCustomTip: "Ajoute des pixels du côté de ton choix, ou dézoome : Recraft invente la suite de la scène. 0,04 $.",
+            rcCanvasTitle: "↔️ Agrandir la toile (Recraft)",
+            rcCanvasHelp: "Pixels à ajouter de chaque côté (0 à 4096) et/ou dézoom (en %, l'image est réduite au centre). Le résultat ne doit pas dépasser 4096 px par côté.",
+            rcCanvasLeft: "Gauche (px)",
+            rcCanvasRight: "Droite (px)",
+            rcCanvasTop: "Haut (px)",
+            rcCanvasBottom: "Bas (px)",
+            rcCanvasZoom: "Dézoom (%)",
+            rcCanvasApply: "Agrandir",
+            rcCanvasNeedOne: "↔️ Indique au moins un côté ou un dézoom.",
+            rcStyleImport: "Importer un style existant",
+            rcStyleImportId: "Identifiant du style (créé sur recraft.ai ou ailleurs)",
+            rcStyleImportBtn: "Importer",
+            rcStyleImported: "🎨 Style « {name} » importé et sélectionné.",
+            rcStyleImportBad: "⚠️ Identifiant de style invalide.",
             fmtSquare: "Carré", fmtSquareTip: "1:1 — publications Instagram, photos de profil, icônes.",
             fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, affiches, impressions verticales.",
             fmtStory: "Story", fmtStoryTip: "9:16 — stories Instagram / Facebook, TikTok, fonds d'écran de téléphone.",
@@ -4060,6 +4109,37 @@
             rcTextApply: "Use",
             rcTextClear: "Clear all",
             rcTextIgnored: "ℹ️ Placed text ignored: only V3 models support it.",
+            lblRcSeed: "Seed",
+            rcSeedPh: "Random",
+            rcSeedTip: "Draw number: same prompt + same seed = same image. Empty = random draw.",
+            lblRcArtistic: "Creativity",
+            rcArtisticAuto: "Auto",
+            rcArtisticTip: "V3 models: 0 = sober rendering, faithful to the prompt; 5 = very creative.",
+            rcNoText: "No text",
+            rcNoTextTip: "V3 models: forbids any text in the image.",
+            rcWeights: "Weights",
+            rcWeightsTip: "Gives each palette color an importance (in %); 100% total at most (scaled down automatically beyond).",
+            rcExactSizes: "Exact size (px)",
+            rcVectorizeCut: "✒️ Vectorize (cut-out)",
+            rcVectorizeCutTip: "SVG whose shapes don't overlap: ideal for vinyl cutting, engraving or screen printing. $0.01.",
+            rcEnhanceSubtle: "💎 Enhance details (subtle)",
+            rcEnhanceSubtleTip: "Like \"Enhance details\", staying as close as possible to the original. $0.21.",
+            rcOutpaintCustom: "↔️ Enlarge the canvas…",
+            rcOutpaintCustomTip: "Adds pixels on the sides you choose, or zooms out: Recraft invents the rest of the scene. $0.04.",
+            rcCanvasTitle: "↔️ Enlarge the canvas (Recraft)",
+            rcCanvasHelp: "Pixels to add on each side (0 to 4096) and/or zoom out (in %, the image is shrunk in the center). The result must not exceed 4096 px per side.",
+            rcCanvasLeft: "Left (px)",
+            rcCanvasRight: "Right (px)",
+            rcCanvasTop: "Top (px)",
+            rcCanvasBottom: "Bottom (px)",
+            rcCanvasZoom: "Zoom out (%)",
+            rcCanvasApply: "Enlarge",
+            rcCanvasNeedOne: "↔️ Enter at least one side or a zoom out.",
+            rcStyleImport: "Import an existing style",
+            rcStyleImportId: "Style ID (created on recraft.ai or elsewhere)",
+            rcStyleImportBtn: "Import",
+            rcStyleImported: "🎨 Style \"{name}\" imported and selected.",
+            rcStyleImportBad: "⚠️ Invalid style ID.",
             fmtSquare: "Square", fmtSquareTip: "1:1 — Instagram posts, profile pictures, icons.",
             fmtPortrait: "Portrait", fmtPortraitTip: "3:4 — portraits, posters, vertical prints.",
             fmtStory: "Story", fmtStoryTip: "9:16 — Instagram / Facebook stories, TikTok, phone wallpapers.",
@@ -4445,6 +4525,37 @@
             rcTextApply: "Usar",
             rcTextClear: "Borrar todo",
             rcTextIgnored: "ℹ️ Texto ubicado ignorado: solo los modelos V3 lo admiten.",
+            lblRcSeed: "Semilla",
+            rcSeedPh: "Aleatoria",
+            rcSeedTip: "Número de tirada: misma instrucción + misma semilla = misma imagen. Vacío = tirada al azar.",
+            lblRcArtistic: "Creatividad",
+            rcArtisticAuto: "Auto",
+            rcArtisticTip: "Modelos V3: 0 = resultado sobrio y fiel a la instrucción, 5 = muy creativo.",
+            rcNoText: "Sin texto",
+            rcNoTextTip: "Modelos V3: prohíbe cualquier texto en la imagen.",
+            rcWeights: "Pesos",
+            rcWeightsTip: "Da una importancia (en %) a cada color de la paleta; 100 % en total como máximo (se reduce automáticamente si se supera).",
+            rcExactSizes: "Tamaño exacto (px)",
+            rcVectorizeCut: "✒️ Vectorizar (recorte)",
+            rcVectorizeCutTip: "SVG cuyas formas no se superponen: ideal para corte de vinilo, grabado o serigrafía. 0,01 $.",
+            rcEnhanceSubtle: "💎 Mejorar los detalles (sutil)",
+            rcEnhanceSubtleTip: "Como \"Mejorar los detalles\", quedándose lo más cerca posible del original. 0,21 $.",
+            rcOutpaintCustom: "↔️ Ampliar el lienzo…",
+            rcOutpaintCustomTip: "Agrega píxeles del lado que elijas, o aleja la imagen: Recraft inventa el resto de la escena. 0,04 $.",
+            rcCanvasTitle: "↔️ Ampliar el lienzo (Recraft)",
+            rcCanvasHelp: "Píxeles a agregar de cada lado (0 a 4096) y/o alejamiento (en %, la imagen se reduce en el centro). El resultado no debe superar 4096 px por lado.",
+            rcCanvasLeft: "Izquierda (px)",
+            rcCanvasRight: "Derecha (px)",
+            rcCanvasTop: "Arriba (px)",
+            rcCanvasBottom: "Abajo (px)",
+            rcCanvasZoom: "Alejar (%)",
+            rcCanvasApply: "Ampliar",
+            rcCanvasNeedOne: "↔️ Indica al menos un lado o un alejamiento.",
+            rcStyleImport: "Importar un estilo existente",
+            rcStyleImportId: "Identificador del estilo (creado en recraft.ai u otro lugar)",
+            rcStyleImportBtn: "Importar",
+            rcStyleImported: "🎨 Estilo \"{name}\" importado y seleccionado.",
+            rcStyleImportBad: "⚠️ Identificador de estilo no válido.",
             fmtSquare: "Cuadrado", fmtSquareTip: "1:1 — publicaciones de Instagram, fotos de perfil, íconos.",
             fmtPortrait: "Vertical", fmtPortraitTip: "3:4 — retratos, carteles, impresiones verticales.",
             fmtStory: "Historia", fmtStoryTip: "9:16 — historias de Instagram / Facebook, TikTok, fondos de pantalla del teléfono.",
@@ -9030,7 +9141,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // SVG (Recraft Vector) : image vectorielle, affichée en <img> (aucun script exécuté) ;
         // seul le téléchargement est proposé.
         if (ext === 'svg') {
-            bar.appendChild(recraftMenu(src, ['removeBackground']));
+            bar.appendChild(recraftMenu(src, ['removeBackground', 'replaceBackground', 'outpaintCustom']));
             bar.appendChild(imgTool(t.imgDownload, t.imgDownloadSvgTip, download));
             return bar;
         }
@@ -9061,7 +9172,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         IMAGE_ASPECTS.forEach(a => {
             const item = fmt.item(t[a.tip], () => getKeyForProvider('recraft')
-                ? runRecraftTool(src, 'outpaint', null, EDIT_PROMPTS.outpaint, { size: a.ratio, display: `⬚ ${t[a.label]} (${a.ratio})` })
+                ? runRecraftTool(src, 'outpaint', null, EDIT_PROMPTS.outpaint, { params: { size: a.ratio }, display: `⬚ ${t[a.label]} (${a.ratio})` })
                 : runImageEdit({ srcs: [src], prompt: EDIT_PROMPTS.resize(a.ratio), display: `⬚ ${t[a.label]} (${a.ratio})`, size: a.size, ratio: a.ratio, qwenSize: a.qwen }));
             item.setAttribute('aria-label', `${t[a.label]} ${a.ratio} — ${t[a.tip]}`);
             const shape = document.createElement('span');
@@ -9095,8 +9206,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         bar.appendChild(anim.wrap);
         bar.appendChild(recraftMenu(src, remote
-            ? ['removeBackground', 'replaceBackground', 'variateImage', 'vectorize', 'crispUpscale', 'creativeUpscale', 'enhance']
-            : ['removeBackground', 'replaceBackground', 'generateBackground', 'eraseRegion', 'inpaint', 'variateImage', 'vectorize', 'crispUpscale', 'creativeUpscale', 'enhance']));
+            ? ['removeBackground', 'replaceBackground', 'outpaintCustom', 'variateImage', 'vectorize', 'vectorizeCut', 'crispUpscale', 'creativeUpscale', 'enhance', 'enhanceSubtle']
+            : ['removeBackground', 'replaceBackground', 'generateBackground', 'eraseRegion', 'inpaint', 'outpaintCustom', 'variateImage', 'vectorize', 'vectorizeCut', 'crispUpscale', 'creativeUpscale', 'enhance', 'enhanceSubtle']));
 
         bar.appendChild(imgTool(t.imgDownload, t.imgDownloadTip, async () => {
             if (/^https?:\/\//i.test(src)) {
@@ -10130,6 +10241,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const rcColorsBox = $('rc-colors'), rcColorAdd = $('rc-color-add');
     const rcBgOn = $('rc-bg-on'), rcBgColor = $('rc-bg-color'), rcNegative = $('rc-negative');
     const rcTextBtn = $('rc-text-btn'), rcEnhanceBtn = $('rc-enhance-btn'), rcBalance = $('rc-balance');
+    const rcSeed = $('rc-seed'), rcArtistic = $('rc-artistic'), rcNoText = $('rc-notext'), rcWeightsOn = $('rc-weights-on');
+    // Graine saisie (entier ≥ 0) ou undefined
+    const rcSeedValue = () => { const v = parseInt(rcSeed.value, 10); return Number.isFinite(v) && v >= 0 ? v : undefined; };
 
     function rcRead(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; } catch (e) { return fallback; } }
     function rcLibrary() { const l = rcRead('ai_recraft_styles', []); return Array.isArray(l) ? l : []; }
@@ -10144,11 +10258,26 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (v.startsWith('id:') && !i2i) o.style_id = v.slice(3);
         else if (v.startsWith('name:') && rcIsLegacy(model)) o.style = v.slice(5);
         else if (rcNeedsStyle(model) && !i2i) throw new Error(t.rcStyleMissing);
-        const colors = rcRead('ai_recraft_colors', []);
+        const colors = rcRead('ai_recraft_colors', []).slice(0, 10);
         const controls = {};
-        if (colors.length) controls.colors = colors.slice(0, 10).map(h => ({ rgb: hexToRgb(h) }));
+        if (colors.length) {
+            controls.colors = colors.map(h => ({ rgb: hexToRgb(h) }));
+            // Poids : pour toutes les couleurs ou aucune, total ≤ 1 (réduit proportionnellement au-delà)
+            if (rcWeightsOn.checked) {
+                const w = rcRead('ai_recraft_weights', []);
+                const pct = colors.map((_, i) => Math.max(0, Number(w[i]) || 0));
+                const sum = pct.reduce((a, b) => a + b, 0);
+                const k = sum > 100 ? 100 / sum : 1;
+                controls.colors.forEach((c, i) => { c.weight = Math.floor(pct[i] * k) / 100; });
+            }
+        }
         if (rcBgOn.checked) controls.background_color = { rgb: hexToRgb(rcBgColor.value) };
+        if (rcIsV3(model)) {
+            if (rcArtistic.value !== '') controls.artistic_level = parseInt(rcArtistic.value, 10);
+            if (rcNoText.checked) controls.no_text = true;
+        }
         if (Object.keys(controls).length) o.controls = controls;
+        if (!i2i && rcSeedValue() !== undefined) o.random_seed = rcSeedValue();
         const neg = rcNegative.value.trim();
         if (neg && rcIsLegacy(model)) o.negative_prompt = neg;
         if (recraftTextLayout.length && !i2i) {
@@ -10181,6 +10310,29 @@ A small follow-up tweak the user asks for can be done right away without a new p
         rcStyle.value = [...rcStyle.options].some(o => o.value === prev && prev !== '__new') ? prev : '';
     }
 
+    const RECRAFT_SIZES = {
+        k1: ['1024x1024', '1536x768', '768x1536', '1280x832', '832x1280', '1216x896', '896x1216', '1152x896', '896x1152', '832x1344', '1280x896', '896x1280', '1344x768', '768x1344'],
+        k2: ['2048x2048', '3072x1536', '1536x3072', '2560x1664', '1664x2560', '2432x1792', '1792x2432', '2304x1792', '1792x2304', '1664x2688', '2560x1792', '1792x2560', '2688x1536', '1536x2688'],
+        legacy: ['1024x1024', '2048x1024', '1024x2048', '1536x1024', '1024x1536', '1365x1024', '1024x1365', '1280x1024', '1024x1280', '1024x1707', '1434x1024', '1024x1434', '1820x1024', '1024x1820']
+    };
+    const RC_RATIO_LABELS = { '1:1': 'imgFmtSquare', '16:9': 'imgFmtLandscape', '9:16': 'imgFmtPortrait', '4:3': 'imgFmtClassic', '3:4': 'imgFmtClassicPortrait' };
+    function populateRecraftSizes() {
+        const t = I18N[currentLang];
+        const model = imageModelSelect.value || '';
+        const prev = localStorage.getItem('ai_recraft_image_size') || imageRecraftSizeSelect.value || '1:1';  // choix enregistré (taille exacte comprise)
+        imageRecraftSizeSelect.innerHTML = '';
+        const add = (parent, v, label) => { const o = document.createElement('option'); o.value = v; o.textContent = label; parent.appendChild(o); };
+        ['1:1', '16:9', '9:16', '4:3', '3:4'].concat(RECRAFT_RATIOS.filter(r => !RC_RATIO_LABELS[r]))
+            .forEach(r => add(imageRecraftSizeSelect, r, RC_RATIO_LABELS[r] ? t[RC_RATIO_LABELS[r]] : r));
+        const exact = /_vector$/.test(model) ? null : rcIsLegacy(model) ? RECRAFT_SIZES.legacy : /_pro/.test(model) ? RECRAFT_SIZES.k2 : RECRAFT_SIZES.k1;
+        if (exact) {
+            const og = document.createElement('optgroup'); og.label = t.rcExactSizes;
+            exact.forEach(sz => add(og, sz, sz.replace('x', ' × ')));
+            imageRecraftSizeSelect.appendChild(og);
+        }
+        imageRecraftSizeSelect.value = [...imageRecraftSizeSelect.options].some(o => o.value === prev) ? prev : '1:1';
+    }
+
     function renderRecraftColors() {
         const t = I18N[currentLang];
         const colors = rcRead('ai_recraft_colors', []);
@@ -10190,10 +10342,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const inp = document.createElement('input'); inp.type = 'color'; inp.value = hex; inp.setAttribute('aria-label', hex);
             inp.addEventListener('change', () => { const c = rcRead('ai_recraft_colors', []); c[i] = inp.value; localStorage.setItem('ai_recraft_colors', JSON.stringify(c)); });
             const x = document.createElement('button'); x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', t.rcColorRemove); x.dataset.tip = t.rcColorRemove;
-            x.addEventListener('click', () => { const c = rcRead('ai_recraft_colors', []); c.splice(i, 1); localStorage.setItem('ai_recraft_colors', JSON.stringify(c)); renderRecraftColors(); });
+            x.addEventListener('click', () => { const c = rcRead('ai_recraft_colors', []); c.splice(i, 1); localStorage.setItem('ai_recraft_colors', JSON.stringify(c)); const w = rcRead('ai_recraft_weights', []); w.splice(i, 1); localStorage.setItem('ai_recraft_weights', JSON.stringify(w)); renderRecraftColors(); });
             sw.append(inp, x);
+            if (rcWeightsOn.checked) {
+                const wt = document.createElement('input'); wt.type = 'number'; wt.min = '0'; wt.max = '100'; wt.step = '5';
+                const ws = rcRead('ai_recraft_weights', []);
+                wt.value = ws[i] != null ? ws[i] : Math.floor(100 / colors.length);
+                wt.setAttribute('aria-label', `${t.rcWeights} ${hex} (%)`);
+                wt.addEventListener('change', () => { const w2 = rcRead('ai_recraft_weights', []); w2[i] = Math.min(100, Math.max(0, parseInt(wt.value, 10) || 0)); localStorage.setItem('ai_recraft_weights', JSON.stringify(w2)); });
+                sw.appendChild(wt);
+            }
             rcColorsBox.appendChild(sw);
         });
+        rcColorsBox.classList.toggle('weighted', rcWeightsOn.checked && colors.length > 0);
         rcColorAdd.style.display = colors.length >= 10 ? 'none' : '';
     }
 
@@ -10203,10 +10364,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const model = imageModelSelect.value || '';
         $('rc-style-group').style.display = /flash/.test(model) ? 'none' : '';
         $('rc-negative-group').style.display = rcIsLegacy(model) ? '' : 'none';
+        $('rc-v3-group').style.display = rcIsV3(model) ? '' : 'none';
+        rcSeed.placeholder = t.rcSeedPh;
+        populateRecraftSizes();
         rcTextBtn.style.display = rcIsV3(model) ? '' : 'none';
         rcTextBtn.textContent = t.rcTextBtn + (recraftTextLayout.length ? ` (${recraftTextLayout.length})` : '');
         rcNegative.placeholder = t.rcNegativePh;
-        [['rc-n', 'rcCountTip'], ['rc-style', 'rcStyleTip'], ['rc-strength', 'rcStrengthTip'], ['rc-colors', 'rcColorsTip'], ['rc-bg-on', 'rcBgColorTip'], ['rc-negative', 'rcNegativeTip'], ['rc-text-btn', 'rcTextTip'], ['rc-enhance-btn', 'rcEnhanceTip']]
+        [['rc-n', 'rcCountTip'], ['rc-style', 'rcStyleTip'], ['rc-strength', 'rcStrengthTip'], ['rc-colors', 'rcColorsTip'], ['rc-bg-on', 'rcBgColorTip'], ['rc-negative', 'rcNegativeTip'], ['rc-text-btn', 'rcTextTip'], ['rc-enhance-btn', 'rcEnhanceTip'],
+            ['rc-seed', 'rcSeedTip'], ['rc-artistic', 'rcArtisticTip'], ['rc-notext', 'rcNoTextTip'], ['rc-weights-on', 'rcWeightsTip']]
             .forEach(([id, k]) => { const el = $(id); if (el) el.title = t[k]; });
         populateRecraftStyles();
         renderRecraftColors();
@@ -10325,6 +10490,25 @@ A small follow-up tweak the user asks for can be done right away without a new p
             mLab.appendChild(match);
             form.appendChild(mLab);
         }
+        // Importer un style existant par son identifiant (lié au modèle sélectionné)
+        const impLab = document.createElement('label'); impLab.textContent = t.rcStyleImport;
+        const impRow = document.createElement('div'); impRow.style.display = 'flex'; impRow.style.gap = '6px';
+        const impId = document.createElement('input'); impId.type = 'text'; impId.className = 'rc-input'; impId.placeholder = t.rcStyleImportId; impId.style.flex = '1'; impId.maxLength = 80;
+        const impBtn = rcButton(t.rcStyleImportBtn);
+        impBtn.addEventListener('click', () => {
+            const id = impId.value.trim();
+            if (!/^[A-Za-z0-9-]{8,80}$/.test(id)) { showToast(t.rcStyleImportBad, 'error'); return; }
+            const label = name.value.trim() || id.slice(0, 8);
+            localStorage.setItem('ai_recraft_styles', JSON.stringify([...rcLibrary().filter(z => z.id !== id), { id, name: label, model, createdAt: Date.now() }]));
+            localStorage.setItem('ai_recraft_style', 'id:' + id);
+            populateRecraftStyles();
+            rcStyle.value = 'id:' + id;
+            d.close();
+            showToast(t.rcStyleImported.replace('{name}', label), 'success');
+        });
+        impRow.append(impId, impBtn);
+        impLab.appendChild(impRow);
+        form.appendChild(impLab);
         // Bibliothèque : styles enregistrés (tous modèles), avec « Oublier »
         const libTitle = document.createElement('label'); libTitle.textContent = t.rcStyleLibrary;
         const lib = document.createElement('div');
@@ -10441,6 +10625,37 @@ A small follow-up tweak the user asks for can be done right away without a new p
         rcFoot(d.box, [clear, cancel, apply]);
     }
 
+    // ↔️ Agrandir la toile : pixels par côté (expand_*) et/ou dézoom (zoom_out_percentage)
+    function openRecraftCanvas(src) {
+        const t = I18N[currentLang];
+        const d = rcDialog(t.rcCanvasTitle, t.rcCanvasHelp);
+        const form = document.createElement('div'); form.className = 'rc-form';
+        const grid = document.createElement('div'); grid.className = 'rc-canvas-grid';
+        const fields = {};
+        [['expand_left', t.rcCanvasLeft, 4096], ['expand_right', t.rcCanvasRight, 4096], ['expand_top', t.rcCanvasTop, 4096], ['expand_bottom', t.rcCanvasBottom, 4096], ['zoom_out_percentage', t.rcCanvasZoom, 99]].forEach(([k, label, max]) => {
+            const lab = document.createElement('label'); lab.textContent = label;
+            const inp = document.createElement('input'); inp.type = 'number'; inp.className = 'rc-input'; inp.min = '0'; inp.max = String(max); inp.step = k === 'zoom_out_percentage' ? '5' : '64'; inp.value = '0'; inp.style.width = '100%';
+            lab.appendChild(inp); grid.appendChild(lab); fields[k] = inp;
+        });
+        form.appendChild(grid);
+        d.box.appendChild(form);
+        const cancel = rcButton(t.ieCancel), apply = rcButton(t.rcCanvasApply, true);
+        cancel.addEventListener('click', d.close);
+        apply.addEventListener('click', () => {
+            const params = {};
+            Object.entries(fields).forEach(([k, inp]) => {
+                const max = k === 'zoom_out_percentage' ? 99 : 4096;
+                const v = Math.min(max, Math.max(0, parseInt(inp.value, 10) || 0));
+                if (v > 0) params[k] = v;
+            });
+            if (!Object.keys(params).length) { showToast(t.rcCanvasNeedOne, 'error'); return; }
+            d.close();
+            const parts = Object.entries(params).map(([k, v]) => k === 'zoom_out_percentage' ? `-${v} %` : `${{ expand_left: '←', expand_right: '→', expand_top: '↑', expand_bottom: '↓' }[k]} ${v} px`);
+            runRecraftTool(src, 'outpaintCustom', null, EDIT_PROMPTS.outpaint, { params, display: `${t.rcOutpaintCustom.replace(/…$/, '')} : ${parts.join(', ')}` });
+        });
+        rcFoot(d.box, [cancel, apply]);
+    }
+
     function modelLabelImage(provider, model) {
         const m = (IMAGE_MODELS[provider] || []).find(x => x.id === model);
         return m ? (m.name[currentLang] || m.name.fr) : model;
@@ -10452,6 +10667,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const keep = (el, key) => { const v = localStorage.getItem(key); if (v && [...el.options].some(o => o.value === v)) el.value = v; el.addEventListener('change', () => localStorage.setItem(key, el.value)); };
         keep(rcN, 'ai_recraft_n');
         keep(rcStrength, 'ai_recraft_strength');
+        keep(rcArtistic, 'ai_recraft_artistic');
+        rcSeed.value = localStorage.getItem('ai_recraft_seed') || '';
+        rcSeed.addEventListener('input', () => localStorage.setItem('ai_recraft_seed', rcSeed.value));
+        rcNoText.checked = localStorage.getItem('ai_recraft_notext') === '1';
+        rcNoText.addEventListener('change', () => localStorage.setItem('ai_recraft_notext', rcNoText.checked ? '1' : ''));
+        rcWeightsOn.checked = localStorage.getItem('ai_recraft_weights_on') === '1';
+        rcWeightsOn.addEventListener('change', () => { localStorage.setItem('ai_recraft_weights_on', rcWeightsOn.checked ? '1' : ''); renderRecraftColors(); });
         rcNegative.value = localStorage.getItem('ai_recraft_negative') || '';
         rcNegative.addEventListener('input', () => localStorage.setItem('ai_recraft_negative', rcNegative.value));
         const bg = localStorage.getItem('ai_recraft_bg') || '';
@@ -10520,12 +10742,29 @@ A small follow-up tweak the user asks for can be done right away without a new p
         eraseRegion: { label: 'rcErase', png: true },
         inpaint: { label: 'rcInpaint', png: true, prompt: true, model: 'recraftv3' },
         outpaint: { label: 'rcOutpaint', png: true, prompt: true, model: 'recraftv3' },
+        outpaintCustom: { label: 'rcOutpaintCustom', path: 'outpaint', png: true, prompt: true, model: 'recraftv3' },
         variateImage: { label: 'rcRemix', png: true },
         vectorize: { label: 'rcVectorize', svg: true },
+        vectorizeCut: { label: 'rcVectorizeCut', path: 'vectorize', svg: true, body: { shape_stacking: 'cut_out' } },
         crispUpscale: { label: 'rcUpscale', png: true },
         creativeUpscale: { label: 'rcUpscaleCreative', png: true },
-        enhance: { label: 'rcEnhanceDetails', png: true, body: { refinement: 'moderate' } }
+        enhance: { label: 'rcEnhanceDetails', png: true, body: { refinement: 'moderate' } },
+        enhanceSubtle: { label: 'rcEnhanceSubtle', path: 'enhance', png: true, body: { refinement: 'subtle' } }
     };
+    // Options du panneau appliquées aux retouches V3 (fond, repeindre, prolonger) et au remix :
+    // nombre de variantes, style prédéfini compatible, à éviter ; graine pour le remix.
+    function recraftToolOptions(op, model) {
+        const o = {};
+        const n = parseInt(rcN.value) || 1;
+        if (n > 1) o.n = n;
+        if (op === 'variateImage') { if (rcSeedValue() !== undefined) o.random_seed = rcSeedValue(); return o; }
+        const v = rcStyle.value || '';
+        const curated = Object.values(RECRAFT_CURATED[model] || {}).flat();
+        if (v.startsWith('name:') && curated.includes(v.slice(5))) o.style = v.slice(5);
+        const neg = rcNegative.value.trim();
+        if (neg) o.negative_prompt = neg;
+        return o;
+    }
     // Format w:h accepté par Recraft le plus proche des proportions de l'image (Remix exige size).
     const RECRAFT_RATIOS = ['1:1', '2:1', '1:2', '3:2', '2:3', '4:3', '3:4', '5:4', '4:5', '6:10', '14:10', '10:14', '16:9', '9:16'];
     async function recraftRatioOf(src) {
@@ -10555,14 +10794,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
             try {
                 const image = await recraftImageInput(src);
                 const svgIn = /^data:image\/svg\+xml/i.test(image);
-                const body = { image_url: image, response_format: 'b64_json', ...(tool.body || {}) };
+                const body = { image_url: image, response_format: 'b64_json', ...(tool.body || {}), ...(opts.params || {}) };
                 if (mask) body.mask_url = await blobToDataUrl(mask);
                 if (prompt) body.prompt = prompt;
-                if (tool.model) body.model = tool.model;
-                if (op === 'outpaint') body.size = opts.size;
+                // Source SVG : version vectorielle des retouches V3 (SVG en entrée → SVG en sortie)
+                if (tool.model) body.model = svgIn && tool.prompt ? 'recraftv3_vector' : tool.model;
+                if (tool.model || op === 'variateImage') Object.assign(body, recraftToolOptions(op, body.model));
                 if (op === 'variateImage') body.size = await recraftRatioOf(src);
                 if (tool.png && !svgIn) body.image_format = 'png';
-                const res = await fetchWithRetry(`https://external.api.recraft.ai/v1/images/${op}`, {
+                const res = await fetchWithRetry(`https://external.api.recraft.ai/v1/images/${tool.path || op}`, {
                     method: 'POST',
                     signal: currentAbortController.signal,
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
@@ -10570,11 +10810,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 });
                 if (!res.ok) throw new Error(await recraftError(res));
                 const data = await res.json();
-                const item = data.image || data.data?.[0];
-                const svgOut = tool.svg || (svgIn && op === 'removeBackground');
-                const imageData = item?.b64_json ? { b64: item.b64_json, mime: svgOut ? 'image/svg+xml' : 'image/png' } : item?.url;
-                if (!imageData) throw new Error('Unexpected response format from Recraft.');
-                await displayAndStoreImage(loadingDiv, imageData, display, 'recraft', op, true);
+                const items = data.image ? [data.image] : (data.data || []);
+                const svgOut = tool.svg || (svgIn && (op === 'removeBackground' || tool.prompt));
+                const results = items.map(item => item.b64_json ? { b64: item.b64_json, mime: svgOut ? 'image/svg+xml' : 'image/png' } : item.url).filter(Boolean);
+                if (!results.length) throw new Error('Unexpected response format from Recraft.');
+                await displayAndStoreImage(loadingDiv, results[0], display, 'recraft', op, true);
+                for (const extra of results.slice(1)) await displayAndStoreImage(addMessage(null, 'ai', 'recraft', op, true), extra, display, 'recraft', op, true);
                 refreshRecraftBalance();
             } catch (error) {
                 updateMessageContent(loadingDiv, `❌ Image: ${translateApiError(error, 'recraft')}`);
@@ -10602,6 +10843,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 : op === 'inpaint' ? openImageEditor(src, 'erase', 'recraft-inpaint')
                 : op === 'generateBackground' ? openImageEditor(src, 'erase', 'recraft-genbg')
                 : op === 'replaceBackground' ? setImageEditTarget(src, 'rc-bg')
+                : op === 'outpaintCustom' ? openRecraftCanvas(src)
                 : runRecraftTool(src, op));
             const l = document.createElement('span');
             l.className = 'fmt-label';
