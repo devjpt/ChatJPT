@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.24.0
+  Version 1.25.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -44,7 +44,8 @@ FEATURES
                      quality and size), Google Gemini (adjustable format and
                      resolution), Qwen, Grok, Recraft (vector SVG, styles), and Bria
                      (licensed images, retouching, product photos), and MiniMax
-      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
+      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
+                     ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni)
       • Voice      : text-to-speech with MiniMax — 40 languages, emotions,
                      effects, long texts, your own designed or cloned voices
 
@@ -135,7 +136,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_24_0.html
+  1. Download the file ChatJPT_1_25_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -167,7 +168,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.24.0
+  Version 1.25.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -212,7 +213,8 @@ FONCTIONNALITÉS
                      taille ajustables), Google Gemini (format et résolution
                      ajustables), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
                      (images sous licence, retouche, photos de produits) et MiniMax
-      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
+      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
+                     ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni)
       • Voix       : synthèse vocale avec MiniMax — 40 langues, émotions,
                      effets, textes longs, tes propres voix créées ou clonées
 
@@ -309,7 +311,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_24_0.html
+  1. Téléchargez le fichier ChatJPT_1_25_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -343,7 +345,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.24.0
+  Versión 1.25.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -388,7 +390,8 @@ CARACTERÍSTICAS
                      tamaño ajustables), Google Gemini (formato y resolución
                      ajustables), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
-      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
+      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
+                     ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni)
       • Voz        : síntesis de voz con MiniMax — 40 idiomas, emociones,
                      efectos, textos largos, tus propias voces creadas o clonadas
 
@@ -481,7 +484,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_24_0.html
+  1. Descarga el archivo ChatJPT_1_25_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

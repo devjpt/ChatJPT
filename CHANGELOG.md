@@ -8,6 +8,17 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.25.0] — 2026-11-03
+  Added
+    - ⏩ Extend under every Gemini Omni and Grok video: describe what happens
+      next (optional). Omni adds about 10 s per turn, up to 40 s in total,
+      keeping characters, motion and sound consistent; Grok adds 2 to 10 s
+      (source video of 15 s at most, so a 10 s Grok video can be extended
+      once). The button is greyed out when the limit is reached.
+    - ✏️ Edit the video (Gemini Omni): change one element from a prompt
+      (e.g. "make the violin invisible"), the rest is kept; edits and
+      extensions can be chained.
+
 [1.24.0] — 2026-11-03
   Added
     - New 🎙️ Voice mode (MiniMax): write a text and get an audio file in the
@@ -644,6 +655,17 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.25.0] — 2026-11-03
+  Ajouté
+    - ⏩ Prolonger sous chaque vidéo Gemini Omni et Grok : décris la suite
+      (facultatif). Omni ajoute environ 10 s par tour, jusqu'à 40 s au
+      total, en gardant personnages, mouvement et son cohérents ; Grok
+      ajoute 2 à 10 s (vidéo de départ de 15 s au plus : une vidéo Grok de
+      10 s se prolonge donc une fois). Le bouton se grise à la limite.
+    - ✏️ Modifier la vidéo (Gemini Omni) : change un élément par une
+      consigne (ex. « rends le violon invisible »), le reste est conservé ;
+      modifications et prolongations s'enchaînent.
 
 [1.24.0] — 2026-11-03
   Ajouté
@@ -1333,6 +1355,18 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.25.0] — 2026-11-03
+  Añadido
+    - ⏩ Extender debajo de cada video de Gemini Omni y Grok: describe lo que
+      pasa después (opcional). Omni agrega unos 10 s por turno, hasta 40 s
+      en total, manteniendo personajes, movimiento y sonido coherentes; Grok
+      agrega de 2 a 10 s (video de origen de 15 s como máximo: un video de
+      Grok de 10 s se extiende una vez). El botón se desactiva al llegar al
+      límite.
+    - ✏️ Editar el video (Gemini Omni): cambia un elemento con una
+      instrucción (ej. "haz invisible el violín"), el resto se conserva;
+      ediciones y extensiones se encadenan.
 
 [1.24.0] — 2026-11-03
   Añadido
