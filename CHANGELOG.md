@@ -8,6 +8,19 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.27.0] — 2026-11-03
+  Added
+    - 🎧 Podcast now works with every Voice provider: Alibaba Qwen, xAI
+      Grok, OpenAI and MiniMax join Gemini. The button sits next to the
+      voice choice. Voice 1 and Voice 2 offer the provider's voices (with
+      MiniMax, your own designed or cloned voices too).
+    - Each line is read separately with its host's voice (three at a time),
+      then everything is joined into a single WAV file with a short pause
+      between lines. The panel settings (speed, language…) apply. A tone in
+      parentheses, "Sam (amused): …", becomes the instruction for Qwen and
+      OpenAI, and a MiniMax emotion (happy, whisper, sad…).
+    - If one line fails, the podcast stops and shows the provider's error.
+
 [1.26.0] — 2026-11-03
   Added
     - 🎙️ Voice mode with four more providers (choose the provider, then the
@@ -679,6 +692,21 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.27.0] — 2026-11-03
+  Ajouté
+    - Le 🎧 Podcast fonctionne avec tous les fournisseurs du mode Voix :
+      Alibaba Qwen, xAI Grok, OpenAI et MiniMax rejoignent Gemini. Le bouton
+      est à côté du choix de voix. Voix 1 et Voix 2 proposent les voix du
+      fournisseur (avec MiniMax, tes propres voix créées ou clonées aussi).
+    - Chaque réplique est lue séparément avec la voix de son animateur (trois
+      à la fois), puis tout est réuni en un seul fichier WAV avec un court
+      silence entre les répliques. Les réglages du panneau (vitesse,
+      langue…) s'appliquent. Un ton entre parenthèses, « Sam (amusé) : … »,
+      devient la consigne pour Qwen et OpenAI, et une émotion MiniMax
+      (joyeuse, chuchotée, triste…).
+    - Si une réplique échoue, le podcast s'arrête et affiche l'erreur du
+      fournisseur.
 
 [1.26.0] — 2026-11-03
   Ajouté
@@ -1404,6 +1432,21 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.27.0] — 2026-11-03
+  Añadido
+    - El 🎧 Pódcast funciona con todos los proveedores del modo Voz: Alibaba
+      Qwen, xAI Grok, OpenAI y MiniMax se suman a Gemini. El botón está al
+      lado de la elección de voz. Voz 1 y Voz 2 ofrecen las voces del
+      proveedor (con MiniMax, también tus propias voces creadas o clonadas).
+    - Cada línea se lee por separado con la voz de su presentador (tres a la
+      vez) y luego todo se une en un solo archivo WAV con un breve silencio
+      entre líneas. Se aplican los ajustes del panel (velocidad, idioma…).
+      Un tono entre paréntesis, "Sam (divertido): …", se vuelve la
+      instrucción para Qwen y OpenAI, y una emoción de MiniMax (alegre,
+      susurrada, triste…).
+    - Si una línea falla, el pódcast se detiene y muestra el error del
+      proveedor.
 
 [1.26.0] — 2026-11-03
   Añadido

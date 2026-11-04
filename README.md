@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.26.0
+  Version 1.27.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -47,11 +47,12 @@ FEATURES
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni)
       • Voice      : text-to-speech with MiniMax (emotions, effects, your own
-                     designed or cloned voices), Google Gemini (1 or 2 voices,
-                     🎧 podcast written from your files or the conversation),
+                     designed or cloned voices), Google Gemini (1 or 2 voices),
                      Alibaba Qwen (120+ voices, 50+ languages), xAI Grok
                      (expressive tags) and OpenAI GPT-Audio; long texts joined
-                     into a single MP3 / WAV file
+                     into a single MP3 / WAV file. 🎧 Podcast with all five:
+                     a script written from your files or the conversation,
+                     read by one or two hosts
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -140,7 +141,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_26_0.html
+  1. Download the file ChatJPT_1_27_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -172,7 +173,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.26.0
+  Version 1.27.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -220,11 +221,12 @@ FONCTIONNALITÉS
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
                      ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni)
       • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
-                     voix créées ou clonées), Google Gemini (1 ou 2 voix,
-                     🎧 podcast écrit à partir de tes fichiers ou de la
-                     conversation), Alibaba Qwen (120+ voix, 50+ langues), xAI
-                     Grok (balises expressives) et OpenAI GPT-Audio ; textes
-                     longs réunis en un seul fichier MP3 / WAV
+                     voix créées ou clonées), Google Gemini (1 ou 2 voix),
+                     Alibaba Qwen (120+ voix, 50+ langues), xAI Grok (balises
+                     expressives) et OpenAI GPT-Audio ; textes longs réunis en
+                     un seul fichier MP3 / WAV. 🎧 Podcast avec les cinq : un
+                     script écrit à partir de tes fichiers ou de la
+                     conversation, lu par un ou deux animateurs
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -319,7 +321,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_26_0.html
+  1. Téléchargez le fichier ChatJPT_1_27_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -353,7 +355,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.26.0
+  Versión 1.27.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -401,11 +403,12 @@ CARACTERÍSTICAS
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni)
       • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
-                     voces creadas o clonadas), Google Gemini (1 o 2 voces,
-                     🎧 pódcast escrito a partir de tus archivos o de la
-                     conversación), Alibaba Qwen (120+ voces, 50+ idiomas), xAI
-                     Grok (etiquetas expresivas) y OpenAI GPT-Audio; textos
-                     largos unidos en un solo archivo MP3 / WAV
+                     voces creadas o clonadas), Google Gemini (1 o 2 voces),
+                     Alibaba Qwen (120+ voces, 50+ idiomas), xAI Grok
+                     (etiquetas expresivas) y OpenAI GPT-Audio; textos largos
+                     unidos en un solo archivo MP3 / WAV. 🎧 Pódcast con los
+                     cinco: un guion escrito a partir de tus archivos o de la
+                     conversación, leído por uno o dos presentadores
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos
@@ -496,7 +499,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_26_0.html
+  1. Descarga el archivo ChatJPT_1_27_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
