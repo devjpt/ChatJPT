@@ -8,6 +8,13 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.28.1] — 2026-11-03
+  Fixed
+    - The welcome message now lists all six modes (Chat, Vibe Coder, Code,
+      Image, Video and Voice) instead of three.
+    - The keyboard shortcuts on the welcome screen are translated (Enter /
+      Shift+Enter in English and Spanish); they stayed in French.
+
 [1.28.0] — 2026-11-03
   Added
     - Your own voices at Alibaba (Qwen), in the 🎙️ Voice tab: the
@@ -710,6 +717,13 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.28.1] — 2026-11-03
+  Corrigé
+    - Le message d'accueil cite maintenant les six modes (Chat, Vibe Coder,
+      Code, Image, Vidéo et Voix) au lieu de trois.
+    - Les raccourcis clavier de l'écran d'accueil sont traduits (Enter /
+      Shift+Enter en anglais et en espagnol) ; ils restaient en français.
 
 [1.28.0] — 2026-11-03
   Ajouté
@@ -1470,6 +1484,13 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.28.1] — 2026-11-03
+  Corregido
+    - El mensaje de bienvenida ahora menciona los seis modos (Chat, Vibe
+      Coder, Código, Imagen, Video y Voz) en lugar de tres.
+    - Los atajos de teclado de la pantalla de bienvenida están traducidos
+      (Enter / Shift+Enter en inglés y en español); seguían en francés.
 
 [1.28.0] — 2026-11-03
   Añadido
