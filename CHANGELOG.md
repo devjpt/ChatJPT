@@ -8,6 +8,24 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.28.0] — 2026-11-03
+  Added
+    - Your own voices at Alibaba (Qwen), in the 🎙️ Voice tab: the
+      "＋ Create a voice" and "🎤 Clone a voice" buttons now also appear for
+      Alibaba. Both are free.
+      • Clone: a 10 to 20 s recording (60 s at most, WAV, MP3 or M4A,
+        10 MB at most), recording language, background noise reduction,
+        consent box required. Works in both regions. Alibaba reviews the
+        voice before activating it: it shows "(under review)", then
+        becomes usable; a rejected voice is greyed out.
+      • Create from a description (in English or Chinese) with a sample to
+        listen to — Mainland China region only (Alibaba's limit); in the
+        International region a message explains how to proceed.
+      • Each voice is tied to its model (Flash or Plus): "My voices" shows
+        the chosen model's voices for the chosen region, keeps the name you
+        gave them, and lets you delete them. Your voices also work in the
+        🎧 Podcast.
+
 [1.27.0] — 2026-11-03
   Added
     - 🎧 Podcast now works with every Voice provider: Alibaba Qwen, xAI
@@ -692,6 +710,26 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.28.0] — 2026-11-03
+  Ajouté
+    - Tes propres voix chez Alibaba (Qwen), dans l'onglet 🎙️ Voix : les
+      boutons « ＋ Créer une voix » et « 🎤 Cloner une voix » apparaissent
+      aussi pour Alibaba. Les deux sont gratuits.
+      • Cloner : enregistrement de 10 à 20 s (60 s au plus, WAV, MP3 ou
+        M4A, 10 Mo au plus), langue de l'enregistrement, réduction du bruit
+        de fond, case de consentement obligatoire. Fonctionne dans les deux
+        régions. Alibaba examine la voix avant de l'activer : elle
+        s'affiche « (en examen) », puis devient utilisable ; une voix
+        refusée est grisée.
+      • Créer à partir d'une description (en anglais ou en chinois), avec
+        un extrait à écouter — région Chine continentale seulement (limite
+        d'Alibaba) ; en région International, un message explique quoi
+        faire.
+      • Chaque voix est liée à son modèle (Flash ou Plus) : « Mes voix »
+        montre celles du modèle et de la région choisis, garde le nom que tu
+        leur as donné et permet de les supprimer. Tes voix servent aussi
+        dans le 🎧 Podcast.
 
 [1.27.0] — 2026-11-03
   Ajouté
@@ -1432,6 +1470,26 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.28.0] — 2026-11-03
+  Añadido
+    - Tus propias voces en Alibaba (Qwen), en la pestaña 🎙️ Voz: los
+      botones "＋ Crear una voz" y "🎤 Clonar una voz" aparecen también para
+      Alibaba. Ambos son gratis.
+      • Clonar: grabación de 10 a 20 s (60 s como máximo, WAV, MP3 o M4A,
+        10 MB como máximo), idioma de la grabación, reducción del ruido de
+        fondo, casilla de consentimiento obligatoria. Funciona en ambas
+        regiones. Alibaba revisa la voz antes de activarla: aparece
+        "(en revisión)" y luego se puede usar; una voz rechazada aparece
+        desactivada.
+      • Crear a partir de una descripción (en inglés o en chino), con un
+        fragmento para escuchar — solo en la región China continental
+        (límite de Alibaba); en la región Internacional, un mensaje explica
+        qué hacer.
+      • Cada voz queda ligada a su modelo (Flash o Plus): "Mis voces"
+        muestra las del modelo y la región elegidos, conserva el nombre que
+        les diste y permite eliminarlas. Tus voces también sirven en el
+        🎧 Pódcast.
 
 [1.27.0] — 2026-11-03
   Añadido
