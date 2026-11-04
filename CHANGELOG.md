@@ -8,6 +8,30 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.26.0] — 2026-11-03
+  Added
+    - 🎙️ Voice mode with four more providers (choose the provider, then the
+      Voice tab):
+      • Google Gemini (3.8 Flash TTS / Flash-Lite TTS, 30 studio voices): one
+        voice, or a dialogue with two voices — one line per turn, "Name:
+        text", with an optional tone in parentheses. Style field for the
+        tone of the whole reading; sounds such as <laugh> or <short pause>.
+      • 🎧 Podcast (Gemini): a text model of your choice writes the script
+        from your attached files, the conversation or a topic — dialogue
+        between two hosts or a one-voice monologue, length (≈ 2 to 15 min)
+        and language. You review and edit the script, then Gemini reads it.
+        The script stays available under the player.
+      • Alibaba Qwen (Qwen-Audio 3.1 TTS Flash / Plus): 120+ voices in 50+
+        languages (Chinese voices with a Mainland China key), instruction
+        for tone and pace, language, speed, pitch, volume, emotion tags
+        such as [excited] or [laughing].
+      • xAI Grok: built-in voices plus the voices you create in the xAI
+        console, 20 languages, speed, number reading, tags such as [laugh]
+        and <whisper>…</whisper>.
+      • OpenAI (GPT-Audio 1.5, 13 voices, tone instruction): ChatJPT asks the
+        model to read word for word and warns you if its reading drifts.
+      Long texts are split automatically and joined into one MP3 or WAV file.
+
 [1.25.0] — 2026-11-03
   Added
     - ⏩ Extend under every Gemini Omni and Grok video: describe what happens
@@ -655,6 +679,31 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.26.0] — 2026-11-03
+  Ajouté
+    - Mode 🎙️ Voix avec quatre fournisseurs de plus (choisis le fournisseur,
+      puis l'onglet Voix) :
+      • Google Gemini (3.8 Flash TTS / Flash-Lite TTS, 30 voix studio) : une
+        voix, ou un dialogue à deux voix — une réplique par ligne, « Nom :
+        texte », avec un ton facultatif entre parenthèses. Champ Style pour
+        le ton de toute la lecture ; sons comme <laugh> ou <short pause>.
+      • 🎧 Podcast (Gemini) : un modèle texte au choix écrit le script à
+        partir de tes fichiers joints, de la conversation ou d'un sujet —
+        dialogue entre deux animateurs ou monologue à une voix, durée (≈ 2 à
+        15 min) et langue. Tu relis et corriges le script, puis Gemini le
+        lit. Le script reste consultable sous le lecteur.
+      • Alibaba Qwen (Qwen-Audio 3.1 TTS Flash / Plus) : 120+ voix en 50+
+        langues (voix chinoises avec une clé Chine continentale), consigne
+        de ton et de rythme, langue, vitesse, hauteur, volume, balises
+        d'émotion comme [excited] ou [laughing].
+      • xAI Grok : voix intégrées et voix créées dans la console xAI, 20
+        langues, vitesse, lecture des nombres, balises comme [laugh] et
+        <whisper>…</whisper>.
+      • OpenAI (GPT-Audio 1.5, 13 voix, consigne de ton) : ChatJPT demande au
+        modèle de lire mot à mot et t'avertit si sa lecture s'en écarte.
+      Les textes longs sont découpés automatiquement et réunis en un seul
+      fichier MP3 ou WAV.
 
 [1.25.0] — 2026-11-03
   Ajouté
@@ -1355,6 +1404,32 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.26.0] — 2026-11-03
+  Añadido
+    - Modo 🎙️ Voz con cuatro proveedores más (elige el proveedor y luego la
+      pestaña Voz):
+      • Google Gemini (3.8 Flash TTS / Flash-Lite TTS, 30 voces de estudio):
+        una voz, o un diálogo a dos voces — una línea por turno, "Nombre:
+        texto", con un tono opcional entre paréntesis. Campo Estilo para el
+        tono de toda la lectura; sonidos como <laugh> o <short pause>.
+      • 🎧 Pódcast (Gemini): un modelo de texto a elección escribe el guion
+        a partir de tus archivos adjuntos, la conversación o un tema —
+        diálogo entre dos presentadores o monólogo a una voz, duración (≈ 2
+        a 15 min) e idioma. Revisas y corriges el guion, y luego Gemini lo
+        lee. El guion queda disponible debajo del reproductor.
+      • Alibaba Qwen (Qwen-Audio 3.1 TTS Flash / Plus): 120+ voces en 50+
+        idiomas (voces chinas con una clave de China continental),
+        instrucción de tono y ritmo, idioma, velocidad, tono, volumen,
+        etiquetas de emoción como [excited] o [laughing].
+      • xAI Grok: voces integradas y voces creadas en la consola de xAI, 20
+        idiomas, velocidad, lectura de números, etiquetas como [laugh] y
+        <whisper>…</whisper>.
+      • OpenAI (GPT-Audio 1.5, 13 voces, instrucción de tono): ChatJPT le
+        pide al modelo leer palabra por palabra y te avisa si su lectura se
+        aparta.
+      Los textos largos se dividen automáticamente y se unen en un solo
+      archivo MP3 o WAV.
 
 [1.25.0] — 2026-11-03
   Añadido

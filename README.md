@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.25.0
+  Version 1.26.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -18,7 +18,7 @@ FEATURES
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
-      • Grok       (xAI — chat, image, and video; Grok Imagine)
+      • Grok       (xAI — chat, image, video, and voice; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
       • Meta       (Muse Spark 1.3, Muse Wonder — reasoning summary, web search)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
@@ -27,7 +27,7 @@ FEATURES
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; Image-01; Hailuo video; voice)
-      • Alibaba    (Qwen + Z.ai GLM — chat and image; International and/or Mainland China key)
+      • Alibaba    (Qwen + Z.ai GLM — chat, image, and voice; International and/or Mainland China key)
       • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
       • Bria       (Israel — images only: licensed, photo retouching, product photos, ads)
@@ -46,8 +46,12 @@ FEATURES
                      (licensed images, retouching, product photos), and MiniMax
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni)
-      • Voice      : text-to-speech with MiniMax — 40 languages, emotions,
-                     effects, long texts, your own designed or cloned voices
+      • Voice      : text-to-speech with MiniMax (emotions, effects, your own
+                     designed or cloned voices), Google Gemini (1 or 2 voices,
+                     🎧 podcast written from your files or the conversation),
+                     Alibaba Qwen (120+ voices, 50+ languages), xAI Grok
+                     (expressive tags) and OpenAI GPT-Audio; long texts joined
+                     into a single MP3 / WAV file
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -136,7 +140,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_25_0.html
+  1. Download the file ChatJPT_1_26_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -168,7 +172,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.25.0
+  Version 1.26.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -187,7 +191,7 @@ FONCTIONNALITÉS
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
-      • Grok       (xAI — chat, image et vidéo ; Grok Imagine)
+      • Grok       (xAI — chat, image, vidéo et voix ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
       • Meta       (Muse Spark 1.3, Muse Wonder — résumé de la réflexion, recherche web)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
@@ -196,7 +200,7 @@ FONCTIONNALITÉS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat ; Image-01 ; vidéo Hailuo ; voix)
-      • Alibaba    (Qwen + Z.ai GLM — chat et image ; clé International et/ou Chine continentale)
+      • Alibaba    (Qwen + Z.ai GLM — chat, image et voix ; clé International et/ou Chine continentale)
       • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
       • Bria       (Israël — images seulement : sous licence, retouche photo, photos de produits, pubs)
@@ -215,8 +219,12 @@ FONCTIONNALITÉS
                      (images sous licence, retouche, photos de produits) et MiniMax
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
                      ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni)
-      • Voix       : synthèse vocale avec MiniMax — 40 langues, émotions,
-                     effets, textes longs, tes propres voix créées ou clonées
+      • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
+                     voix créées ou clonées), Google Gemini (1 ou 2 voix,
+                     🎧 podcast écrit à partir de tes fichiers ou de la
+                     conversation), Alibaba Qwen (120+ voix, 50+ langues), xAI
+                     Grok (balises expressives) et OpenAI GPT-Audio ; textes
+                     longs réunis en un seul fichier MP3 / WAV
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -311,7 +319,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_25_0.html
+  1. Téléchargez le fichier ChatJPT_1_26_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -345,7 +353,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.25.0
+  Versión 1.26.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -364,7 +372,7 @@ CARACTERÍSTICAS
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
-      • Grok       (xAI — chat, imagen y video; Grok Imagine)
+      • Grok       (xAI — chat, imagen, video y voz; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
       • Meta       (Muse Spark 1.3, Muse Wonder — resumen del razonamiento, búsqueda web)
       • Augure     (Canadá — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
@@ -373,7 +381,7 @@ CARACTERÍSTICAS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; Image-01; video Hailuo; voz)
-      • Alibaba    (Qwen + Z.ai GLM — chat e imagen; clave Internacional y/o China continental)
+      • Alibaba    (Qwen + Z.ai GLM — chat, imagen y voz; clave Internacional y/o China continental)
       • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
       • Bria       (Israel — solo imágenes: con licencia, retoque fotográfico, fotos de productos, anuncios)
@@ -392,8 +400,12 @@ CARACTERÍSTICAS
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni)
-      • Voz        : síntesis de voz con MiniMax — 40 idiomas, emociones,
-                     efectos, textos largos, tus propias voces creadas o clonadas
+      • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
+                     voces creadas o clonadas), Google Gemini (1 o 2 voces,
+                     🎧 pódcast escrito a partir de tus archivos o de la
+                     conversación), Alibaba Qwen (120+ voces, 50+ idiomas), xAI
+                     Grok (etiquetas expresivas) y OpenAI GPT-Audio; textos
+                     largos unidos en un solo archivo MP3 / WAV
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos
@@ -484,7 +496,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_25_0.html
+  1. Descarga el archivo ChatJPT_1_26_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
