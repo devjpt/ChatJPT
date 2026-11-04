@@ -8,6 +8,21 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.23.0] — 2026-11-03
+  Added
+    - New provider: MiniMax (China group, international platform).
+      • Chat: MiniMax M3.1 Flash (always reasons; choose the effort, from
+        Low to Max) and MiniMax M3 (reasoning 🧠 can be turned on or off);
+        1M-token context, attached images are read, web search 🌐
+        ($0.01 per search; MiniMax does not list its sources).
+      • Images: Image-01 ($0.0035 per image), 8 formats, up to 9 images
+        at once, seed, automatic prompt optimization; an attached photo
+        of a person is used as a reference (the face is kept).
+      • Video: Hailuo 2.3 (768P 6 or 10 s, or 1080P 6 s), Hailuo 2.3 Fast
+        (from a start image) and Hailuo 02; an attached image becomes the
+        first frame. The newer H3 models cannot be called from a browser
+        yet (MiniMax blocks the request).
+
 [1.22.0] — 2026-11-03
   Added
     - New provider: Bria (images only, trained on licensed images), in a
@@ -617,6 +632,22 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.23.0] — 2026-11-03
+  Ajouté
+    - Nouveau fournisseur : MiniMax (groupe Chine, plateforme
+      internationale).
+      • Chat : MiniMax M3.1 Flash (réfléchit toujours ; choisis l'effort,
+        de Léger à Maximum) et MiniMax M3 (réflexion 🧠 activable) ;
+        contexte d'un million de jetons, images jointes lues, recherche
+        web 🌐 (0,01 $ la recherche ; MiniMax ne liste pas ses sources).
+      • Images : Image-01 (0,0035 $ l'image), 8 formats, jusqu'à 9 images
+        d'un coup, graine, optimisation automatique de la consigne ; une
+        photo de personne jointe sert de référence (le visage est conservé).
+      • Vidéo : Hailuo 2.3 (768P 6 ou 10 s, ou 1080P 6 s), Hailuo 2.3 Fast
+        (à partir d'une image) et Hailuo 02 ; une image jointe devient la
+        première image. Les modèles H3, plus récents, ne sont pas encore
+        appelables depuis un navigateur (MiniMax bloque la requête).
 
 [1.22.0] — 2026-11-03
   Ajouté
@@ -1277,6 +1308,22 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.23.0] — 2026-11-03
+  Añadido
+    - Nuevo proveedor: MiniMax (grupo China, plataforma internacional).
+      • Chat: MiniMax M3.1 Flash (siempre razona; elige el esfuerzo, de
+        Bajo a Máximo) y MiniMax M3 (razonamiento 🧠 opcional); contexto
+        de un millón de tokens, lee imágenes adjuntas, búsqueda web 🌐
+        (0,01 $ por búsqueda; MiniMax no lista sus fuentes).
+      • Imágenes: Image-01 (0,0035 $ por imagen), 8 formatos, hasta 9
+        imágenes a la vez, semilla, optimización automática de la
+        instrucción; una foto de persona adjunta sirve de referencia (se
+        conserva el rostro).
+      • Video: Hailuo 2.3 (768P 6 o 10 s, o 1080P 6 s), Hailuo 2.3 Fast
+        (a partir de una imagen) y Hailuo 02; una imagen adjunta se vuelve
+        el primer cuadro. Los modelos H3, más recientes, todavía no se
+        pueden llamar desde un navegador (MiniMax bloquea la solicitud).
 
 [1.22.0] — 2026-11-03
   Añadido

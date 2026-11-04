@@ -263,10 +263,26 @@ your plan).
 
 
 ----------------------------------------------------------------
+  16. MINIMAX (China)
+----------------------------------------------------------------
+
+  1. Go to: https://platform.minimax.io/ (international platform)
+  2. Sign up, add credit (pay-as-you-go), then open "API Keys",
+     create a key and copy it.
+
+  Note: MiniMax does chat (M3.1 Flash with adjustable reasoning
+        effort, M3 with optional reasoning; both read images and
+        offer web search 🌐 at $0.01 per search), images (Image-01)
+        and video (Hailuo 2.3 / 02; an attached image becomes the
+        first frame). The newer H3 video models cannot be called from
+        a browser yet. Video links expire after 1 hour.
+
+
+----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_22_0.html in your browser.
+  1. Open ChatJPT_1_23_0.html in your browser.
   2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, Israel, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -282,6 +298,7 @@ your plan).
        ☀️ Upstage  → paste your up_... key
        🔷 DeepSeek → paste your sk-... key
        🌙 Kimi     → paste your sk-... key
+       🟥 MiniMax  → paste your key
        🟣 Alibaba · International → paste your sk-... key
        🟣 Alibaba · Mainland China → paste your sk-... key (optional)
   3. Keys are saved locally in your browser.
@@ -581,10 +598,27 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
 
 
 ----------------------------------------------------------------
+  16. MINIMAX (Chine)
+----------------------------------------------------------------
+
+  1. Allez sur : https://platform.minimax.io/ (plateforme internationale)
+  2. Créez un compte, ajoutez du crédit (paiement à l'usage), puis
+     ouvrez « API Keys », créez une clé et copiez-la.
+
+  Note : MiniMax fait du chat (M3.1 Flash avec effort de réflexion
+         réglable, M3 avec réflexion activable ; les deux lisent les
+         images et proposent la recherche web 🌐 à 0,01 $ la
+         recherche), des images (Image-01) et de la vidéo (Hailuo
+         2.3 / 02 ; une image jointe devient la première image). Les
+         modèles vidéo H3, plus récents, ne sont pas encore appelables
+         depuis un navigateur. Les liens des vidéos expirent après 1 h.
+
+
+----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_22_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_23_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Israël, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -600,6 +634,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        ☀️ Upstage  → collez votre clé up_...
        🔷 DeepSeek → collez votre clé sk-...
        🌙 Kimi     → collez votre clé sk-...
+       🟥 MiniMax  → collez votre clé
        🟣 Alibaba · International → collez votre clé sk-...
        🟣 Alibaba · Chine continentale → collez votre clé sk-... (optionnel)
   3. Les clés sont sauvegardées localement dans votre navigateur.
@@ -896,10 +931,27 @@ crear (facturación según el uso, dependiendo de tu plan).
 
 
 ----------------------------------------------------------------
+  16. MINIMAX (China)
+----------------------------------------------------------------
+
+  1. Ve a: https://platform.minimax.io/ (plataforma internacional)
+  2. Crea una cuenta, agrega crédito (pago por uso) y luego abre
+     "API Keys", crea una clave y cópiala.
+
+  Nota: MiniMax hace chat (M3.1 Flash con esfuerzo de razonamiento
+        ajustable, M3 con razonamiento opcional; ambos leen imágenes
+        y ofrecen búsqueda web 🌐 a 0,01 $ por búsqueda), imágenes
+        (Image-01) y video (Hailuo 2.3 / 02; una imagen adjunta se
+        vuelve el primer cuadro). Los modelos de video H3, más
+        recientes, todavía no se pueden llamar desde un navegador. Los
+        enlaces de los videos caducan después de 1 hora.
+
+
+----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_22_0.html en tu navegador.
+  1. Abre ChatJPT_1_23_0.html en tu navegador.
   2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Israel, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
@@ -915,6 +967,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        ☀️ Upstage  → pega tu clave up_...
        🔷 DeepSeek → pega tu clave sk-...
        🌙 Kimi     → pega tu clave sk-...
+       🟥 MiniMax  → pega tu clave
        🟣 Alibaba · Internacional → pega tu clave sk-...
        🟣 Alibaba · China continental → pega tu clave sk-... (opcional)
   3. Las claves se guardan localmente en tu navegador.

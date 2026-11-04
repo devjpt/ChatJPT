@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.22.0
+  Version 1.23.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -26,6 +26,7 @@ FEATURES
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
+      • MiniMax    (M3.1 Flash, M3 — chat; Image-01; Hailuo video)
       • Alibaba    (Qwen + Z.ai GLM — chat and image; International and/or Mainland China key)
       • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
@@ -42,8 +43,8 @@ FEATURES
       • Image      : image generation — OpenAI GPT Image (adjustable
                      quality and size), Google Gemini (adjustable format and
                      resolution), Qwen, Grok, Recraft (vector SVG, styles), and Bria
-                     (licensed images, retouching, product photos)
-      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine)
+                     (licensed images, retouching, product photos), and MiniMax
+      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
 
   - Compare Mode: run the same prompt on two models side by side, then keep
     the answer you prefer (one click). Works in Chat and Code modes.
@@ -132,7 +133,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_22_0.html
+  1. Download the file ChatJPT_1_23_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -164,7 +165,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.22.0
+  Version 1.23.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -191,6 +192,7 @@ FONCTIONNALITÉS
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
+      • MiniMax    (M3.1 Flash, M3 — chat ; Image-01 ; vidéo Hailuo)
       • Alibaba    (Qwen + Z.ai GLM — chat et image ; clé International et/ou Chine continentale)
       • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
@@ -207,8 +209,8 @@ FONCTIONNALITÉS
       • Image      : génération d'images — OpenAI GPT Image (qualité et
                      taille ajustables), Google Gemini (format et résolution
                      ajustables), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
-                     (images sous licence, retouche, photos de produits)
-      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine)
+                     (images sous licence, retouche, photos de produits) et MiniMax
+      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
 
   - Mode Comparaison : lancez le même prompt sur deux modèles côte à côte,
     puis gardez la réponse que vous préférez (en un clic). Disponible en
@@ -303,7 +305,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_22_0.html
+  1. Téléchargez le fichier ChatJPT_1_23_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -337,7 +339,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.22.0
+  Versión 1.23.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -364,6 +366,7 @@ CARACTERÍSTICAS
       • Mistral    (Francia — Mistral Large 4, Medium 3.5, Small 4, Codestral)
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
+      • MiniMax    (M3.1 Flash, M3 — chat; Image-01; video Hailuo)
       • Alibaba    (Qwen + Z.ai GLM — chat e imagen; clave Internacional y/o China continental)
       • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
@@ -380,8 +383,8 @@ CARACTERÍSTICAS
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
                      tamaño ajustables), Google Gemini (formato y resolución
                      ajustables), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
-                     (imágenes con licencia, retoque, fotos de productos)
-      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine)
+                     (imágenes con licencia, retoque, fotos de productos) y MiniMax
+      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo)
 
   - Modo Comparación: ejecuta el mismo prompt en dos modelos lado a lado y
     conserva la respuesta que prefieras (con un clic). Disponible en los modos
@@ -472,7 +475,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_22_0.html
+  1. Descarga el archivo ChatJPT_1_23_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

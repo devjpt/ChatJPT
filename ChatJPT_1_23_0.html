@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.22.0
+  Version 1.23.0
 -->
 
 
@@ -50,6 +50,7 @@
             --upstage: #d97706;
             --recraft: #65a30d;
             --bria: #64748b;
+            --minimax: #ef4444;
             --code-bg: #0d0d1a;
             --user-msg: linear-gradient(135deg, #7c3aed22, #6d28d922);
             --ai-msg: linear-gradient(135deg, #1e1e3600, #1e1e3600);
@@ -324,6 +325,7 @@
         .config-group label.qwen-label { color: var(--qwen); }
         .config-group label.mistral-label { color: var(--mistral); }
         .config-group label.kimi-label { color: var(--kimi); }
+        .config-group label.minimax-label { color: var(--minimax); }
         .config-group label.augure-label { color: var(--augure); }
         .config-group label.cohere-label { color: var(--cohere); }
         .config-group label.upstage-label { color: var(--upstage); }
@@ -766,6 +768,7 @@
         .provider-indicator.qwen { background: var(--qwen); box-shadow: 0 0 8px var(--qwen); }
         .provider-indicator.mistral { background: var(--mistral); box-shadow: 0 0 8px var(--mistral); }
         .provider-indicator.kimi { background: var(--kimi); box-shadow: 0 0 8px var(--kimi); }
+        .provider-indicator.minimax { background: var(--minimax); box-shadow: 0 0 8px var(--minimax); }
         .provider-indicator.augure { background: var(--augure); box-shadow: 0 0 8px var(--augure); }
         .provider-indicator.cohere { background: var(--cohere); box-shadow: 0 0 8px var(--cohere); }
         .provider-indicator.upstage { background: var(--upstage); box-shadow: 0 0 8px var(--upstage); }
@@ -886,6 +889,7 @@
         .model-badge.qwen { background: rgba(157, 78, 221, 0.15); color: var(--qwen); }
         .model-badge.mistral { background: rgba(250, 80, 15, 0.15); color: var(--mistral); }
         .model-badge.kimi { background: rgba(236, 72, 153, 0.15); color: var(--kimi); }
+        .model-badge.minimax { background: rgba(239, 68, 68, 0.15); color: var(--minimax); }
         .model-badge.augure { background: rgba(229, 50, 45, 0.15); color: var(--augure); }
         .model-badge.cohere { background: rgba(63, 163, 122, 0.15); color: var(--cohere); }
         .model-badge.upstage { background: rgba(217, 119, 6, 0.15); color: var(--upstage); }
@@ -2874,6 +2878,10 @@
                     <label class="kimi-label" title="Moonshot AI">🌙 Kimi</label>
                     <input type="password" class="api-key-input" id="key-kimi" placeholder="sk-..." autocomplete="off" aria-label="Clé API Kimi (Moonshot AI)">
                 </div>
+                <div class="config-group">
+                    <label class="minimax-label">🟥 MiniMax</label>
+                    <input type="password" class="api-key-input" id="key-minimax" placeholder="sk-..." autocomplete="off" aria-label="Clé API MiniMax">
+                </div>
                 <!-- 2 clés Alibaba empilées : une clé DashScope ne vaut que pour SA région (sélecteur « Région ») -->
                 <div class="config-stack">
                     <div class="config-group">
@@ -2931,6 +2939,7 @@
                 <optgroup label="Chine" data-i18n-label="keysRegionCN">
                     <option value="deepseek">DeepSeek</option>
                     <option value="kimi">Moonshot (Kimi)</option>
+                    <option value="minimax">MiniMax</option>
                     <option value="qwen">Alibaba (Qwen, GLM)</option>
                 </optgroup>
                 <optgroup label="Corée du Sud" data-i18n-label="keysRegionKR">
@@ -3065,6 +3074,36 @@
                     <option value="2k" selected>2K</option>
                 </select>
             </div>
+        </div>
+        <!-- Options MiniMax : visibles seulement avec MiniMax (populateImageModels) -->
+        <div class="video-config-row" id="mm-options">
+            <div class="select-group">
+                <label data-i18n="lblImageFormat">Format</label>
+                <select id="mm-ratio" aria-label="Format image MiniMax">
+                    <option value="1:1" selected data-i18n="imgFmtSquare">Carré (1:1)</option>
+                    <option value="16:9" data-i18n="imgFmtLandscape">Paysage (16:9)</option>
+                    <option value="9:16" data-i18n="imgFmtPortrait">Portrait (9:16)</option>
+                    <option value="4:3" data-i18n="imgFmtClassic">Classique (4:3)</option>
+                    <option value="3:4" data-i18n="imgFmtClassicPortrait">Portrait (3:4)</option>
+                    <option value="3:2">3:2</option>
+                    <option value="2:3">2:3</option>
+                    <option value="21:9">21:9</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblMmCount">Images</label>
+                <select id="mm-n" aria-label="Nombre d'images MiniMax">
+                    <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option>
+                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblBrSeed">Graine</label>
+                <input type="number" class="rc-input rc-seed" id="mm-seed" min="0" step="1" aria-label="Graine MiniMax">
+            </div>
+            <span class="rc-bg-toggle"><input type="checkbox" id="mm-optimizer" aria-label="Optimiser la consigne"><span data-i18n="mmOptimizer">Optimiser la consigne</span></span>
+            <span class="rc-balance" data-i18n="mmNote">Une photo de personne jointe sert de référence : son visage est conservé.</span>
         </div>
         <!-- Options Bria : visibles seulement avec Bria (populateImageModels / updateBriaOptions) -->
         <div class="video-config-row" id="bria-options">
@@ -3333,6 +3372,7 @@
     const imageRecraftSizeGroup = $('image-recraft-size-group');
     const rcOptions = $('rc-options');
     const briaOptions = $('bria-options');
+    const mmOptions = $('mm-options');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
     const videoModelSelect = $('video-model-select');
@@ -3389,6 +3429,7 @@
         mistral: $('key-mistral'),
         deepseek: $('key-deepseek'),
         kimi: $('key-kimi'),
+        minimax: $('key-minimax'),
         qwen: $('key-qwen'),        // Alibaba, région internationale
         qwen_cn: $('key-qwen-cn'),  // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
         upstage: $('key-upstage'),
@@ -3397,11 +3438,11 @@
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️', recraft: '🖌️', bria: '🪄' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', minimax: '🟥', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️', recraft: '🖌️', bria: '🪄' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
     const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
-    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', qwen: 'Alibaba', upstage: 'Upstage', recraft: 'Recraft', bria: 'Bria' };
+    const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', minimax: 'MiniMax', qwen: 'Alibaba', upstage: 'Upstage', recraft: 'Recraft', bria: 'Bria' };
 
     // ===== ÉTAT =====
     let currentMode = 'chat';
@@ -3534,7 +3575,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.22.0 - Dernière version : ",
+            creditVersion: "Version 1.23.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 3 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3781,6 +3822,12 @@
             imgBriaStyleTip: "Effets de Bria : restaurer, coloriser, changer le style, l'éclairage ou la saison, agrandir, recadrer. Clé Bria requise.",
             briaMenuNote: "Bria · clé Bria requise",
             briaNeedKey: "⚠️ Les outils Bria demandent une clé Bria : ajoute-la dans le panneau des clés (section Israël).",
+            lblMmCount: "Images",
+            mmOptimizer: "Optimiser la consigne",
+            mmFastNeedsImage: "🖼️ Hailuo 2.3 Fast part d'une image : joins une image (📎), elle deviendra la première image de la vidéo.",
+            mmOptimizerTip: "MiniMax enrichit automatiquement ta description avant de générer.",
+            mmNote: "Une photo de personne jointe sert de référence : son visage est conservé.",
+            mmBlocked: "⚠️ {n} image(s) bloquée(s) par le filtre de contenu de MiniMax.",
             briaTimeout: "⏱️ Bria met trop de temps à répondre : réessaie dans un moment.",
             brRemoveBg: "✂️ Retirer le fond",
             brRemoveBgTip: "Détoure le sujet (PNG transparent).",
@@ -4091,7 +4138,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.22.0 - Latest version: ",
+            creditVersion: "Version 1.23.0 - Latest version: ",
             appUpdated: "📅 Updated: November 3, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4338,6 +4385,12 @@
             imgBriaStyleTip: "Bria effects: restore, colorize, change style, lighting or season, upscale, crop. Requires a Bria key.",
             briaMenuNote: "Bria · Bria key required",
             briaNeedKey: "⚠️ Bria tools need a Bria key: add it in the keys panel (Israel section).",
+            lblMmCount: "Images",
+            mmOptimizer: "Optimize the prompt",
+            mmFastNeedsImage: "🖼️ Hailuo 2.3 Fast starts from an image: attach one (📎), it becomes the first frame of the video.",
+            mmOptimizerTip: "MiniMax automatically enriches your description before generating.",
+            mmNote: "An attached photo of a person is used as a reference: the face is kept.",
+            mmBlocked: "⚠️ {n} image(s) blocked by MiniMax's content filter.",
             briaTimeout: "⏱️ Bria is taking too long to respond: try again in a moment.",
             brRemoveBg: "✂️ Remove background",
             brRemoveBgTip: "Cuts out the subject (transparent PNG).",
@@ -4648,7 +4701,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.22.0 - Última versión: ",
+            creditVersion: "Versión 1.23.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4895,6 +4948,12 @@
             imgBriaStyleTip: "Efectos de Bria: restaurar, colorear, cambiar el estilo, la iluminación o la estación, ampliar, recortar. Requiere una clave de Bria.",
             briaMenuNote: "Bria · se requiere clave de Bria",
             briaNeedKey: "⚠️ Las herramientas de Bria necesitan una clave de Bria: agrégala en el panel de claves (sección Israel).",
+            lblMmCount: "Imágenes",
+            mmOptimizer: "Optimizar la instrucción",
+            mmFastNeedsImage: "🖼️ Hailuo 2.3 Fast parte de una imagen: adjunta una (📎), será el primer cuadro del video.",
+            mmOptimizerTip: "MiniMax enriquece automáticamente tu descripción antes de generar.",
+            mmNote: "Una foto de persona adjunta sirve de referencia: se conserva el rostro.",
+            mmBlocked: "⚠️ {n} imagen(es) bloqueada(s) por el filtro de contenido de MiniMax.",
             briaTimeout: "⏱️ Bria tarda demasiado en responder: inténtalo de nuevo en un momento.",
             brRemoveBg: "✂️ Quitar el fondo",
             brRemoveBgTip: "Recorta el sujeto (PNG transparente).",
@@ -5232,6 +5291,13 @@
             { id: 'kimi-k3.1-pro-highspeed', name: { fr: 'Kimi K3.1 Pro Highspeed (Rapide)', en: 'Kimi K3.1 Pro Highspeed (Fast)', es: 'Kimi K3.1 Pro Highspeed (Rápido)' } },
             { id: 'kimi-k3', name: { fr: 'Kimi K3', en: 'Kimi K3', es: 'Kimi K3' } }
         ],
+        minimax: [
+            // MiniMax (Shanghai) — plateforme internationale api.minimax.io (CORS « * », testé
+            // 2026-11-03 ; la plateforme chinoise api.minimaxi.com, comptes séparés, n'est pas branchée).
+            // Compatible OpenAI ; texte + images ; contexte 1M.
+            { id: 'MiniMax-M3.1-Flash', name: { fr: 'MiniMax M3.1 Flash (Dernier, effort réglable, 1M)', en: 'MiniMax M3.1 Flash (Latest, adjustable effort, 1M)', es: 'MiniMax M3.1 Flash (Último, esfuerzo ajustable, 1M)' } },
+            { id: 'MiniMax-M3', name: { fr: 'MiniMax M3 (Réflexion activable, 1M)', en: 'MiniMax M3 (Optional reasoning, 1M)', es: 'MiniMax M3 (Razonamiento opcional, 1M)' } }
+        ],
         qwen: [
             // Gamme Qwen3.8 / 3.7 (thinking hybride, actif par défaut → piloté par le toggle 🧠)
             { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max (Dernier)', en: 'Qwen3.8 Max (Latest)', es: 'Qwen3.8 Max (Último)' } },
@@ -5317,6 +5383,11 @@
             { id: 'recraftv2', name: { fr: "Recraft V2 (Économique, 0,022 $)", en: "Recraft V2 (Low cost, $0.022)", es: "Recraft V2 (Económico, 0,022 $)" } },
             { id: 'recraftv2_vector', name: { fr: "Recraft V2 Vector (Icônes, SVG économique, 0,044 $)", en: "Recraft V2 Vector (Icons, low-cost SVG, $0.044)", es: "Recraft V2 Vector (Íconos, SVG económico, 0,044 $)" } }
         ],
+        minimax: [
+            // MiniMax image-01 (synchrone ; base64 demandé — les URL expirent en 24 h). Erreurs en HTTP 200
+            // avec base_resp.status_code ≠ 0. Photo jointe = référence de personnage (subject_reference).
+            { id: 'image-01', name: { fr: 'MiniMax Image-01 (0,0035 $ l\'image)', en: 'MiniMax Image-01 ($0.0035 per image)', es: 'MiniMax Image-01 (0,0035 $ por imagen)' } }
+        ],
         bria: [
             // Bria (Tel-Aviv) — engine.prod.bria-api.com/v2 (CORS « * », testé 2026-11-03). Fournisseur SANS
             // chat. Entraîné sur des images sous licence. Fibo 2 : la consigne est d'abord reformulée par
@@ -5339,6 +5410,15 @@
             { id: 'grok-imagine-video-1.5', name: { fr: 'Grok Imagine Vidéo 1.5 (Dernier)', en: 'Grok Imagine Video 1.5 (Latest)', es: 'Grok Imagine Video 1.5 (Último)' } },
             { id: 'grok-imagine-video-1.5-lite', name: { fr: 'Grok Imagine Vidéo 1.5 Lite (Rapide)', en: 'Grok Imagine Video 1.5 Lite (Fast)', es: 'Grok Imagine Video 1.5 Lite (Rápido)' } },
             { id: 'grok-imagine-video', name: { fr: 'Grok Imagine Vidéo', en: 'Grok Imagine Video', es: 'Grok Imagine Video' } }
+        ],
+        minimax: [
+            // Hailuo (API v1, seule accessible depuis le navigateur ; H3 = API v2, pré-requête CORS en 403,
+            // testé 2026-11-03). « @1080P » = même modèle en 1080P (6 s seulement). Une image jointe
+            // devient la première image (first_frame_image) ; Fast l'exige. Prix au tarif « Legacy ».
+            { id: 'MiniMax-Hailuo-2.3', name: { fr: 'Hailuo 2.3 (768P, 6 s 0,28 $ / 10 s 0,56 $)', en: 'Hailuo 2.3 (768P, 6 s $0.28 / 10 s $0.56)', es: 'Hailuo 2.3 (768P, 6 s 0,28 $ / 10 s 0,56 $)' } },
+            { id: 'MiniMax-Hailuo-2.3@1080P', name: { fr: 'Hailuo 2.3 1080P (6 s, 0,49 $)', en: 'Hailuo 2.3 1080P (6 s, $0.49)', es: 'Hailuo 2.3 1080P (6 s, 0,49 $)' } },
+            { id: 'MiniMax-Hailuo-2.3-Fast', name: { fr: 'Hailuo 2.3 Fast (image de départ requise, dès 0,19 $)', en: 'Hailuo 2.3 Fast (start image required, from $0.19)', es: 'Hailuo 2.3 Fast (imagen inicial obligatoria, desde 0,19 $)' } },
+            { id: 'MiniMax-Hailuo-02', name: { fr: 'Hailuo 02 (768P, 6 s 0,28 $ / 10 s 0,56 $)', en: 'Hailuo 02 (768P, 6 s $0.28 / 10 s $0.56)', es: 'Hailuo 02 (768P, 6 s 0,28 $ / 10 s 0,56 $)' } }
         ]
     };
 
@@ -5349,7 +5429,8 @@
     // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
     const VIDEO_DURATIONS = {
         gemini: ['8', '6', '4'],
-        grok: ['10']
+        grok: ['10'],
+        minimax: ['6', '10']   // 1080P : 6 s seulement (voir populateVideoDurations)
     };
 
     // ===== SYSTEM PROMPTS =====
@@ -5415,7 +5496,7 @@ RULES:
 
     // ===== EXTENDED THINKING SUPPORT =====
     // Fournisseurs « configurable » sans budget : la case Réflexion suffit (sélecteur masqué).
-    const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere', 'upstage'];
+    const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere', 'upstage', 'minimax'];
     const THINKING_SUPPORT = {
         openai: {
             native: ['o3'],  // Thinking intégré, toujours actif
@@ -5482,6 +5563,12 @@ RULES:
             // reasoning_effort low | high | max → sélecteur d'effort (EFFORT_PROVIDERS).
             native: ['kimi-k3.1-pro', 'kimi-k3.1-pro-highspeed', 'kimi-k3'],
             configurable: []
+        },
+        minimax: {
+            // M3.1-Flash : réflexion obligatoire (disabled / none → 400), effort low → max (défaut API :
+            // max). M3 : thinking adaptive | disabled. Réflexion en reasoning_content (reasoning_split).
+            native: ['MiniMax-M3.1-Flash'],
+            configurable: ['MiniMax-M3']
         },
         qwen: {
             // Thinking hybride via enable_thinking (+ thinking_budget), reasoning_content streamé.
@@ -5564,6 +5651,7 @@ RULES:
         mistral: () => 'https://api.mistral.ai/v1/chat/completions',
         deepseek: () => 'https://api.deepseek.com/v1/chat/completions',
         kimi: () => 'https://api.moonshot.ai/v1/chat/completions',
+        minimax: () => 'https://api.minimax.io/v1/chat/completions',
         qwen: () => getQwenHost() + '/compatible-mode/v1/chat/completions',
         upstage: () => 'https://api.upstage.ai/v1/chat/completions',
         grok: () => 'https://api.x.ai/v1/chat/completions'
@@ -5588,7 +5676,7 @@ RULES:
     // Effort pour les modèles à raisonnement natif réglable (Claude adaptatif, Grok 4.5+).
     // Remplace le budget de tokens (refusé par ces modèles). Défaut : high. Mémorisé par
     // fournisseur dans ai_<provider>_effort.
-    const EFFORT_PROVIDERS = ['claude', 'grok', 'kimi', 'meta'];
+    const EFFORT_PROVIDERS = ['claude', 'grok', 'kimi', 'meta', 'minimax'];
     const EFFORT_LEVELS = [
         { id: 'minimal', label: { fr: 'Effort minimal', en: 'Minimal effort', es: 'Esfuerzo mínimo' } },
         { id: 'low', label: { fr: 'Effort léger', en: 'Low effort', es: 'Esfuerzo bajo' } },
@@ -5634,7 +5722,7 @@ RULES:
     // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool).
     // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
     // OpenAI (testé), et DeepSeek n'a pas de recherche native.
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true };
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true };
 
     // ===== LECTURE DES LIENS COLLÉS (URL → contenu de la page) =====
     // Toggle séparé de la recherche web : « lis cette page précise » ≠ « explore le web ».
@@ -5839,6 +5927,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return msg;
     };
     HISTORY_STRATEGIES.qwen = HISTORY_STRATEGIES.openai;
+    HISTORY_STRATEGIES.minimax = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.upstage = HISTORY_STRATEGIES.openai;
     HISTORY_STRATEGIES.grok = HISTORY_STRATEGIES.openai;
     // Perplexity Agent API : format Responses (input_text / input_image) + type 'message' par tour.
@@ -6136,6 +6225,48 @@ A small follow-up tweak the user asks for can be done right away without a new p
             },
             pollIntervalMs: 5000,
             maxPolls: 120
+        },
+        minimax: {
+            // MiniMax Hailuo — submit POST /v1/video_generation → { task_id } ; poll GET
+            // /v1/query/video_generation?task_id= → { status: Preparing | Queueing | Processing |
+            // Success | Fail, file_id } ; finalize GET /v1/files/retrieve?file_id= → download_url
+            // (valable 1 h). Erreurs en HTTP 200 avec base_resp.status_code ≠ 0 (miniMaxFail).
+            async submit(prompt, params, key, signal) {
+                const [model, res] = String(params.model).split('@');
+                if (/Fast$/.test(model) && !params.image) throw new Error(I18N[currentLang].mmFastNeedsImage);
+                const body = { model, prompt: prompt.slice(0, 2000), duration: parseInt(params.duration, 10) || 6, resolution: res || '768P' };
+                if (params.image) body.first_frame_image = params.image;
+                const r = await fetchWithRetry('https://api.minimax.io/v1/video_generation', {
+                    method: 'POST', signal,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                    body: JSON.stringify(body)
+                });
+                const j = await r.json().catch(() => ({}));
+                const fail = miniMaxFail(j, r.status);
+                if (fail) throw new Error(fail);
+                if (!j.task_id) throw new Error('No task_id returned by the MiniMax video API.');
+                return { handle: j.task_id, sizeUsed: body.resolution };
+            },
+            async poll(handle, key, signal) {
+                const r = await fetch(`https://api.minimax.io/v1/query/video_generation?task_id=${encodeURIComponent(handle)}`, { signal, headers: { 'Authorization': `Bearer ${key}` } });
+                const j = await r.json().catch(() => ({}));
+                const fail = miniMaxFail(j, r.status);
+                if (fail) return { httpError: fail };
+                return { done: j.status === 'Success', failed: j.status === 'Fail', error: j.status === 'Fail' ? 'MiniMax video generation failed.' : null, progress: null, _fileId: j.file_id };
+            },
+            async finalize(handle, key, signal, lastStatus) {
+                const id = lastStatus && lastStatus._fileId;
+                if (!id) throw new Error('Video was generated but no file_id was returned.');
+                const r = await fetch(`https://api.minimax.io/v1/files/retrieve?file_id=${encodeURIComponent(id)}`, { signal, headers: { 'Authorization': `Bearer ${key}` } });
+                const j = await r.json().catch(() => ({}));
+                const fail = miniMaxFail(j, r.status);
+                if (fail) throw new Error(fail);
+                const url = j.file && j.file.download_url;
+                if (!url) throw new Error('Video was generated but no download URL was found.');
+                return { src: url, filename: `minimax_video_${Date.now()}.mp4`, openInNewTab: true };
+            },
+            pollIntervalMs: 10000,
+            maxPolls: 90
         }
     };
 
@@ -6284,7 +6415,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (msg.includes('invalid_api_key') || msg.includes('invalid api key') ||
             msg.includes('incorrect api key') || msg.includes('authentication') ||
             msg.includes('unauthorized') ||
-            msg.includes('api key is invalid') || msg.includes('invalid_api_token') || msg.includes('api token provided is invalid')) return t.errInvalidKey || raw;  // Meta : « Unauthorized », Upstage : « Your API key is invalid »
+            msg.includes('api key is invalid') || msg.includes('invalid_api_token') || msg.includes('api token provided is invalid') ||
+            msg.includes('login fail')) return t.errInvalidKey || raw;  // MiniMax : « login fail … (1004) »  // Meta : « Unauthorized », Upstage : « Your API key is invalid »
         if (msg.includes('insufficient_quota') || msg.includes('quota') ||
             msg.includes('billing') || msg.includes('credit')) {
             return (t.errQuota || raw).replace('{provider}', provider || '');
@@ -6296,7 +6428,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (msg.includes('context_length') || msg.includes('context length') ||
             msg.includes('maximum context') || msg.includes('token limit')) return t.errContextLength || raw;
         if (msg.includes('content_policy') || msg.includes('safety') ||
-            msg.includes('moderation') || msg.includes('content was blocked')) return t.errContentPolicy || raw;
+            msg.includes('moderation') || msg.includes('content was blocked') || msg.includes('sensitive')) return t.errContentPolicy || raw;
         return raw;
     }
 
@@ -6826,6 +6958,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         mistral: 'Mistral AI',
         deepseek: 'DeepSeek',
         kimi: 'Moonshot (Kimi)',
+        minimax: 'MiniMax',
         qwen: 'Alibaba (Qwen, GLM)',
         upstage: 'Upstage (Solar)'
     };
@@ -7014,7 +7147,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // preserving the current selection when it is still valid.
     function populateVideoDurations() {
         if (!videoDurationSelect) return;
-        const list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
+        let list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
+        if (/@1080P$/.test((videoModelSelect && videoModelSelect.value) || '')) list = ['6'];
         const prev = videoDurationSelect.value;
         const unit = { fr: 'secondes', en: 'seconds', es: 'segundos' }[currentLang] || 'seconds';
         videoDurationSelect.innerHTML = '';
@@ -7027,6 +7161,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (list.includes(prev)) videoDurationSelect.value = prev;
         const durationGroup = videoDurationSelect.closest('.select-group');
         if (durationGroup) durationGroup.style.display = isOmniVideoModel(videoModelSelect && videoModelSelect.value) ? 'none' : '';
+        // Hailuo (API v1) : pas de format réglable (fixé par le modèle, ou par l'image de départ)
+        const aspectGroup = videoAspectSelect && videoAspectSelect.closest('.select-group');
+        if (aspectGroup) aspectGroup.style.display = providerSelect.value === 'minimax' ? 'none' : '';
     }
 
     function populateImageModels() {
@@ -7042,6 +7179,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (rcOptions) rcOptions.style.display = isRecraft ? '' : 'none';
         const isBria = providerSelect.value === 'bria';
         if (briaOptions) briaOptions.style.display = isBria ? '' : 'none';
+        if (mmOptions) mmOptions.style.display = providerSelect.value === 'minimax' ? '' : 'none';
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
         if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
@@ -7202,6 +7340,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         setupRecraftOptions();
         setupBriaOptions();
+        setupMiniMaxOptions();
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
@@ -8457,7 +8596,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (displayText !== fullPrompt) uEntry.display = displayText;
             conversationHistory.push(uEntry);
             saveHistory();
-            if ((provider === 'recraft' || provider === 'bria') && pendingImages.length > 0) {
+            if ((provider === 'recraft' || provider === 'bria' || provider === 'minimax') && pendingImages.length > 0) {
                 // Recraft / Bria : nouvelle image à partir de la (première) photo jointe
                 await handleImageGeneration(fullPrompt, provider, key, b64ToBlob(pendingImages[0].base64, pendingImages[0].mimeType));
             } else if (EDIT_CAPS[provider] && pendingImages.length > 0) {
@@ -8469,7 +8608,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 await handleImageGeneration(fullPrompt, provider, key);
             }
         } else if (currentMode === 'video') {
-            await handleVideoGeneration(fullPrompt, key);
+            await handleVideoGeneration(fullPrompt, key, null,
+                provider === 'minimax' && pendingImages.length ? `data:${pendingImages[0].mimeType};base64,${pendingImages[0].base64}` : null);
         } else {
             // P1-2: Store images with conversation entry for multimodal support
             const historyEntry = { role: 'user', content: fullPrompt };
@@ -9029,6 +9169,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (model === 'command-a-translate-08-2025') delete body.max_tokens;
         }
 
+        // MiniMax : la réflexion compte dans la limite (max_completion_tokens, recommandé par la doc)
+        // → plafond large. M3.1-Flash : effort explicite. M3 : thinking adaptive | disabled selon le
+        // toggle, reasoning_split pour recevoir la réflexion à part (sinon balises <think> dans le texte).
+        if (MODELS.minimax.some(m => m.id === model)) {
+            delete body.max_tokens;
+            body.max_completion_tokens = isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal;
+            if (THINKING_SUPPORT.minimax.native.includes(model)) {
+                body.reasoning_effort = savedEffortFor('minimax', model);
+            } else {
+                body.thinking = { type: onThinkingChunk ? 'adaptive' : 'disabled' };
+                body.reasoning_split = true;
+            }
+        }
+
         // Upstage (Solar) : réflexion coupée si reasoning_effort est omis → 'high' ou 'none' explicite.
         // La réflexion compte dans max_tokens (sinon content null + finish_reason length) → plafond
         // relevé quand elle est active (sortie max des modèles : 128k).
@@ -9193,6 +9347,27 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
     }
 
+    // ===== MiniMax — API Responses (/v1/responses), seulement avec la recherche web 🌐 =====
+    // Outil serveur web_search exécuté par MiniMax ; réflexion streamée en reasoning_text (parser
+    // openai-responses). La doc ne publie pas de citations (annotations vides).
+    async function callMiniMaxResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const body = {
+            model,
+            instructions: systemPrompt,
+            input: formatHistory(conversationHistory, 'openai-responses'),
+            stream: true,
+            max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal,
+            tools: [{ type: 'web_search' }]
+        };
+        if (THINKING_SUPPORT.minimax.native.includes(model)) body.reasoning = { effort: savedEffortFor('minimax', model) };
+        await postStream({
+            url: 'https://api.minimax.io/v1/responses',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
+        });
+    }
+
     // ===== AIGUILLAGE PAR FOURNISSEUR =====
     // Choisit la fonction d'appel selon le fournisseur / modèle / toggles. Utilisé par streamInto
     // (chat, comparaison) et par l'OCR des PDF scannés. Toutes les fonctions call*Stream lisent
@@ -9230,6 +9405,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'meta') {
             return callMetaResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'minimax' && webSearchEnabled && WEB_SEARCH_SUPPORT.minimax) {
+            return callMiniMaxResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'perplexity') {
             return callPerplexityStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
@@ -10507,6 +10684,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 imageData = await generateImageRecraft(prompt, key, source);
             } else if (provider === 'bria') {
                 imageData = await generateImageBria(prompt, key, source);
+            } else if (provider === 'minimax') {
+                imageData = await generateImageMiniMax(prompt, key, source);
             } else {
                 throw new Error("Image generation is not available for this provider.");
             }
@@ -11349,6 +11528,58 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return m.wrap;
     }
 
+    // ----- MiniMax (images) -----
+    // Erreur MiniMax : base_resp { status_code, status_msg } (souvent en HTTP 200), ou { error: { message } }
+    function miniMaxFail(j, status) {
+        const br = j && j.base_resp;
+        if (br && br.status_code !== 0) return `${br.status_msg || 'MiniMax error'} (${br.status_code})`;
+        if (j && j.error) return j.error.message || String(j.error);
+        return status && status >= 400 ? `HTTP Error ${status}` : '';
+    }
+    const b64Mime = b => b.startsWith('/9j/') ? 'image/jpeg' : b.startsWith('UklGR') ? 'image/webp' : 'image/png';
+    const mmSeedValue = () => { const v = parseInt($('mm-seed').value, 10); return Number.isFinite(v) && v >= 0 ? v : undefined; };
+    async function generateImageMiniMax(prompt, key, source) {
+        const t = I18N[currentLang];
+        const body = {
+            model: 'image-01',
+            prompt: prompt.slice(0, 1500),
+            aspect_ratio: $('mm-ratio').value || '1:1',
+            n: parseInt($('mm-n').value, 10) || 1,
+            response_format: 'base64',
+            prompt_optimizer: $('mm-optimizer').checked
+        };
+        if (mmSeedValue() !== undefined) body.seed = mmSeedValue();
+        if (source) body.subject_reference = [{ type: 'character', image_file: await recraftImageInput(source) }];
+        const res = await fetchWithRetry('https://api.minimax.io/v1/image_generation', {
+            method: 'POST',
+            signal: currentAbortController.signal,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify(body)
+        });
+        const j = await res.json().catch(() => ({}));
+        const fail = miniMaxFail(j, res.status);
+        if (fail) throw new Error(fail);
+        const list = (j.data && j.data.image_base64) || [];
+        const blocked = parseInt(j.metadata && j.metadata.failed_count, 10) || 0;
+        if (blocked) showToast(t.mmBlocked.replace('{n}', blocked), 'error', 6000);
+        if (!list.length) throw new Error(blocked ? t.mmBlocked.replace('{n}', blocked) : 'Unexpected response format from MiniMax.');
+        return list.map(b => ({ b64: b, mime: b64Mime(b) }));
+    }
+    function setupMiniMaxOptions() {
+        if (!mmOptions) return;
+        [['mm-ratio', 'ai_minimax_ratio'], ['mm-n', 'ai_minimax_n']].forEach(([id, k]) => {
+            const el = $(id); const v = localStorage.getItem(k);
+            if (v && [...el.options].some(o => o.value === v)) el.value = v;
+            el.addEventListener('change', () => localStorage.setItem(k, el.value));
+        });
+        const seed = $('mm-seed'); seed.value = localStorage.getItem('ai_minimax_seed') || '';
+        seed.addEventListener('input', () => localStorage.setItem('ai_minimax_seed', seed.value));
+        const opt = $('mm-optimizer'); opt.checked = localStorage.getItem('ai_minimax_optimizer') === '1';
+        opt.addEventListener('change', () => localStorage.setItem('ai_minimax_optimizer', opt.checked ? '1' : ''));
+        const t = I18N[currentLang];
+        seed.placeholder = t.rcSeedPh; seed.title = t.brSeedTip; opt.title = t.mmOptimizerTip;
+    }
+
     // ----- Bria -----
     const BRIA_API = 'https://engine.prod.bria-api.com/v2';
     // Erreur Bria : { error: { code, message, details } } ou texte
@@ -11805,7 +12036,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // ===== GÉNÉRATION DE VIDÉO (unified P2 refactor) =====
     // override (🎬 Animer) : { provider, display, params } remplace le fournisseur et les réglages
     // du panneau Vidéo ; display = texte montré à la place de la consigne envoyée.
-    async function handleVideoGeneration(prompt, key, override) {
+    async function handleVideoGeneration(prompt, key, override, image) {  // image : 1re image (data URL), MiniMax
         const provider = override ? override.provider : providerSelect.value;
         if (!VIDEO_MODELS[provider] || !VIDEO_ADAPTERS[provider]) {
             showToast(I18N[currentLang].videoNotSupported, 'error');
@@ -11822,6 +12053,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             aspectRatio: videoAspectSelect.value,
             duration: videoDurationSelect.value
         };
+        if (image && !override) params.image = image;
         const shown = (override && override.display) || prompt;
 
         const loadingDiv = addMessage(null, 'ai', provider, params.model, true);
