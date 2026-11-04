@@ -8,6 +8,18 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.24.0] — 2026-11-03
+  Added
+    - New 🎙️ Voice mode (MiniMax): write a text and get an audio file in the
+      conversation (player + download, kept after reloading). Speech 2.8 HD
+      or Turbo, every MiniMax voice grouped by language, emotion, speed,
+      pitch, volume, language, sound effect, MP3 / WAV / FLAC. Sounds such as
+      (laughs) and pauses <#1.5#> can be written in the text. Long texts are
+      split automatically and joined into one MP3 file.
+    - Your own voices: create one from a description ($3) or clone one from
+      a 10 s to 5 min recording ($1.50, consent box required); list and
+      delete them.
+
 [1.23.0] — 2026-11-03
   Added
     - New provider: MiniMax (China group, international platform).
@@ -632,6 +644,19 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.24.0] — 2026-11-03
+  Ajouté
+    - Nouveau mode 🎙️ Voix (MiniMax) : tu écris un texte et tu obtiens un
+      fichier audio dans la conversation (lecteur + téléchargement, conservé
+      après rechargement). Speech 2.8 HD ou Turbo, toutes les voix de MiniMax
+      groupées par langue, émotion, vitesse, hauteur, volume, langue, effet
+      sonore, MP3 / WAV / FLAC. Des sons comme (laughs) et des pauses <#1.5#>
+      s'écrivent dans le texte. Les textes longs sont découpés
+      automatiquement et réunis en un seul fichier MP3.
+    - Tes propres voix : en créer une à partir d'une description (3 $) ou en
+      cloner une à partir d'un enregistrement de 10 s à 5 min (1,50 $, case
+      de consentement obligatoire) ; les lister et les supprimer.
 
 [1.23.0] — 2026-11-03
   Ajouté
@@ -1308,6 +1333,19 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.24.0] — 2026-11-03
+  Añadido
+    - Nuevo modo 🎙️ Voz (MiniMax): escribes un texto y obtienes un archivo de
+      audio en la conversación (reproductor + descarga, conservado al
+      recargar). Speech 2.8 HD o Turbo, todas las voces de MiniMax agrupadas
+      por idioma, emoción, velocidad, tono, volumen, idioma, efecto de
+      sonido, MP3 / WAV / FLAC. Sonidos como (laughs) y pausas <#1.5#> se
+      escriben en el texto. Los textos largos se dividen automáticamente y se
+      unen en un solo archivo MP3.
+    - Tus propias voces: crear una a partir de una descripción (3 $) o
+      clonar una a partir de una grabación de 10 s a 5 min (1,50 $, casilla
+      de consentimiento obligatoria); listarlas y eliminarlas.
 
 [1.23.0] — 2026-11-03
   Añadido

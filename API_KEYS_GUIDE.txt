@@ -276,13 +276,16 @@ your plan).
         and video (Hailuo 2.3 / 02; an attached image becomes the
         first frame). The newer H3 video models cannot be called from
         a browser yet. Video links expire after 1 hour.
+        The 🎙️ Voice tab turns your text into speech ($0.06 to $0.10
+        per 1,000 characters); you can also design a voice from a
+        description ($3) or clone one ($1.50, with consent).
 
 
 ----------------------------------------------------------------
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_23_0.html in your browser.
+  1. Open ChatJPT_1_24_0.html in your browser.
   2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, Israel, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -612,13 +615,17 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
          2.3 / 02 ; une image jointe devient la première image). Les
          modèles vidéo H3, plus récents, ne sont pas encore appelables
          depuis un navigateur. Les liens des vidéos expirent après 1 h.
+         L'onglet 🎙️ Voix transforme ton texte en parole (0,06 à
+         0,10 $ pour 1 000 caractères) ; tu peux aussi créer une voix
+         à partir d'une description (3 $) ou en cloner une (1,50 $, avec
+         consentement).
 
 
 ----------------------------------------------------------------
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_23_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_24_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Israël, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -945,13 +952,16 @@ crear (facturación según el uso, dependiendo de tu plan).
         vuelve el primer cuadro). Los modelos de video H3, más
         recientes, todavía no se pueden llamar desde un navegador. Los
         enlaces de los videos caducan después de 1 hora.
+        La pestaña 🎙️ Voz convierte tu texto en voz (0,06 a 0,10 $
+        por 1000 caracteres); también puedes crear una voz a partir de
+        una descripción (3 $) o clonar una (1,50 $, con consentimiento).
 
 
 ----------------------------------------------------------------
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_23_0.html en tu navegador.
+  1. Abre ChatJPT_1_24_0.html en tu navegador.
   2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Israel, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...

@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.23.0
+  Version 1.24.0
 -->
 
 
@@ -1852,6 +1852,11 @@
         #video-config-panel {
             display: none;
         }
+        #voice-config-panel { display: none; }
+        #voice-config-panel.show { display: block; }
+        .voice-range { width: 90px; vertical-align: middle; }
+        .voice-val { font-size: 0.75rem; color: var(--text-muted); min-width: 34px; display: inline-block; }
+        .voice-audio { width: 100%; max-width: 560px; margin-top: 8px; display: block; }
 
         #video-config-panel.show {
             display: block;
@@ -2981,6 +2986,7 @@
             <button class="mode-tab" data-mode="code" title="Génération de code" data-i18n="tabCode" role="tab" aria-selected="false">👨‍💻 Code</button>
             <button class="mode-tab" data-mode="image" title="Génération d'image" id="image-tab" data-i18n="tabImage" role="tab" aria-selected="false">🎨 Image</button>
             <button class="mode-tab" data-mode="video" title="Génération de vidéo" id="video-tab" data-i18n="tabVideo" role="tab" aria-selected="false">🎬 Vidéo</button>
+            <button class="mode-tab" data-mode="voice" title="Synthèse vocale (MiniMax)" id="voice-tab" data-i18n="tabVoice" role="tab" aria-selected="false">🎙️ Voix</button>
         </div>
         <div class="header-actions">
             <button class="icon-btn" id="conv-toggle-btn" title="Conversations" data-i18n-title="titleConversations" aria-label="Conversations">☰</button>
@@ -3182,6 +3188,53 @@
     </div>
 
     <!-- Video Configuration Panel -->
+    <!-- Mode Voix (MiniMax) : réglages de la synthèse vocale -->
+    <div id="voice-config-panel">
+        <div class="video-config-row">
+            <div class="select-group">
+                <label data-i18n="lblVoiceModel">Modèle voix</label>
+                <select id="voice-model" aria-label="Modèle voix"></select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblVoice">Voix</label>
+                <select id="voice-select" aria-label="Voix"></select>
+            </div>
+            <button type="button" class="rc-mini-btn" id="voice-design-btn" data-i18n="voiceDesignBtn">＋ Créer une voix</button>
+            <button type="button" class="rc-mini-btn" id="voice-clone-btn" data-i18n="voiceCloneBtn">🎤 Cloner une voix</button>
+        </div>
+        <div class="video-config-row">
+            <div class="select-group">
+                <label data-i18n="lblEmotion">Émotion</label>
+                <select id="voice-emotion" aria-label="Émotion"></select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblSpeed">Vitesse</label>
+                <input type="range" class="voice-range" id="voice-speed" min="0.5" max="2" step="0.05" value="1" aria-label="Vitesse"><span class="voice-val" id="voice-speed-val">1</span>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblPitch">Hauteur</label>
+                <input type="range" class="voice-range" id="voice-pitch" min="-12" max="12" step="1" value="0" aria-label="Hauteur"><span class="voice-val" id="voice-pitch-val">0</span>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblVolume">Volume</label>
+                <input type="range" class="voice-range" id="voice-vol" min="0.2" max="3" step="0.1" value="1" aria-label="Volume"><span class="voice-val" id="voice-vol-val">1</span>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblVoiceLang">Langue</label>
+                <select id="voice-lang" aria-label="Langue de la voix"></select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblEffect">Effet</label>
+                <select id="voice-effect" aria-label="Effet sonore"></select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblAudioFormat">Format</label>
+                <select id="voice-format" aria-label="Format audio"><option value="mp3" selected>MP3</option><option value="wav">WAV</option><option value="flac">FLAC</option></select>
+            </div>
+        </div>
+        <div class="video-config-row"><span class="rc-balance" id="voice-hint"></span></div>
+    </div>
+
     <div id="video-config-panel">
         <div class="video-config-row">
             <div class="select-group">
@@ -3375,6 +3428,8 @@
     const mmOptions = $('mm-options');
     const videoTab = $('video-tab');
     const videoConfigPanel = $('video-config-panel');
+    const voiceConfigPanel = $('voice-config-panel');
+    const voiceTab = $('voice-tab');
     const videoModelSelect = $('video-model-select');
     const videoAspectSelect = $('video-aspect-select');
     const videoDurationSelect = $('video-duration-select');
@@ -3575,7 +3630,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.23.0 - Dernière version : ",
+            creditVersion: "Version 1.24.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 3 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3607,6 +3662,56 @@
             imgRes4K: "4K (lent)",
             tabVideo: "🎬 Vidéo",
             placeholderVideo: "Décrivez la vidéo que vous souhaitez générer...",
+            tabVoice: "🎙️ Voix",
+            placeholderVoice: "Écris le texte à dire à voix haute (voix off, dialogue, chapitre…)",
+            lblVoiceModel: "Modèle voix",
+            lblVoice: "Voix",
+            lblEmotion: "Émotion",
+            lblSpeed: "Vitesse",
+            lblPitch: "Hauteur",
+            lblVolume: "Volume",
+            lblVoiceLang: "Langue",
+            lblEffect: "Effet",
+            lblAudioFormat: "Format",
+            voiceAuto: "Auto",
+            voiceLangAuto: "Détection automatique",
+            voiceEffectNone: "Aucun",
+            voiceDesignBtn: "＋ Créer une voix",
+            voiceCloneBtn: "🎤 Cloner une voix",
+            voiceMine: "Mes voix",
+            voiceHint: "Astuces : (laughs), (sighs), (breath)… ajoutent des sons ; <#1.5#> fait une pause de 1,5 s. Prix : 0,10 $ (HD) ou 0,06 $ (Turbo) pour 1 000 caractères.",
+            voiceFor: "🎙️ Voix générée pour : ",
+            voiceInfo: "{s} s · {n} caractères",
+            voiceSplit: "Texte long : découpé en {n} morceaux, réunis en un seul fichier MP3.",
+            voiceDownload: "💾 Télécharger l'audio",
+            voiceDownloadTip: "Enregistre le fichier audio sur ton ordinateur.",
+            voiceUnavailable: "Audio indisponible (supprimé de ce navigateur).",
+            voiceListFail: "⚠️ Liste des voix de MiniMax indisponible : une liste de base est proposée.",
+            voiceDesignTitle: "＋ Créer une voix (MiniMax)",
+            voiceDesignHelp: "Décris la voix (ex. « voix grave de vieux marin, chaleureuse »). MiniMax la crée et te fait écouter un extrait. 3 $ par voix.",
+            voiceDesignPrompt: "Description de la voix (en anglais de préférence)",
+            voicePreviewText: "Phrase d'essai",
+            voiceSample: "Bonjour ! Voici à quoi ressemble ma voix.",
+            voiceNameLbl: "Nom (pour toi)",
+            voiceCreate: "Créer la voix",
+            voiceWorking: "Patiente…",
+            voiceCreated: "🎙️ Voix « {name} » créée et sélectionnée.",
+            voiceCloneTitle: "🎤 Cloner une voix (MiniMax)",
+            voiceCloneHelp: "Enregistrement de 10 s à 5 min (MP3, M4A ou WAV, 20 Mo au plus), une seule personne, sans musique. 1,50 $. MiniMax supprime une voix clonée non utilisée pendant 7 jours.",
+            voiceCloneFile: "Enregistrement",
+            voiceConsent: "C'est ma propre voix, ou j'ai l'autorisation explicite de la personne enregistrée.",
+            voiceConsentNeeded: "⚠️ Confirme que tu as le droit de cloner cette voix.",
+            voiceNeedFile: "🎤 Choisis un enregistrement.",
+            voiceCloneGo: "Cloner",
+            voiceCloned: "🎤 Voix « {name} » clonée et sélectionnée.",
+            voiceSensitive: "⚠️ MiniMax a refusé cet enregistrement (contrôle de contenu).",
+            voiceSaved: "Mes voix enregistrées chez MiniMax",
+            voiceNoneSaved: "Aucune voix personnelle.",
+            voiceDelete: "Supprimer cette voix chez MiniMax",
+            voiceDeleted: "🗑️ Voix supprimée.",
+            voiceTrial: "Extrait :",
+            voiceClose: "Fermer",
+            voiceNeedKey: "⚠️ Ajoute ta clé MiniMax (section Chine du panneau des clés) pour utiliser le mode Voix.",
             tabVibeCoder: "✨ Vibe Coder",
             placeholderVibeCoder: "Décris ton idée en mots simples — je m'occupe du reste...",
             previewBtn: "👁 Aperçu",
@@ -4138,7 +4243,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.23.0 - Latest version: ",
+            creditVersion: "Version 1.24.0 - Latest version: ",
             appUpdated: "📅 Updated: November 3, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4170,6 +4275,56 @@
             imgRes4K: "4K (slow)",
             tabVideo: "🎬 Video",
             placeholderVideo: "Describe the video you want to generate...",
+            tabVoice: "🎙️ Voice",
+            placeholderVoice: "Write the text to be spoken (voice-over, dialogue, chapter…)",
+            lblVoiceModel: "Voice model",
+            lblVoice: "Voice",
+            lblEmotion: "Emotion",
+            lblSpeed: "Speed",
+            lblPitch: "Pitch",
+            lblVolume: "Volume",
+            lblVoiceLang: "Language",
+            lblEffect: "Effect",
+            lblAudioFormat: "Format",
+            voiceAuto: "Auto",
+            voiceLangAuto: "Automatic detection",
+            voiceEffectNone: "None",
+            voiceDesignBtn: "＋ Create a voice",
+            voiceCloneBtn: "🎤 Clone a voice",
+            voiceMine: "My voices",
+            voiceHint: "Tips: (laughs), (sighs), (breath)… add sounds; <#1.5#> makes a 1.5 s pause. Price: $0.10 (HD) or $0.06 (Turbo) per 1,000 characters.",
+            voiceFor: "🎙️ Voice generated for: ",
+            voiceInfo: "{s} s · {n} characters",
+            voiceSplit: "Long text: split into {n} parts, joined into a single MP3 file.",
+            voiceDownload: "💾 Download the audio",
+            voiceDownloadTip: "Saves the audio file to your computer.",
+            voiceUnavailable: "Audio unavailable (removed from this browser).",
+            voiceListFail: "⚠️ MiniMax voice list unavailable: a basic list is offered.",
+            voiceDesignTitle: "＋ Create a voice (MiniMax)",
+            voiceDesignHelp: "Describe the voice (e.g. \"deep voice of an old sailor, warm\"). MiniMax creates it and plays a sample. $3 per voice.",
+            voiceDesignPrompt: "Voice description",
+            voicePreviewText: "Sample sentence",
+            voiceSample: "Hello! This is what my voice sounds like.",
+            voiceNameLbl: "Name (for you)",
+            voiceCreate: "Create the voice",
+            voiceWorking: "Please wait…",
+            voiceCreated: "🎙️ Voice \"{name}\" created and selected.",
+            voiceCloneTitle: "🎤 Clone a voice (MiniMax)",
+            voiceCloneHelp: "Recording of 10 s to 5 min (MP3, M4A or WAV, 20 MB at most), one person, no music. $1.50. MiniMax deletes a cloned voice not used for 7 days.",
+            voiceCloneFile: "Recording",
+            voiceConsent: "This is my own voice, or I have explicit permission from the recorded person.",
+            voiceConsentNeeded: "⚠️ Confirm that you have the right to clone this voice.",
+            voiceNeedFile: "🎤 Choose a recording.",
+            voiceCloneGo: "Clone",
+            voiceCloned: "🎤 Voice \"{name}\" cloned and selected.",
+            voiceSensitive: "⚠️ MiniMax refused this recording (content check).",
+            voiceSaved: "My voices saved at MiniMax",
+            voiceNoneSaved: "No personal voice.",
+            voiceDelete: "Delete this voice at MiniMax",
+            voiceDeleted: "🗑️ Voice deleted.",
+            voiceTrial: "Sample:",
+            voiceClose: "Close",
+            voiceNeedKey: "⚠️ Add your MiniMax key (China section of the keys panel) to use Voice mode.",
             tabVibeCoder: "✨ Vibe Coder",
             placeholderVibeCoder: "Describe your idea in plain words — I'll handle the rest...",
             previewBtn: "👁 Preview",
@@ -4701,7 +4856,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.23.0 - Última versión: ",
+            creditVersion: "Versión 1.24.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -4733,6 +4888,56 @@
             imgRes4K: "4K (lenta)",
             tabVideo: "🎬 Video",
             placeholderVideo: "Describe el video que quieres generar...",
+            tabVoice: "🎙️ Voz",
+            placeholderVoice: "Escribe el texto que se dirá en voz alta (voz en off, diálogo, capítulo…)",
+            lblVoiceModel: "Modelo de voz",
+            lblVoice: "Voz",
+            lblEmotion: "Emoción",
+            lblSpeed: "Velocidad",
+            lblPitch: "Tono",
+            lblVolume: "Volumen",
+            lblVoiceLang: "Idioma",
+            lblEffect: "Efecto",
+            lblAudioFormat: "Formato",
+            voiceAuto: "Auto",
+            voiceLangAuto: "Detección automática",
+            voiceEffectNone: "Ninguno",
+            voiceDesignBtn: "＋ Crear una voz",
+            voiceCloneBtn: "🎤 Clonar una voz",
+            voiceMine: "Mis voces",
+            voiceHint: "Consejos: (laughs), (sighs), (breath)… agregan sonidos; <#1.5#> hace una pausa de 1,5 s. Precio: 0,10 $ (HD) o 0,06 $ (Turbo) por 1000 caracteres.",
+            voiceFor: "🎙️ Voz generada para: ",
+            voiceInfo: "{s} s · {n} caracteres",
+            voiceSplit: "Texto largo: dividido en {n} partes, unidas en un solo archivo MP3.",
+            voiceDownload: "💾 Descargar el audio",
+            voiceDownloadTip: "Guarda el archivo de audio en tu computadora.",
+            voiceUnavailable: "Audio no disponible (eliminado de este navegador).",
+            voiceListFail: "⚠️ Lista de voces de MiniMax no disponible: se ofrece una lista básica.",
+            voiceDesignTitle: "＋ Crear una voz (MiniMax)",
+            voiceDesignHelp: "Describe la voz (ej. \"voz grave de viejo marinero, cálida\"). MiniMax la crea y te deja escuchar un fragmento. 3 $ por voz.",
+            voiceDesignPrompt: "Descripción de la voz (de preferencia en inglés)",
+            voicePreviewText: "Frase de prueba",
+            voiceSample: "¡Hola! Así suena mi voz.",
+            voiceNameLbl: "Nombre (para ti)",
+            voiceCreate: "Crear la voz",
+            voiceWorking: "Espera…",
+            voiceCreated: "🎙️ Voz \"{name}\" creada y seleccionada.",
+            voiceCloneTitle: "🎤 Clonar una voz (MiniMax)",
+            voiceCloneHelp: "Grabación de 10 s a 5 min (MP3, M4A o WAV, 20 MB como máximo), una sola persona, sin música. 1,50 $. MiniMax elimina una voz clonada que no se usa durante 7 días.",
+            voiceCloneFile: "Grabación",
+            voiceConsent: "Es mi propia voz, o tengo el permiso explícito de la persona grabada.",
+            voiceConsentNeeded: "⚠️ Confirma que tienes derecho a clonar esta voz.",
+            voiceNeedFile: "🎤 Elige una grabación.",
+            voiceCloneGo: "Clonar",
+            voiceCloned: "🎤 Voz \"{name}\" clonada y seleccionada.",
+            voiceSensitive: "⚠️ MiniMax rechazó esta grabación (control de contenido).",
+            voiceSaved: "Mis voces guardadas en MiniMax",
+            voiceNoneSaved: "Ninguna voz personal.",
+            voiceDelete: "Eliminar esta voz en MiniMax",
+            voiceDeleted: "🗑️ Voz eliminada.",
+            voiceTrial: "Fragmento:",
+            voiceClose: "Cerrar",
+            voiceNeedKey: "⚠️ Agrega tu clave de MiniMax (sección China del panel de claves) para usar el modo Voz.",
             tabVibeCoder: "✨ Vibe Coder",
             placeholderVibeCoder: "Describe tu idea en palabras simples — yo me encargo del resto...",
             previewBtn: "👁 Vista previa",
@@ -6627,6 +6832,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Update video config selects language (populateVideoModels also rebuilds
         // the duration options with localized labels for the active provider).
         if (videoModelSelect) populateVideoModels();
+        if (voiceConfigPanel && voiceConfigPanel.classList.contains('show')) populateVoicePanel();
         // Modèles image (et options Recraft) : libellés traduits, choix conservé
         if (imageModelSelect && IMAGE_MODELS[providerSelect.value]) {
             const keepModel = imageModelSelect.value;
@@ -6902,9 +7108,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // (ex. OpenAI/Qwen = image seule ; Claude/DeepSeek = texte seul ; Gemini/Grok = les deux.)
         const supportsImage = !!IMAGE_MODELS[provider];
         const supportsVideo = !!VIDEO_MODELS[provider];
+        const supportsVoice = !!VOICE_MODELS[provider];
 
         imageTab.classList.toggle('disabled', !supportsImage);
         videoTab.classList.toggle('disabled', !supportsVideo);
+        if (voiceTab) voiceTab.classList.toggle('disabled', !supportsVoice);
         // Fournisseur sans chat (absent de MODELS, ex. Recraft) : Chat / Vibe Coder / Code grisés,
         // sélecteur de modèle texte masqué (le modèle se choisit dans le panneau Image).
         const textOk = !!MODELS[provider];
@@ -6914,8 +7122,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!textOk && currentMode !== 'image' && currentMode !== 'video') switchMode(supportsImage ? 'image' : 'video');
 
         // Si le mode courant n'est plus supporté par ce fournisseur, repli sur chat
-        if ((currentMode === 'image' && !supportsImage) || (currentMode === 'video' && !supportsVideo)) {
-            switchMode('chat');
+        if ((currentMode === 'image' && !supportsImage) || (currentMode === 'video' && !supportsVideo) || (currentMode === 'voice' && !supportsVoice)) {
+            switchMode(textOk ? 'chat' : (supportsImage ? 'image' : 'video'));
         }
 
         // Afficher les panneaux de config selon le mode courant
@@ -6930,6 +7138,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
             populateVideoModels();
         } else {
             videoConfigPanel.classList.remove('show');
+        }
+        if (voiceConfigPanel) {
+            voiceConfigPanel.classList.toggle('show', currentMode === 'voice' && supportsVoice);
+            if (currentMode === 'voice' && supportsVoice) populateVoicePanel();
         }
 
         localStorage.setItem('ai_provider', provider);
@@ -7078,8 +7290,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         
         const provider = providerSelect.value;
+        if (voiceConfigPanel && mode !== 'voice') voiceConfigPanel.classList.remove('show');
 
-        if (mode === 'image') {
+        if (mode === 'voice') {
+            userInput.placeholder = I18N[currentLang].placeholderVoice;
+            regenBtn.style.display = 'none';
+            agentModeContainer.classList.remove('show');
+            thinkingModeContainer.classList.remove('show');
+            webSearchModeContainer.classList.remove('show');
+            readLinksModeContainer.classList.remove('show');
+            imageConfigPanel.classList.remove('show');
+            videoConfigPanel.classList.remove('show');
+            if (VOICE_MODELS[provider]) { voiceConfigPanel.classList.add('show'); populateVoicePanel(); }
+        } else if (mode === 'image') {
             userInput.placeholder = I18N[currentLang].placeholderImage;
             regenBtn.style.display = 'none';
             agentModeContainer.classList.remove('show');
@@ -7341,6 +7564,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         setupRecraftOptions();
         setupBriaOptions();
         setupMiniMaxOptions();
+        setupVoicePanel();
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
@@ -7951,7 +8175,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Libellés des modèles texte visés par le prochain envoi (comparaison : les deux) qui ne lisent
     // pas les images. Vide en modes Image / Vidéo (les photos jointes y servent à l'édition).
     function textTargetsWithoutVision() {
-        if (currentMode === 'image' || currentMode === 'video') return [];
+        if (currentMode === 'image' || currentMode === 'video' || currentMode === 'voice') return [];
         const targets = (compareMode && (currentMode === 'chat' || currentMode === 'code'))
             ? [parseCompareValue(compareModelA.value), parseCompareValue(compareModelB.value)]
             : [{ provider: providerSelect.value, model: modelSelect.value }];
@@ -8220,7 +8444,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // ===== RÉGÉNÉRATION =====
     async function handleRegenerate() {
-        if (isProcessing || conversationHistory.length === 0 || currentMode === 'image' || currentMode === 'video') return;
+        if (isProcessing || conversationHistory.length === 0 || currentMode === 'image' || currentMode === 'video' || currentMode === 'voice') return;
 
         const key = getActiveKey();
         if (!key) {
@@ -8590,7 +8814,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const provider = providerSelect.value;
         const model = modelSelect.value;
 
-        if (currentMode === 'image') {
+        if (currentMode === 'voice') {
+            // Mode Voix : le texte (fichiers texte joints compris) est dit à voix haute
+            const uEntry = { role: 'user', content: fullPrompt };
+            if (displayText !== fullPrompt) uEntry.display = displayText;
+            conversationHistory.push(uEntry);
+            saveHistory();
+            await handleVoiceGeneration(fullPrompt, key);
+        } else if (currentMode === 'image') {
             // Historiser le prompt (comme en texte) pour que le tour image persiste.
             const uEntry = { role: 'user', content: fullPrompt };
             if (displayText !== fullPrompt) uEntry.display = displayText;
@@ -8627,7 +8858,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         userInput.value = '';
         autoResizeTextarea();
         isProcessing = false;
-        setBusyUI(false, !isCompare && currentMode !== 'image' && currentMode !== 'video');
+        setBusyUI(false, !isCompare && currentMode !== 'image' && currentMode !== 'video' && currentMode !== 'voice');
         currentAbortController = null;
     }
 
@@ -11528,6 +11759,323 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return m.wrap;
     }
 
+    // ----- MiniMax (mode 🎙️ Voix) -----
+    // Synthèse /v1/t2a_v2 (≤ 10 000 caractères par requête, audio en hexadécimal). Voix : système,
+    // créées (/v1/voice_design) ou clonées (/v1/files/upload + /v1/voice_clone), listées par
+    // /v1/get_voice. Erreurs en HTTP 200 (base_resp) → miniMaxFail.
+    const VOICE_MODELS = {
+        minimax: [
+            { id: 'speech-2.8-hd', name: { fr: 'Speech 2.8 HD (Qualité, 0,10 $ / 1 000 car.)', en: 'Speech 2.8 HD (Quality, $0.10 / 1,000 chars)', es: 'Speech 2.8 HD (Calidad, 0,10 $ / 1000 car.)' } },
+            { id: 'speech-2.8-turbo', name: { fr: 'Speech 2.8 Turbo (Rapide, 0,06 $ / 1 000 car.)', en: 'Speech 2.8 Turbo (Fast, $0.06 / 1,000 chars)', es: 'Speech 2.8 Turbo (Rápido, 0,06 $ / 1000 car.)' } }
+        ]
+    };
+    const MM_API = 'https://api.minimax.io/v1';
+    // Voix de base (si la liste de MiniMax est indisponible) : français, anglais, espagnol
+    const VOICE_FALLBACK = [
+        ['French_MaleNarrator', 'Male Narrator'], ['French_FemaleAnchor', 'Female Anchor'], ['French_Male_Speech_New', 'Level-Headed Man'], ['French_Female_News Anchor', 'Patient Female Presenter'], ['French_CasualMan', 'Casual Man'], ['French_MovieLeadFemale', 'Movie Lead Female'],
+        ['English_expressive_narrator', 'Expressive Narrator'], ['English_radiant_girl', 'Radiant Girl'], ['English_magnetic_voiced_man', 'Magnetic-voiced Man'], ['English_CalmWoman', 'Calm Woman'], ['English_Trustworth_Man', 'Trustworthy Man'], ['English_Whispering_girl', 'Whispering Girl'],
+        ['Spanish_Narrator', 'Narrator'], ['Spanish_SereneWoman', 'Serene Woman'], ['Spanish_CaptivatingStoryteller', 'Captivating Storyteller'], ['Spanish_WiseScholar', 'Wise Scholar'], ['Spanish_ConfidentWoman', 'Confident Woman'], ['Spanish_Deep-tonedMan', 'Deep-toned Man']
+    ].map(([voice_id, voice_name]) => ({ voice_id, voice_name }));
+    const VOICE_DEFAULT = { fr: 'French_MaleNarrator', en: 'English_expressive_narrator', es: 'Spanish_Narrator' };
+    const VOICE_LANG_PREFIX = { fr: 'French', en: 'English', es: 'Spanish' };
+    const VOICE_EMOTIONS = { happy: T3b('Joyeuse', 'Happy', 'Alegre'), sad: T3b('Triste', 'Sad', 'Triste'), angry: T3b('En colère', 'Angry', 'Enojada'), fearful: T3b('Effrayée', 'Fearful', 'Asustada'), disgusted: T3b('Dégoûtée', 'Disgusted', 'Asqueada'), surprised: T3b('Surprise', 'Surprised', 'Sorprendida'), calm: T3b('Calme', 'Calm', 'Tranquila'), fluent: T3b('Fluide', 'Fluent', 'Fluida'), whisper: T3b('Chuchotée', 'Whisper', 'Susurrada') };
+    const VOICE_EFFECTS = { spacious_echo: T3b('Écho spacieux', 'Spacious echo', 'Eco espacioso'), auditorium_echo: T3b('Écho d\'auditorium', 'Auditorium echo', 'Eco de auditorio'), lofi_telephone: T3b('Téléphone lo-fi', 'Lo-fi telephone', 'Teléfono lo-fi'), robotic: T3b('Robotique', 'Robotic', 'Robótica') };
+    // Langues de language_boost (valeur API → code ISO, libellé traduit par Intl.DisplayNames)
+    const VOICE_LANGS = { French: 'fr', English: 'en', Spanish: 'es', Portuguese: 'pt', German: 'de', Italian: 'it', Dutch: 'nl', Chinese: 'zh', 'Chinese,Yue': 'yue', Japanese: 'ja', Korean: 'ko', Arabic: 'ar', Russian: 'ru', Turkish: 'tr', Ukrainian: 'uk', Polish: 'pl', Romanian: 'ro', Greek: 'el', Czech: 'cs', Finnish: 'fi', Swedish: 'sv', Danish: 'da', Norwegian: 'no', Nynorsk: 'nn', Hungarian: 'hu', Bulgarian: 'bg', Croatian: 'hr', Slovak: 'sk', Slovenian: 'sl', Catalan: 'ca', Hebrew: 'he', Persian: 'fa', Hindi: 'hi', Tamil: 'ta', Thai: 'th', Vietnamese: 'vi', Indonesian: 'id', Malay: 'ms', Filipino: 'fil', Afrikaans: 'af' };
+    let voiceCache = null;          // { system, cloned, designed } chargé une fois par session
+    let voiceListLoading = null;
+    const voiceNames = () => rcRead('ai_minimax_voice_names', {});
+
+    async function mmPost(path, body, key, signal) {
+        const r = await fetchWithRetry(MM_API + path, { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` }, body: JSON.stringify(body) });
+        const j = await r.json().catch(() => ({}));
+        const fail = miniMaxFail(j, r.status);
+        if (fail) throw new Error(fail);
+        return j;
+    }
+    async function loadVoiceList(force) {
+        const key = getKeyForProvider('minimax');
+        if (!key) return null;
+        if (voiceCache && !force) return voiceCache;
+        if (voiceListLoading && !force) return voiceListLoading;
+        voiceListLoading = (async () => {
+            try {
+                const j = await mmPost('/get_voice', { voice_type: 'all' }, key);
+                voiceCache = { system: j.system_voice || [], cloned: j.voice_cloning || [], designed: j.voice_generation || [] };
+            } catch (e) {
+                showToast(I18N[currentLang].voiceListFail, 'error', 6000);
+                voiceCache = voiceCache || null;
+            }
+            voiceListLoading = null;
+            return voiceCache;
+        })();
+        return voiceListLoading;
+    }
+    function fillVoiceSelect() {
+        const t = I18N[currentLang];
+        const sel = $('voice-select');
+        const prev = sel.value || localStorage.getItem('ai_minimax_voice') || VOICE_DEFAULT[currentLang];
+        sel.innerHTML = '';
+        const names = voiceNames();
+        const mine = voiceCache ? [...voiceCache.cloned.map(v => ({ ...v, kind: 'voice_cloning' })), ...voiceCache.designed.map(v => ({ ...v, kind: 'voice_generation' }))] : [];
+        if (mine.length) {
+            const og = document.createElement('optgroup'); og.label = t.voiceMine;
+            mine.forEach(v => { const o = document.createElement('option'); o.value = v.voice_id; o.textContent = names[v.voice_id] || v.voice_id; og.appendChild(o); });
+            sel.appendChild(og);
+        }
+        const system = voiceCache && voiceCache.system.length ? voiceCache.system : VOICE_FALLBACK;
+        const groups = {};
+        system.forEach(v => { const g = String(v.voice_id).split('_')[0]; (groups[g] = groups[g] || []).push(v); });
+        const first = VOICE_LANG_PREFIX[currentLang];
+        Object.keys(groups).sort((a, b) => (a === first ? -1 : b === first ? 1 : a.localeCompare(b))).forEach(g => {
+            const og = document.createElement('optgroup');
+            const m = g.match(/^([^(]+?)\s*(\(.+\))?$/);
+            const code = VOICE_LANGS[m ? m[1] : g];
+            let label = g;
+            try { if (code) label = (new Intl.DisplayNames([currentLang], { type: 'language' }).of(code) || m[1]) + (m && m[2] ? ' ' + m[2] : ''); } catch (e) { /* libellé brut */ }
+            og.label = label.charAt(0).toUpperCase() + label.slice(1);
+            groups[g].forEach(v => { const o = document.createElement('option'); o.value = v.voice_id; o.textContent = v.voice_name || v.voice_id; og.appendChild(o); });
+            sel.appendChild(og);
+        });
+        sel.value = [...sel.options].some(o => o.value === prev) ? prev : (sel.querySelector(`option[value="${VOICE_DEFAULT[currentLang]}"]`) ? VOICE_DEFAULT[currentLang] : sel.options[0] && sel.options[0].value);
+    }
+    function populateVoicePanel() {
+        const t = I18N[currentLang];
+        const L3 = n => n[currentLang] || n.fr;
+        const model = $('voice-model');
+        const prevModel = model.value || localStorage.getItem('ai_minimax_voice_model');
+        populateSelect(model, VOICE_MODELS.minimax, currentLang);
+        if (prevModel && [...model.options].some(o => o.value === prevModel)) model.value = prevModel;
+        const fill = (id, entries, prevKey, first) => {
+            const el = $(id); const prev = el.value || localStorage.getItem(prevKey) || '';
+            el.innerHTML = '';
+            [['', first]].concat(entries).forEach(([v, l]) => { const o = document.createElement('option'); o.value = v; o.textContent = l; el.appendChild(o); });
+            el.value = [...el.options].some(o => o.value === prev) ? prev : '';
+        };
+        fill('voice-emotion', Object.entries(VOICE_EMOTIONS).map(([v, n]) => [v, L3(n)]), 'ai_minimax_voice_emotion', t.voiceAuto);
+        fill('voice-effect', Object.entries(VOICE_EFFECTS).map(([v, n]) => [v, L3(n)]), 'ai_minimax_voice_effect', t.voiceEffectNone);
+        let dn = null; try { dn = new Intl.DisplayNames([currentLang], { type: 'language' }); } catch (e) { /* libellés bruts */ }
+        const langs = Object.entries(VOICE_LANGS).map(([v, c]) => { let l = v; try { l = dn ? dn.of(c) : v; } catch (e) { /* brut */ } return [v, l.charAt(0).toUpperCase() + l.slice(1)]; });
+        fill('voice-lang', langs, 'ai_minimax_voice_lang', t.voiceLangAuto);
+        $('voice-hint').textContent = t.voiceHint;   // textContent : le texte contient « <#1.5#> »
+        fillVoiceSelect();
+        loadVoiceList().then(c => { if (c) fillVoiceSelect(); });
+    }
+    function setupVoicePanel() {
+        if (!voiceConfigPanel) return;
+        const keep = (id, k) => { const el = $(id); el.addEventListener('change', () => localStorage.setItem(k, el.value)); };
+        keep('voice-model', 'ai_minimax_voice_model'); keep('voice-select', 'ai_minimax_voice'); keep('voice-emotion', 'ai_minimax_voice_emotion');
+        keep('voice-effect', 'ai_minimax_voice_effect'); keep('voice-lang', 'ai_minimax_voice_lang'); keep('voice-format', 'ai_minimax_voice_format');
+        const f = localStorage.getItem('ai_minimax_voice_format'); if (f) $('voice-format').value = f;
+        [['voice-speed', 'ai_minimax_voice_speed'], ['voice-pitch', 'ai_minimax_voice_pitch'], ['voice-vol', 'ai_minimax_voice_vol']].forEach(([id, k]) => {
+            const el = $(id), out = $(id + '-val');
+            const v = localStorage.getItem(k); if (v !== null && v !== '') el.value = v;
+            out.textContent = el.value;
+            el.addEventListener('input', () => { out.textContent = el.value; localStorage.setItem(k, el.value); });
+        });
+        $('voice-design-btn').addEventListener('click', openVoiceDesign);
+        $('voice-clone-btn').addEventListener('click', openVoiceClone);
+    }
+
+    const hexToBytes = (hex) => { const out = new Uint8Array(hex.length >> 1); for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16); return out; };
+    const AUDIO_MIME = { mp3: 'audio/mpeg', wav: 'audio/wav', flac: 'audio/flac' };
+    // Découpe un long texte en morceaux ≤ max caractères (paragraphes, puis phrases, puis coupe nette)
+    function splitForTTS(text, max) {
+        const out = []; let cur = '';
+        const push = (piece) => { if ((cur + piece).length > max && cur) { out.push(cur); cur = ''; } cur += piece; };
+        text.split(/(\n\s*\n)/).forEach(par => {
+            if (par.length <= max) return push(par);
+            par.split(/(?<=[.!?…])\s+/).forEach(sent => {
+                if (sent.length <= max) return push(sent + ' ');
+                for (let i = 0; i < sent.length; i += max) push(sent.slice(i, i + max));
+            });
+        });
+        if (cur.trim()) out.push(cur);
+        return out.map(x => x.trim()).filter(Boolean);
+    }
+
+    async function handleVoiceGeneration(text, key) {
+        const t = I18N[currentLang];
+        const model = $('voice-model').value || 'speech-2.8-hd';
+        const loadingDiv = addMessage(null, 'ai', 'minimax', model, true);
+        try {
+            const chunks = splitForTTS(text, 9000);
+            const fmt = chunks.length > 1 ? 'mp3' : ($('voice-format').value || 'mp3');   // MP3 se met bout à bout
+            const vs = { voice_id: $('voice-select').value || VOICE_DEFAULT[currentLang], speed: parseFloat($('voice-speed').value) || 1, vol: parseFloat($('voice-vol').value) || 1, pitch: parseInt($('voice-pitch').value, 10) || 0 };
+            if ($('voice-emotion').value) vs.emotion = $('voice-emotion').value;
+            const parts = []; let ms = 0, chars = 0;
+            for (const chunk of chunks) {
+                const body = { model, text: chunk, stream: false, output_format: 'hex', voice_setting: vs, audio_setting: { format: fmt, sample_rate: 32000, bitrate: 128000, channel: 1 } };
+                if ($('voice-lang').value) body.language_boost = $('voice-lang').value;
+                if ($('voice-effect').value) body.voice_modify = { sound_effects: $('voice-effect').value };
+                const j = await mmPost('/t2a_v2', body, key, currentAbortController.signal);
+                if (!j.data || !j.data.audio) throw new Error('Unexpected response format from MiniMax.');
+                parts.push(hexToBytes(j.data.audio));
+                ms += (j.extra_info && j.extra_info.audio_length) || 0;
+                chars += (j.extra_info && j.extra_info.usage_characters) || chunk.length;
+            }
+            const blob = new Blob(parts, { type: AUDIO_MIME[fmt] });
+            await displayAndStoreAudio(loadingDiv, blob, text, model, { ms, chars, parts: chunks.length, fmt });
+        } catch (error) {
+            updateMessageContent(loadingDiv, `❌ ${translateApiError(error, 'minimax')}`);
+        }
+    }
+    function buildAudioUI(content, src, prompt, info) {
+        const t = I18N[currentLang];
+        content.innerHTML = '';
+        const p = document.createElement('p'); p.className = 'dp-info-text-lg';
+        p.textContent = t.voiceFor + '« ' + (prompt || '').slice(0, 80) + ((prompt || '').length > 80 ? '… »' : ' »');
+        const audio = document.createElement('audio'); audio.controls = true; audio.src = src; audio.className = 'voice-audio'; audio.preload = 'metadata';
+        content.append(p, audio);
+        if (info) {
+            const meta = document.createElement('p'); meta.className = 'dp-info-text';
+            const loc = { fr: 'fr-CA', en: 'en-US', es: 'es-MX' }[currentLang];
+            meta.textContent = t.voiceInfo.replace('{s}', (Math.round((info.ms || 0) / 100) / 10).toLocaleString(loc)).replace('{n}', (info.chars || 0).toLocaleString(loc)) + (info.parts > 1 ? ' · ' + t.voiceSplit.replace('{n}', info.parts) : '');
+            content.appendChild(meta);
+        }
+        const bar = document.createElement('div'); bar.className = 'img-toolbar';
+        const ext = (info && info.fmt) || 'mp3';
+        bar.appendChild(imgTool(t.voiceDownload, t.voiceDownloadTip, () => { const a = document.createElement('a'); a.href = src; a.download = `voix_${Date.now()}.${ext}`; a.click(); }));
+        content.appendChild(bar);
+    }
+    async function displayAndStoreAudio(loadingDiv, blob, prompt, model, info) {
+        const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
+        buildAudioUI(content, URL.createObjectURL(blob), prompt, info);
+        removeLoader(loadingDiv);
+        const audioId = genImageId();
+        try { await ImageStore.put({ id: audioId, convId: currentConvId, blob, url: null, mime: blob.type, prompt, createdAt: Date.now() }); } catch (e) { /* IndexedDB indisponible : audio non persisté */ }
+        conversationHistory.push({ role: 'assistant', type: 'audio', audioId, prompt, info, content: '🎙️ ' + (prompt || '').slice(0, 200), provider: 'minimax', model });
+        saveHistory();
+    }
+    async function loadAndDisplayAudio(content, audioId, prompt, info) {
+        let rec = null;
+        try { rec = await ImageStore.get(audioId); } catch (e) { /* indisponible */ }
+        if (rec && rec.blob) buildAudioUI(content, URL.createObjectURL(rec.blob), prompt, info);
+        else { content.innerHTML = ''; const p = document.createElement('p'); p.className = 'dp-info-text-lg'; p.textContent = '🎙️ ' + I18N[currentLang].voiceUnavailable; content.appendChild(p); }
+    }
+
+    // Liste « Mes voix » avec suppression (commune aux deux fenêtres)
+    function voiceLibrary(box) {
+        const t = I18N[currentLang];
+        const title = document.createElement('label'); title.textContent = t.voiceSaved;
+        const list = document.createElement('div');
+        const render = () => {
+            list.innerHTML = '';
+            const names = voiceNames();
+            const mine = voiceCache ? [...voiceCache.cloned.map(v => ({ ...v, kind: 'voice_cloning' })), ...voiceCache.designed.map(v => ({ ...v, kind: 'voice_generation' }))] : [];
+            if (!mine.length) { const e = document.createElement('div'); e.className = 'ie-empty'; e.textContent = t.voiceNoneSaved; list.appendChild(e); }
+            mine.forEach(v => {
+                const row = document.createElement('div'); row.className = 'rc-style-row';
+                const l = document.createElement('span'); l.textContent = names[v.voice_id] || v.voice_id;
+                const x = rcButton('🗑️'); x.dataset.tip = t.voiceDelete; x.setAttribute('aria-label', t.voiceDelete);
+                x.addEventListener('click', async () => {
+                    try { await mmPost('/delete_voice', { voice_type: v.kind, voice_id: v.voice_id }, getKeyForProvider('minimax')); showToast(t.voiceDeleted, 'success'); await loadVoiceList(true); render(); fillVoiceSelect(); }
+                    catch (e) { showToast(`❌ ${translateApiError(e, 'minimax')}`, 'error', 7000); }
+                });
+                row.append(l, x); list.appendChild(row);
+            });
+        };
+        render();
+        box.append(title, list);
+        return render;
+    }
+    function voiceDialogBase(title, help) {
+        const t = I18N[currentLang];
+        if (!getKeyForProvider('minimax')) { showToast(t.voiceNeedKey, 'error', 6000); return null; }
+        const d = rcDialog(title, help);
+        const form = document.createElement('div'); form.className = 'rc-form';
+        d.box.appendChild(form);
+        return { d, form };
+    }
+    const lab = (text, el) => { const l = document.createElement('label'); l.textContent = text; if (el) l.appendChild(el); return l; };
+    function playHex(form, hex, fmt) {
+        const a = document.createElement('audio'); a.controls = true; a.className = 'voice-audio';
+        a.src = URL.createObjectURL(new Blob([hexToBytes(hex)], { type: AUDIO_MIME[fmt] || 'audio/mpeg' }));
+        form.appendChild(lab(I18N[currentLang].voiceTrial, a)); a.play().catch(() => {});
+    }
+    function openVoiceDesign() {
+        const t = I18N[currentLang];
+        const base = voiceDialogBase(t.voiceDesignTitle, t.voiceDesignHelp); if (!base) return;
+        const { d, form } = base;
+        const desc = document.createElement('textarea'); desc.className = 'ie-instr'; desc.rows = 3; desc.maxLength = 2000;
+        const prev = document.createElement('input'); prev.type = 'text'; prev.className = 'rc-input'; prev.style.width = '100%'; prev.value = t.voiceSample; prev.maxLength = 500;
+        const name = document.createElement('input'); name.type = 'text'; name.className = 'rc-input'; name.style.width = '100%'; name.maxLength = 60;
+        form.append(lab(t.voiceDesignPrompt + ' *', desc), lab(t.voicePreviewText, prev), lab(t.voiceNameLbl, name));
+        const refreshLib = voiceLibrary(form);
+        const cancel = rcButton(t.ieCancel), go = rcButton(t.voiceCreate, true);
+        cancel.addEventListener('click', d.close);
+        go.addEventListener('click', async () => {
+            if (go.dataset.done) { d.close(); return; }
+            if (!desc.value.trim()) { showToast(t.bpNeedField, 'error'); return; }
+            go.disabled = true; go.textContent = t.voiceWorking;
+            try {
+                const j = await mmPost('/voice_design', { prompt: desc.value.trim(), preview_text: prev.value.trim() || t.voiceSample }, getKeyForProvider('minimax'));
+                if (!j.voice_id) throw new Error('Unexpected response format from MiniMax.');
+                const label = name.value.trim() || desc.value.trim().slice(0, 30);
+                localStorage.setItem('ai_minimax_voice_names', JSON.stringify({ ...voiceNames(), [j.voice_id]: label }));
+                localStorage.setItem('ai_minimax_voice', j.voice_id);
+                await loadVoiceList(true); fillVoiceSelect(); refreshLib(); $('voice-select').value = j.voice_id;
+                if (j.trial_audio) playHex(form, j.trial_audio, 'mp3');
+                showToast(t.voiceCreated.replace('{name}', label), 'success');
+                go.disabled = false; go.textContent = t.voiceClose; go.dataset.done = '1';
+            } catch (e) {
+                showToast(`❌ ${translateApiError(e, 'minimax')}`, 'error', 7000);
+                go.disabled = false; go.textContent = t.voiceCreate;
+            }
+        });
+        rcFoot(d.box, [cancel, go]);
+        desc.focus();
+    }
+    function openVoiceClone() {
+        const t = I18N[currentLang];
+        const base = voiceDialogBase(t.voiceCloneTitle, t.voiceCloneHelp); if (!base) return;
+        const { d, form } = base;
+        const file = document.createElement('input'); file.type = 'file'; file.accept = 'audio/mpeg,audio/mp4,audio/x-m4a,audio/wav,.mp3,.m4a,.wav';
+        const name = document.createElement('input'); name.type = 'text'; name.className = 'rc-input'; name.style.width = '100%'; name.maxLength = 60;
+        const consentLab = document.createElement('label'); consentLab.style.flexDirection = 'row'; consentLab.style.alignItems = 'flex-start'; consentLab.style.gap = '8px';
+        const consent = document.createElement('input'); consent.type = 'checkbox';
+        const ct = document.createElement('span'); ct.textContent = t.voiceConsent;
+        consentLab.append(consent, ct);
+        form.append(lab(t.voiceCloneFile + ' *', file), lab(t.voiceNameLbl, name), consentLab);
+        const refreshLib = voiceLibrary(form);
+        const cancel = rcButton(t.ieCancel), go = rcButton(t.voiceCloneGo, true);
+        cancel.addEventListener('click', d.close);
+        go.addEventListener('click', async () => {
+            if (go.dataset.done) { d.close(); return; }
+            if (!file.files[0]) { showToast(t.voiceNeedFile, 'error'); return; }
+            if (!consent.checked) { showToast(t.voiceConsentNeeded, 'error', 6000); return; }
+            go.disabled = true; go.textContent = t.voiceWorking;
+            const key = getKeyForProvider('minimax');
+            try {
+                const fd = new FormData(); fd.append('purpose', 'voice_clone'); fd.append('file', file.files[0]);
+                const up = await fetchWithRetry(MM_API + '/files/upload', { method: 'POST', headers: { 'Authorization': `Bearer ${key}` }, body: fd });
+                const uj = await up.json().catch(() => ({}));
+                const ufail = miniMaxFail(uj, up.status); if (ufail) throw new Error(ufail);
+                const fileId = uj.file && uj.file.file_id;
+                if (!fileId) throw new Error('Unexpected response format from MiniMax.');
+                const voiceId = 'ChatJPT' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+                const j = await mmPost('/voice_clone', { file_id: fileId, voice_id: voiceId, text: t.voiceSample, model: 'speech-2.8-hd' }, key);
+                if (j.input_sensitive && j.input_sensitive.type) throw new Error(t.voiceSensitive);
+                const label = name.value.trim() || file.files[0].name.replace(/\.[^.]+$/, '');
+                localStorage.setItem('ai_minimax_voice_names', JSON.stringify({ ...voiceNames(), [voiceId]: label }));
+                localStorage.setItem('ai_minimax_voice', voiceId);
+                await loadVoiceList(true); fillVoiceSelect(); refreshLib();
+                if (![...$('voice-select').options].some(o => o.value === voiceId)) {
+                    // La liste de MiniMax peut tarder à inclure la nouvelle voix : ajout local
+                    const o = document.createElement('option'); o.value = voiceId; o.textContent = label; $('voice-select').prepend(o);
+                }
+                $('voice-select').value = voiceId;
+                if (j.demo_audio) { const a = document.createElement('audio'); a.controls = true; a.className = 'voice-audio'; a.src = j.demo_audio; form.appendChild(lab(t.voiceTrial, a)); }
+                showToast(t.voiceCloned.replace('{name}', label), 'success');
+                go.disabled = false; go.textContent = t.voiceClose; go.dataset.done = '1';
+            } catch (e) {
+                showToast(`❌ ${translateApiError(e, 'minimax')}`, 'error', 7000);
+                go.disabled = false; go.textContent = t.voiceCloneGo;
+            }
+        });
+        rcFoot(d.box, [cancel, go]);
+    }
+
     // ----- MiniMax (images) -----
     // Erreur MiniMax : base_resp { status_code, status_msg } (souvent en HTTP 200), ou { error: { message } }
     function miniMaxFail(j, status) {
@@ -13855,6 +14403,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         for (const msg of messages) {
             if (msg.role === 'user') {
                 addMessage(msg.display || msg.content, 'user');
+            } else if (msg.role === 'assistant' && msg.type === 'audio') {
+                const div = addMessage('', 'ai', msg.provider, msg.model, false);
+                const c = div.querySelector('.msg-content');
+                if (c) loadAndDisplayAudio(c, msg.audioId, msg.prompt, msg.info);
             } else if (msg.role === 'assistant' && msg.type === 'image') {
                 // Tour image : on recharge le blob depuis IndexedDB (async).
                 const div = addMessage('', 'ai', msg.provider, msg.model, false);
