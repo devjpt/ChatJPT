@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.35.0
+  Version 1.35.1
 -->
 
 
@@ -3868,7 +3868,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.0 - Dernière version : ",
+            creditVersion: "Version 1.35.1 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4743,7 +4743,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.0 - Latest version: ",
+            creditVersion: "Version 1.35.1 - Latest version: ",
             appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5618,7 +5618,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.35.0 - Última versión: ",
+            creditVersion: "Versión 1.35.1 - Última versión: ",
             appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -6498,7 +6498,9 @@
             { id: 'command-a-03-2025', name: { fr: 'Command A (Contexte 256k)', en: 'Command A (256k context)', es: 'Command A (Contexto 256k)' } },
             { id: 'north-mini-code-1.0', name: { fr: 'North Mini Code (Code)', en: 'North Mini Code (Code)', es: 'North Mini Code (Código)' } },
             { id: 'command-r7b-12-2024', name: { fr: 'Command R7B (Rapide, économique)', en: 'Command R7B (Fast, low cost)', es: 'Command R7B (Rápido, económico)' } },
-            { id: 'command-a-translate-08-2025', name: { fr: 'Command A Translate (Traduction)', en: 'Command A Translate (Translation)', es: 'Command A Translate (Traducción)' } }
+            { id: 'command-a-translate-08-2025', name: { fr: 'Command A Translate (Traduction)', en: 'Command A Translate (Translation)', es: 'Command A Translate (Traducción)' } },
+            // North Small Translate (nov. 2026) : traduction, 50+ langues et variantes, contexte 16k entrée comprise
+            { id: 'north-small-translate-1.0', name: { fr: 'North Small Translate (Traduction, 50+ langues)', en: 'North Small Translate (Translation, 50+ languages)', es: 'North Small Translate (Traducción, 50+ idiomas)' } }
         ],
         mistral: [
             // Mistral AI (France) — Chat Completions compatible OpenAI (CORS ouvert, testé 2026-10-25).
@@ -9592,7 +9594,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1', 'z-image-turbo', 'qwen-deep-research'],
         grok: ['grok-build-0.1'],
         mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
-        cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025'],
+        cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025', 'north-small-translate-1.0'],
         upstage: 'all',  // Solar Pro 4 / Mini 4 : texte seul
         gemini: ['deep-research-preview-04-2026', 'deep-research-max-preview-04-2026']  // agents Deep Research : consigne texte
     };
@@ -11046,7 +11048,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Cohere : réflexion active par défaut sur les modèles hybrides → 'high' ou 'none' explicite.
         // Plafonds de sortie propres aux modèles (Command A : 8k, R7B : 4k) ; Command A Translate a
-        // un contexte de 8k entrée comprise → max_tokens omis. stream_options non documenté.
+        // un contexte de 8k entrée comprise, North Small Translate de 16k → max_tokens omis. stream_options non documenté.
         if (MODELS.cohere.some(m => m.id === model)) {
             delete body.stream_options;
             if (THINKING_SUPPORT.cohere.configurable.includes(model)) {
@@ -11055,7 +11057,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
             const cap = { 'command-a-03-2025': 8000, 'command-r7b-12-2024': 4000 }[model];
             if (cap) body.max_tokens = Math.min(body.max_tokens, cap);
-            if (model === 'command-a-translate-08-2025') delete body.max_tokens;
+            if (model === 'command-a-translate-08-2025' || model === 'north-small-translate-1.0') delete body.max_tokens;
         }
 
         // MiniMax : la réflexion compte dans la limite (max_completion_tokens, recommandé par la doc)

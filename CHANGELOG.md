@@ -8,6 +8,12 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.35.1] — 2026-11-05
+  Added
+    - Cohere North Small Translate: translation model for more than 50
+      languages and regional variants (works with the free trial key; 16k
+      context, input included).
+
 [1.35.0] — 2026-11-05
   Added
     - Alibaba: 🌐 web search with sources and 🔗 link reading for Qwen 3.7,
@@ -889,6 +895,12 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.35.1] — 2026-11-05
+  Ajouté
+    - Cohere North Small Translate : modèle de traduction pour plus de 50
+      langues et variantes régionales (fonctionne avec la clé d'essai
+      gratuite ; contexte de 16k, texte d'entrée compris).
 
 [1.35.0] — 2026-11-05
   Ajouté
@@ -1841,6 +1853,12 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.35.1] — 2026-11-05
+  Añadido
+    - Cohere North Small Translate: modelo de traducción para más de 50
+      idiomas y variantes regionales (funciona con la clave de prueba
+      gratuita; contexto de 16k, texto de entrada incluido).
 
 [1.35.0] — 2026-11-05
   Añadido
