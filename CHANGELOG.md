@@ -8,6 +8,37 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.33.0] — 2026-11-05
+  Added
+    - Claude Haiku 5.5 (fast, low cost, always thinks).
+    - ⚡ Fast mode for Claude Opus 5.5, Opus 5 and Opus 4.8 (new switch): up to
+      2.5× more text per second, 2× the price. If Anthropic refuses it (access,
+      capacity), the answer comes at normal speed with a message.
+    - 📄 PDFs read as images (new Claude switch, off by default): Claude receives
+      the PDF itself and sees the pages (charts, tables, layout) instead of the
+      extracted text only, and puts the page after each quoted passage, e.g.
+      "(📄 report.pdf, p. 12)". 2 to 4× more tokens. Other providers still get
+      the text. For a scanned PDF, a new choice "📄 Send the PDF to Claude".
+    - Automatic prompt caching for Claude: the conversation already sent is
+      reread at about 10% of the price on the next message. The token line
+      shows the cached part ("2,000 read from cache").
+    - When a safety filter declines (Fable 5.1, Fable 5, Opus 5.5, Opus 5,
+      Sonnet 5.5), Anthropic retries on the model it recommends; a note says
+      which model answered.
+  Changed
+    - Claude Opus 4.8 and 4.7 can now think (🧠 switch, with an effort
+      selector); Opus 4.6 and Sonnet 4.6 switch from the token budget to
+      adaptive thinking with effort.
+    - 🌐 Web search and 🔗 link reading use the 2026 tools on Claude 4.6 and
+      later: Claude filters the results before reading them (more accurate,
+      fewer tokens).
+    - Long Claude web searches paused by the server now resume on their own.
+    - Claude Sonnet 4.5 shows its retirement date (Nov 30, 2026).
+  Removed
+    - Claude Sonnet 4 and Opus 4 (retired by Anthropic).
+  Fixed
+    - Attaching two PDFs at once: the second one failed ("Unable to read").
+
 [1.32.0] — 2026-11-05
   Added
     - 🔬 Gemini Deep Research: two new entries in the Google model list,
@@ -804,6 +835,40 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.33.0] — 2026-11-05
+  Ajouté
+    - Claude Haiku 5.5 (rapide, économique, réflexion toujours active).
+    - ⚡ Mode rapide pour Claude Opus 5.5, Opus 5 et Opus 4.8 (nouvel
+      interrupteur) : jusqu'à 2,5× plus de texte par seconde, 2× le prix. Si
+      Anthropic le refuse (accès, capacité), la réponse arrive en vitesse
+      normale avec un message.
+    - 📄 PDF lus en images (nouvel interrupteur Claude, désactivé par défaut) :
+      Claude reçoit le PDF lui-même et voit les pages (graphiques, tableaux,
+      mise en page) au lieu du seul texte extrait, et indique la page après
+      chaque passage cité, ex. « (📄 rapport.pdf, p. 12) ». 2 à 4× plus de
+      tokens. Les autres fournisseurs reçoivent toujours le texte. Pour un PDF
+      scanné, nouveau choix « 📄 Envoyer le PDF à Claude ».
+    - Cache automatique pour Claude : la conversation déjà envoyée est relue à
+      environ 10 % du prix au message suivant. La ligne de tokens indique la
+      part en cache (« dont 2 000 lus en cache »).
+    - Quand un filtre de sécurité refuse (Fable 5.1, Fable 5, Opus 5.5, Opus 5,
+      Sonnet 5.5), Anthropic relance la demande sur le modèle qu'il recommande ;
+      une note indique quel modèle a répondu.
+  Modifié
+    - Claude Opus 4.8 et 4.7 peuvent maintenant réfléchir (interrupteur 🧠,
+      avec sélecteur d'effort) ; Opus 4.6 et Sonnet 4.6 passent du budget de
+      tokens à la réflexion adaptative avec effort.
+    - 🌐 Recherche web et 🔗 lecture des liens : outils 2026 pour Claude 4.6 et
+      suivants ; Claude filtre les résultats avant de les lire (plus juste,
+      moins de tokens).
+    - Les longues recherches web de Claude mises en pause par le serveur
+      reprennent toutes seules.
+    - Claude Sonnet 4.5 affiche sa date d'arrêt (30 nov. 2026).
+  Retiré
+    - Claude Sonnet 4 et Opus 4 (retirés par Anthropic).
+  Corrigé
+    - Deux PDF joints d'un coup : le second échouait (« Impossible de lire »).
 
 [1.32.0] — 2026-11-05
   Ajouté
@@ -1663,6 +1728,40 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.33.0] — 2026-11-05
+  Añadido
+    - Claude Haiku 5.5 (rápido, económico, razonamiento siempre activo).
+    - ⚡ Modo rápido para Claude Opus 5.5, Opus 5 y Opus 4.8 (nuevo
+      interruptor): hasta 2,5× más texto por segundo, 2× el precio. Si
+      Anthropic lo rechaza (acceso, capacidad), la respuesta llega a velocidad
+      normal con un mensaje.
+    - 📄 PDF leídos como imágenes (nuevo interruptor de Claude, desactivado por
+      defecto): Claude recibe el PDF mismo y ve las páginas (gráficos, tablas,
+      diseño) en lugar de solo el texto extraído, e indica la página después de
+      cada pasaje citado, p. ej. "(📄 informe.pdf, pág. 12)". 2 a 4× más
+      tokens. Los demás proveedores siguen recibiendo el texto. Para un PDF
+      escaneado, nueva opción "📄 Enviar el PDF a Claude".
+    - Caché automática para Claude: la conversación ya enviada se relee a
+      cerca del 10 % del precio en el siguiente mensaje. La línea de tokens
+      indica la parte en caché ("2,000 leídos de la caché").
+    - Cuando un filtro de seguridad rechaza (Fable 5.1, Fable 5, Opus 5.5,
+      Opus 5, Sonnet 5.5), Anthropic reintenta con el modelo que recomienda;
+      una nota indica qué modelo respondió.
+  Cambiado
+    - Claude Opus 4.8 y 4.7 ahora pueden razonar (interruptor 🧠, con selector
+      de esfuerzo); Opus 4.6 y Sonnet 4.6 pasan del presupuesto de tokens al
+      razonamiento adaptativo con esfuerzo.
+    - 🌐 Búsqueda web y 🔗 lectura de enlaces: herramientas 2026 para Claude
+      4.6 y posteriores; Claude filtra los resultados antes de leerlos (más
+      preciso, menos tokens).
+    - Las búsquedas web largas de Claude pausadas por el servidor se reanudan
+      solas.
+    - Claude Sonnet 4.5 muestra su fecha de retiro (30 de nov. de 2026).
+  Eliminado
+    - Claude Sonnet 4 y Opus 4 (retirados por Anthropic).
+  Corregido
+    - Dos PDF adjuntos a la vez: el segundo fallaba ("No se puede leer").
 
 [1.32.0] — 2026-11-05
   Añadido

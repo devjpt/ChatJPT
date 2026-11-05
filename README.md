@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.32.0
+  Version 1.33.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -16,7 +16,7 @@ FEATURES
 --------
   - Multi-provider support:
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
-      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, video, and voice; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
@@ -109,6 +109,12 @@ FEATURES
     sourced report with charts. Progress is shown live and resumes after a
     reload; ⏹ stops it. About $1 to $3 per research ($3 to $7 for Max).
 
+  - Claude extras: ⚡ Fast mode (Opus 5.5, Opus 5, Opus 4.8; up to 2.5× faster,
+    2× the price), 📄 PDFs read as images (Claude sees the pages and gives the
+    page of each quoted passage), automatic prompt caching (the history is
+    reread at about 10% of the price, shown under each answer), and an
+    automatic retry on another Claude model when a safety filter declines.
+
   - Read pasted links (optional 🔗 toggle, off by default, separate from web
     search): the model opens and reads the actual content of the URL(s) you paste,
     instead of guessing from the address; the page is shown as a clickable source.
@@ -149,7 +155,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_32_0.html
+  1. Download the file ChatJPT_1_33_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -181,7 +187,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.32.0
+  Version 1.33.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -198,7 +204,7 @@ FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
-      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, vidéo et voix ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
@@ -297,6 +303,12 @@ FONCTIONNALITÉS
     L'avancement s'affiche en direct et reprend après un rechargement ; ⏹
     l'arrête. Environ 1 à 3 $ la recherche (3 à 7 $ pour Max).
 
+  - Bonus Claude : ⚡ Mode rapide (Opus 5.5, Opus 5, Opus 4.8 ; jusqu'à 2,5× plus
+    rapide, 2× le prix), 📄 PDF lus en images (Claude voit les pages et indique
+    la page de chaque passage cité), cache automatique (l'historique est relu à
+    environ 10 % du prix, affiché sous chaque réponse) et relance automatique sur
+    un autre modèle Claude quand un filtre de sécurité refuse.
+
   - Lire les liens collés (toggle 🔗 optionnel, désactivé par défaut, distinct de
     la recherche web) : le modèle ouvre et lit le contenu réel de la ou des URL que
     vous collez, au lieu de deviner d'après l'adresse ; la page est affichée comme
@@ -338,7 +350,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_32_0.html
+  1. Téléchargez le fichier ChatJPT_1_33_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -372,7 +384,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.32.0
+  Versión 1.33.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -389,7 +401,7 @@ CARACTERÍSTICAS
 ---------------
   - Soporte multiproveedor:
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
-      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
+      • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
       • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, imagen, video y voz; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
@@ -450,6 +462,13 @@ CARACTERÍSTICAS
     minutos (hasta 60) y redacta un informe con fuentes y gráficos. El avance se
     muestra en vivo y se retoma tras recargar; ⏹ lo detiene. Unos 1 a 3 US$ por
     investigación (3 a 7 US$ para Max).
+
+  - Extras de Claude: ⚡ Modo rápido (Opus 5.5, Opus 5, Opus 4.8; hasta 2,5× más
+    rápido, 2× el precio), 📄 PDF leídos como imágenes (Claude ve las páginas e
+    indica la página de cada pasaje citado), caché automática (el historial se
+    relee a cerca del 10 % del precio, indicado bajo cada respuesta) y
+    reintento automático con otro modelo Claude cuando un filtro de seguridad
+    rechaza.
 
   - Leer enlaces pegados (interruptor 🔗 opcional, desactivado por defecto,
     distinto de la búsqueda web): el modelo abre y lee el contenido real de la(s)
@@ -525,7 +544,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_32_0.html
+  1. Descarga el archivo ChatJPT_1_33_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
