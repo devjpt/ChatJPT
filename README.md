@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.31.0
+  Version 1.32.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -17,7 +17,7 @@ FEATURES
   - Multi-provider support:
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
+      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, video, and voice; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
       • Meta       (Muse Spark 1.3, Muse Wonder — reasoning summary, web search)
@@ -103,6 +103,12 @@ FEATURES
     "Sources" list (each row fully clickable). Available for Gemini, Grok,
     Claude and OpenAI. A hint warns it uses more tokens (+ search fees).
 
+  - 🔬 Gemini Deep Research (Google provider, "Deep Research" or "Deep Research
+    Max" in the model list): Google's agent proposes a research plan you can
+    edit, then searches the web for several minutes (up to 60) and writes a
+    sourced report with charts. Progress is shown live and resumes after a
+    reload; ⏹ stops it. About $1 to $3 per research ($3 to $7 for Max).
+
   - Read pasted links (optional 🔗 toggle, off by default, separate from web
     search): the model opens and reads the actual content of the URL(s) you paste,
     instead of guessing from the address; the page is shown as a clickable source.
@@ -143,7 +149,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_31_0.html
+  1. Download the file ChatJPT_1_32_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -175,7 +181,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.31.0
+  Version 1.32.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -193,7 +199,7 @@ FONCTIONNALITÉS
   - Support multi-fournisseurs :
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
+      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, vidéo et voix ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
       • Meta       (Muse Spark 1.3, Muse Wonder — résumé de la réflexion, recherche web)
@@ -284,6 +290,13 @@ FONCTIONNALITÉS
     Grok, Claude et OpenAI. Une mention prévient que ça consomme plus de tokens
     (+ frais de recherche).
 
+  - 🔬 Deep Research de Gemini (fournisseur Google, « Deep Research » ou
+    « Deep Research Max » dans la liste des modèles) : l'agent de Google propose
+    un plan de recherche que tu peux modifier, puis cherche sur le web pendant
+    plusieurs minutes (jusqu'à 60) et rédige un rapport sourcé avec graphiques.
+    L'avancement s'affiche en direct et reprend après un rechargement ; ⏹
+    l'arrête. Environ 1 à 3 $ la recherche (3 à 7 $ pour Max).
+
   - Lire les liens collés (toggle 🔗 optionnel, désactivé par défaut, distinct de
     la recherche web) : le modèle ouvre et lit le contenu réel de la ou des URL que
     vous collez, au lieu de deviner d'après l'adresse ; la page est affichée comme
@@ -325,7 +338,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_31_0.html
+  1. Téléchargez le fichier ChatJPT_1_32_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -359,7 +372,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.31.0
+  Versión 1.32.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -377,7 +390,7 @@ CARACTERÍSTICAS
   - Soporte multiproveedor:
       • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 4.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, etc.)
+      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, imagen, video y voz; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
       • Meta       (Muse Spark 1.3, Muse Wonder — resumen del razonamiento, búsqueda web)
@@ -430,6 +443,13 @@ CARACTERÍSTICAS
     lista "Fuentes" plegable (cada línea es completamente clicable). Disponible
     para Gemini, Grok, Claude y OpenAI. Un aviso advierte que consume más
     tokens (+ costos de búsqueda).
+
+  - 🔬 Deep Research de Gemini (proveedor Google, "Deep Research" o "Deep
+    Research Max" en la lista de modelos): el agente de Google propone un plan
+    de investigación que puedes modificar, luego busca en la web durante varios
+    minutos (hasta 60) y redacta un informe con fuentes y gráficos. El avance se
+    muestra en vivo y se retoma tras recargar; ⏹ lo detiene. Unos 1 a 3 US$ por
+    investigación (3 a 7 US$ para Max).
 
   - Leer enlaces pegados (interruptor 🔗 opcional, desactivado por defecto,
     distinto de la búsqueda web): el modelo abre y lee el contenido real de la(s)
@@ -505,7 +525,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_31_0.html
+  1. Descarga el archivo ChatJPT_1_32_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

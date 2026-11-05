@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.31.0
+  Version 1.32.0
 -->
 
 
@@ -906,6 +906,12 @@
         }
 
         .message .msg-content { white-space: pre-wrap; }
+        /* Titres Markdown dans les réponses (formatPlainInlineText) */
+        .md-h { display: block; font-weight: 700; color: var(--text); line-height: 1.3; margin: 0.6em 0 0.25em; }
+        .md-h1 { font-size: 1.35em; }
+        .md-h2 { font-size: 1.2em; }
+        .md-h3 { font-size: 1.08em; }
+        .md-h4, .md-h5, .md-h6 { font-size: 1em; }
 
         .msg-copy-btn {
             position: absolute;
@@ -1873,6 +1879,12 @@
         .pod-sources { display: flex; flex-direction: column; gap: 4px; }
         .rc-form .pod-check { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; color: var(--text); }
         .pod-script { min-height: 220px; }
+        /* 🔬 Deep Research : plan, suivi, images du rapport */
+        .dr-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .dr-edit { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+        .dr-progress { margin-top: 6px; }
+        .dr-step { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 4px; }
+        .dr-images img { max-width: 100%; border-radius: var(--radius-sm); margin-top: 10px; display: block; }
         /* Fenêtre 🔎 Parcourir les voix (Gemini) */
         .gvb-filters { display: flex; gap: 8px; flex-wrap: wrap; }
         .gvb-filters .rc-input { width: auto; flex: 1 1 120px; }
@@ -3770,7 +3782,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.31.0 - Dernière version : ",
+            creditVersion: "Version 1.32.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -3893,6 +3905,26 @@
             podNeedKey: "⚠️ Ajoute ta clé {p} pour créer un podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Animateurs",
+            drPlanning: "🔬 Deep Research prépare un plan de recherche…",
+            drRevising: "🔬 Le plan est en cours de révision…",
+            drPlanTitle: "🔬 Plan de recherche proposé",
+            drPlanHint: "Relis le plan. « Lancer la recherche » démarre le vrai travail : plusieurs minutes (jusqu'à 60), environ {cost} chez Google. Tu peux aussi demander des changements.",
+            drCostStd: "1 à 3 $",
+            drCostMax: "3 à 7 $",
+            drLaunch: "▶ Lancer la recherche",
+            drEditPlan: "✏️ Modifier le plan",
+            drDrop: "✖ Abandonner",
+            drSendEdit: "Envoyer",
+            drEditPh: "ex. Concentre-toi sur le Canada et les 5 dernières années",
+            drDropped: "Plan abandonné : aucune recherche lancée.",
+            drRunning: "🔬 Recherche en cours — {min} min · {n} recherches web",
+            drLastStep: "Dernière étape : ",
+            drKeepGoing: "Tu peux continuer à utiliser ChatJPT : la recherche se poursuit chez Google. Si tu fermes la page, le suivi reprend quand tu rouvres cette conversation.",
+            drStop: "⏹ Arrêter la recherche",
+            drStopped: "⏹ Recherche arrêtée.",
+            drTimeout: "La recherche dépasse 60 minutes.",
+            drFailed: "❌ La recherche a échoué",
+            drNoKey: "⚠️ Clé Gemini requise pour suivre cette recherche.",
             gvDesignTitle: "＋ Créer une voix (Gemini)",
             gvDesignHelp: "Décris une voix nouvelle, ou pars d'une voix existante pour la remixer (« plus âgée », « accent britannique », « plus calme »…). Google renvoie un extrait à écouter. La voix est gardée dans ton projet Google (200 voix au plus, effacée après 1 an sans usage) et marche avec Flash TTS et Flash-Lite TTS. Google ne publie pas de tarif propre à la création.",
             gvBase: "Voix de départ",
@@ -4567,7 +4599,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.31.0 - Latest version: ",
+            creditVersion: "Version 1.32.0 - Latest version: ",
             appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4690,6 +4722,26 @@
             podNeedKey: "⚠️ Add your {p} key to create a podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Hosts",
+            drPlanning: "🔬 Deep Research is preparing a research plan…",
+            drRevising: "🔬 The plan is being revised…",
+            drPlanTitle: "🔬 Proposed research plan",
+            drPlanHint: "Review the plan. \"Start the research\" begins the real work: several minutes (up to 60), about {cost} at Google. You can also ask for changes.",
+            drCostStd: "$1–3",
+            drCostMax: "$3–7",
+            drLaunch: "▶ Start the research",
+            drEditPlan: "✏️ Edit the plan",
+            drDrop: "✖ Drop",
+            drSendEdit: "Send",
+            drEditPh: "e.g. Focus on Canada and the last 5 years",
+            drDropped: "Plan dropped: no research started.",
+            drRunning: "🔬 Research in progress — {min} min · {n} web searches",
+            drLastStep: "Latest step: ",
+            drKeepGoing: "You can keep using ChatJPT: the research continues at Google. If you close the page, tracking resumes when you reopen this conversation.",
+            drStop: "⏹ Stop the research",
+            drStopped: "⏹ Research stopped.",
+            drTimeout: "The research is taking more than 60 minutes.",
+            drFailed: "❌ The research failed",
+            drNoKey: "⚠️ A Gemini key is required to follow this research.",
             gvDesignTitle: "＋ Create a voice (Gemini)",
             gvDesignHelp: "Describe a brand-new voice, or start from an existing one to remix it (\"older\", \"British accent\", \"calmer\"…). Google returns a sample to listen to. The voice is kept in your Google project (200 voices at most, deleted after 1 year without use) and works with Flash TTS and Flash-Lite TTS. Google publishes no separate price for creating voices.",
             gvBase: "Starting voice",
@@ -5364,7 +5416,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.31.0 - Última versión: ",
+            creditVersion: "Versión 1.32.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5487,6 +5539,26 @@
             podNeedKey: "⚠️ Agrega tu clave de {p} para crear un pódcast.",
             podDefaultTitle: "Pódcast",
             podHosts: "Presentadores",
+            drPlanning: "🔬 Deep Research está preparando un plan de investigación…",
+            drRevising: "🔬 El plan se está revisando…",
+            drPlanTitle: "🔬 Plan de investigación propuesto",
+            drPlanHint: "Revisa el plan. \"Iniciar la investigación\" empieza el trabajo real: varios minutos (hasta 60), cerca de {cost} en Google. También puedes pedir cambios.",
+            drCostStd: "1 a 3 $",
+            drCostMax: "3 a 7 $",
+            drLaunch: "▶ Iniciar la investigación",
+            drEditPlan: "✏️ Modificar el plan",
+            drDrop: "✖ Descartar",
+            drSendEdit: "Enviar",
+            drEditPh: "ej. Concéntrate en Canadá y los últimos 5 años",
+            drDropped: "Plan descartado: no se inició ninguna investigación.",
+            drRunning: "🔬 Investigación en curso — {min} min · {n} búsquedas web",
+            drLastStep: "Último paso: ",
+            drKeepGoing: "Puedes seguir usando ChatJPT: la investigación continúa en Google. Si cierras la página, el seguimiento se reanuda al volver a abrir esta conversación.",
+            drStop: "⏹ Detener la investigación",
+            drStopped: "⏹ Investigación detenida.",
+            drTimeout: "La investigación supera los 60 minutos.",
+            drFailed: "❌ La investigación falló",
+            drNoKey: "⚠️ Se necesita una clave de Gemini para seguir esta investigación.",
             gvDesignTitle: "＋ Crear una voz (Gemini)",
             gvDesignHelp: "Describe una voz nueva, o parte de una voz existente para remezclarla (\"más mayor\", \"acento británico\", \"más tranquila\"…). Google devuelve un fragmento para escuchar. La voz se guarda en tu proyecto de Google (200 voces como máximo, se borra tras 1 año sin uso) y funciona con Flash TTS y Flash-Lite TTS. Google no publica un precio propio para la creación.",
             gvBase: "Voz de partida",
@@ -6113,6 +6185,9 @@
             // Gemma 4 (open source de Google, 02/04/2026) : même API et même clé que Gemini (GEMMA_MODELS).
             { id: 'gemma-4-31b-it', name: { fr: 'Gemma 4 31B (Open source)', en: 'Gemma 4 31B (Open source)', es: 'Gemma 4 31B (Código abierto)' } },
             { id: 'gemma-4-26b-a4b-it', name: { fr: 'Gemma 4 26B A4B (Open source, rapide)', en: 'Gemma 4 26B A4B (Open source, fast)', es: 'Gemma 4 26B A4B (Código abierto, rápido)' } },
+            // 🔬 Agents Deep Research (Interactions API, background) : pas de streaming, voir handleDeepResearch
+            { id: 'deep-research-preview-04-2026', name: { fr: '🔬 Deep Research (rapport sourcé, ≈ 1 à 3 $ la recherche)', en: '🔬 Deep Research (cited report, ≈ $1–3 per task)', es: '🔬 Deep Research (informe con fuentes, ≈ 1 a 3 $ por tarea)' } },
+            { id: 'deep-research-max-preview-04-2026', name: { fr: '🔬 Deep Research Max (le plus complet, ≈ 3 à 7 $)', en: '🔬 Deep Research Max (most thorough, ≈ $3–7)', es: '🔬 Deep Research Max (el más completo, ≈ 3 a 7 $)' } },
         ],
         grok: [
             { id: 'grok-4.7', name: { fr: 'Grok 4.7 (Dernier)', en: 'Grok 4.7 (Latest)', es: 'Grok 4.7 (Último)' } },
@@ -7550,7 +7625,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Lecture des liens : mêmes modes texte que la recherche web.
     // Gemma 4 : l'API refuse url_context (« Url Context as tool is not enabled for this model »).
     function supportsReadLinks(provider, mode, model) {
-        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model);
+        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model) && !DR_AGENTS.includes(model);
     }
 
     function updateWebSearchUI() {
@@ -7563,7 +7638,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 const b = parseCompareValue(compareModelB ? compareModelB.value : '');
                 show = supportsWebSearch(a.provider, currentMode) || supportsWebSearch(b.provider, currentMode);
             } else {
-                show = supportsWebSearch(providerSelect.value, currentMode);
+                show = supportsWebSearch(providerSelect.value, currentMode) && !DR_AGENTS.includes(modelSelect.value);
             }
             webSearchModeContainer.classList.toggle('show', show);
         }
@@ -8025,7 +8100,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         Object.keys(MODELS).forEach(provider => {
             const og = document.createElement('optgroup');
             og.label = PROVIDER_LABELS[provider] || provider;
-            MODELS[provider].forEach(m => {
+            MODELS[provider].filter(m => !DR_AGENTS.includes(m.id)).forEach(m => {
                 const opt = document.createElement('option');
                 opt.value = `${provider}::${m.id}`;
                 opt.textContent = m.name[currentLang] || m.name.fr;
@@ -8995,7 +9070,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         grok: ['grok-build-0.1'],
         mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
         cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025'],
-        upstage: 'all'  // Solar Pro 4 / Mini 4 : texte seul
+        upstage: 'all',  // Solar Pro 4 / Mini 4 : texte seul
+        gemini: ['deep-research-preview-04-2026', 'deep-research-max-preview-04-2026']  // agents Deep Research : consigne texte
     };
     function supportsVision(provider, model) {
         if (!MODELS[provider]) return false;
@@ -9698,6 +9774,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // notes 👍/👎. Le mode comparaison appelle streamInto() directement (il décide
     // lui-même quoi historiser via le bouton « Garder cette réponse »).
     async function handleTextGeneration(provider, model, key, signal) {
+        if (provider === 'gemini' && DR_AGENTS.includes(model)) return handleDeepResearch(model, key);
         signal = signal || (currentAbortController && currentAbortController.signal);
         const loadingDiv = addMessage("", 'ai', provider, model, true);
         const result = await streamInto(loadingDiv, provider, model, key, signal);
@@ -9715,6 +9792,211 @@ A small follow-up tweak the user asks for can be done right away without a new p
             updateTokenTotals();
         }
         return result;
+    }
+
+    // ===== 🔬 DEEP RESEARCH (agents Gemini, Interactions API) =====
+    // POST /v1beta/interactions { agent, input, background: true, store: true, agent_config: { type:
+    // 'deep-research', thinking_summaries: 'auto', visualization: 'auto', collaborative_planning } },
+    // suivi GET /interactions/{id} (in_progress → completed / failed / cancelled). Étape 1 : plan
+    // (collaborative_planning: true, peu coûteux) affiché avec Lancer / Modifier / Abandonner ; étape 2 :
+    // recherche (previous_interaction_id = plan, collaborative_planning: false), plusieurs minutes, ≈ 1 à
+    // 3 $ (Max : 3 à 7 $). L'en-tête Api-Revision de la doc est refusé par la pré-requête CORS → omis.
+    // La recherche lancée est inscrite dans l'historique (type 'research', status 'running') : le suivi
+    // reprend au rechargement ; à la fin, l'entrée devient une réponse normale (rapport + sources + images).
+    const DR_AGENTS = ['deep-research-preview-04-2026', 'deep-research-max-preview-04-2026'];
+    const DR_API = 'https://generativelanguage.googleapis.com/v1beta/interactions';
+    async function drCall(path, key, body, signal) {
+        const res = await fetchWithRetry(DR_API + path, {
+            method: body ? 'POST' : 'GET', signal,
+            headers: Object.assign({ 'x-goog-api-key': key }, body ? { 'Content-Type': 'application/json' } : {}),
+            body: body ? JSON.stringify(body) : undefined
+        });
+        const j = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error((j.error && (j.error.message || String(j.error))) || 'HTTP Error ' + res.status);
+        return j;
+    }
+    function drStart(agent, input, key, planning, previous, signal) {
+        const body = { agent, input, background: true, store: true,
+            agent_config: { type: 'deep-research', thinking_summaries: 'auto', visualization: 'auto', collaborative_planning: planning } };
+        if (previous) body.previous_interaction_id = previous;
+        return drCall('', key, body, signal);
+    }
+    const drSleep = (ms, signal) => new Promise((resolve, reject) => {
+        const timer = setTimeout(resolve, ms);
+        if (signal) signal.addEventListener('abort', () => { clearTimeout(timer); reject(new DOMException('Aborted', 'AbortError')); }, { once: true });
+    });
+    // Relève l'interaction jusqu'à un statut final ; onTick(interaction) à chaque relevé
+    async function drWait(id, key, every, maxMs, signal, onTick) {
+        const t0 = Date.now();
+        while (true) {
+            const j = await drCall('/' + encodeURIComponent(id), key, null, signal);
+            if (onTick) onTick(j);
+            if (j.status && j.status !== 'in_progress') return j;
+            if (Date.now() - t0 > maxMs) throw new Error(I18N[currentLang].drTimeout);
+            await drSleep(every, signal);
+        }
+    }
+    // Résultat : textes des étapes model_output, sources (url_citation, sans doublon), images base64
+    function drResult(j) {
+        const texts = [], citations = [], images = [], seen = new Set();
+        (j.steps || []).filter(st => st.type === 'model_output').forEach(st => (st.content || []).forEach(c => {
+            if (c.type === 'text' && c.text) {
+                texts.push(c.text);
+                (c.annotations || []).forEach(a => { if (a.type === 'url_citation' && a.url && !seen.has(a.url)) { seen.add(a.url); citations.push({ title: a.title || a.url, url: a.url }); } });
+            } else if (c.type === 'image' && c.data) images.push({ data: c.data, mime: c.mime_type || 'image/png' });
+        }));
+        const text = texts.join('\n\n') || j.output_text || '';
+        return { text, citations, images };
+    }
+    // Progression : recherches web et dernière réflexion résumée
+    function drProgress(j) {
+        const steps = j.steps || [];
+        const searches = steps.filter(st => st.type === 'google_search_call').length;
+        let thought = '';
+        steps.filter(st => st.type === 'thought').forEach(st => (st.summary || []).forEach(c => { if (c.type === 'text' && c.text) thought = c.text; }));
+        return { searches, thought };
+    }
+    const drErrorOf = j => (j.error && (j.error.message || String(j.error))) || (j.errors && j.errors[0] && j.errors[0].message) || j.status;
+    const drCost = model => I18N[currentLang][model === 'deep-research-max-preview-04-2026' ? 'drCostMax' : 'drCostStd'];
+    // Étape 1 : plan proposé à partir du dernier message (fichiers texte joints compris)
+    async function handleDeepResearch(model, key) {
+        const t = I18N[currentLang];
+        const last = [...conversationHistory].reverse().find(m => m.role === 'user');
+        const input = (last && last.content) || '';
+        const div = addMessage(null, 'ai', 'gemini', model, true);
+        const content = div.querySelector('.msg-content') || div;
+        const status = document.createElement('p'); status.className = 'dp-info-text'; status.textContent = t.drPlanning; content.appendChild(status);
+        try {
+            const started = await drStart(model, input, key, true, null, currentAbortController.signal);
+            const plan = await drWait(started.id, key, 4000, 15 * 60e3, currentAbortController.signal);
+            if (plan.status !== 'completed' && plan.status !== 'requires_action') throw new Error(drErrorOf(plan));
+            drShowPlan(div, model, key, plan);
+        } catch (e) {
+            removeLoader(div);
+            updateMessageContent(div, '❌ ' + translateApiError(e, 'gemini'));
+        }
+    }
+    function drShowPlan(div, model, key, plan) {
+        const t = I18N[currentLang];
+        removeLoader(div);
+        const content = div.querySelector('.msg-content') || div;
+        content.innerHTML = '';
+        const title = document.createElement('p'); title.className = 'dp-info-text-lg'; title.textContent = t.drPlanTitle;
+        const body = document.createElement('div'); body.innerHTML = formatResponse(drResult(plan).text);
+        const hint = document.createElement('p'); hint.className = 'dp-info-text'; hint.textContent = t.drPlanHint.replace('{cost}', drCost(model));
+        const actions = document.createElement('div'); actions.className = 'dr-actions';
+        const go = rcButton(t.drLaunch, true), edit = rcButton(t.drEditPlan), drop = rcButton(t.drDrop);
+        actions.append(go, edit, drop);
+        content.append(title, body, hint, actions);
+        const lock = on => [go, edit, drop].forEach(b => { b.disabled = on; });
+        drop.addEventListener('click', () => { actions.remove(); hint.textContent = t.drDropped; });
+        edit.addEventListener('click', () => {
+            if (content.querySelector('.dr-edit')) return;
+            const box = document.createElement('div'); box.className = 'dr-edit';
+            const ta = document.createElement('textarea'); ta.className = 'ie-instr'; ta.rows = 2; ta.placeholder = t.drEditPh;
+            const send = rcButton(t.drSendEdit, true);
+            box.append(ta, send); content.appendChild(box); ta.focus();
+            send.addEventListener('click', async () => {
+                if (!ta.value.trim()) { ta.focus(); return; }
+                lock(true); send.disabled = true; hint.textContent = t.drRevising;
+                try {
+                    const r = await drStart(model, ta.value.trim(), key, true, plan.id);
+                    const next = await drWait(r.id, key, 4000, 15 * 60e3);
+                    if (next.status !== 'completed' && next.status !== 'requires_action') throw new Error(drErrorOf(next));
+                    drShowPlan(div, model, key, next);
+                } catch (e) {
+                    lock(false); send.disabled = false; hint.textContent = '❌ ' + translateApiError(e, 'gemini');
+                }
+            });
+        });
+        go.addEventListener('click', async () => {
+            lock(true);
+            try {
+                const r = await drStart(model, 'The plan looks good. Please start the research.', key, false, plan.id);
+                // Recherche inscrite dans l'historique : le suivi reprend si la page est rechargée
+                const entry = { role: 'assistant', type: 'research', status: 'running', interactionId: r.id, provider: 'gemini', model, content: '🔬 Deep Research…', startedAt: Date.now() };
+                conversationHistory.push(entry);
+                saveHistory();
+                content.innerHTML = '';
+                drFollow(div, entry);
+            } catch (e) {
+                lock(false); hint.textContent = '❌ ' + translateApiError(e, 'gemini');
+            }
+        });
+    }
+    // Étape 2 : suivi (toutes les 10 s) tant que la bulle est affichée ; rapport final
+    async function drFollow(div, entry) {
+        const t = I18N[currentLang];
+        const key = getKeyForProvider('gemini');
+        const content = div.querySelector('.msg-content') || div;
+        if (!key) { removeLoader(div); updateMessageContent(div, t.drNoKey); return; }
+        const box = document.createElement('div'); box.className = 'dr-progress';
+        const line = document.createElement('p'); line.className = 'dp-info-text-lg';
+        const step = document.createElement('p'); step.className = 'dr-step';
+        const note = document.createElement('p'); note.className = 'dp-info-text'; note.textContent = t.drKeepGoing;
+        const stop = rcButton(t.drStop);
+        box.append(line, step, note, stop);
+        content.appendChild(box);
+        const ctrl = new AbortController();
+        const loc = { fr: 'fr-CA', en: 'en-US', es: 'es-MX' }[currentLang];
+        const tick = j => {
+            if (!div.isConnected) { ctrl.abort(); return; }   // autre conversation : suivi repris à la réouverture
+            const p = drProgress(j);
+            const min = Math.max(0, Math.floor((Date.now() - (entry.startedAt || Date.now())) / 60000));
+            line.textContent = t.drRunning.replace('{min}', min.toLocaleString(loc)).replace('{n}', p.searches.toLocaleString(loc));
+            step.textContent = p.thought ? t.drLastStep + p.thought.replace(/\s+/g, ' ').slice(0, 220) : '';
+        };
+        stop.addEventListener('click', async () => {
+            stop.disabled = true;
+            try { await drCall('/' + encodeURIComponent(entry.interactionId) + '/cancel', key, {}); } catch (e) { /* déjà terminée */ }
+        });
+        try {
+            const j = await drWait(entry.interactionId, key, 10000, 65 * 60e3, ctrl.signal, tick);
+            if (j.status !== 'completed' && j.status !== 'incomplete') {
+                entry.status = 'failed';
+                entry.content = j.status === 'cancelled' ? t.drStopped : t.drFailed + ' (' + drErrorOf(j) + ')';
+                if (conversationHistory.includes(entry)) saveHistory();
+                removeLoader(div); updateMessageContent(div, entry.content);
+                return;
+            }
+            const r = drResult(j);
+            // Images du rapport : gardées dans IndexedDB (comme les images générées)
+            const ids = [];
+            for (const img of r.images) {
+                const id = genImageId();
+                try { await ImageStore.put({ id, convId: currentConvId, blob: b64ToBlob(img.data, img.mime), url: null, mime: img.mime, prompt: 'Deep Research', createdAt: Date.now() }); ids.push(id); } catch (e) { /* IndexedDB indisponible */ }
+            }
+            delete entry.type; delete entry.status;
+            entry.content = r.text;
+            if (r.citations.length) entry.citations = r.citations;
+            if (ids.length) entry.researchImageIds = ids;
+            const u = j.usage;
+            if (u && (u.total_input_tokens || u.total_output_tokens)) entry.usage = { input: u.total_input_tokens || 0, output: u.total_output_tokens || 0 };
+            if (conversationHistory.includes(entry)) { saveHistory(); updateTokenTotals(); }
+            removeLoader(div);
+            content.innerHTML = formatResponse(r.text);
+            renderAllCharts(content);
+            if (r.images.length) drShowImages(content, null, r.images);
+            const copyBtn = div.querySelector('.msg-copy-btn');
+            if (copyBtn) copyBtn.setAttribute('data-raw-content-b64', b64encode(r.text));
+            renderSourcesInto(div, entry.citations);
+            if (entry.usage) renderUsageLine(div, entry.usage);
+            attachRatingButtons(div, entry);
+        } catch (e) {
+            if (ctrl.signal.aborted) return;
+            box.remove();
+            const err = document.createElement('p'); err.textContent = '❌ ' + translateApiError(e, 'gemini');
+            content.appendChild(err);
+        }
+    }
+    // Images du rapport : depuis la réponse (base64) ou depuis IndexedDB (ids, après rechargement)
+    async function drShowImages(content, ids, images) {
+        const wrap = document.createElement('div'); wrap.className = 'dr-images';
+        content.appendChild(wrap);
+        if (images) images.forEach(im => { const el = document.createElement('img'); el.src = 'data:' + im.mime + ';base64,' + im.data; el.alt = 'Deep Research'; wrap.appendChild(el); });
+        for (const id of ids || []) {
+            try { const rec = await ImageStore.get(id); if (rec && rec.blob) { const el = document.createElement('img'); el.src = URL.createObjectURL(rec.blob); el.alt = 'Deep Research'; wrap.appendChild(el); } } catch (e) { /* image absente */ }
+        }
     }
 
     // ===== GÉNÉRATION COMPARÉE (2 modèles côte à côte) =====
@@ -14220,7 +14502,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const mdl = document.createElement('select'); mdl.className = 'rc-input';
         Object.keys(MODELS).filter(p => p !== 'perplexity' && getKeyForProvider(p)).forEach(p => {
             const og = document.createElement('optgroup'); og.label = PROVIDER_LABELS[p] || p;
-            MODELS[p].forEach(m => { const o = document.createElement('option'); o.value = p + '::' + m.id; o.textContent = m.name[currentLang] || m.name.fr; og.appendChild(o); });
+            MODELS[p].filter(m => !DR_AGENTS.includes(m.id)).forEach(m => { const o = document.createElement('option'); o.value = p + '::' + m.id; o.textContent = m.name[currentLang] || m.name.fr; og.appendChild(o); });
             mdl.appendChild(og);
         });
         const savedModel = localStorage.getItem('ai_podcast_model');
@@ -16579,7 +16861,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Format plain text (no tables) with inline markdown
     function formatPlainInlineText(text) {
+        // Texte entre deux blocs (code, tableau, graphique) : sauts de ligne de bord retirés,
+        // la marge des blocs suffit (en pre-wrap, ils feraient des lignes vides)
+        text = text.replace(/^(?:[ \t]*\r?\n)+|(?:\r?\n[ \t]*)+$/g, '');
+        if (!text) return '';
         let formatted = escapeHtml(text);
+        // Titres Markdown (# à ######, suivis d'une espace) : blocs ; le saut de ligne qui suit est absorbé
+        // (le texte est en white-space: pre-wrap, il ferait sinon une ligne vide sous chaque titre)
+        formatted = formatted.replace(/^ {0,3}(#{1,6})[ \t]+(.+?)[ \t]*#*[ \t]*(?:\r?\n|$)/gm, (m, h, t) => '<span class="md-h md-h' + h.length + '">' + t + '</span>')
+            // Sauts de ligne juste avant un titre : sa marge haute suffit (sinon grand vide en pre-wrap)
+            .replace(/(?:\r?\n)+(?=<span class="md-h )/g, '');
         // Bold
         formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         // Italic
@@ -16594,15 +16885,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     function buildPartialCodeBlock(lang, code) {
         const highlighted = highlightCode(code, lang);
-        return `
-            <div class="code-block-wrapper streaming">
-                <div class="code-block-header">
-                    <span class="code-lang">${escapeHtml(lang)}</span>
-                    <span class="streaming-indicator">⏳ en cours...</span>
-                </div>
-                <pre><code class="hljs">${highlighted}</code></pre>
-            </div>
-        `;
+        // Sans espaces entre les balises : la réponse est en white-space: pre-wrap (sinon bandes vides)
+        return `<div class="code-block-wrapper streaming">`
+            + `<div class="code-block-header">`
+            + `<span class="code-lang">${escapeHtml(lang)}</span>`
+            + `<span class="streaming-indicator">⏳ en cours...</span>`
+            + `</div>`
+            + `<pre><code class="hljs">${highlighted}</code></pre>`
+            + `</div>`;
     }
 
     // Vrai quand un bloc de code est une page HTML complète et autonome
@@ -16623,19 +16913,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const previewBtn = isFullHtmlDocument(lang, code)
             ? `<button class="preview-btn">${I18N[currentLang].previewBtn}</button>`
             : '';
-        return `
-            <div class="code-block-wrapper" data-raw-code-b64="${rawEncoded}">
-                <div class="code-block-header">
-                    <span class="code-lang">${escapeHtml(lang)}</span>
-                    <div class="code-actions">
-                        ${previewBtn}
-                        ${dlBtn}
-                        <button class="copy-btn">📋 Copier</button>
-                    </div>
-                </div>
-                <pre><code class="hljs">${highlighted}</code></pre>
-            </div>
-        `;
+        // Sans espaces entre les balises : la réponse est en white-space: pre-wrap (sinon bandes vides)
+        return `<div class="code-block-wrapper" data-raw-code-b64="${rawEncoded}">`
+            + `<div class="code-block-header">`
+            + `<span class="code-lang">${escapeHtml(lang)}</span>`
+            + `<div class="code-actions">${previewBtn}${dlBtn}<button class="copy-btn">📋 Copier</button></div>`
+            + `</div>`
+            + `<pre><code class="hljs">${highlighted}</code></pre>`
+            + `</div>`;
     }
 
     function escapeHtml(text) {
@@ -16796,6 +17081,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         for (const msg of messages) {
             if (msg.role === 'user') {
                 addMessage(msg.display || msg.content, 'user');
+            } else if (msg.role === 'assistant' && msg.type === 'research') {
+                // 🔬 Recherche lancée avant le rechargement : on reprend le suivi (ou on affiche l'échec)
+                const div = addMessage(null, 'ai', 'gemini', msg.model, true);
+                if (msg.status === 'running') drFollow(div, msg);
+                else { removeLoader(div); updateMessageContent(div, msg.content); }
             } else if (msg.role === 'assistant' && msg.type === 'audio') {
                 const div = addMessage('', 'ai', msg.provider, msg.model, false);
                 const c = div.querySelector('.msg-content');
@@ -16814,6 +17104,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     initTableOverflowDetection(contentDiv);
                     renderAllCharts(contentDiv);
                 }
+                if (msg.researchImageIds && contentDiv) drShowImages(contentDiv, msg.researchImageIds);
                 if (msg.citations) renderSourcesInto(div, msg.citations);
                 if (msg.usage) renderUsageLine(div, msg.usage);
                 attachRatingButtons(div, msg);

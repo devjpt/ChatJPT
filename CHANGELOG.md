@@ -8,6 +8,27 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.32.0] — 2026-11-05
+  Added
+    - 🔬 Gemini Deep Research: two new entries in the Google model list,
+      "Deep Research" (about $1 to $3 per research) and "Deep Research Max"
+      (most thorough, about $3 to $7).
+      • Google's agent first proposes a research plan: ▶ Launch it,
+        ✏️ Edit it (describe the changes, a new plan comes back) or drop it.
+      • The research then runs on Google's side for several minutes (up to
+        60): elapsed time, number of web searches and the latest step are
+        shown live. Closing or reloading the page doesn't lose it: tracking
+        resumes when the conversation is reopened. ⏹ Stop cancels it.
+      • The final report comes with its sources (clickable list), its charts
+        and images, and the token count; it is saved in the conversation, so
+        you can ask follow-up questions to any other model.
+  Fixed
+    - Markdown headings (# to ######) in answers are now shown as real
+      headings instead of raw "#" signs (hashtags and code comments are left
+      alone).
+    - No more large empty gap above code blocks, nor empty bands in their
+      header; extra blank lines around code blocks and tables are removed.
+
 [1.31.0] — 2026-11-05
   Added
     - Your own Gemini voices (🎙️ Voice tab, "＋ Create a voice" and
@@ -783,6 +804,31 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.32.0] — 2026-11-05
+  Ajouté
+    - 🔬 Deep Research de Gemini : deux nouvelles entrées dans la liste des
+      modèles Google, « Deep Research » (environ 1 à 3 $ la recherche) et
+      « Deep Research Max » (le plus complet, environ 3 à 7 $).
+      • L'agent de Google propose d'abord un plan de recherche : ▶ Lance-le,
+        ✏️ modifie-le (décris les changements, un nouveau plan revient) ou
+        abandonne-le.
+      • La recherche tourne ensuite chez Google pendant plusieurs minutes
+        (jusqu'à 60) : temps écoulé, nombre de recherches web et dernière
+        étape affichés en direct. Fermer ou recharger la page ne la perd pas :
+        le suivi reprend à la réouverture de la conversation. ⏹ Arrêter
+        l'annule.
+      • Le rapport final arrive avec ses sources (liste cliquable), ses
+        graphiques et images, et le nombre de tokens ; il est enregistré dans
+        la conversation, tu peux donc poser des questions de suivi à
+        n'importe quel autre modèle.
+  Corrigé
+    - Les titres Markdown (# à ######) des réponses s'affichent maintenant
+      comme de vrais titres au lieu des « # » bruts (hashtags et commentaires
+      de code intacts).
+    - Plus de grand vide au-dessus des blocs de code ni de bandes vides dans
+      leur en-tête ; les lignes vides en trop autour des blocs de code et des
+      tableaux sont retirées.
 
 [1.31.0] — 2026-11-05
   Ajouté
@@ -1617,6 +1663,31 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.32.0] — 2026-11-05
+  Añadido
+    - 🔬 Deep Research de Gemini: dos nuevas entradas en la lista de modelos
+      de Google, "Deep Research" (unos 1 a 3 US$ por investigación) y "Deep
+      Research Max" (el más completo, unos 3 a 7 US$).
+      • El agente de Google propone primero un plan de investigación: ▶
+        lánzalo, ✏️ modifícalo (describe los cambios, vuelve un plan nuevo) o
+        descártalo.
+      • La investigación corre luego en Google durante varios minutos (hasta
+        60): tiempo transcurrido, número de búsquedas web y último paso se
+        muestran en vivo. Cerrar o recargar la página no la pierde: el
+        seguimiento se retoma al volver a abrir la conversación. ⏹ Detener
+        la cancela.
+      • El informe final llega con sus fuentes (lista clicable), sus
+        gráficos e imágenes, y el número de tokens; queda guardado en la
+        conversación, así que puedes hacer preguntas de seguimiento a
+        cualquier otro modelo.
+  Corregido
+    - Los títulos Markdown (# a ######) de las respuestas se muestran ahora
+      como títulos reales en lugar de los "#" en bruto (hashtags y
+      comentarios de código intactos).
+    - Ya no hay un gran espacio vacío encima de los bloques de código ni
+      bandas vacías en su encabezado; se quitan las líneas vacías de más
+      alrededor de los bloques de código y las tablas.
 
 [1.31.0] — 2026-11-05
   Añadido
