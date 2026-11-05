@@ -8,6 +8,27 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.30.0] — 2026-11-05
+  Added
+    - 🔎 Browse voices (Gemini, 🎙️ Voice tab): Google's library of 150+
+      voices, with a free-text search (name and description), filters by
+      language, gender, pitch, use and accent, and a card per voice
+      (language and region, accent, description, persona, uses).
+      ▶ Listen plays a short sentence in the voice's language (≈ $0.001,
+      kept for the session); ⭐ Favorite puts the voice at the top of the
+      Voice menu; Choose sets it as Voice 1 or Voice 2. The Voice menu now
+      lists ⭐ Favorites, the library voices you chose, then the 30 studio
+      voices; the 🎧 Podcast offers them too.
+    - Nano Banana image formats follow the chosen model: 14 formats with
+      Nano Banana 2.1, 2 and 2 Lite (including the panoramic 4:1, 1:4, 8:1
+      and 1:8), 10 with Pro and Original. A format the model lacks falls
+      back to the closest one (8:1 → 21:9), and your choice returns with
+      the next model.
+  Fixed
+    - Nano Banana Original received the 2K / 4K resolution it does not
+      support: the Resolution menu is now locked to 1K for Original and
+      2 Lite.
+
 [1.29.0] — 2026-11-04
   Added
     - GPT Image 2.6 Sunburst (quality) and Flare (fast), released by OpenAI
@@ -741,6 +762,27 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.30.0] — 2026-11-05
+  Ajouté
+    - 🔎 Parcourir les voix (Gemini, onglet 🎙️ Voix) : la bibliothèque de
+      Google, 150+ voix, avec une recherche libre (nom et description), des
+      filtres par langue, genre, hauteur, usage et accent, et une carte par
+      voix (langue et région, accent, description, personnage, usages).
+      ▶ Écouter lit une courte phrase dans la langue de la voix (≈ 0,001 $,
+      gardée pour la session) ; ⭐ Favori met la voix en tête du menu
+      Voix ; Choisir la prend comme Voix 1 ou Voix 2. Le menu Voix liste
+      maintenant les ⭐ Favoris, les voix de la bibliothèque choisies, puis
+      les 30 voix studio ; le 🎧 Podcast les propose aussi.
+    - Les formats d'image Nano Banana suivent le modèle choisi : 14 formats
+      avec Nano Banana 2.1, 2 et 2 Lite (dont les panoramiques 4:1, 1:4, 8:1
+      et 1:8), 10 avec Pro et Original. Un format absent du modèle se
+      replie sur le plus proche (8:1 → 21:9), et ton choix revient avec le
+      modèle suivant.
+  Corrigé
+    - Nano Banana Original recevait la résolution 2K / 4K, qu'il n'accepte
+      pas : le menu Résolution est maintenant bloqué sur 1K pour Original et
+      2 Lite.
 
 [1.29.0] — 2026-11-04
   Ajouté
@@ -1533,6 +1575,26 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.30.0] — 2026-11-05
+  Añadido
+    - 🔎 Explorar voces (Gemini, pestaña 🎙️ Voz): la biblioteca de Google,
+      más de 150 voces, con búsqueda libre (nombre y descripción), filtros
+      por idioma, género, tono, uso y acento, y una tarjeta por voz (idioma
+      y región, acento, descripción, personaje, usos). ▶ Escuchar lee una
+      frase corta en el idioma de la voz (≈ 0,001 $, guardada durante la
+      sesión); ⭐ Favorita pone la voz al inicio del menú Voz; Elegir la
+      toma como Voz 1 o Voz 2. El menú Voz ahora muestra las ⭐ Favoritas,
+      las voces de la biblioteca elegidas y luego las 30 voces de estudio;
+      el 🎧 Pódcast también las ofrece.
+    - Los formatos de imagen de Nano Banana siguen el modelo elegido: 14
+      formatos con Nano Banana 2.1, 2 y 2 Lite (incluidos los panorámicos
+      4:1, 1:4, 8:1 y 1:8), 10 con Pro y Original. Un formato que el modelo
+      no tiene pasa al más cercano (8:1 → 21:9), y tu elección vuelve con
+      el siguiente modelo.
+  Corregido
+    - Nano Banana Original recibía la resolución 2K / 4K, que no acepta: el
+      menú Resolución ahora queda fijo en 1K para Original y 2 Lite.
 
 [1.29.0] — 2026-11-04
   Añadido

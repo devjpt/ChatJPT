@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.29.0
+  Version 1.30.0
 -->
 
 
@@ -1873,6 +1873,21 @@
         .pod-sources { display: flex; flex-direction: column; gap: 4px; }
         .rc-form .pod-check { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; color: var(--text); }
         .pod-script { min-height: 220px; }
+        /* Fenêtre 🔎 Parcourir les voix (Gemini) */
+        .gvb-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .gvb-filters .rc-input { width: auto; flex: 1 1 120px; }
+        .gvb-filters .gvb-search { flex: 2 1 220px; }
+        .gvb-count { font-size: 0.8rem; color: var(--text-muted); }
+        .gvb-list { display: flex; flex-direction: column; gap: 8px; max-height: 52vh; overflow-y: auto; padding-right: 4px; }
+        .gvb-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; background: var(--surface); }
+        .gvb-card.gvb-current { border-color: var(--accent); }
+        .gvb-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        .gvb-name { font-weight: 600; color: var(--text); }
+        .gvb-meta { font-size: 0.78rem; color: var(--text-muted); }
+        .gvb-desc { font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 6px; }
+        .gvb-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+        .gvb-tag { font-size: 0.7rem; border: 1px solid var(--border); border-radius: 50px; padding: 1px 8px; color: var(--text-muted); }
+        .gvb-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
         #video-config-panel.show {
             display: block;
@@ -2796,7 +2811,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 4 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 5 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -3071,13 +3086,8 @@
             </div>
             <div class="select-group" id="image-format-group">
                 <label data-i18n="lblImageFormat">Format</label>
-                <select id="image-format-select" aria-label="Format image">
-                    <option value="1:1" selected data-i18n="imgFmtSquare">Carré (1:1)</option>
-                    <option value="16:9" data-i18n="imgFmtLandscape">Paysage (16:9)</option>
-                    <option value="9:16" data-i18n="imgFmtPortrait">Portrait (9:16)</option>
-                    <option value="4:3" data-i18n="imgFmtClassic">Classique (4:3)</option>
-                    <option value="3:4" data-i18n="imgFmtClassicPortrait">Portrait (3:4)</option>
-                </select>
+                <!-- Rempli selon le modèle Nano Banana (updateGeminiImageOptions) -->
+                <select id="image-format-select" aria-label="Format image"></select>
             </div>
             <div class="select-group" id="image-resolution-group">
                 <label data-i18n="lblImageResolution">Résolution</label>
@@ -3243,6 +3253,7 @@
             </div>
             <button type="button" class="rc-mini-btn mm-voice-only" id="voice-design-btn" data-i18n="voiceDesignBtn">＋ Créer une voix</button>
             <button type="button" class="rc-mini-btn mm-voice-only" id="voice-clone-btn" data-i18n="voiceCloneBtn">🎤 Cloner une voix</button>
+            <button type="button" class="rc-mini-btn dp-hidden" id="gv-browse-btn" data-i18n="gvBrowseBtn">🔎 Parcourir les voix</button>
             <button type="button" class="rc-mini-btn" id="gv-podcast-btn" data-i18n="podBtn">🎧 Podcast</button>
         </div>
         <!-- Gemini : 1 voix ou dialogue à 2 voix, style, 🎧 Podcast -->
@@ -3759,8 +3770,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.29.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 4 novembre 2026",
+            creditVersion: "Version 1.30.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3882,6 +3893,49 @@
             podNeedKey: "⚠️ Ajoute ta clé {p} pour créer un podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Animateurs",
+            gvBrowseBtn: "🔎 Parcourir les voix",
+            gvBrowseTitle: "🔎 Voix Gemini",
+            gvBrowseHelp: "La bibliothèque de Google : plus de 150 voix. Filtre-les, écoute un extrait (≈ 0,001 $, gardé pour la session), puis choisis une voix ou ajoute-la à tes ⭐ favoris. Les descriptions sont en anglais (fournies par Google).",
+            gvSearchPh: "Rechercher : deep, warm, British, pirate…",
+            gvAllLangs: "Toutes les langues",
+            gvAll: "Tous",
+            gvAllF: "Toutes",
+            lblGender: "Genre",
+            gvFemale: "Femme",
+            gvMale: "Homme",
+            gvNeutral: "Neutre",
+            gvLow: "Grave",
+            gvMedium: "Moyenne",
+            gvHigh: "Aiguë",
+            lblUsage: "Usage",
+            lblAccent: "Accent",
+            gvCount: "{n} voix trouvées",
+            gvCount1: "1 voix trouvée",
+            gvLoading: "Chargement de la bibliothèque…",
+            gvNoMatch: "Aucune voix ne correspond.",
+            gvListen: "▶ Écouter",
+            gvFavAdd: "☆ Favori",
+            gvFavDel: "⭐ Favori",
+            gvChoose: "Choisir",
+            gvChooseA: "Voix 1",
+            gvChooseB: "Voix 2",
+            gvChosen: "🎙️ Voix « {name} » choisie.",
+            gvFavGroup: "⭐ Favoris",
+            gvStudioGroup: "Voix studio",
+            gvLibGroup: "Bibliothèque",
+            gvLibFail: "⚠️ Bibliothèque de voix Gemini indisponible.",
+            gvPreviewText: "Bonjour ! Voici à quoi ressemble ma voix.",
+            imgFmt32: "Photo (3:2)",
+            imgFmt23: "Photo verticale (2:3)",
+            imgFmt54: "Paysage (5:4)",
+            imgFmt45: "Portrait (4:5)",
+            imgFmt219: "Cinéma (21:9)",
+            imgFmt41: "Bannière (4:1)",
+            imgFmt14: "Bannière verticale (1:4)",
+            imgFmt81: "Panorama (8:1)",
+            imgFmt18: "Panorama vertical (1:8)",
+            imgFmtPano: "Panoramiques",
+            imgRes1KOnly: "Ce modèle ne produit qu'en 1K.",
             lblImageOutput: "Sortie",
             imgOutPng: "Image",
             imgOutGif: "🎞️ GIF animé",
@@ -4487,8 +4541,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.29.0 - Latest version: ",
-            appUpdated: "📅 Updated: November 4, 2026",
+            creditVersion: "Version 1.30.0 - Latest version: ",
+            appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -4610,6 +4664,49 @@
             podNeedKey: "⚠️ Add your {p} key to create a podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Hosts",
+            gvBrowseBtn: "🔎 Browse voices",
+            gvBrowseTitle: "🔎 Gemini voices",
+            gvBrowseHelp: "Google's library: more than 150 voices. Filter them, play a sample (≈ $0.001, kept for the session), then choose a voice or add it to your ⭐ favorites. Descriptions are in English (provided by Google).",
+            gvSearchPh: "Search: deep, warm, British, pirate…",
+            gvAllLangs: "All languages",
+            gvAll: "All",
+            gvAllF: "All",
+            lblGender: "Gender",
+            gvFemale: "Female",
+            gvMale: "Male",
+            gvNeutral: "Neutral",
+            gvLow: "Low",
+            gvMedium: "Medium",
+            gvHigh: "High",
+            lblUsage: "Use",
+            lblAccent: "Accent",
+            gvCount: "{n} voices found",
+            gvCount1: "1 voice found",
+            gvLoading: "Loading the library…",
+            gvNoMatch: "No voice matches.",
+            gvListen: "▶ Listen",
+            gvFavAdd: "☆ Favorite",
+            gvFavDel: "⭐ Favorite",
+            gvChoose: "Choose",
+            gvChooseA: "Voice 1",
+            gvChooseB: "Voice 2",
+            gvChosen: "🎙️ Voice \"{name}\" selected.",
+            gvFavGroup: "⭐ Favorites",
+            gvStudioGroup: "Studio voices",
+            gvLibGroup: "Library",
+            gvLibFail: "⚠️ Gemini voice library unavailable.",
+            gvPreviewText: "Hello! This is what my voice sounds like.",
+            imgFmt32: "Photo (3:2)",
+            imgFmt23: "Vertical photo (2:3)",
+            imgFmt54: "Landscape (5:4)",
+            imgFmt45: "Portrait (4:5)",
+            imgFmt219: "Cinema (21:9)",
+            imgFmt41: "Banner (4:1)",
+            imgFmt14: "Vertical banner (1:4)",
+            imgFmt81: "Panorama (8:1)",
+            imgFmt18: "Vertical panorama (1:8)",
+            imgFmtPano: "Panoramic",
+            imgRes1KOnly: "This model only outputs 1K.",
             lblImageOutput: "Output",
             imgOutPng: "Image",
             imgOutGif: "🎞️ Animated GIF",
@@ -5215,8 +5312,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.29.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 4 de noviembre de 2026",
+            creditVersion: "Versión 1.30.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -5338,6 +5435,49 @@
             podNeedKey: "⚠️ Agrega tu clave de {p} para crear un pódcast.",
             podDefaultTitle: "Pódcast",
             podHosts: "Presentadores",
+            gvBrowseBtn: "🔎 Explorar voces",
+            gvBrowseTitle: "🔎 Voces de Gemini",
+            gvBrowseHelp: "La biblioteca de Google: más de 150 voces. Fíltralas, escucha un fragmento (≈ 0,001 $, guardado durante la sesión) y luego elige una voz o agrégala a tus ⭐ favoritas. Las descripciones están en inglés (proporcionadas por Google).",
+            gvSearchPh: "Buscar: deep, warm, British, pirate…",
+            gvAllLangs: "Todos los idiomas",
+            gvAll: "Todos",
+            gvAllF: "Todas",
+            lblGender: "Género",
+            gvFemale: "Mujer",
+            gvMale: "Hombre",
+            gvNeutral: "Neutro",
+            gvLow: "Grave",
+            gvMedium: "Media",
+            gvHigh: "Aguda",
+            lblUsage: "Uso",
+            lblAccent: "Acento",
+            gvCount: "{n} voces encontradas",
+            gvCount1: "1 voz encontrada",
+            gvLoading: "Cargando la biblioteca…",
+            gvNoMatch: "Ninguna voz coincide.",
+            gvListen: "▶ Escuchar",
+            gvFavAdd: "☆ Favorita",
+            gvFavDel: "⭐ Favorita",
+            gvChoose: "Elegir",
+            gvChooseA: "Voz 1",
+            gvChooseB: "Voz 2",
+            gvChosen: "🎙️ Voz \"{name}\" elegida.",
+            gvFavGroup: "⭐ Favoritas",
+            gvStudioGroup: "Voces de estudio",
+            gvLibGroup: "Biblioteca",
+            gvLibFail: "⚠️ Biblioteca de voces de Gemini no disponible.",
+            gvPreviewText: "¡Hola! Así suena mi voz.",
+            imgFmt32: "Foto (3:2)",
+            imgFmt23: "Foto vertical (2:3)",
+            imgFmt54: "Horizontal (5:4)",
+            imgFmt45: "Retrato (4:5)",
+            imgFmt219: "Cine (21:9)",
+            imgFmt41: "Banner (4:1)",
+            imgFmt14: "Banner vertical (1:4)",
+            imgFmt81: "Panorama (8:1)",
+            imgFmt18: "Panorama vertical (1:8)",
+            imgFmtPano: "Panorámicos",
+            imgRes1KOnly: "Este modelo solo genera en 1K.",
             lblImageOutput: "Salida",
             imgOutPng: "Imagen",
             imgOutGif: "🎞️ GIF animado",
@@ -8030,6 +8170,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         restore(imageSizeSelect, 'ai_image_size');
         restore(imageFormatSelect, 'ai_image_format');
         restore(imageResolutionSelect, 'ai_image_resolution');
+        updateGeminiImageOptions();
         restore(imageQwenSizeSelect, 'ai_qwen_image_size');
         restore(imageGrokAspectSelect, 'ai_grok_image_aspect');
         restore(imageGrokResolutionSelect, 'ai_grok_image_resolution');
@@ -11269,9 +11410,45 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     function geminiImageSize(model) {
-        // Nano Banana 2 Lite n'accepte que 1K
-        return model === 'gemini-3.1-flash-lite-image' ? '1K' : ((imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K');
+        // Nano Banana 2 Lite et Original n'acceptent que 1K
+        return GEMINI_IMG_1K.includes(model) ? '1K' : ((imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K');
     }
+    // ----- Nano Banana : formats et résolution selon le modèle (doc Google, 04/11/2026) -----
+    // 2.1 et 2 : 14 formats, dont les panoramiques 1:4, 4:1, 1:8, 8:1 ; Pro et Original : 10 formats
+    // (sans panoramiques) ; 2 Lite : 14 formats en 1K ; Original : 1K seulement.
+    const GEMINI_IMG_RATIOS = [['1:1', 'imgFmtSquare'], ['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait'], ['4:3', 'imgFmtClassic'], ['3:4', 'imgFmtClassicPortrait'],
+        ['3:2', 'imgFmt32'], ['2:3', 'imgFmt23'], ['5:4', 'imgFmt54'], ['4:5', 'imgFmt45'], ['21:9', 'imgFmt219']];
+    const GEMINI_IMG_PANO = [['4:1', 'imgFmt41'], ['1:4', 'imgFmt14'], ['8:1', 'imgFmt81'], ['1:8', 'imgFmt18']];
+    const GEMINI_IMG_NO_PANO = ['gemini-3-pro-image', 'gemini-2.5-flash-image'];
+    const GEMINI_IMG_1K = ['gemini-3.1-flash-lite-image', 'gemini-2.5-flash-image'];
+    // Format absent du modèle : le plus proche (panoramique horizontal → 21:9, vertical → 9:16)
+    const GEMINI_RATIO_FALLBACK = { '4:1': '21:9', '8:1': '21:9', '1:4': '9:16', '1:8': '9:16' };
+    function updateGeminiImageOptions() {
+        if (!imageFormatSelect || providerSelect.value !== 'gemini') return;
+        const t = I18N[currentLang];
+        const model = imageModelSelect && imageModelSelect.value;
+        // Choix mémorisé d'abord : après un repli (ex. 8:1 → 21:9 sur Pro), le retour à 2.1 reprend 8:1
+        const wanted = localStorage.getItem('ai_image_format') || imageFormatSelect.value || '1:1';
+        imageFormatSelect.innerHTML = '';
+        const add = (parent, [v, k]) => { const o = document.createElement('option'); o.value = v; o.textContent = t[k] || v; parent.appendChild(o); };
+        GEMINI_IMG_RATIOS.forEach(r => add(imageFormatSelect, r));
+        if (!GEMINI_IMG_NO_PANO.includes(model)) {
+            const og = document.createElement('optgroup'); og.label = t.imgFmtPano;
+            GEMINI_IMG_PANO.forEach(r => add(og, r));
+            imageFormatSelect.appendChild(og);
+        }
+        const has = v => [...imageFormatSelect.options].some(o => o.value === v);
+        imageFormatSelect.value = has(wanted) ? wanted : has(GEMINI_RATIO_FALLBACK[wanted]) ? GEMINI_RATIO_FALLBACK[wanted] : '1:1';
+        // Résolution : bloquée sur 1K pour Lite et Original (le choix mémorisé n'est pas écrasé)
+        if (imageResolutionSelect) {
+            const only1K = GEMINI_IMG_1K.includes(model);
+            if (only1K) imageResolutionSelect.value = '1K';
+            else { const r = localStorage.getItem('ai_image_resolution'); if (r && [...imageResolutionSelect.options].some(o => o.value === r)) imageResolutionSelect.value = r; }
+            imageResolutionSelect.disabled = only1K;
+            imageResolutionSelect.title = only1K ? t.imgRes1KOnly : '';
+        }
+    }
+    if (imageModelSelect) imageModelSelect.addEventListener('change', updateGeminiImageOptions);
 
     // Gemini (Nano Banana) : generateContent avec les images en ligne avant la consigne.
     // Sans ratio demandé, la sortie garde celui de l'image source.
@@ -11658,10 +11835,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function generateImageGemini(prompt, key) {
         const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'gemini-nano-banana-2.1';
         const aspectRatio = (imageFormatSelect && imageFormatSelect.value) ? imageFormatSelect.value : '1:1';
-        // Nano Banana 2 Lite n'accepte que 1K → on force (2K/4K seraient rejetés)
-        const resolution = selectedModel === 'gemini-3.1-flash-lite-image'
-            ? '1K'
-            : ((imageResolutionSelect && imageResolutionSelect.value) ? imageResolutionSelect.value : '1K');
+        // Nano Banana 2 Lite et Original n'acceptent que 1K → on force (2K/4K seraient rejetés)
+        const resolution = geminiImageSize(selectedModel);
 
         // Nano Banana models use the :generateContent endpoint
         const res = await fetchWithRetry(
@@ -12569,6 +12744,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Créer / Cloner une voix : MiniMax et Alibaba (classe historique mm-voice-only)
         voiceConfigPanel.querySelectorAll('.mm-voice-only').forEach(el => el.classList.toggle('dp-hidden', !(mm || provider === 'qwen')));
         $('gv-podcast-btn').classList.toggle('dp-hidden', !PODCAST_PROVIDERS.includes(provider));
+        $('gv-browse-btn').classList.toggle('dp-hidden', provider !== 'gemini');
         applyGvMode();
         if (provider === 'gemini') { populateGeminiVoice(); return; }
         if (provider === 'qwen') { populateQwenVoice(); return; }
@@ -12612,6 +12788,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         $('gv-speakers').addEventListener('change', applyGvMode);
         $('gv-podcast-btn').addEventListener('click', openPodcastDialog);
+        $('gv-browse-btn').addEventListener('click', openGeminiVoiceBrowser);
         // Qwen : réglages mémorisés ; Flash ↔ Plus = autre liste de voix
         [['qv-instruction', 'ai_qwen_voice_instruction'], ['qv-format', 'ai_qwen_voice_format']].forEach(([id, k]) => {
             const el = $(id); const v = localStorage.getItem(k);
@@ -12752,15 +12929,32 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const GV_RATE = 24000;
     const gvTwo = () => $('gv-speakers').value === '2';
     function fillGeminiVoices(sel, prev) {
+        const t = I18N[currentLang];
         sel.innerHTML = '';
-        GEMINI_VOICES.forEach(v => { const o = document.createElement('option'); o.value = v.id; o.textContent = v.id + ' — ' + (v.d[currentLang] || v.d.fr); sel.appendChild(o); });
-        sel.value = GEMINI_VOICES.some(v => v.id === prev) ? prev : sel.options[0].value;
+        const labels = gvLabels();
+        const studio = GEMINI_VOICES.map(v => v.id);
+        const group = (label, items) => {
+            if (!items.length) return;
+            const og = document.createElement('optgroup'); og.label = label;
+            items.forEach(([id, text]) => { const o = document.createElement('option'); o.value = id; o.textContent = text; og.appendChild(o); });
+            sel.appendChild(og);
+        };
+        const studioLabel = id => { const v = GEMINI_VOICES.find(x => x.id === id); return v ? v.id + ' — ' + (v.d[currentLang] || v.d.fr) : null; };
+        const label = id => labels[id] || studioLabel(id) || id;
+        const favs = gvFavs();
+        group(t.gvFavGroup, favs.map(id => [id, label(id)]));
+        // Voix de la bibliothèque choisies (Voix 1 / Voix 2), hors favoris et voix studio
+        const extra = [...new Set([prev, localStorage.getItem('ai_gemini_voice'), localStorage.getItem('ai_gemini_voice_b')])]
+            .filter(id => id && !favs.includes(id) && !studio.includes(id));
+        group(t.gvLibGroup, extra.map(id => [id, label(id)]));
+        group(t.gvStudioGroup, studio.filter(id => !favs.includes(id)).map(id => [id, studioLabel(id)]));
+        sel.value = [...sel.options].some(o => o.value === prev) ? prev : GV_DEFAULT.a;
     }
     function populateGeminiVoice() {
         const a = $('voice-select'), b = $('gv-voice-b');
-        const curA = GEMINI_VOICES.some(v => v.id === a.value) ? a.value : localStorage.getItem('ai_gemini_voice');
-        fillGeminiVoices(a, curA || GV_DEFAULT.a);
-        fillGeminiVoices(b, b.value || localStorage.getItem('ai_gemini_voice_b') || GV_DEFAULT.b);
+        // Voix mémorisée d'abord (une voix de la bibliothèque n'est pas dans la liste studio)
+        fillGeminiVoices(a, localStorage.getItem('ai_gemini_voice') || a.value || GV_DEFAULT.a);
+        fillGeminiVoices(b, localStorage.getItem('ai_gemini_voice_b') || b.value || GV_DEFAULT.b);
         if (!$('gv-name-a').value.trim()) $('gv-name-a').value = GV_DEFAULT.nameA;
         if (!$('gv-name-b').value.trim()) $('gv-name-b').value = GV_DEFAULT.nameB;
         $('voice-hint').textContent = I18N[currentLang].gvHint;   // textContent : le texte contient « <laugh> »
@@ -13388,6 +13582,174 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } catch (error) {
             updateMessageContent(loadingDiv, `❌ ${translateApiError(error, 'openai')}`);
         }
+    }
+
+    // ----- 🔎 Parcourir les voix Gemini -----
+    // GET /v1beta/voices (bibliothèque de Google, gratuite, CORS ouvert) : id, display_name, description
+    // (anglais), language_code, accent, gender, pitch, persona, context. Chargée une fois par session
+    // (voix de catalogue seulement : type=prebuilt). Pas d'extrait fourni pour ces voix → « Écouter »
+    // synthétise une courte phrase (geminiTTS), gardée pour la session. Favoris : ai_gemini_voice_favs ;
+    // libellés des voix choisies hors studio : ai_gemini_voice_labels (menu Voix sans recharger la liste).
+    let gvLib = null, gvLibLoading = null;
+    const gvSamples = new Map();
+    const gvFavs = () => rcRead('ai_gemini_voice_favs', []);
+    const gvLabels = () => rcRead('ai_gemini_voice_labels', {});
+    const GV_SAMPLES = { fr: 'Bonjour ! Voici à quoi ressemble ma voix.', en: 'Hello! This is what my voice sounds like.', es: '¡Hola! Así suena mi voz.',
+        de: 'Hallo! So klingt meine Stimme.', it: 'Ciao! Ecco come suona la mia voce.', pt: 'Olá! É assim que soa a minha voz.', nl: 'Hallo! Zo klinkt mijn stem.',
+        ja: 'こんにちは！これが私の声です。', zh: '你好！这就是我的声音。', ko: '안녕하세요! 제 목소리는 이렇습니다.', hi: 'नमस्ते! मेरी आवाज़ ऐसी सुनाई देती है।', ar: 'مرحبًا! هكذا يبدو صوتي.', ru: 'Привет! Вот так звучит мой голос.' };
+    // Usages courants traduits ; les autres restent en anglais
+    const GV_CONTEXTS = { conversational: T3b('Conversation', 'Conversational', 'Conversación'), audiobook: T3b('Livre audio', 'Audiobook', 'Audiolibro'),
+        news: T3b('Actualités', 'News', 'Noticias'), narration: T3b('Narration', 'Narration', 'Narración'), commercial: T3b('Publicité', 'Commercial', 'Publicidad'),
+        educational: T3b('Éducation', 'Educational', 'Educación'), characters: T3b('Personnages', 'Characters', 'Personajes'), gaming: T3b('Jeux vidéo', 'Gaming', 'Videojuegos'),
+        assistant: T3b('Assistant', 'Assistant', 'Asistente'), podcast: T3b('Podcast', 'Podcast', 'Pódcast') };
+    const gvContexts = v => String(v.context || '').split(',').map(x => x.trim()).filter(Boolean);
+    const gvContextLabel = c => { const m = GV_CONTEXTS[c.toLowerCase()]; return m ? (m[currentLang] || m.fr) : c; };
+    function gvLangLabel(code) {
+        if (!code) return '';
+        try { const l = new Intl.DisplayNames([currentLang], { type: 'language' }).of(code); return l.charAt(0).toUpperCase() + l.slice(1); } catch (e) { return code; }
+    }
+    function gvMetaLabel(v) {
+        const t = I18N[currentLang];
+        const g = { female: t.gvFemale, male: t.gvMale, neutral: t.gvNeutral }[String(v.gender || '').toLowerCase()];
+        const p = { low: t.gvLow, medium: t.gvMedium, high: t.gvHigh }[String(v.pitch || '').toLowerCase()];
+        return [gvLangLabel(v.language_code), v.accent, g, p].filter(Boolean).join(' · ');
+    }
+    function loadGeminiVoiceLibrary() {
+        if (gvLib) return Promise.resolve(gvLib);
+        if (gvLibLoading) return gvLibLoading;
+        const key = getKeyForProvider('gemini');
+        gvLibLoading = (async () => {
+            const out = []; let token = '';
+            for (let page = 0; page < 5; page++) {
+                const res = await fetchWithRetry('https://generativelanguage.googleapis.com/v1beta/voices?page_size=1000&type=prebuilt' + (token ? '&page_token=' + encodeURIComponent(token) : ''), { headers: { 'x-goog-api-key': key } });
+                const j = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error((j.error && j.error.message) || 'HTTP Error ' + res.status);
+                (j.voices || []).forEach(v => { if (v && v.id) out.push(v); });
+                token = j.next_page_token || j.nextPageToken || '';
+                if (!token) break;
+            }
+            gvLib = out;
+            return gvLib;
+        })().finally(() => { gvLibLoading = null; });
+        return gvLibLoading;
+    }
+    // Extrait : une phrase dans la langue de la voix, synthétisée une fois par session
+    async function playGeminiSample(v, btn) {
+        let url = gvSamples.get(v.id);
+        if (!url) {
+            const base = String(v.language_code || currentLang).split('-')[0].toLowerCase();
+            const text = GV_SAMPLES[base] || GV_SAMPLES.en;
+            btn.disabled = true; btn.textContent = '⏳';
+            try {
+                const pcm = await geminiTTS($('voice-model').value || VOICE_MODELS.gemini[0].id, [{ text, voice: v.id }], null, getKeyForProvider('gemini'));
+                url = URL.createObjectURL(wavBlob([pcm], GV_RATE));
+                gvSamples.set(v.id, url);
+            } catch (e) {
+                showToast(`❌ ${translateApiError(e, 'gemini')}`, 'error', 7000);
+                return;
+            } finally { btn.disabled = false; btn.textContent = I18N[currentLang].gvListen; }
+        }
+        new Audio(url).play().catch(() => {});
+    }
+    // Retient le libellé d'une voix de la bibliothèque (menu Voix lisible sans recharger la liste)
+    function gvRemember(v) {
+        localStorage.setItem('ai_gemini_voice_labels', JSON.stringify({ ...gvLabels(), [v.id]: (v.display_name || v.id) + ' — ' + gvMetaLabel(v) }));
+    }
+    function openGeminiVoiceBrowser() {
+        const t = I18N[currentLang];
+        if (!getKeyForProvider('gemini')) { showToast(t.podNeedKey.replace('{p}', 'Gemini'), 'error', 6000); return; }
+        const d = rcDialog(t.gvBrowseTitle, t.gvBrowseHelp);
+        d.box.style.maxWidth = '860px';
+        const form = document.createElement('div'); form.className = 'rc-form'; d.box.appendChild(form);
+        const filters = document.createElement('div'); filters.className = 'gvb-filters';
+        const search = document.createElement('input'); search.type = 'search'; search.className = 'rc-input gvb-search'; search.placeholder = t.gvSearchPh;
+        const mk = (label) => { const el = document.createElement('select'); el.className = 'rc-input'; el.setAttribute('aria-label', label); return el; };
+        const fLang = mk(t.podLang), fGender = mk(t.lblGender), fPitch = mk(t.lblPitch), fUsage = mk(t.lblUsage), fAccent = mk(t.lblAccent);
+        filters.append(search, fLang, fGender, fPitch, fUsage, fAccent);
+        const count = document.createElement('div'); count.className = 'gvb-count'; count.textContent = t.gvLoading;
+        const list = document.createElement('div'); list.className = 'gvb-list';
+        form.append(filters, count, list);
+        const close = rcButton(t.voiceClose, true); close.addEventListener('click', d.close);
+        rcFoot(d.box, [close]);
+        // Option de départ nommée d'après le filtre (« Genre : tous ») : on sait ce que filtre chaque liste
+        const named = (label, all) => label + (currentLang === 'fr' ? ' : ' : ': ') + all.toLowerCase();
+        const fill = (el, entries, all) => {
+            el.innerHTML = '';
+            [['', all]].concat(entries).forEach(([v, l]) => { const o = document.createElement('option'); o.value = v; o.textContent = l; el.appendChild(o); });
+        };
+        const two = gvTwo();
+        const render = () => {
+            const q = search.value.trim().toLowerCase();
+            const favs = gvFavs();
+            const cur = [$('voice-select').value, two ? $('gv-voice-b').value : null];
+            const hits = gvLib.filter(v =>
+                (!fLang.value || String(v.language_code || '').toLowerCase().split('-')[0] === fLang.value) &&
+                (!fGender.value || String(v.gender || '').toLowerCase() === fGender.value) &&
+                (!fPitch.value || String(v.pitch || '').toLowerCase() === fPitch.value) &&
+                (!fUsage.value || gvContexts(v).some(c => c.toLowerCase() === fUsage.value)) &&
+                (!fAccent.value || String(v.accent || '') === fAccent.value) &&
+                (!q || [v.display_name, v.id, v.description, v.accent, v.persona, v.context].some(x => String(x || '').toLowerCase().includes(q))))
+                // Favoris en tête, puis ordre alphabétique
+                .sort((a, b) => (favs.includes(b.id) - favs.includes(a.id)) || String(a.display_name || a.id).localeCompare(String(b.display_name || b.id)));
+            count.textContent = hits.length === 1 ? t.gvCount1 : hits.length ? t.gvCount.replace('{n}', hits.length) : t.gvNoMatch;
+            list.innerHTML = '';
+            hits.slice(0, 300).forEach(v => {
+                const card = document.createElement('div'); card.className = 'gvb-card' + (cur.includes(v.id) ? ' gvb-current' : '');
+                const head = document.createElement('div'); head.className = 'gvb-head';
+                const name = document.createElement('span'); name.className = 'gvb-name'; name.textContent = v.display_name || v.id;
+                const meta = document.createElement('span'); meta.className = 'gvb-meta'; meta.textContent = gvMetaLabel(v);
+                head.append(name, meta);
+                const desc = document.createElement('div'); desc.className = 'gvb-desc'; desc.textContent = v.description || '';
+                const tags = document.createElement('div'); tags.className = 'gvb-tags';
+                [v.persona].concat(gvContexts(v).map(gvContextLabel)).filter(Boolean).forEach(x => { const s = document.createElement('span'); s.className = 'gvb-tag'; s.textContent = x; tags.appendChild(s); });
+                const actions = document.createElement('div'); actions.className = 'gvb-actions';
+                const listen = rcButton(t.gvListen); listen.addEventListener('click', () => playGeminiSample(v, listen));
+                const fav = rcButton(favs.includes(v.id) ? t.gvFavDel : t.gvFavAdd);
+                fav.addEventListener('click', () => {
+                    const f = gvFavs(); const on = f.includes(v.id);
+                    localStorage.setItem('ai_gemini_voice_favs', JSON.stringify(on ? f.filter(x => x !== v.id) : f.concat(v.id)));
+                    if (!on) gvRemember(v);
+                    fav.textContent = on ? t.gvFavAdd : t.gvFavDel;
+                    populateGeminiVoice();
+                });
+                const choose = (target) => {
+                    gvRemember(v);
+                    localStorage.setItem(target === 'b' ? 'ai_gemini_voice_b' : 'ai_gemini_voice', v.id);
+                    populateGeminiVoice();
+                    showToast(t.gvChosen.replace('{name}', v.display_name || v.id), 'success');
+                    d.close();
+                };
+                actions.append(listen, fav);
+                if (two) {
+                    const a = rcButton(t.gvChooseA, true); a.addEventListener('click', () => choose('a'));
+                    const b = rcButton(t.gvChooseB, true); b.addEventListener('click', () => choose('b'));
+                    actions.append(a, b);
+                } else { const c = rcButton(t.gvChoose, true); c.addEventListener('click', () => choose('a')); actions.append(c); }
+                card.append(head, desc, tags, actions);
+                list.appendChild(card);
+            });
+        };
+        loadGeminiVoiceLibrary().then(lib => {
+            if (!list.isConnected) return;
+            // Filtres construits d'après la bibliothèque reçue
+            const langs = [...new Set(lib.map(v => String(v.language_code || '').toLowerCase().split('-')[0]).filter(Boolean))]
+                .map(c => [c, gvLangLabel(c)]).sort((a, b) => a[1].localeCompare(b[1], currentLang));
+            fill(fLang, langs, t.gvAllLangs);
+            fLang.value = langs.some(l => l[0] === currentLang) ? currentLang : '';
+            fill(fGender, [['female', t.gvFemale], ['male', t.gvMale], ['neutral', t.gvNeutral]], named(t.lblGender, t.gvAll));
+            fill(fPitch, [['low', t.gvLow], ['medium', t.gvMedium], ['high', t.gvHigh]], named(t.lblPitch, t.gvAllF));
+            const usages = [...new Set(lib.flatMap(v => gvContexts(v).map(c => c.toLowerCase())))].map(c => [c, gvContextLabel(c)]).sort((a, b) => a[1].localeCompare(b[1], currentLang));
+            fill(fUsage, usages, named(t.lblUsage, t.gvAll));
+            const accents = [...new Set(lib.map(v => v.accent).filter(Boolean))].sort().map(a => [a, a]);
+            fill(fAccent, accents, named(t.lblAccent, t.gvAll));
+            [fLang, fGender, fPitch, fUsage, fAccent].forEach(el => el.addEventListener('change', render));
+            search.addEventListener('input', render);
+            render();
+            search.focus();
+        }).catch(e => {
+            if (!list.isConnected) return;
+            count.textContent = t.gvLibFail + ' (' + e.message + ')';
+        });
     }
 
     // ----- 🎧 Podcast réplique par réplique (Qwen, Grok, OpenAI, MiniMax) -----
