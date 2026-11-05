@@ -8,6 +8,30 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.29.0] — 2026-11-04
+  Added
+    - GPT Image 2.6 Sunburst (quality) and Flare (fast), released by OpenAI
+      today. With them, the Image panel adds:
+      • Output: Image, 🎞️ animated GIF or SVG (vector). For a GIF, describe
+        the subject and the motion, then choose the number of frames (2 to
+        16, 9 by default) and the speed (60 to 1000 ms per frame); the
+        tooltip shows the length of one loop. The GIF plays in the
+        conversation and downloads as .gif (frames of 512 px per side).
+        OpenAI may require access to its GIF preview.
+      • Complexity (Auto, Low, Medium, High): how much the model plans
+        before drawing, at no extra cost.
+    - ⚡ Ultrafast for GPT-6 Astra and GPT-6.1 Sol: a checkbox under the
+      input box for much faster answers, at 6 times the normal price. It
+      never applies to PDF transcription or podcast scripts.
+  Improved
+    - 🖍️ Mark up and 💬 Comment with OpenAI now send the original image plus
+      a transparent annotation layer (OpenAI's native markup field), for
+      more precise edits.
+    - Gemini model list cleaned up: Gemini 3.7 Flash and 3.5 Flash removed
+      (Google was already redirecting them to 3.8 and 3.6 Flash); Gemini
+      2.5 Pro and 2.5 Flash show their retirement date (December 1, 2026);
+      Nano Banana 2 is marked as replaced by 2.1.
+
 [1.28.1] — 2026-11-03
   Fixed
     - The welcome message now lists all six modes (Chat, Vibe Coder, Code,
@@ -717,6 +741,31 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.29.0] — 2026-11-04
+  Ajouté
+    - GPT Image 2.6 Sunburst (qualité) et Flare (rapide), sortis aujourd'hui
+      chez OpenAI. Avec eux, le panneau Image ajoute :
+      • Sortie : Image, 🎞️ GIF animé ou SVG (vectoriel). Pour un GIF, décris
+        le sujet et le mouvement, puis choisis le nombre d'images (2 à 16, 9
+        par défaut) et la vitesse (60 à 1000 ms par image) ; l'infobulle
+        donne la durée d'une boucle. Le GIF s'anime dans la conversation et
+        se télécharge en .gif (images de 512 px de côté). OpenAI peut exiger
+        l'accès à son aperçu GIF.
+      • Complexité (Auto, Faible, Moyenne, Élevée) : ce que le modèle planifie
+        avant de dessiner, sans surcoût.
+    - ⚡ Ultrafast pour GPT-6 Astra et GPT-6.1 Sol : une case sous la zone de
+      saisie pour des réponses beaucoup plus rapides, à 6 fois le prix
+      normal. Elle ne s'applique jamais à la transcription des PDF ni aux
+      scripts de podcast.
+  Amélioré
+    - 🖍️ Annoter et 💬 Commenter avec OpenAI envoient maintenant l'image
+      originale et un calque d'annotation transparent (le champ « markup »
+      natif d'OpenAI), pour des retouches plus précises.
+    - Liste des modèles Gemini nettoyée : Gemini 3.7 Flash et 3.5 Flash
+      retirés (Google les redirigeait déjà vers 3.8 et 3.6 Flash) ; Gemini
+      2.5 Pro et 2.5 Flash affichent leur date d'arrêt (1er décembre 2026) ;
+      Nano Banana 2 est indiqué comme remplacé par 2.1.
 
 [1.28.1] — 2026-11-03
   Corrigé
@@ -1484,6 +1533,31 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.29.0] — 2026-11-04
+  Añadido
+    - GPT Image 2.6 Sunburst (calidad) y Flare (rápido), lanzados hoy por
+      OpenAI. Con ellos, el panel Imagen añade:
+      • Salida: Imagen, 🎞️ GIF animado o SVG (vectorial). Para un GIF,
+        describe el sujeto y el movimiento, luego elige el número de
+        cuadros (2 a 16, 9 por defecto) y la velocidad (60 a 1000 ms por
+        cuadro); la información emergente da la duración de un ciclo. El GIF
+        se anima en la conversación y se descarga en .gif (cuadros de 512 px
+        por lado). OpenAI puede exigir acceso a su vista previa de GIF.
+      • Complejidad (Auto, Baja, Media, Alta): cuánto planifica el modelo
+        antes de dibujar, sin costo adicional.
+    - ⚡ Ultrafast para GPT-6 Astra y GPT-6.1 Sol: una casilla debajo del
+      cuadro de texto para respuestas mucho más rápidas, a 6 veces el
+      precio normal. Nunca se aplica a la transcripción de PDF ni a los
+      guiones de pódcast.
+  Mejorado
+    - 🖍️ Anotar y 💬 Comentar con OpenAI ahora envían la imagen original y
+      una capa de anotación transparente (el campo "markup" nativo de
+      OpenAI), para retoques más precisos.
+    - Lista de modelos Gemini depurada: Gemini 3.7 Flash y 3.5 Flash
+      retirados (Google ya los redirigía a 3.8 y 3.6 Flash); Gemini 2.5 Pro
+      y 2.5 Flash muestran su fecha de retiro (1 de diciembre de 2026);
+      Nano Banana 2 se indica como reemplazado por 2.1.
 
 [1.28.1] — 2026-11-03
   Corregido

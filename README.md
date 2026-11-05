@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.28.1
+  Version 1.29.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -41,7 +41,8 @@ FEATURES
       • Code       : development assistance, syntax highlighting,
                      code block download
       • Image      : image generation — OpenAI GPT Image (adjustable
-                     quality and size), Google Gemini (adjustable format and
+                     quality and size; 🎞️ animated GIF and SVG with GPT Image 2.6),
+                     Google Gemini (adjustable format and
                      resolution), Qwen, Grok, Recraft (vector SVG, styles), and Bria
                      (licensed images, retouching, product photos), and MiniMax
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
@@ -142,7 +143,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_28_1.html
+  1. Download the file ChatJPT_1_29_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -174,7 +175,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.28.1
+  Version 1.29.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -216,7 +217,8 @@ FONCTIONNALITÉS
       • Code       : assistance au développement, coloration syntaxique,
                      téléchargement des blocs de code
       • Image      : génération d'images — OpenAI GPT Image (qualité et
-                     taille ajustables), Google Gemini (format et résolution
+                     taille ajustables ; 🎞️ GIF animé et SVG avec GPT Image 2.6),
+                     Google Gemini (format et résolution
                      ajustables), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
                      (images sous licence, retouche, photos de produits) et MiniMax
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
@@ -323,7 +325,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_28_1.html
+  1. Téléchargez le fichier ChatJPT_1_29_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -357,7 +359,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.28.1
+  Versión 1.29.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -399,7 +401,8 @@ CARACTERÍSTICAS
       • Código     : asistencia al desarrollo, resaltado de sintaxis,
                      descarga de bloques de código
       • Imagen     : generación de imágenes — OpenAI GPT Image (calidad y
-                     tamaño ajustables), Google Gemini (formato y resolución
+                     tamaño ajustables; 🎞️ GIF animado y SVG con GPT Image 2.6),
+                     Google Gemini (formato y resolución
                      ajustables), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
@@ -502,7 +505,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_28_1.html
+  1. Descarga el archivo ChatJPT_1_29_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

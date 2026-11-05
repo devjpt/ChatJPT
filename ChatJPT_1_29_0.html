@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.28.1
+  Version 1.29.0
 -->
 
 
@@ -2796,7 +2796,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 3 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 4 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -3041,6 +3041,32 @@
                     <option value="1536x1024" data-i18n="imgSizeLandscape">Paysage (1536×1024)</option>
                     <option value="1024x1536" data-i18n="imgSizePortrait">Portrait (1024×1536)</option>
                     <option value="auto" data-i18n="imgSizeAuto">Auto</option>
+                </select>
+            </div>
+            <!-- GPT Image 2.6 : sortie (image / GIF animé / SVG), images et vitesse du GIF, complexité -->
+            <div class="select-group oai26-only" id="oai-output-group">
+                <label data-i18n="lblImageOutput">Sortie</label>
+                <select id="oai-output" aria-label="Sortie">
+                    <option value="png" data-i18n="imgOutPng">Image</option>
+                    <option value="gif" data-i18n="imgOutGif">🎞️ GIF animé</option>
+                    <option value="svg" data-i18n="imgOutSvg">SVG (vectoriel)</option>
+                </select>
+            </div>
+            <div class="select-group oai26-only oai-gif-only" id="oai-frames-group">
+                <label data-i18n="lblGifFrames">Images</label>
+                <select id="oai-frames" aria-label="Images du GIF"></select>
+            </div>
+            <div class="select-group oai26-only oai-gif-only" id="oai-speed-group">
+                <label data-i18n="lblGifSpeed">Vitesse</label>
+                <select id="oai-speed" aria-label="Vitesse du GIF"></select>
+            </div>
+            <div class="select-group oai26-only" id="oai-complexity-group">
+                <label data-i18n="lblComplexity">Complexité</label>
+                <select id="oai-complexity" aria-label="Complexité">
+                    <option value="" data-i18n="cplxAuto">Auto (élevée)</option>
+                    <option value="low" data-i18n="cplxLow">Faible</option>
+                    <option value="medium" data-i18n="cplxMedium">Moyenne</option>
+                    <option value="high" data-i18n="cplxHigh">Élevée</option>
                 </select>
             </div>
             <div class="select-group" id="image-format-group">
@@ -3441,6 +3467,13 @@
             </label>
             <span class="websearch-hint" data-i18n="webSearchHint">consomme plus de tokens (+ frais de recherche)</span>
         </div>
+        <div class="websearch-mode-container" id="ultrafast-mode-container">
+            <label class="websearch-mode-label" id="ultrafast-mode-label" title="Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide, 6 fois le prix normal." data-i18n-title="ultrafastTitle">
+                <input type="checkbox" id="ultrafast-mode-cb">
+                <span class="websearch-label-text" data-i18n="ultrafastLabel">⚡ Ultrafast</span>
+            </label>
+            <span class="websearch-hint" data-i18n="ultrafastHint">réponse plus rapide, 6× le prix</span>
+        </div>
         <div class="websearch-mode-container" id="readlinks-mode-container">
             <label class="websearch-mode-label" id="readlinks-mode-label" title="Le modèle ouvre et lit les liens (URL) que vous collez dans votre message." data-i18n-title="readLinksTitle">
                 <input type="checkbox" id="readlinks-mode-cb">
@@ -3726,8 +3759,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.28.1 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 3 novembre 2026",
+            creditVersion: "Version 1.29.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 4 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -3849,6 +3882,23 @@
             podNeedKey: "⚠️ Ajoute ta clé {p} pour créer un podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Animateurs",
+            lblImageOutput: "Sortie",
+            imgOutPng: "Image",
+            imgOutGif: "🎞️ GIF animé",
+            imgOutSvg: "SVG (vectoriel)",
+            lblGifFrames: "Images",
+            lblGifSpeed: "Vitesse",
+            gifSpeedOpt: "{ms} ms / image",
+            gifLoop: "≈ {s} s par boucle",
+            lblComplexity: "Complexité",
+            cplxAuto: "Auto (élevée)",
+            cplxLow: "Faible",
+            cplxMedium: "Moyenne",
+            cplxHigh: "Élevée",
+            imgDownloadGifTip: "Enregistre le GIF animé sur ton ordinateur.",
+            ultrafastLabel: "⚡ Ultrafast",
+            ultrafastHint: "réponse plus rapide, 6× le prix",
+            ultrafastTitle: "Traitement Ultrafast d'OpenAI (GPT-6 Astra et GPT-6.1 Sol) : réponse beaucoup plus rapide, 6 fois le prix normal des tokens.",
             qvCloneTitle: "🎤 Cloner une voix (Alibaba)",
             qvCloneHelp: "Enregistrement de 10 à 20 s (60 s au plus), WAV, MP3 ou M4A, 10 Mo au plus, une seule personne, sans musique. Gratuit. La voix est liée au modèle {model} : pour l'autre modèle, clone-la une seconde fois. Alibaba l'examine avant de l'activer.",
             qvDesignTitle: "＋ Créer une voix (Alibaba)",
@@ -4437,8 +4487,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.28.1 - Latest version: ",
-            appUpdated: "📅 Updated: November 3, 2026",
+            creditVersion: "Version 1.29.0 - Latest version: ",
+            appUpdated: "📅 Updated: November 4, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -4560,6 +4610,23 @@
             podNeedKey: "⚠️ Add your {p} key to create a podcast.",
             podDefaultTitle: "Podcast",
             podHosts: "Hosts",
+            lblImageOutput: "Output",
+            imgOutPng: "Image",
+            imgOutGif: "🎞️ Animated GIF",
+            imgOutSvg: "SVG (vector)",
+            lblGifFrames: "Frames",
+            lblGifSpeed: "Speed",
+            gifSpeedOpt: "{ms} ms / frame",
+            gifLoop: "≈ {s} s per loop",
+            lblComplexity: "Complexity",
+            cplxAuto: "Auto (high)",
+            cplxLow: "Low",
+            cplxMedium: "Medium",
+            cplxHigh: "High",
+            imgDownloadGifTip: "Save the animated GIF to your computer.",
+            ultrafastLabel: "⚡ Ultrafast",
+            ultrafastHint: "faster answer, 6× the price",
+            ultrafastTitle: "OpenAI Ultrafast processing (GPT-6 Astra and GPT-6.1 Sol): much faster answers, 6 times the normal token price.",
             qvCloneTitle: "🎤 Clone a voice (Alibaba)",
             qvCloneHelp: "Recording of 10 to 20 s (60 s at most), WAV, MP3 or M4A, 10 MB at most, one person, no music. Free. The voice is tied to the {model} model: for the other model, clone it a second time. Alibaba reviews it before activating it.",
             qvDesignTitle: "＋ Create a voice (Alibaba)",
@@ -5148,8 +5215,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.28.1 - Última versión: ",
-            appUpdated: "📅 Actualizado: 3 de noviembre de 2026",
+            creditVersion: "Versión 1.29.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 4 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -5271,6 +5338,23 @@
             podNeedKey: "⚠️ Agrega tu clave de {p} para crear un pódcast.",
             podDefaultTitle: "Pódcast",
             podHosts: "Presentadores",
+            lblImageOutput: "Salida",
+            imgOutPng: "Imagen",
+            imgOutGif: "🎞️ GIF animado",
+            imgOutSvg: "SVG (vectorial)",
+            lblGifFrames: "Cuadros",
+            lblGifSpeed: "Velocidad",
+            gifSpeedOpt: "{ms} ms / cuadro",
+            gifLoop: "≈ {s} s por ciclo",
+            lblComplexity: "Complejidad",
+            cplxAuto: "Auto (alta)",
+            cplxLow: "Baja",
+            cplxMedium: "Media",
+            cplxHigh: "Alta",
+            imgDownloadGifTip: "Guarda el GIF animado en tu computadora.",
+            ultrafastLabel: "⚡ Ultrafast",
+            ultrafastHint: "respuesta más rápida, 6× el precio",
+            ultrafastTitle: "Procesamiento Ultrafast de OpenAI (GPT-6 Astra y GPT-6.1 Sol): respuestas mucho más rápidas, 6 veces el precio normal de los tokens.",
             qvCloneTitle: "🎤 Clonar una voz (Alibaba)",
             qvCloneHelp: "Grabación de 10 a 20 s (60 s como máximo), WAV, MP3 o M4A, 10 MB como máximo, una sola persona, sin música. Gratis. La voz queda ligada al modelo {model}: para el otro modelo, clónala una segunda vez. Alibaba la revisa antes de activarla.",
             qvDesignTitle: "＋ Crear una voz (Alibaba)",
@@ -5799,15 +5883,15 @@
             { id: 'gemini-4-argon', name: { fr: 'Gemini 4 Argon (Dernier, raisonnement)', en: 'Gemini 4 Argon (Latest, reasoning)', es: 'Gemini 4 Argon (Último, razonamiento)' } },
             { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash', en: 'Gemini 3.8 Flash', es: 'Gemini 3.8 Flash' } },
             { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Preview)', en: 'Gemini 3.1 Pro (Preview)', es: 'Gemini 3.1 Pro (Preview)' } },
-            { id: 'gemini-3.7-flash', name: { fr: 'Gemini 3.7 Flash', en: 'Gemini 3.7 Flash', es: 'Gemini 3.7 Flash' } },
             { id: 'gemini-3.6-flash', name: { fr: 'Gemini 3.6 Flash', en: 'Gemini 3.6 Flash', es: 'Gemini 3.6 Flash' } },
-            { id: 'gemini-3.5-flash', name: { fr: 'Gemini 3.5 Flash', en: 'Gemini 3.5 Flash' } },
-            { id: 'gemini-3-flash-preview', name: { fr: 'Gemini 3 Flash', en: 'Gemini 3 Flash' } },
+            { id: 'gemini-3-flash-preview', name: { fr: 'Gemini 3 Flash', en: 'Gemini 3 Flash', es: 'Gemini 3 Flash' } },
             { id: 'gemini-3.5-flash-lite', name: { fr: 'Gemini 3.5 Flash Lite (Économique)', en: 'Gemini 3.5 Flash Lite (Low cost)', es: 'Gemini 3.5 Flash Lite (Económico)' } },
-            { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite', en: 'Gemini 3.1 Flash Lite' } },
-            { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro', en: 'Gemini 2.5 Pro' } },
-            { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash', en: 'Gemini 2.5 Flash' } },
-            { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite' } },
+            { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite', en: 'Gemini 3.1 Flash Lite', es: 'Gemini 3.1 Flash Lite' } },
+            // Gemini 3.7 Flash et 3.5 Flash retirés (08/10/2026) : Google les redirigeait déjà vers 3.8 / 3.6 Flash.
+            // 2.5 Pro / 2.5 Flash : redirigés vers 3.8 Flash / 3.5 Flash-Lite dès le 01/12/2026 (date dans le libellé).
+            { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro (arrêt le 1er déc. 2026)', en: 'Gemini 2.5 Pro (retiring Dec 1, 2026)', es: 'Gemini 2.5 Pro (retiro el 1 de dic. de 2026)' } },
+            { id: 'gemini-2.5-flash', name: { fr: 'Gemini 2.5 Flash (arrêt le 1er déc. 2026)', en: 'Gemini 2.5 Flash (retiring Dec 1, 2026)', es: 'Gemini 2.5 Flash (retiro el 1 de dic. de 2026)' } },
+            { id: 'gemini-2.5-flash-lite', name: { fr: 'Gemini 2.5 Flash Lite', en: 'Gemini 2.5 Flash Lite', es: 'Gemini 2.5 Flash Lite' } },
             // Gemma 4 (open source de Google, 02/04/2026) : même API et même clé que Gemini (GEMMA_MODELS).
             { id: 'gemma-4-31b-it', name: { fr: 'Gemma 4 31B (Open source)', en: 'Gemma 4 31B (Open source)', es: 'Gemma 4 31B (Código abierto)' } },
             { id: 'gemma-4-26b-a4b-it', name: { fr: 'Gemma 4 26B A4B (Open source, rapide)', en: 'Gemma 4 26B A4B (Open source, fast)', es: 'Gemma 4 26B A4B (Código abierto, rápido)' } },
@@ -5925,7 +6009,10 @@
         openai: [
             // GPT Image 2.5 (sept. 2026) : Sunburst = qualité / précision, Flare = ~2× plus rapide, même prix.
             // gpt-image-1.5 et gpt-image-1-mini retirés (arrêt OpenAI le 01/12/2026) ; gpt-image-1 arrêté le 23/10/2026.
-            { id: 'gpt-image-2.5-sunburst', name: { fr: 'GPT Image 2.5 Sunburst (Dernier, qualité)', en: 'GPT Image 2.5 Sunburst (Latest, quality)', es: 'GPT Image 2.5 Sunburst (Último, calidad)' } },
+            // GPT Image 2.6 (04/11/2026) : GIF animé, SVG et complexité réglable (oai26-only dans le panneau)
+            { id: 'gpt-image-2.6-sunburst', name: { fr: 'GPT Image 2.6 Sunburst (Dernier, qualité · GIF, SVG)', en: 'GPT Image 2.6 Sunburst (Latest, quality · GIF, SVG)', es: 'GPT Image 2.6 Sunburst (Último, calidad · GIF, SVG)' } },
+            { id: 'gpt-image-2.6-flare', name: { fr: 'GPT Image 2.6 Flare (Rapide · GIF, SVG)', en: 'GPT Image 2.6 Flare (Fast · GIF, SVG)', es: 'GPT Image 2.6 Flare (Rápido · GIF, SVG)' } },
+            { id: 'gpt-image-2.5-sunburst', name: { fr: 'GPT Image 2.5 Sunburst (Qualité)', en: 'GPT Image 2.5 Sunburst (Quality)', es: 'GPT Image 2.5 Sunburst (Calidad)' } },
             { id: 'gpt-image-2.5-flare', name: { fr: 'GPT Image 2.5 Flare (Rapide)', en: 'GPT Image 2.5 Flare (Fast)', es: 'GPT Image 2.5 Flare (Rápido)' } },
             { id: 'gpt-image-2', name: { fr: 'GPT Image 2', en: 'GPT Image 2', es: 'GPT Image 2' } }
         ],
@@ -5933,9 +6020,9 @@
             // Versions stables (les *-preview ont été arrêtées le 25/06/2026, Imagen 4 le 17/08/2026).
             { id: 'gemini-nano-banana-2.1', name: { fr: 'Nano Banana 2.1 (Dernier)', en: 'Nano Banana 2.1 (Latest)', es: 'Nano Banana 2.1 (Último)' } },
             { id: 'gemini-3-pro-image', name: { fr: 'Nano Banana Pro (Qualité)', en: 'Nano Banana Pro (Quality)', es: 'Nano Banana Pro (Calidad)' } },
-            { id: 'gemini-3.1-flash-image', name: { fr: 'Nano Banana 2', en: 'Nano Banana 2', es: 'Nano Banana 2' } },
+            { id: 'gemini-3.1-flash-image', name: { fr: 'Nano Banana 2 (remplacé par 2.1)', en: 'Nano Banana 2 (replaced by 2.1)', es: 'Nano Banana 2 (reemplazado por 2.1)' } },
             { id: 'gemini-3.1-flash-lite-image', name: { fr: 'Nano Banana 2 Lite (Rapide, 1K)', en: 'Nano Banana 2 Lite (Fast, 1K)', es: 'Nano Banana 2 Lite (Rápido, 1K)' } },
-            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)' } }
+            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)', es: 'Nano Banana (Original)' } }
         ],
         grok: [
             // Synchrone via /v1/images/generations (format OpenAI ; renvoie data[0].url)
@@ -6115,10 +6202,8 @@ RULES:
             configurable: [
                 'gemini-4-argon',              // Gemini 4 Argon : niveaux low/medium/high (défaut medium)
                 'gemini-3.8-flash',            // Gemini 3.6+ / 3.5 : thinking non désactivable, niveau réglable
-                'gemini-3.7-flash',
                 'gemini-3.6-flash',
                 'gemini-3.5-flash-lite',
-                'gemini-3.5-flash',            // Gemini 3.5 Flash: configurable via thinkingLevel
                 'gemini-3-flash-preview',      // Gemini 3 Flash: configurable via thinkingLevel
                 'gemini-2.5-pro',              // Gemini 2.5: configurable via thinkingBudget
                 'gemini-2.5-flash',
@@ -6295,9 +6380,9 @@ RULES:
     }
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
-    const GEMINI3_MODELS = ['gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
+    const GEMINI3_MODELS = ['gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
     // Gemini 3 qui refusent thinkingLevel 'minimal' (erreur API) → retiré du menu, ramené à 'low'
-    const GEMINI_NO_MINIMAL = ['gemini-4-argon', 'gemini-3.8-flash', 'gemini-3.7-flash'];
+    const GEMINI_NO_MINIMAL = ['gemini-4-argon', 'gemini-3.8-flash'];
     // Gemini dont la réflexion (souvent longue) compte dans maxOutputTokens → plafond large
     // (TOKEN_LIMITS.adaptive*), sinon une réflexion « Profonde » peut tout consommer.
     const GEMINI_LONG_THINKERS = ['gemini-4-argon'];
@@ -7279,6 +7364,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
             show = supportsReadLinks(providerSelect.value, currentMode, modelSelect.value);
         }
         readLinksModeContainer.classList.toggle('show', show);
+        updateUltrafastUI();
+    }
+    // ⚡ Ultrafast (service_tier d'OpenAI, GPT-6 Astra et GPT-6.1 Sol, 6× le prix) : modes texte seulement
+    const ULTRAFAST_MODELS = ['gpt-6-astra', 'gpt-6.1-sol'];
+    let ultrafastEnabled = false;
+    const ultrafastFor = (provider, model) => provider === 'openai' && ULTRAFAST_MODELS.includes(model);
+    function updateUltrafastUI() {
+        const box = $('ultrafast-mode-container'); if (!box) return;
+        const textMode = currentMode === 'chat' || currentMode === 'code' || currentMode === 'vibecoder';
+        let show;
+        if (compareMode && (currentMode === 'chat' || currentMode === 'code')) {
+            const a = parseCompareValue(compareModelA ? compareModelA.value : '');
+            const b = parseCompareValue(compareModelB ? compareModelB.value : '');
+            show = ultrafastFor(a.provider, a.model) || ultrafastFor(b.provider, b.model);
+        } else show = textMode && ultrafastFor(providerSelect.value, modelSelect.value);
+        box.classList.toggle('show', show);
     }
 
     function initWebSearch() {
@@ -7286,6 +7387,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (webSearchModeCb) webSearchModeCb.checked = webSearchEnabled;
         readLinksEnabled = localStorage.getItem('ai_read_links') === 'true';
         if (readLinksModeCb) readLinksModeCb.checked = readLinksEnabled;
+        ultrafastEnabled = localStorage.getItem('ai_openai_ultrafast') === 'true';
+        const uf = $('ultrafast-mode-cb');
+        if (uf) {
+            uf.checked = ultrafastEnabled;
+            uf.addEventListener('change', () => { ultrafastEnabled = uf.checked; localStorage.setItem('ai_openai_ultrafast', String(uf.checked)); });
+        }
         updateWebSearchUI();
     }
 
@@ -7907,6 +8014,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (mmOptions) mmOptions.style.display = providerSelect.value === 'minimax' ? '' : 'none';
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
+        updateOpenAIImageOptions();
         if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
         if (imageResolutionGroup) imageResolutionGroup.style.display = isGemini ? '' : 'none';
         if (imageQwenSizeGroup) imageQwenSizeGroup.style.display = isQwen ? '' : 'none';
@@ -9993,6 +10101,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             bodyParams.reasoning = { effort: isGpt6 ? (OPENAI_NO_NONE.includes(model) ? 'low' : 'none') : 'medium' };
         }
 
+        // ⚡ Ultrafast : réponses de conversation seulement (jamais l'OCR ni l'écriture d'un podcast)
+        if (ultrafastEnabled && ULTRAFAST_MODELS.includes(model) && ['chat', 'code', 'vibecoder'].includes(currentMode)) bodyParams.service_tier = 'ultrafast';
+
         // Recherche web ET lecture des liens collés passent par l'outil web_search de
         // l'API Responses (qui sait aussi ouvrir une URL précise). Citations renvoyées en
         // annotations url_citation, extraites par le parser 'openai-responses'.
@@ -10438,6 +10549,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Effacer : le masque (zone transparente) délimite la zone à modifier.
         erase: (instr) => `The transparent area of the mask marks a region to edit. ${instr ? `Replace what is in that region with: ${instr}.` : 'Remove whatever is in that region and fill it in naturally so it blends seamlessly with its surroundings, as if it had never been there.'} Keep everything outside that region unchanged.`,
         // Annoter / Commenter : image 1 = originale, image 2 = même image avec indications.
+        // Calque d'annotation natif d'OpenAI (champ markup, GPT Image 2.5 / 2.6) : l'image reste intacte
+        markupLayer: (instr) => `The annotation layer (hand-drawn strokes, circles, arrows, scribbles) shows the changes wanted on this image. Apply those changes${instr ? `; the user explains: "${instr}"` : ''}. Remove every annotation from the finished image and keep everything else unchanged.`,
+        commentLayer: (lines) => `The annotation layer has numbered markers. Apply each instruction at the location of its marker:\n${lines}\nDo not draw the markers, numbers or any text labels in the result, and keep everything else unchanged.`,
         markup: (instr) => `Image 1 is the original. Image 2 is the same image with hand-drawn annotations (strokes, circles, arrows, scribbles) showing the changes wanted. Apply those changes to image 1${instr ? `; the user explains: "${instr}"` : ''}. Do not include any of the annotations in the result, and keep everything else unchanged.`,
         comment: (lines) => `Image 1 is the original. Image 2 is the same image with numbered markers. Apply each instruction at the location of its marker:\n${lines}\nDo not draw the markers, numbers or any text labels in the result, and keep everything else unchanged.`
     };
@@ -10445,8 +10559,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Les formats personnalisés et le fond transparent sont garantis sur GPT Image 2.5 :
     // on garde le modèle 2.5 choisi par l'utilisateur, sinon Sunburst (précision d'édition).
+    // GPT Image 2.6 choisi : l'édition passe par la même variante en 2.5 (la doc ne garantit les
+    // tailles personnalisées qu'en 2.5 ; le calque d'annotation marche avec les deux).
     function openAIEditModel() {
         const sel = providerSelect.value === 'openai' && imageModelSelect ? imageModelSelect.value : '';
+        if (/^gpt-image-2\.6-(sunburst|flare)$/.test(sel)) return sel.replace('2.6', '2.5');
         return /^gpt-image-2\.5/.test(sel) ? sel : 'gpt-image-2.5-sunburst';
     }
 
@@ -10525,13 +10642,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const t = I18N[currentLang];
         const bar = document.createElement('div');
         bar.className = 'img-toolbar';
-        const ext = { 'image/svg+xml': 'svg', 'image/jpeg': 'jpg', 'image/webp': 'webp' }[mime] || 'png';
+        const ext = { 'image/svg+xml': 'svg', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif' }[mime] || 'png';
         const download = () => {
             const a = document.createElement('a');
             a.href = src; a.download = `image_${Date.now()}.${ext}`; a.click();
         };
         // SVG (Recraft Vector) : image vectorielle, affichée en <img> (aucun script exécuté) ;
         // seul le téléchargement est proposé.
+        // GIF animé (GPT Image 2.6) : les outils travailleraient sur une seule image fixe → téléchargement seulement
+        if (ext === 'gif') {
+            bar.appendChild(imgTool(t.imgDownload, t.imgDownloadGifTip, download));
+            return bar;
+        }
         if (ext === 'svg') {
             bar.appendChild(recraftMenu(src, ['removeBackground', 'replaceBackground', 'outpaintCustom']));
             bar.appendChild(imgTool(t.imgDownload, t.imgDownloadSvgTip, download));
@@ -10938,18 +11060,25 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     const a = newCanvas();
                     const ac = a.getContext('2d');
                     ac.drawImage(img, 0, 0, W, H);
+                    // Calque transparent (annotations seules, même taille que l'image) : champ markup d'OpenAI
+                    const l = newCanvas();
+                    const lc = l.getContext('2d');
                     if (mode === 'markup') {
                         drawStrokes(ac);
+                        drawStrokes(lc);
                         const txt = instr.value.trim();
                         const annotated = await canvasToBlob(a);
                         job = { blobs: [base, annotated], prompt: EDIT_PROMPTS.markup(txt), display: t.ieDisplayMarkup + (txt ? ` : ${txt}` : ''),
+                            layer: { blobs: [base], markup: await canvasToBlob(l), prompt: EDIT_PROMPTS.markupLayer(txt) },
                             single: { blobs: [annotated], prompt: EDIT_PROMPTS.markupSingle(txt) }, negative: NEG_MARKS };
                     } else {
                         const used = pins.filter(p => p.text.trim());  // notes vides ignorées, renumérotées
                         drawPins(ac, used);
                         const lines = used.map((p, i) => `${i + 1}) at about ${Math.round(p.x / W * 100)}% from the left and ${Math.round(p.y / H * 100)}% from the top: ${p.text.trim()}`).join('\n');
                         // Variante une image : l'originale SANS marqueurs, positions décrites en texte
+                        drawPins(lc, used);
                         job = { blobs: [base, await canvasToBlob(a)], prompt: EDIT_PROMPTS.comment(lines), display: `${t.ieDisplayComment} : ${used.map((p, i) => `${i + 1}. ${p.text.trim()}`).join(' · ')}`,
+                            layer: { blobs: [base], markup: await canvasToBlob(l), prompt: EDIT_PROMPTS.commentLayer(lines) },
                             single: { blobs: [base], prompt: EDIT_PROMPTS.commentText(lines) }, negative: NEG_MARKS };
                     }
                 }
@@ -11009,6 +11138,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         // Masque (Effacer) : PNG de même taille que la 1re image, zone à modifier = transparente.
         if (opts.mask) fd.append('mask', opts.mask, 'mask.png');
+        // Calque d'annotation (PNG transparent de même taille que la 1re image) ; jamais avec un masque
+        else if (opts.markup) fd.append('markup', opts.markup, 'markup.png');
         const res = await fetchWithRetry('https://api.openai.com/v1/images/edits', {
             method: 'POST', signal, headers: { 'Authorization': `Bearer ${key}` }, body: fd
         });
@@ -11234,7 +11365,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const signal = currentAbortController.signal;
         try {
             // Variante une image (Qwen) ; sinon Effacer sans masque natif → originale + version peinte en rouge
-            const src = (caps.single && job.single) ? job.single : (!caps.mask && job.noMask) ? job.noMask : job;
+            // OpenAI + calque d'annotation : l'originale seule + le calque (champ markup)
+            const useLayer = provider === 'openai' && job.layer;
+            const src = useLayer ? job.layer : (caps.single && job.single) ? job.single : (!caps.mask && job.noMask) ? job.noMask : job;
             let prompt = src.prompt;
             let inputs = src.blobs || await Promise.all(job.srcs.map(async s => {
                 try { return await srcToBlob(s); }
@@ -11262,7 +11395,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
             let imageData;
             if (provider === 'openai') {
-                imageData = await editImageOpenAI(inputs, prompt, { size: job.size, transparent, mask: job.mask }, key, signal);
+                imageData = await editImageOpenAI(inputs, prompt, { size: job.size, transparent, mask: job.mask, markup: useLayer ? job.layer.markup : null }, key, signal);
             } else {
                 const images = await Promise.all(inputs.map(x => typeof x === 'string' ? x : prepareEditInput(x)));
                 const opts = { ratio: job.ratio, qwenSize: job.qwenSize, negative: job.negative };
@@ -11437,6 +11570,57 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
     }
 
+    // ----- GPT Image 2.6 : GIF animé, SVG, complexité -----
+    // output_format gif (frame_count 2–16, frame_duration_ms ≥ 20 ; génération seulement, pixels du
+    // GIF limités → images de 512 px de côté) ou svg (n = 1, génération seulement) ; complexity
+    // low / medium / high (omise = high, sans surcoût). Le GIF peut demander l'accès à l'aperçu GIF
+    // du compte : l'erreur d'OpenAI s'affiche alors telle quelle.
+    const OAI_GIF_SIZES = { '1024x1024': '512x512', '1536x1024': '768x512', '1024x1536': '512x768', auto: 'auto' };
+    const OAI_GIF_SPEEDS = [60, 100, 150, 200, 300, 500, 1000];
+    const isImage26 = m => /^gpt-image-2\.6/.test(m || '');
+    const openAIImageOutput = m => (isImage26(m) && $('oai-output').value) || 'png';
+    function openAIImageBody(model, prompt) {
+        const size = (imageSizeSelect && imageSizeSelect.value) ? imageSizeSelect.value : '1024x1024';
+        const body = { model, prompt, n: 1, size, quality: (imageQualitySelect && imageQualitySelect.value) ? imageQualitySelect.value : 'medium' };
+        if (!isImage26(model)) return body;
+        if ($('oai-complexity').value) body.complexity = $('oai-complexity').value;
+        const out = openAIImageOutput(model);
+        if (out === 'gif') {
+            body.output_format = 'gif';
+            body.frame_count = parseInt($('oai-frames').value, 10) || 9;
+            body.frame_duration_ms = parseInt($('oai-speed').value, 10) || 200;
+            body.size = OAI_GIF_SIZES[size] || 'auto';
+        } else if (out === 'svg') body.output_format = 'svg';
+        return body;
+    }
+    // Réglages visibles seulement avec un modèle 2.6 ; images et vitesse seulement en GIF
+    function updateOpenAIImageOptions() {
+        const t = I18N[currentLang];
+        const on = providerSelect.value === 'openai' && isImage26(imageModelSelect && imageModelSelect.value);
+        const gif = on && $('oai-output').value === 'gif';
+        document.querySelectorAll('#image-config-panel .oai26-only').forEach(el => { el.style.display = on ? '' : 'none'; });
+        document.querySelectorAll('#image-config-panel .oai-gif-only').forEach(el => { el.style.display = gif ? '' : 'none'; });
+        const frames = $('oai-frames'), speed = $('oai-speed');
+        if (!frames.options.length) {
+            for (let n = 2; n <= 16; n++) { const o = document.createElement('option'); o.value = String(n); o.textContent = String(n); frames.appendChild(o); }
+            frames.value = localStorage.getItem('ai_gif_frames') || '9';
+        }
+        const ms = speed.value || localStorage.getItem('ai_gif_ms') || '200';
+        speed.innerHTML = '';
+        OAI_GIF_SPEEDS.forEach(v => { const o = document.createElement('option'); o.value = String(v); o.textContent = t.gifSpeedOpt.replace('{ms}', v); speed.appendChild(o); });
+        speed.value = OAI_GIF_SPEEDS.includes(+ms) ? ms : '200';
+        // Durée d'une boucle en infobulle (images × vitesse)
+        const loc = { fr: 'fr-CA', en: 'en-US', es: 'es-MX' }[currentLang];
+        $('oai-speed-group').title = t.gifLoop.replace('{s}', (Math.round(+frames.value * +speed.value / 100) / 10).toLocaleString(loc));
+    }
+    [['oai-output', 'ai_openai_image_output'], ['oai-frames', 'ai_gif_frames'], ['oai-speed', 'ai_gif_ms'], ['oai-complexity', 'ai_openai_complexity']].forEach(([id, k]) => {
+        const el = $(id); if (!el) return;
+        const v = localStorage.getItem(k);
+        if (v !== null && [...el.options].some(o => o.value === v)) el.value = v;
+        el.addEventListener('change', () => { localStorage.setItem(k, el.value); updateOpenAIImageOptions(); });
+    });
+    if (imageModelSelect) imageModelSelect.addEventListener('change', updateOpenAIImageOptions);
+
     async function generateImageOpenAI(prompt, key) {
         const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : IMAGE_MODELS.openai[0].id;
         const res = await fetchWithRetry('https://api.openai.com/v1/images/generations', {
@@ -11446,13 +11630,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             },
-            body: JSON.stringify({
-                model: selectedModel,
-                prompt,
-                n: 1,
-                size: (imageSizeSelect && imageSizeSelect.value) ? imageSizeSelect.value : '1024x1024',
-                quality: (imageQualitySelect && imageQualitySelect.value) ? imageQualitySelect.value : 'medium'
-            })
+            body: JSON.stringify(openAIImageBody(selectedModel, prompt))
         });
 
         if (!res.ok) {
@@ -11462,7 +11640,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         const data = await res.json();
         if (data.data[0].b64_json) {
-            return data.data[0].b64_json;
+            // GPT Image 2.6 : GIF animé ou SVG → type porté jusqu'à l'affichage et au téléchargement
+            const out = openAIImageOutput(selectedModel);
+            return out === 'png' ? data.data[0].b64_json : { b64: data.data[0].b64_json, mime: out === 'gif' ? 'image/gif' : 'image/svg+xml' };
         } else if (data.data[0].url) {
             const imgRes = await fetchWithRetry(data.data[0].url, { signal: currentAbortController.signal });
             const blob = await imgRes.blob();
