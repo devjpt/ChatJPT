@@ -8,6 +8,36 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.34.0] — 2026-11-05
+  Added
+    - 𝕏 Search on X (new Grok switch): Grok searches X posts and profiles in
+      real time and cites the posts in the Sources. About $5 per 1,000 posts
+      read, on top of tokens.
+    - Grok 4.20 Multi-agent (deep research): 4 agents (fast, default) or 16
+      agents (more thorough, many more tokens).
+    - 🚀 Priority (new Grok switch): faster answers at busy times, 2× the
+      price, billed only when xAI grants it.
+    - Grok videos from attached photos: first frame, references (characters,
+      objects; <IMAGE_0>, <IMAGE_1>… in the prompt) or first and last frame
+      (Imagine Video 1.5), plus a preset voice for the characters.
+    - ✏️ Edit the video for Grok (videos of 8.7 s or less).
+    - Voice mode (Grok): "Expression" menu with 14 sounds (pause, laugh,
+      sigh…) and 12 ways of speaking (whisper, softly, slowly, sing…); in a
+      🎧 Podcast, the tone of each line is now applied by Grok.
+    - Exact cost of each Grok answer under it, and the part read from cache
+      for OpenAI, Grok, Meta and MiniMax too.
+  Changed
+    - Grok Imagine (Quality), retired by xAI on Nov 2, is replaced by Grok
+      Imagine 1.0 ($0.02); Imagine 2.0 gets a Quality setting (auto / low /
+      medium); 16 image formats instead of 5; up to 4 images at once.
+    - Grok 4.3: adjustable thinking (🧠 switch with effort).
+    - Grok videos: 4 to 15 seconds (8 by default), 480p / 720p / 1080p,
+      9 formats.
+    - Grok 4.7 keeps its (encrypted) reasoning from one turn to the next.
+    - Grok requests carry a conversation id (better prompt caching).
+    - Sources without a title get a readable label from their address
+      ("Post by @…", "@… profile", page name) instead of the bare domain.
+
 [1.33.0] — 2026-11-05
   Added
     - Claude Haiku 5.5 (fast, low cost, always thinks).
@@ -835,6 +865,40 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.34.0] — 2026-11-05
+  Ajouté
+    - 𝕏 Recherche sur X (nouvel interrupteur Grok) : Grok cherche dans les
+      publications et profils de X en temps réel et cite les publications dans
+      les Sources. Environ 5 $ pour 1 000 publications lues, en plus des tokens.
+    - Grok 4.20 Multi-agents (recherche approfondie) : 4 agents (rapide, par
+      défaut) ou 16 agents (plus complet, bien plus de tokens).
+    - 🚀 Prioritaire (nouvel interrupteur Grok) : réponses plus rapides aux
+      heures chargées, 2× le prix, facturé seulement si xAI l'accorde.
+    - Vidéos Grok à partir des photos jointes : 1re image, références
+      (personnages, objets ; <IMAGE_0>, <IMAGE_1>… dans la consigne) ou 1re et
+      dernière image (Imagine Vidéo 1.5), plus une voix préréglée.
+    - ✏️ Modifier la vidéo pour Grok (vidéos de 8,7 s au plus).
+    - Mode Voix (Grok) : menu « Expression » avec 14 sons (pause, rire,
+      soupir…) et 12 manières de dire (chuchoter, doucement, lentement,
+      chanter…) ; dans un 🎧 Podcast, le ton de chaque réplique est maintenant
+      appliqué par Grok.
+    - Coût exact de chaque réponse Grok affiché dessous, et part relue en cache
+      aussi pour OpenAI, Grok, Meta et MiniMax.
+  Modifié
+    - Grok Imagine (Qualité), retiré par xAI le 2 nov., est remplacé par Grok
+      Imagine 1.0 (0,02 $) ; Imagine 2.0 gagne un réglage Qualité (auto /
+      basse / moyenne) ; 16 formats d'image au lieu de 5 ; jusqu'à 4 images
+      d'un coup.
+    - Grok 4.3 : réflexion réglable (interrupteur 🧠 avec effort).
+    - Vidéos Grok : 4 à 15 secondes (8 par défaut), 480p / 720p / 1080p,
+      9 formats.
+    - Grok 4.7 garde sa réflexion (chiffrée) d'un tour à l'autre.
+    - Les requêtes Grok portent un identifiant de conversation (meilleur
+      cache).
+    - Les sources sans titre reçoivent un libellé lisible tiré de leur adresse
+      (« Publication de @… », « Profil de @… », nom de la page) au lieu du seul
+      domaine.
 
 [1.33.0] — 2026-11-05
   Ajouté
@@ -1728,6 +1792,41 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.34.0] — 2026-11-05
+  Añadido
+    - 𝕏 Búsqueda en X (nuevo interruptor de Grok): Grok busca en las
+      publicaciones y perfiles de X en tiempo real y cita las publicaciones en
+      las Fuentes. Unos 5 $ por 1 000 publicaciones leídas, además de los
+      tokens.
+    - Grok 4.20 Multiagente (investigación profunda): 4 agentes (rápido, por
+      defecto) o 16 agentes (más completo, muchos más tokens).
+    - 🚀 Prioritario (nuevo interruptor de Grok): respuestas más rápidas en
+      horas de mucha demanda, 2× el precio, cobrado solo si xAI lo concede.
+    - Videos de Grok a partir de las fotos adjuntas: primera imagen,
+      referencias (personajes, objetos; <IMAGE_0>, <IMAGE_1>… en la
+      instrucción) o primera y última imagen (Imagine Video 1.5), más una voz
+      predefinida.
+    - ✏️ Editar el video para Grok (videos de 8,7 s como máximo).
+    - Modo Voz (Grok): menú "Expresión" con 14 sonidos (pausa, risa,
+      suspiro…) y 12 formas de decir (susurrar, suavemente, despacio,
+      cantar…); en un 🎧 Pódcast, Grok ahora aplica el tono de cada línea.
+    - Costo exacto de cada respuesta de Grok indicado debajo, y parte leída
+      de la caché también para OpenAI, Grok, Meta y MiniMax.
+  Cambiado
+    - Grok Imagine (Calidad), retirado por xAI el 2 de nov., se reemplaza por
+      Grok Imagine 1.0 (0,02 $); Imagine 2.0 gana un ajuste de Calidad (auto /
+      baja / media); 16 formatos de imagen en lugar de 5; hasta 4 imágenes a
+      la vez.
+    - Grok 4.3: razonamiento ajustable (interruptor 🧠 con esfuerzo).
+    - Videos de Grok: 4 a 15 segundos (8 por defecto), 480p / 720p / 1080p,
+      9 formatos.
+    - Grok 4.7 conserva su razonamiento (cifrado) de un turno a otro.
+    - Las solicitudes a Grok llevan un identificador de conversación (mejor
+      caché).
+    - Las fuentes sin título reciben una etiqueta legible tomada de su
+      dirección ("Publicación de @…", "Perfil de @…", nombre de la página) en
+      lugar del dominio solo.
 
 [1.33.0] — 2026-11-05
   Añadido

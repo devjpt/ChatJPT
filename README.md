@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.33.0
+  Version 1.34.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -46,7 +46,7 @@ FEATURES
                      resolution up to 4K), Qwen, Grok, Recraft (vector SVG, styles), and Bria
                      (licensed images, retouching, product photos), and MiniMax
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
-                     ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni)
+                     ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni, Grok)
       • Voice      : text-to-speech with MiniMax (emotions, effects, your own
                      designed or cloned voices), Google Gemini (1 or 2 voices, 150+ voices to search, your own designed, remixed or cloned voices),
                      Alibaba Qwen (120+ voices, 50+ languages, your own designed
@@ -115,6 +115,11 @@ FEATURES
     reread at about 10% of the price, shown under each answer), and an
     automatic retry on another Claude model when a safety filter declines.
 
+  - Grok extras: 𝕏 Search on X (posts and profiles, cited), Grok 4.20
+    Multi-agent (4 or 16 agents), 🚀 Priority, adjustable thinking for Grok 4.3,
+    videos from reference photos with a preset voice, expressive tags in Voice
+    mode (laugh, whisper…), and the exact cost of each answer under it.
+
   - Read pasted links (optional 🔗 toggle, off by default, separate from web
     search): the model opens and reads the actual content of the URL(s) you paste,
     instead of guessing from the address; the page is shown as a clickable source.
@@ -155,7 +160,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_33_0.html
+  1. Download the file ChatJPT_1_34_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -187,7 +192,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.33.0
+  Version 1.34.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -234,7 +239,7 @@ FONCTIONNALITÉS
                      résolution jusqu'à 4K), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
                      (images sous licence, retouche, photos de produits) et MiniMax
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
-                     ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni)
+                     ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni, Grok)
       • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
                      voix créées ou clonées), Google Gemini (1 ou 2 voix, 150+ voix à rechercher, tes propres voix créées, remixées ou clonées),
                      Alibaba Qwen (120+ voix, 50+ langues, tes propres voix
@@ -309,6 +314,12 @@ FONCTIONNALITÉS
     environ 10 % du prix, affiché sous chaque réponse) et relance automatique sur
     un autre modèle Claude quand un filtre de sécurité refuse.
 
+  - Bonus Grok : 𝕏 Recherche sur X (publications et profils, cités), Grok 4.20
+    Multi-agents (4 ou 16 agents), 🚀 Prioritaire, réflexion réglable pour
+    Grok 4.3, vidéos à partir de photos de référence avec une voix préréglée,
+    balises expressives en mode Voix (rire, chuchoter…) et coût exact de chaque
+    réponse affiché dessous.
+
   - Lire les liens collés (toggle 🔗 optionnel, désactivé par défaut, distinct de
     la recherche web) : le modèle ouvre et lit le contenu réel de la ou des URL que
     vous collez, au lieu de deviner d'après l'adresse ; la page est affichée comme
@@ -350,7 +361,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_33_0.html
+  1. Téléchargez le fichier ChatJPT_1_34_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -384,7 +395,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.33.0
+  Versión 1.34.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -431,7 +442,7 @@ CARACTERÍSTICAS
                      resolución hasta 4K), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
-                     ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni)
+                     ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni, Grok)
       • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
                      voces creadas o clonadas), Google Gemini (1 o 2 voces, 150+ voces para buscar, tus propias voces creadas, remezcladas o clonadas),
                      Alibaba Qwen (120+ voces, 50+ idiomas, tus propias voces
@@ -469,6 +480,12 @@ CARACTERÍSTICAS
     relee a cerca del 10 % del precio, indicado bajo cada respuesta) y
     reintento automático con otro modelo Claude cuando un filtro de seguridad
     rechaza.
+
+  - Extras de Grok: 𝕏 Búsqueda en X (publicaciones y perfiles, citados), Grok
+    4.20 Multiagente (4 o 16 agentes), 🚀 Prioritario, razonamiento ajustable
+    para Grok 4.3, videos a partir de fotos de referencia con una voz
+    predefinida, etiquetas expresivas en modo Voz (risa, susurro…) y costo exacto
+    de cada respuesta indicado debajo.
 
   - Leer enlaces pegados (interruptor 🔗 opcional, desactivado por defecto,
     distinto de la búsqueda web): el modelo abre y lee el contenido real de la(s)
@@ -544,7 +561,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_33_0.html
+  1. Descarga el archivo ChatJPT_1_34_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.33.0
+  Version 1.34.0
 -->
 
 
@@ -3120,11 +3120,21 @@
             <div class="select-group" id="image-grok-aspect-group">
                 <label data-i18n="lblImageFormat">Format</label>
                 <select id="image-grok-aspect-select" aria-label="Format image Grok">
-                    <option value="1:1" selected data-i18n="imgFmtSquare">Carré (1:1)</option>
-                    <option value="16:9" data-i18n="imgFmtLandscape">Paysage (16:9)</option>
-                    <option value="9:16" data-i18n="imgFmtPortrait">Portrait (9:16)</option>
-                    <option value="4:3" data-i18n="imgFmtClassic">Classique (4:3)</option>
-                    <option value="3:4" data-i18n="imgFmtClassicPortrait">Portrait (3:4)</option>
+                    <option value="1:1" selected>Carré (1:1)</option>
+                </select>
+            </div>
+            <div class="select-group" id="image-grok-quality-group">
+                <label data-i18n="lblImageQuality">Qualité</label>
+                <select id="image-grok-quality-select" aria-label="Qualité image Grok">
+                    <option value="auto" selected data-i18n="grokQAuto">Automatique</option>
+                    <option value="low" data-i18n="grokQLow">Basse (rapide)</option>
+                    <option value="medium" data-i18n="grokQMedium">Moyenne (plus détaillée)</option>
+                </select>
+            </div>
+            <div class="select-group" id="image-grok-n-group">
+                <label data-i18n="lblMmCount">Images</label>
+                <select id="image-grok-n-select" aria-label="Nombre d'images Grok">
+                    <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
                 </select>
             </div>
             <div class="select-group" id="image-recraft-size-group">
@@ -3330,6 +3340,10 @@
             </div>
             <label class="rc-bg-toggle"><input type="checkbox" id="xv-normalize"> <span data-i18n="xvNormalize">Lire nombres et sigles</span></label>
             <div class="select-group">
+                <label data-i18n="lblXvTags" title="Insère une balise dans le texte : les sons à l'endroit du curseur, les manières de dire autour du texte sélectionné." data-i18n-title="xvTagsTip">Expression</label>
+                <select id="xv-tags" aria-label="Insérer une expression"></select>
+            </div>
+            <div class="select-group">
                 <label data-i18n="lblAudioFormat">Format</label>
                 <select id="xv-format" aria-label="Format audio"><option value="mp3" selected>MP3</option><option value="wav">WAV</option></select>
             </div>
@@ -3391,6 +3405,26 @@
                 <select id="video-aspect-select" aria-label="Ratio vidéo">
                     <option value="16:9">16:9 (Paysage)</option>
                     <option value="9:16">9:16 (Portrait)</option>
+                </select>
+            </div>
+            <div class="select-group" id="grok-vref-group">
+                <label data-i18n="lblGrokVref" title="Photos jointes au message (📎)" data-i18n-title="grokVrefTip">Photos jointes</label>
+                <select id="grok-vref-select" aria-label="Usage des photos jointes">
+                    <option value="first" data-i18n="grokVrefFirst">1re image de la vidéo</option>
+                    <option value="refs" data-i18n="grokVrefRefs">Références (personnages, objets)</option>
+                    <option value="firstlast" data-i18n="grokVrefFirstLast">1re et dernière image</option>
+                </select>
+            </div>
+            <div class="select-group" id="grok-vvoice-group">
+                <label data-i18n="lblGrokVvoice">Voix</label>
+                <select id="grok-vvoice-select" aria-label="Voix de la vidéo"></select>
+            </div>
+            <div class="select-group" id="video-res-group">
+                <label data-i18n="lblImageResolution">Résolution</label>
+                <select id="video-res-select" aria-label="Résolution vidéo">
+                    <option value="480p">480p</option>
+                    <option value="720p" selected>720p</option>
+                    <option value="1080p">1080p</option>
                 </select>
             </div>
             <div class="select-group">
@@ -3490,6 +3524,20 @@
             </label>
             <span class="websearch-hint" data-i18n="webSearchHint">consomme plus de tokens (+ frais de recherche)</span>
         </div>
+        <div class="websearch-mode-container" id="xsearch-mode-container">
+            <label class="websearch-mode-label" id="xsearch-mode-label" title="Grok cherche dans les publications et profils de X en temps réel et cite les publications." data-i18n-title="xSearchTitle">
+                <input type="checkbox" id="xsearch-mode-cb">
+                <span class="websearch-label-text" data-i18n="xSearchLabel">𝕏 Recherche sur X</span>
+            </label>
+            <span class="websearch-hint" data-i18n="xSearchHint">≈ 5 $ pour 1 000 publications lues</span>
+        </div>
+        <div class="websearch-mode-container" id="grokprio-mode-container">
+            <label class="websearch-mode-label" id="grokprio-mode-label" title="Traitement prioritaire de xAI : réponses plus rapides aux heures chargées, 2 fois le prix des tokens (facturé seulement s'il est accordé)." data-i18n-title="grokPrioTitle">
+                <input type="checkbox" id="grokprio-mode-cb">
+                <span class="websearch-label-text" data-i18n="grokPrioLabel">🚀 Prioritaire</span>
+            </label>
+            <span class="websearch-hint" data-i18n="grokPrioHint">plus rapide aux heures chargées, 2× le prix</span>
+        </div>
         <div class="websearch-mode-container" id="ultrafast-mode-container">
             <label class="websearch-mode-label" id="ultrafast-mode-label" title="Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide, 6 fois le prix normal." data-i18n-title="ultrafastTitle">
                 <input type="checkbox" id="ultrafast-mode-cb">
@@ -3584,6 +3632,8 @@
     const imageGrokAspectSelect = $('image-grok-aspect-select');
     const imageGrokAspectGroup = $('image-grok-aspect-group');
     const imageGrokResolutionSelect = $('image-grok-resolution-select');
+    const imageGrokQualitySelect = $('image-grok-quality-select');
+    const imageGrokNSelect = $('image-grok-n-select');
     const imageGrokResolutionGroup = $('image-grok-resolution-group');
     const imageRecraftSizeSelect = $('image-recraft-size-select');
     const imageRecraftSizeGroup = $('image-recraft-size-group');
@@ -3796,7 +3846,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.33.0 - Dernière version : ",
+            creditVersion: "Version 1.34.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4002,6 +4052,19 @@
             imgFmt54: "Paysage (5:4)",
             imgFmt45: "Portrait (4:5)",
             imgFmt219: "Cinéma (21:9)",
+            imgFmtAuto: "Automatique (le modèle choisit)",
+            imgFmt21: "Bannière (2:1)",
+            imgFmt12: "Bannière verticale (1:2)",
+            imgFmt52: "Bannière large (5:2)",
+            imgFmt1959: "Téléphone, iPhone (19,5:9)",
+            imgFmt9195: "Téléphone vertical, iPhone (9:19,5)",
+            imgFmt209: "Téléphone, Android (20:9)",
+            imgFmt920: "Téléphone vertical, Android (9:20)",
+            grokQAuto: "Automatique",
+            grokQLow: "Basse (rapide)",
+            grokQMedium: "Moyenne (plus détaillée)",
+            vidEditTipGrok: "Change un élément de la vidéo par une consigne (ex. « ajoute un collier en argent ») ; le reste est conservé. Grok Imagine, vidéo de 8,7 s au plus (720p).",
+            vidEditTooLong: "Grok ne retouche que les vidéos de 8,7 secondes au plus : génère une vidéo de 8 secondes ou moins pour la modifier.",
             imgFmt41: "Bannière (4:1)",
             imgFmt14: "Bannière verticale (1:4)",
             imgFmt81: "Panorama (8:1)",
@@ -4121,6 +4184,31 @@
             webSearchLabel: "🌐 Recherche web + sources",
             webSearchHint: "consomme plus de tokens (+ frais de recherche)",
             webSearchTitle: "Le modèle cherche le web en temps réel et affiche ses sources.",
+            xSearchLabel: "𝕏 Recherche sur X",
+            xSearchHint: "≈ 5 $ pour 1 000 publications lues",
+            xSearchTitle: "Grok cherche dans les publications et profils de X (Twitter) en temps réel et cite les publications. Facturé par xAI environ 5 $ pour 1 000 publications et 10 $ pour 1 000 profils lus (souvent 10 à 20 publications par question), en plus des tokens.",
+            grokPrioLabel: "🚀 Prioritaire",
+            grokPrioHint: "plus rapide aux heures chargées, 2× le prix",
+            grokPrioTitle: "Traitement prioritaire de xAI : réponses plus rapides aux heures chargées, 2 fois le prix des tokens. Facturé seulement quand xAI l'accorde.",
+            grokAgents4: "4 agents (rapide)",
+            grokAgents16: "16 agents (plus complet, bien plus de tokens)",
+            lblGrokVref: "Photos jointes",
+            grokVrefTip: "Ce que Grok fait des photos jointes au message (📎). Références : personnages, objets ou style à reprendre ; dans la consigne, désigne-les par <IMAGE_0>, <IMAGE_1>…",
+            grokVrefFirst: "1re image de la vidéo",
+            grokVrefRefs: "Références (personnages, objets)",
+            grokVrefFirstLast: "1re et dernière image",
+            lblGrokVvoice: "Voix",
+            grokVvoiceNone: "Aucune (son d'origine)",
+            lblXvTags: "Expression",
+            xvTagsTip: "Insère une balise dans le texte : les sons à l'endroit du curseur, les manières de dire autour du texte sélectionné.",
+            xvTagsPick: "Insérer…",
+            xvTagsSounds: "Sons (au curseur)",
+            xvTagsStyles: "Manière de dire (autour de la sélection)",
+            xvTagNames: { 'pause': "Pause", 'long-pause': "Longue pause", 'laugh': "Rire", 'chuckle': "Petit rire", 'giggle': "Gloussement", 'cry': "Pleurs", 'sigh': "Soupir", 'breath': "Respiration", 'inhale': "Inspiration", 'exhale': "Expiration", 'tsk': "Tss", 'tongue-click': "Claquement de langue", 'lip-smack': "Claquement de lèvres", 'hum-tune': "Fredonnement", 'whisper': "Chuchoter", 'soft': "Doucement", 'loud': "Fort", 'emphasis': "Insister", 'slow': "Lentement", 'fast': "Vite", 'higher-pitch': "Plus aigu", 'lower-pitch': "Plus grave", 'build-intensity': "Monter en intensité", 'decrease-intensity': "Baisser en intensité", 'sing-song': "Chantonner", 'singing': "Chanter" },
+            srcXPost: "Publication de @{h}",
+            srcXPostAnon: "Publication sur X",
+            srcXProfile: "Profil de @{h}",
+            srcXSearch: "Recherche X : {q}",
             readLinksLabel: "🔗 Lire les liens collés",
             readLinksHint: "consomme plus de tokens (lit la page)",
             readLinksTitle: "Le modèle ouvre et lit les liens (URL) que vous collez dans votre message.",
@@ -4625,7 +4713,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.33.0 - Latest version: ",
+            creditVersion: "Version 1.34.0 - Latest version: ",
             appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4831,6 +4919,19 @@
             imgFmt54: "Landscape (5:4)",
             imgFmt45: "Portrait (4:5)",
             imgFmt219: "Cinema (21:9)",
+            imgFmtAuto: "Automatic (the model chooses)",
+            imgFmt21: "Banner (2:1)",
+            imgFmt12: "Vertical banner (1:2)",
+            imgFmt52: "Wide banner (5:2)",
+            imgFmt1959: "Phone, iPhone (19.5:9)",
+            imgFmt9195: "Vertical phone, iPhone (9:19.5)",
+            imgFmt209: "Phone, Android (20:9)",
+            imgFmt920: "Vertical phone, Android (9:20)",
+            grokQAuto: "Automatic",
+            grokQLow: "Low (fast)",
+            grokQMedium: "Medium (more detailed)",
+            vidEditTipGrok: "Changes one element of the video from a prompt (e.g. \"add a silver necklace\"); the rest is kept. Grok Imagine, videos of 8.7 s at most (720p).",
+            vidEditTooLong: "Grok only edits videos of 8.7 seconds or less: generate a video of 8 seconds or less to edit it.",
             imgFmt41: "Banner (4:1)",
             imgFmt14: "Vertical banner (1:4)",
             imgFmt81: "Panorama (8:1)",
@@ -4950,6 +5051,31 @@
             webSearchLabel: "🌐 Web search + sources",
             webSearchHint: "uses more tokens (+ search fees)",
             webSearchTitle: "The model searches the web in real time and shows its sources.",
+            xSearchLabel: "𝕏 Search on X",
+            xSearchHint: "≈ $5 per 1,000 posts read",
+            xSearchTitle: "Grok searches X (Twitter) posts and profiles in real time and cites the posts. Billed by xAI about $5 per 1,000 posts and $10 per 1,000 profiles read (often 10 to 20 posts per question), on top of tokens.",
+            grokPrioLabel: "🚀 Priority",
+            grokPrioHint: "faster at busy times, 2× the price",
+            grokPrioTitle: "xAI priority processing: faster answers at busy times, 2 times the token price. Billed only when xAI grants it.",
+            grokAgents4: "4 agents (fast)",
+            grokAgents16: "16 agents (more thorough, many more tokens)",
+            lblGrokVref: "Attached photos",
+            grokVrefTip: "What Grok does with the photos attached to the message (📎). References: characters, objects or style to reuse; in the prompt, refer to them as <IMAGE_0>, <IMAGE_1>…",
+            grokVrefFirst: "First frame of the video",
+            grokVrefRefs: "References (characters, objects)",
+            grokVrefFirstLast: "First and last frame",
+            lblGrokVvoice: "Voice",
+            grokVvoiceNone: "None (original sound)",
+            lblXvTags: "Expression",
+            xvTagsTip: "Inserts a tag in the text: sounds at the cursor, ways of speaking around the selected text.",
+            xvTagsPick: "Insert…",
+            xvTagsSounds: "Sounds (at the cursor)",
+            xvTagsStyles: "Way of speaking (around the selection)",
+            xvTagNames: { 'pause': "Pause", 'long-pause': "Long pause", 'laugh': "Laugh", 'chuckle': "Chuckle", 'giggle': "Giggle", 'cry': "Cry", 'sigh': "Sigh", 'breath': "Breath", 'inhale': "Inhale", 'exhale': "Exhale", 'tsk': "Tsk", 'tongue-click': "Tongue click", 'lip-smack': "Lip smack", 'hum-tune': "Hum a tune", 'whisper': "Whisper", 'soft': "Softly", 'loud': "Loud", 'emphasis': "Emphasis", 'slow': "Slowly", 'fast': "Fast", 'higher-pitch': "Higher pitch", 'lower-pitch': "Lower pitch", 'build-intensity': "Build intensity", 'decrease-intensity': "Lower intensity", 'sing-song': "Sing-song", 'singing': "Sing" },
+            srcXPost: "Post by @{h}",
+            srcXPostAnon: "Post on X",
+            srcXProfile: "@{h} profile",
+            srcXSearch: "X search: {q}",
             readLinksLabel: "🔗 Read pasted links",
             readLinksHint: "uses more tokens (reads the page)",
             readLinksTitle: "The model opens and reads the links (URLs) you paste in your message.",
@@ -5454,7 +5580,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.33.0 - Última versión: ",
+            creditVersion: "Versión 1.34.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5660,6 +5786,19 @@
             imgFmt54: "Horizontal (5:4)",
             imgFmt45: "Retrato (4:5)",
             imgFmt219: "Cine (21:9)",
+            imgFmtAuto: "Automático (el modelo elige)",
+            imgFmt21: "Banner (2:1)",
+            imgFmt12: "Banner vertical (1:2)",
+            imgFmt52: "Banner ancho (5:2)",
+            imgFmt1959: "Teléfono, iPhone (19,5:9)",
+            imgFmt9195: "Teléfono vertical, iPhone (9:19,5)",
+            imgFmt209: "Teléfono, Android (20:9)",
+            imgFmt920: "Teléfono vertical, Android (9:20)",
+            grokQAuto: "Automática",
+            grokQLow: "Baja (rápida)",
+            grokQMedium: "Media (más detallada)",
+            vidEditTipGrok: "Cambia un elemento del video con una instrucción (ej. \"añade un collar de plata\"); el resto se conserva. Grok Imagine, videos de 8,7 s como máximo (720p).",
+            vidEditTooLong: "Grok solo edita videos de 8,7 segundos como máximo: genera un video de 8 segundos o menos para editarlo.",
             imgFmt41: "Banner (4:1)",
             imgFmt14: "Banner vertical (1:4)",
             imgFmt81: "Panorama (8:1)",
@@ -5779,6 +5918,31 @@
             webSearchLabel: "🌐 Búsqueda web + fuentes",
             webSearchHint: "consume más tokens (+ costos de búsqueda)",
             webSearchTitle: "El modelo busca en la web en tiempo real y muestra sus fuentes.",
+            xSearchLabel: "𝕏 Búsqueda en X",
+            xSearchHint: "≈ 5 $ por 1 000 publicaciones leídas",
+            xSearchTitle: "Grok busca en las publicaciones y perfiles de X (Twitter) en tiempo real y cita las publicaciones. xAI cobra unos 5 $ por 1 000 publicaciones y 10 $ por 1 000 perfiles leídos (a menudo 10 a 20 publicaciones por pregunta), además de los tokens.",
+            grokPrioLabel: "🚀 Prioritario",
+            grokPrioHint: "más rápido en horas de mucha demanda, 2× el precio",
+            grokPrioTitle: "Procesamiento prioritario de xAI: respuestas más rápidas en horas de mucha demanda, 2 veces el precio de los tokens. Se cobra solo cuando xAI lo concede.",
+            grokAgents4: "4 agentes (rápido)",
+            grokAgents16: "16 agentes (más completo, muchos más tokens)",
+            lblGrokVref: "Fotos adjuntas",
+            grokVrefTip: "Lo que Grok hace con las fotos adjuntas al mensaje (📎). Referencias: personajes, objetos o estilo a retomar; en la instrucción, nómbralas <IMAGE_0>, <IMAGE_1>…",
+            grokVrefFirst: "Primera imagen del video",
+            grokVrefRefs: "Referencias (personajes, objetos)",
+            grokVrefFirstLast: "Primera y última imagen",
+            lblGrokVvoice: "Voz",
+            grokVvoiceNone: "Ninguna (sonido original)",
+            lblXvTags: "Expresión",
+            xvTagsTip: "Inserta una etiqueta en el texto: los sonidos en el cursor, las formas de decir alrededor del texto seleccionado.",
+            xvTagsPick: "Insertar…",
+            xvTagsSounds: "Sonidos (en el cursor)",
+            xvTagsStyles: "Forma de decir (alrededor de la selección)",
+            xvTagNames: { 'pause': "Pausa", 'long-pause': "Pausa larga", 'laugh': "Risa", 'chuckle': "Risita", 'giggle': "Risa tonta", 'cry': "Llanto", 'sigh': "Suspiro", 'breath': "Respiración", 'inhale': "Inhalar", 'exhale': "Exhalar", 'tsk': "Chasquido (tsk)", 'tongue-click': "Chasquido de lengua", 'lip-smack': "Chasquido de labios", 'hum-tune': "Tararear", 'whisper': "Susurrar", 'soft': "Suavemente", 'loud': "Fuerte", 'emphasis': "Énfasis", 'slow': "Despacio", 'fast': "Rápido", 'higher-pitch': "Más agudo", 'lower-pitch': "Más grave", 'build-intensity': "Subir la intensidad", 'decrease-intensity': "Bajar la intensidad", 'sing-song': "Canturrear", 'singing': "Cantar" },
+            srcXPost: "Publicación de @{h}",
+            srcXPostAnon: "Publicación en X",
+            srcXProfile: "Perfil de @{h}",
+            srcXSearch: "Búsqueda en X: {q}",
             readLinksLabel: "🔗 Leer enlaces pegados",
             readLinksHint: "consume más tokens (lee la página)",
             readLinksTitle: "El modelo abre y lee los enlaces (URL) que pegas en tu mensaje.",
@@ -6246,6 +6410,8 @@
             { id: 'grok-4.3', name: { fr: 'Grok 4.3', en: 'Grok 4.3', es: 'Grok 4.3' } },
             { id: 'grok-4.20-0309-reasoning', name: { fr: 'Grok 4.20 (Raisonnement)', en: 'Grok 4.20 (Reasoning)', es: 'Grok 4.20 (Razonamiento)' } },
             { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)', es: 'Grok 4.20 (Rápido)' } },
+            // Bêta : 4 ou 16 agents qui cherchent et débattent, le chef rédige la réponse (API Responses)
+            { id: 'grok-4.20-multi-agent-0309', name: { fr: 'Grok 4.20 Multi-agents (recherche approfondie)', en: 'Grok 4.20 Multi-agent (deep research)', es: 'Grok 4.20 Multiagente (investigación profunda)' } },
             { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)', es: 'Grok Build 0.1 (Ligero)' } },
         ],
         // Perplexity Agent API : l'id est un PRESET (recherche web toujours active, sources
@@ -6370,7 +6536,8 @@
         grok: [
             // Synchrone via /v1/images/generations (format OpenAI ; renvoie data[0].url)
             { id: 'grok-imagine-image-2.0', name: { fr: 'Grok Imagine 2.0 (Dernier)', en: 'Grok Imagine 2.0 (Latest)', es: 'Grok Imagine 2.0 (Último)' } },
-            { id: 'grok-imagine-image-quality', name: { fr: 'Grok Imagine (Qualité)', en: 'Grok Imagine (Quality)', es: 'Grok Imagine (Calidad)' } }
+            // grok-imagine-image-quality retiré le 02/11/2026 (servi par 2.0 en qualité basse) → Imagine 1.0
+            { id: 'grok-imagine-image', name: { fr: 'Grok Imagine 1.0 (Économique, 0,02 $)', en: 'Grok Imagine 1.0 (Low cost, $0.02)', es: 'Grok Imagine 1.0 (Económico, 0,02 $)' } }
         ],
         qwen: [
             // Synchrone via multimodal-generation/generation (renvoie l'URL directement, sans polling)
@@ -6452,7 +6619,7 @@
     // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
     const VIDEO_DURATIONS = {
         gemini: ['8', '6', '4'],
-        grok: ['10'],
+        grok: ['4', '6', '8', '10', '12', '15'],   // 1 à 15 s ; ✏️ Modifier : source ≤ 8,7 s
         minimax: ['6', '10']   // 1080P : 6 s seulement (voir populateVideoDurations)
     };
 
@@ -6521,6 +6688,11 @@ RULES:
     // Fournisseurs « configurable » sans budget : la case Réflexion suffit (sélecteur masqué).
     // Claude à réflexion facultative pilotée par l'effort (thinking adaptatif quand 🧠 est coché)
     const CLAUDE_ADAPTIVE_OPTIONAL = ['claude-opus-4-8', 'claude-opus-4-7', 'claude-opus-4-6', 'claude-sonnet-4-6'];
+    const GROK_EFFORT_OPTIONAL = ['grok-4.3'];
+    // Multi-agents : l'effort choisit le nombre d'agents (low = 4, high = 16) ; mémorisé à part
+    // (ai_grok_agents, défaut 4) pour ne pas lancer 16 agents avec l'effort « élevé » des autres Grok.
+    const GROK_MULTI_AGENT = 'grok-4.20-multi-agent-0309';
+    const effortKeyFor = (provider, model) => (provider === 'grok' && model === GROK_MULTI_AGENT) ? 'ai_grok_agents' : `ai_${provider}_effort`;
     const NO_BUDGET_PROVIDERS = ['mistral', 'augure', 'cohere', 'upstage', 'minimax'];
     const THINKING_SUPPORT = {
         openai: {
@@ -6611,9 +6783,10 @@ RULES:
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
             // n'est visible que via l'API Responses → ces modèles y sont toujours routés.
-            // Grok 4.20 / 4.3 : réflexion non exposée en Chat Completions → hors table.
-            native: ['grok-4.7', 'grok-4.6', 'grok-4.5'],
-            configurable: []
+            // Grok 4.3 : réflexion réglable none → xhigh (défaut low) → interrupteur 🧠 + effort, toujours
+            // routé vers Responses (GROK_EFFORT_OPTIONAL). Grok 4.20 : réflexion non exposée → hors table.
+            native: ['grok-4.7', 'grok-4.6', 'grok-4.5', 'grok-4.20-multi-agent-0309'],
+            configurable: ['grok-4.3']
         },
         meta: {
             // Réflexion toujours active (« none » refusé) ; seul un résumé est visible (chaîne de
@@ -6716,12 +6889,13 @@ RULES:
         if (provider === 'meta') return model === 'muse-spark-1.3-contributor' ? EFFORT_LEVELS.filter(l => l.id !== 'max') : EFFORT_LEVELS;
         if (provider === 'kimi') return only(['low', 'high', 'max']);
         if (provider === 'claude' && ['claude-opus-4-6', 'claude-sonnet-4-6'].includes(model)) return only(['low', 'medium', 'high', 'max']);  // xhigh : Opus 4.7+
+        if (provider === 'grok' && model === GROK_MULTI_AGENT) return only(['low', 'high']);   // 4 / 16 agents
         if (provider === 'grok') return only(model === 'grok-4.5' ? ['low', 'medium', 'high'] : ['low', 'medium', 'high', 'xhigh']);
         return EFFORT_LEVELS.filter(l => l.id !== 'minimal');
     }
     // Effort enregistré, ramené au plus haut niveau accepté par le modèle si besoin.
     function savedEffortFor(provider, model) {
-        const saved = localStorage.getItem(`ai_${provider}_effort`) || 'high';
+        const saved = localStorage.getItem(effortKeyFor(provider, model)) || (model === GROK_MULTI_AGENT ? 'low' : 'high');
         const ids = effortLevelsFor(provider, model).map(l => l.id);
         return ids.includes(saved) ? saved : ids[ids.length - 1];
     }
@@ -7214,9 +7388,37 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     if (!data.request_id) throw new Error("No request_id returned by the xAI video API.");
                     return { handle: data.request_id };
                 }
-                const body = { model: params.model, prompt, duration: parseInt(params.duration, 10), resolution: '720p' };
+                if (params.editUrl) {
+                    // ✏️ Modifier : /v1/videos/edits (grok-imagine-video, source ≤ 8,7 s ; durée, format et
+                    // résolution suivent la source, 720p au plus). Suivi identique (/v1/videos/{id}).
+                    const res = await fetchWithRetry('https://api.x.ai/v1/videos/edits', {
+                        method: 'POST', signal,
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                        body: JSON.stringify({ model: 'grok-imagine-video', prompt, video: { url: params.editUrl } })
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error((typeof err.error === 'string' ? err.error : err.error?.message) || err.message || `HTTP Error ${res.status}`);
+                    }
+                    const data = await res.json();
+                    if (!data.request_id) throw new Error("No request_id returned by the xAI video API.");
+                    return { handle: data.request_id };
+                }
+                const body = { model: params.model, prompt, duration: parseInt(params.duration, 10), resolution: params.resolution || '720p' };
+                // Photos jointes : 1re image (image-to-video), références (14 sur la 1.5, 7 sinon) ou
+                // 1re + dernière image (1.5) ; voix préréglée (1.5). Références : 720p au plus, 10 s sur l'ancien modèle.
+                const is15 = params.model === 'grok-imagine-video-1.5';
+                const imgs = params.images || [];
+                if (imgs.length && params.refMode === 'refs') body.reference_images = imgs.slice(0, is15 ? 14 : 7).map(url => ({ url }));
+                else if (imgs.length >= 2 && params.refMode === 'firstlast' && is15) { body.image = { url: imgs[0] }; body.last_frame = { url: imgs[imgs.length - 1] }; }
+                else if (imgs.length) body.image = { url: imgs[0] };
+                if (params.voice && is15) body.reference_audios = [{ voice_id: params.voice }];
+                if (body.reference_images || body.reference_audios) {
+                    if (body.resolution === '1080p') body.resolution = '720p';
+                    if (!is15 && body.duration > 10) body.duration = 10;
+                }
                 if (params.image) body.image = { url: params.image };
-                else body.aspect_ratio = params.aspectRatio;
+                if (!body.image) body.aspect_ratio = params.aspectRatio;
                 if (params.image && params.loop) body.keyframes = [{ image: { url: params.image }, timestamp_s: Math.max(0.5, body.duration - 0.1) }];
                 const post = () => fetchWithRetry('https://api.x.ai/v1/videos/generations', {
                     method: 'POST',
@@ -7370,6 +7572,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Grok = /v1/videos/extensions avec l'URL de la vidéo, source ≤ 15 s (une prolongation de 10 s
     // donne 20 s : plus prolongeable). La durée réelle est lue dans le lecteur.
     const VIDEO_EXTEND_MAX = { gemini: 40, grok: 15 };
+    const GROK_EDIT_MAX = 8.7;   // retouche Grok : source de 8,7 s au plus
     function appendVideoFollowups(contentDiv, result, origin) {
         const t = I18N[currentLang];
         const omni = origin.provider === 'gemini' && isOmniVideoModel(origin.model);
@@ -7385,24 +7588,26 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 const len = video && isFinite(video.duration) ? video.duration : 0;
                 const max = VIDEO_EXTEND_MAX[origin.provider];
                 if (kind === 'extend' && len && len >= max - 1) { showToast(t.vidExtendMax.replace('{n}', max), 'error', 6000); return; }
+                if (kind === 'edit' && grok && len > GROK_EDIT_MAX) { showToast(t.vidEditTooLong, 'error', 6000); return; }
                 openVideoFollowup(kind, origin, result, len);
             });
             contentDiv.appendChild(b);
             return b;
         };
         const ext = make(t.vidExtend, omni ? t.vidExtendTipOmni : t.vidExtendTipGrok, 'extend');
-        if (omni) make(t.vidEditVideo, t.vidEditTip, 'edit');
+        const edit = make(t.vidEditVideo, omni ? t.vidEditTip : t.vidEditTipGrok, 'edit');
         // Limite atteinte : bouton grisé dès que la durée est connue
         if (video) video.addEventListener('loadedmetadata', () => {
             const max = VIDEO_EXTEND_MAX[origin.provider];
             if (isFinite(video.duration) && video.duration >= max - 1) { ext.setAttribute('aria-disabled', 'true'); ext.style.opacity = '0.5'; }
+            if (grok && isFinite(video.duration) && video.duration > GROK_EDIT_MAX) { edit.setAttribute('aria-disabled', 'true'); edit.style.opacity = '0.5'; }
         });
     }
     function openVideoFollowup(kind, origin, result, len) {
         const t = I18N[currentLang];
         const key = getKeyForProvider(origin.provider);
         if (!key) { showToast(t.videoNeedKey, 'error'); return; }
-        const d = rcDialog(kind === 'extend' ? t.vidExtendTitle : t.vidEditTitle, kind === 'extend' ? (origin.provider === 'grok' ? t.vidExtendTipGrok : t.vidExtendTipOmni) : t.vidEditTip);
+        const d = rcDialog(kind === 'extend' ? t.vidExtendTitle : t.vidEditTitle, kind === 'extend' ? (origin.provider === 'grok' ? t.vidExtendTipGrok : t.vidExtendTipOmni) : (origin.provider === 'grok' ? t.vidEditTipGrok : t.vidEditTip));
         const form = document.createElement('div'); form.className = 'rc-form';
         const l1 = document.createElement('label'); l1.textContent = kind === 'extend' ? t.vidExtendPrompt : t.vidEditPrompt;
         const txt = document.createElement('textarea'); txt.className = 'ie-instr'; txt.rows = 3; txt.maxLength = 2000;
@@ -7441,6 +7646,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             : (text || t.vidExtendDefault);
         const params = origin.provider === 'gemini'
             ? { model: origin.model, previousId: origin.handle }
+            : kind === 'edit' ? { model: 'grok-imagine-video', editUrl: result.src }
             : { model: 'grok-imagine-video', duration: duration || '6', extendUrl: result.src };
         if (welcome) welcome.style.display = 'none';
         isProcessing = true;
@@ -7626,13 +7832,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         thinkingBudgetSelect.innerHTML = '';
 
-        if (EFFORT_PROVIDERS.includes(provider) && (THINKING_SUPPORT[provider].native.includes(model) || (provider === 'claude' && CLAUDE_ADAPTIVE_OPTIONAL.includes(model)))) {
+        if (EFFORT_PROVIDERS.includes(provider) && (THINKING_SUPPORT[provider].native.includes(model) || (provider === 'claude' && CLAUDE_ADAPTIVE_OPTIONAL.includes(model)) || (provider === 'grok' && GROK_EFFORT_OPTIONAL.includes(model)))) {
             // Claude adaptatif / Grok 4.5+ : niveaux d'effort
             const savedEffort = savedEffortFor(provider, model);
             effortLevelsFor(provider, model).forEach(l => {
                 const opt = document.createElement('option');
                 opt.value = l.id;
-                opt.textContent = l.label[currentLang] || l.label.fr;
+                opt.textContent = model === GROK_MULTI_AGENT ? I18N[currentLang][l.id === 'low' ? 'grokAgents4' : 'grokAgents16'] : (l.label[currentLang] || l.label.fr);
                 if (l.id === savedEffort) opt.selected = true;
                 thinkingBudgetSelect.appendChild(opt);
             });
@@ -7738,11 +7944,19 @@ A small follow-up tweak the user asks for can be done right away without a new p
         };
         $('claudefast-mode-container')?.classList.toggle('show', either((p, m) => p === 'claude' && CLAUDE_FAST_MODELS.includes(m)));
         $('pdfnative-mode-container')?.classList.toggle('show', either(p => p === 'claude'));
+        $('xsearch-mode-container')?.classList.toggle('show', either(p => p === 'grok'));
+        $('grokprio-mode-container')?.classList.toggle('show', either(p => p === 'grok'));
     }
     // ⚡ Mode rapide de Claude (speed: 'fast', 2× le prix) ; 📄 PDF envoyés en documents à Claude
     const CLAUDE_FAST_MODELS = ['claude-opus-5-5', 'claude-opus-5', 'claude-opus-4-8'];
     let claudeFastEnabled = false;
     let pdfNativeEnabled = false;
+    // 𝕏 Recherche sur X (Grok, outil x_search) ; jamais pour l'OCR ni le podcast (currentMode)
+    let xSearchEnabled = false;
+    const grokXSearchOn = () => xSearchEnabled && WEB_SEARCH_MODES.includes(currentMode);
+    // 🚀 Traitement prioritaire (Grok, service_tier) ; conversation seulement
+    let grokPriorityEnabled = false;
+    const grokPriorityOn = () => grokPriorityEnabled && WEB_SEARCH_MODES.includes(currentMode);
 
     function initWebSearch() {
         webSearchEnabled = localStorage.getItem('ai_web_search') === 'true';
@@ -7760,6 +7974,18 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (cf) {
             cf.checked = claudeFastEnabled;
             cf.addEventListener('change', () => { claudeFastEnabled = cf.checked; localStorage.setItem('ai_claude_fast', String(cf.checked)); });
+        }
+        grokPriorityEnabled = localStorage.getItem('ai_grok_priority') === 'true';
+        const gp = $('grokprio-mode-cb');
+        if (gp) {
+            gp.checked = grokPriorityEnabled;
+            gp.addEventListener('change', () => { grokPriorityEnabled = gp.checked; localStorage.setItem('ai_grok_priority', String(gp.checked)); });
+        }
+        xSearchEnabled = localStorage.getItem('ai_grok_x_search') === 'true';
+        const xs = $('xsearch-mode-cb');
+        if (xs) {
+            xs.checked = xSearchEnabled;
+            xs.addEventListener('change', () => { xSearchEnabled = xs.checked; localStorage.setItem('ai_grok_x_search', String(xs.checked)); });
         }
         pdfNativeEnabled = localStorage.getItem('ai_claude_pdf_native') === 'true';
         const pn = $('pdfnative-mode-cb');
@@ -8351,6 +8577,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Rebuild the duration dropdown with the values the active provider's API accepts,
     // preserving the current selection when it is still valid.
+    const GROK_VIDEO_RATIOS = [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait'], ['1:1', 'imgFmtSquare'], ['4:3', 'imgFmtClassic'],
+        ['3:4', 'imgFmtClassicPortrait'], ['3:2', 'imgFmt32'], ['2:3', 'imgFmt23'], ['21:9', 'imgFmt219'], ['5:2', 'imgFmt52']];
     function populateVideoDurations() {
         if (!videoDurationSelect) return;
         let list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
@@ -8365,6 +8593,46 @@ A small follow-up tweak the user asks for can be done right away without a new p
             videoDurationSelect.appendChild(opt);
         });
         if (list.includes(prev)) videoDurationSelect.value = prev;
+        else if (list.includes('8')) videoDurationSelect.value = '8';   // durée par défaut de l'API Grok
+        // Formats : 9 pour Grok, 16:9 / 9:16 ailleurs (libellés traduits)
+        if (videoAspectSelect) {
+            const t = I18N[currentLang];
+            const ratios = providerSelect.value === 'grok' ? GROK_VIDEO_RATIOS : [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait']];
+            const prevA = videoAspectSelect.value;
+            videoAspectSelect.innerHTML = '';
+            ratios.forEach(([v, k]) => { const o = document.createElement('option'); o.value = v; o.textContent = t[k] || v; videoAspectSelect.appendChild(o); });
+            videoAspectSelect.value = ratios.some(r => r[0] === prevA) ? prevA : '16:9';
+        }
+        // Résolution (Grok) : 1080p pour Imagine Vidéo 1.5 / 1.5 Lite ; 720p au plus pour l'ancien modèle
+        const resGroup = $('video-res-group'), resSel = $('video-res-select');
+        if (resGroup) resGroup.style.display = providerSelect.value === 'grok' ? '' : 'none';
+        // Grok : usage des photos jointes ; voix et 1re + dernière image = Imagine Vidéo 1.5 seulement
+        const isGrokV = providerSelect.value === 'grok';
+        const is15 = ((videoModelSelect && videoModelSelect.value) || '') === 'grok-imagine-video-1.5';
+        const vrefGroup = $('grok-vref-group'), vvGroup = $('grok-vvoice-group'), vref = $('grok-vref-select'), vv = $('grok-vvoice-select');
+        if (vrefGroup) vrefGroup.style.display = isGrokV ? '' : 'none';
+        if (vvGroup) vvGroup.style.display = isGrokV && is15 ? '' : 'none';
+        if (vref) {
+            const fl = [...vref.options].find(o => o.value === 'firstlast');
+            if (fl) fl.disabled = !is15;
+            const savedRef = localStorage.getItem('ai_grok_vref') || 'first';
+            vref.value = (savedRef === 'firstlast' && !is15) ? 'first' : savedRef;
+        }
+        if (vv && isGrokV) {
+            const t = I18N[currentLang];
+            const voices = (xvCache && xvCache.builtIn && xvCache.builtIn.length) ? xvCache.builtIn.map(v => [v.voice_id, v.name || v.voice_id]) : XV_FALLBACK.map(v => [v, v.charAt(0).toUpperCase() + v.slice(1)]);
+            vv.innerHTML = '';
+            [['', t.grokVvoiceNone], ...voices].forEach(([id, name]) => { const o = document.createElement('option'); o.value = id; o.textContent = name; vv.appendChild(o); });
+            const savedV = localStorage.getItem('ai_grok_vvoice') || '';
+            vv.value = [...vv.options].some(o => o.value === savedV) ? savedV : '';
+        }
+        if (resSel && providerSelect.value === 'grok') {
+            const hd = /^grok-imagine-video-1\.5/.test((videoModelSelect && videoModelSelect.value) || '');
+            const opt1080 = [...resSel.options].find(o => o.value === '1080p');
+            if (opt1080) opt1080.disabled = !hd;
+            const saved = localStorage.getItem('ai_grok_video_res') || '720p';
+            resSel.value = (!hd && saved === '1080p') ? '720p' : saved;
+        }
         const durationGroup = videoDurationSelect.closest('.select-group');
         if (durationGroup) durationGroup.style.display = isOmniVideoModel(videoModelSelect && videoModelSelect.value) ? 'none' : '';
         // Hailuo (API v1) : pas de format réglable (fixé par le modèle, ou par l'image de départ)
@@ -8394,6 +8662,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (imageQwenSizeGroup) imageQwenSizeGroup.style.display = isQwen ? '' : 'none';
         if (imageGrokAspectGroup) imageGrokAspectGroup.style.display = isGrok ? '' : 'none';
         if (imageGrokResolutionGroup) imageGrokResolutionGroup.style.display = isGrok ? '' : 'none';
+        if ($('image-grok-n-group')) $('image-grok-n-group').style.display = isGrok ? '' : 'none';
+        if ($('image-grok-quality-group') && !isGrok) $('image-grok-quality-group').style.display = 'none';   // Grok : updateGrokImageOptions
 
         const restore = (sel, storageKey) => {
             if (!sel) return;
@@ -8406,8 +8676,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         restore(imageResolutionSelect, 'ai_image_resolution');
         updateGeminiImageOptions();
         restore(imageQwenSizeSelect, 'ai_qwen_image_size');
-        restore(imageGrokAspectSelect, 'ai_grok_image_aspect');
+        updateGrokImageOptions();
         restore(imageGrokResolutionSelect, 'ai_grok_image_resolution');
+        restore(imageGrokQualitySelect, 'ai_grok_image_quality');
+        restore(imageGrokNSelect, 'ai_grok_image_n');
         restore(imageRecraftSizeSelect, 'ai_recraft_image_size');
         if (isRecraft) { restore(imageModelSelect, 'ai_recraft_model'); updateRecraftOptions(); refreshRecraftBalance(); }
         if (isBria) { restore(imageModelSelect, 'ai_bria_model'); updateBriaOptions(); }
@@ -8541,6 +8813,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 localStorage.setItem('ai_grok_image_resolution', imageGrokResolutionSelect.value);
             });
         }
+        if (imageGrokQualitySelect) imageGrokQualitySelect.addEventListener('change', () => localStorage.setItem('ai_grok_image_quality', imageGrokQualitySelect.value));
+        if (imageGrokNSelect) imageGrokNSelect.addEventListener('change', () => localStorage.setItem('ai_grok_image_n', imageGrokNSelect.value));
 
         if (imageRecraftSizeSelect) {
             imageRecraftSizeSelect.addEventListener('change', () => {
@@ -8554,6 +8828,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
+        if ($('video-res-select')) $('video-res-select').addEventListener('change', e => localStorage.setItem('ai_grok_video_res', e.target.value));
+        if ($('grok-vref-select')) $('grok-vref-select').addEventListener('change', e => localStorage.setItem('ai_grok_vref', e.target.value));
+        if ($('xv-tags')) $('xv-tags').addEventListener('change', e => insertXvTag(e.target));
+        if ($('grok-vvoice-select')) $('grok-vvoice-select').addEventListener('change', e => localStorage.setItem('ai_grok_vvoice', e.target.value));
 
         document.querySelectorAll('.mode-tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -8582,7 +8860,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 const val = thinkingBudgetSelect.value;
                 // Effort Claude, niveau Gemini 3 (chaînes) ou budget (nombre)
                 if (isNaN(parseInt(val)) && EFFORT_PROVIDERS.includes(providerSelect.value)) {
-                    localStorage.setItem(`ai_${providerSelect.value}_effort`, val);
+                    localStorage.setItem(effortKeyFor(providerSelect.value, modelSelect.value), val);
                 } else if (isNaN(parseInt(val))) {
                     // Gemini 3 thinking level
                     localStorage.setItem('ai_thinking_level', val);
@@ -9848,7 +10126,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
         } else if (currentMode === 'video') {
             await handleVideoGeneration(fullPrompt, key, null,
-                provider === 'minimax' && pendingImages.length ? `data:${pendingImages[0].mimeType};base64,${pendingImages[0].base64}` : null);
+                provider === 'minimax' && pendingImages.length ? `data:${pendingImages[0].mimeType};base64,${pendingImages[0].base64}`
+                : provider === 'grok' && pendingImages.length ? pendingImages.map(im => `data:${im.mimeType};base64,${im.base64}`) : null);
         } else {
             // P1-2: Store images with conversation entry for multimodal support
             const historyEntry = { role: 'user', content: fullPrompt };
@@ -9889,6 +10168,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (result.usage) entry.usage = result.usage;
             if (result.citations) entry.citations = result.citations;
             if (provider === 'kimi' && result.thinking) entry.reasoning = result.thinking;  // renvoyée aux tours suivants
+            if (provider === 'grok' && result.encReasoning) entry.encReasoning = { model, items: result.encReasoning };
             conversationHistory.push(entry);
             saveHistory();
             attachRatingButtons(loadingDiv, entry);
@@ -10178,6 +10458,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (chosen.res.usage) entry.usage = chosen.res.usage;
             if (chosen.res.citations) entry.citations = chosen.res.citations;
             if (chosen.meta.provider === 'kimi' && chosen.res.thinking) entry.reasoning = chosen.res.thinking;
+            if (chosen.meta.provider === 'grok' && chosen.res.encReasoning) entry.encReasoning = { model: chosen.meta.model, items: chosen.res.encReasoning };
             conversationHistory.push(entry);
             saveHistory();
             updateTokenTotals();
@@ -10234,8 +10515,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Remonte l'usage de tokens (exact, rapporté par l'API) et les sources de la
         // recherche web. Usage : on garde le dernier (Gemini cumulatif). Citations :
         // on accumule en dédupliquant par URL (peuvent arriver sur plusieurs chunks).
+        let encReasoning = null;   // Grok 4.7 : éléments de réflexion chiffrés
         const onMeta = (meta) => {
             if (!meta) return;
+            if (meta.encReasoning) (encReasoning = encReasoning || []).push(meta.encReasoning);
             if (meta.usage) usage = meta.usage;
             if (meta.citations && meta.citations.length) {
                 if (!citations) citations = [];
@@ -10409,7 +10692,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             renderSourcesInto(loadingDiv, citations);
             renderUsageLine(loadingDiv, usage);
 
-            return { fullResponse, error: null, usage, citations, thinking: fullThinking };
+            return { fullResponse, error: null, usage, citations, thinking: fullThinking, encReasoning };
 
         } catch (error) {
             removeLoader(loadingDiv);
@@ -10639,9 +10922,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
         }
 
+        const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
+        // xAI : même conversation → même serveur (cache automatique plus efficace) ; 🚀 prioritaire
+        if (/api\.x\.ai/.test(endpoint) && currentConvId) headers['x-grok-conv-id'] = currentConvId;
+        if (/api\.x\.ai/.test(endpoint) && grokPriorityOn()) body.service_tier = 'priority';
         await postStream({
             url: endpoint,
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            headers,
             body, signal, onChunk, onThinkingChunk, parser: 'openai', onMeta
         });
     }
@@ -10738,20 +11025,36 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // reviennent dans response.citations (extrait par le parser).
     async function callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
-        const input = formatHistory(conversationHistory, 'openai-responses');
+        const formatted = formatHistory(conversationHistory, 'openai-responses');
+        // Grok 4.7 : la réflexion chiffrée de chaque réponse précédente (même modèle) est renvoyée
+        // telle quelle avant cette réponse → le modèle garde son raisonnement d'un tour à l'autre.
+        const input = [];
+        formatted.forEach((m, i) => {
+            const h = conversationHistory[i];
+            if (h && h.role === 'assistant' && h.encReasoning && h.encReasoning.model === model) input.push(...h.encReasoning.items);
+            input.push(m);
+        });
 
         const isReasoningNative = THINKING_SUPPORT.grok.native.includes(model);
+        // Grok 4.3 : 🧠 coché → effort choisi, décoché → 'none' (toujours explicite : défaut 'low')
+        const optional = GROK_EFFORT_OPTIONAL.includes(model);
+        const optionalOn = optional && thinkingEnabled && !!onThinkingChunk;
         const body = {
             model,
             instructions: systemPrompt,
             input,
             stream: true,
             // Grok 4.5+ : le raisonnement compte dans le plafond → plafond large
-            max_output_tokens: isReasoningNative
+            max_output_tokens: (isReasoningNative || optionalOn)
                 ? (isBigOutputMode() ? TOKEN_LIMITS.adaptiveBig : TOKEN_LIMITS.adaptiveNormal)
                 : (isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal)
         };
         if (isReasoningNative) body.reasoning = { effort: savedEffortFor('grok', model) };
+        else if (optional) body.reasoning = { effort: optionalOn ? savedEffortFor('grok', model) : 'none' };
+        // Cache automatique de xAI : même conversation → même serveur (meilleur taux de cache)
+        if (currentConvId) body.prompt_cache_key = currentConvId;
+        // 🚀 Traitement prioritaire (2× le prix, facturé seulement s'il est accordé)
+        if (grokPriorityOn()) body.service_tier = 'priority';
 
         // web_search est la seule primitive web de xAI (pas d'outil de lecture d'URL).
         // En lecture de lien seule, on restreint au domaine collé (allowed_domains) pour
@@ -10764,6 +11067,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             }
             body.tools = [grokTool];
         }
+        // 𝕏 Recherche sur X : publications et profils, cités dans les sources
+        if (grokXSearchOn()) (body.tools = body.tools || []).push({ type: 'x_search' });
 
         await postStream({
             url: 'https://api.x.ai/v1/responses',
@@ -10850,7 +11155,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return callOpenAIResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'openai') {
             return callOpenAIStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
-        } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok) || THINKING_SUPPORT.grok.native.includes(model))) {
+        } else if (provider === 'grok' && ((webSearchEnabled && WEB_SEARCH_SUPPORT.grok) || (readLinksEnabled && READ_LINK_SUPPORT.grok) || THINKING_SUPPORT.grok.native.includes(model) || GROK_EFFORT_OPTIONAL.includes(model) || grokXSearchOn())) {
             // Grok + recherche web / lecture de liens, ou Grok 4.5+ (réflexion visible) : API
             // Responses de xAI. Le Grok-chat normal (4.3, 4.20…) reste sur Chat Completions.
             return callGrokResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
@@ -12019,6 +12324,23 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const GEMINI_IMG_1K = ['gemini-3.1-flash-lite-image', 'gemini-2.5-flash-image'];
     // Format absent du modèle : le plus proche (panoramique horizontal → 21:9, vertical → 9:16)
     const GEMINI_RATIO_FALLBACK = { '4:1': '21:9', '8:1': '21:9', '1:4': '9:16', '1:8': '9:16' };
+    // Grok Imagine : 16 formats (auto = le modèle choisit) ; qualité seulement pour Imagine 2.0
+    const GROK_IMG_RATIOS = [['auto', 'imgFmtAuto'], ['1:1', 'imgFmtSquare'], ['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait'],
+        ['4:3', 'imgFmtClassic'], ['3:4', 'imgFmtClassicPortrait'], ['3:2', 'imgFmt32'], ['2:3', 'imgFmt23'], ['2:1', 'imgFmt21'],
+        ['1:2', 'imgFmt12'], ['21:9', 'imgFmt219'], ['5:2', 'imgFmt52'], ['19.5:9', 'imgFmt1959'], ['9:19.5', 'imgFmt9195'],
+        ['20:9', 'imgFmt209'], ['9:20', 'imgFmt920']];
+    function updateGrokImageOptions() {
+        if (!imageGrokAspectSelect || providerSelect.value !== 'grok') return;
+        const t = I18N[currentLang];
+        const wanted = localStorage.getItem('ai_grok_image_aspect') || imageGrokAspectSelect.value || '1:1';
+        imageGrokAspectSelect.innerHTML = '';
+        GROK_IMG_RATIOS.forEach(([v, k]) => { const o = document.createElement('option'); o.value = v; o.textContent = t[k] || v; imageGrokAspectSelect.appendChild(o); });
+        imageGrokAspectSelect.value = GROK_IMG_RATIOS.some(r => r[0] === wanted) ? wanted : '1:1';
+        const q = $('image-grok-quality-group');
+        if (q) q.style.display = (imageModelSelect && imageModelSelect.value === 'grok-imagine-image-2.0') ? '' : 'none';
+    }
+    if (imageModelSelect) imageModelSelect.addEventListener('change', updateGrokImageOptions);
+
     function updateGeminiImageOptions() {
         if (!imageFormatSelect || providerSelect.value !== 'gemini') return;
         const t = I18N[currentLang];
@@ -12517,6 +12839,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : 'grok-imagine-image-2.0';
         const aspectRatio = (imageGrokAspectSelect && imageGrokAspectSelect.value) ? imageGrokAspectSelect.value : '1:1';
         const resolution = (imageGrokResolutionSelect && imageGrokResolutionSelect.value) ? imageGrokResolutionSelect.value : '2k';
+        const n = Math.min(10, Math.max(1, parseInt(imageGrokNSelect && imageGrokNSelect.value, 10) || 1));
+        const body = { model: selectedModel, prompt, aspect_ratio: aspectRatio, resolution, n, response_format: 'b64_json' };
+        // Qualité (auto / low / medium) : Imagine 2.0 seulement
+        if (selectedModel === 'grok-imagine-image-2.0' && imageGrokQualitySelect && imageGrokQualitySelect.value) body.quality = imageGrokQualitySelect.value;
 
         const res = await fetchWithRetry('https://api.x.ai/v1/images/generations', {
             method: 'POST',
@@ -12525,14 +12851,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${key}`
             },
-            body: JSON.stringify({
-                model: selectedModel,
-                prompt,
-                aspect_ratio: aspectRatio,
-                resolution,
-                n: 1,
-                response_format: 'b64_json'
-            })
+            body: JSON.stringify(body)
         });
 
         if (!res.ok) {
@@ -12543,9 +12862,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res.json();
-        if (data.data?.[0]?.b64_json) return data.data[0].b64_json;
-        if (data.data?.[0]?.url) return data.data[0].url;  // repli : URL (affichage direct)
-        throw new Error("Unexpected response format from xAI.");
+        // Plusieurs images (n > 1) → tableau : une bulle par image (handleImageGeneration)
+        const all = (data.data || []).map(d => d.b64_json || d.url).filter(Boolean);   // URL : repli (affichage direct)
+        if (!all.length) throw new Error("Unexpected response format from xAI.");
+        return all.length === 1 ? all[0] : all;
     }
 
     // Recraft : synchrone, format proche d'OpenAI. b64_json → image lisible par les outils (l'URL
@@ -13336,6 +13656,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Une ligne de réglages par fournisseur ; création / clonage = MiniMax seulement
         const mm = provider === 'minimax';
         [['gemini', 'gv-row'], ['qwen', 'qv-row'], ['grok', 'xv-row'], ['openai', 'ov-row']].forEach(([p, id]) => $(id).classList.toggle('dp-hidden', provider !== p));
+        if (provider === 'grok') fillXvTags();
         $('mm-voice-row').classList.toggle('dp-hidden', !mm);
         // Créer / Cloner une voix : MiniMax et Alibaba (classe historique mm-voice-only)
         voiceConfigPanel.querySelectorAll('.mm-voice-only').forEach(el => el.classList.toggle('dp-hidden', !(mm || provider === 'qwen' || provider === 'gemini')));
@@ -14031,6 +14352,37 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const XV_API = 'https://api.x.ai/v1';
     const XV_CHUNK = 50000;
     const XV_FALLBACK = ['eve', 'ara', 'rex', 'sal', 'leo'];
+    // Balises de Grok TTS : sons ponctuels [tag] et manières de dire <tag>…</tag>
+    const XV_INLINE_TAGS = ['pause', 'long-pause', 'laugh', 'chuckle', 'giggle', 'cry', 'sigh', 'breath', 'inhale', 'exhale', 'tsk', 'tongue-click', 'lip-smack', 'hum-tune'];
+    const XV_WRAP_TAGS = ['whisper', 'soft', 'loud', 'emphasis', 'slow', 'fast', 'higher-pitch', 'lower-pitch', 'build-intensity', 'decrease-intensity', 'sing-song', 'singing'];
+    function fillXvTags() {
+        const sel = $('xv-tags'); if (!sel) return;
+        const t = I18N[currentLang], names = t.xvTagNames || {};
+        sel.innerHTML = '';
+        const first = document.createElement('option'); first.value = ''; first.textContent = t.xvTagsPick; sel.appendChild(first);
+        [[t.xvTagsSounds, XV_INLINE_TAGS, tag => `[${tag}]`], [t.xvTagsStyles, XV_WRAP_TAGS, tag => `<${tag}>`]].forEach(([label, list, show]) => {
+            const og = document.createElement('optgroup'); og.label = label;
+            list.forEach(tag => { const o = document.createElement('option'); o.value = tag; o.dataset.wrap = list === XV_WRAP_TAGS ? '1' : ''; o.textContent = `${names[tag] || tag}  ${show(tag)}`; og.appendChild(o); });
+            sel.appendChild(og);
+        });
+    }
+    // Insère la balise choisie dans le message : son au curseur, manière de dire autour de la sélection
+    function insertXvTag(sel) {
+        const tag = sel.value; if (!tag) return;
+        const wrap = sel.selectedOptions[0] && sel.selectedOptions[0].dataset.wrap === '1';
+        const ta = userInput, a = ta.selectionStart || 0, z = ta.selectionEnd || 0, v = ta.value;
+        const ins = wrap ? `<${tag}>${v.slice(a, z)}</${tag}>` : `[${tag}]`;
+        ta.value = v.slice(0, a) + ins + v.slice(z);
+        const caret = wrap && a === z ? a + tag.length + 2 : a + ins.length;   // sélection vide : curseur entre les balises
+        ta.focus(); ta.setSelectionRange(caret, caret);
+        sel.value = '';
+        autoResizeTextarea();
+    }
+    // Ton d'une réplique de podcast → manière de dire de Grok (mots-clés fr / en / es)
+    const GROK_TONE_TAGS = [['whisper', /chuchot|murmur|whisper|susurr/i], ['singing', /chant|sing|cant/i], ['loud', /cri|fort|loud|shout|grit|alto/i],
+        ['soft', /douc|doux|calm|soft|gentle|tendre|suave|tranquil/i], ['slow', /lent|slow|pos[ée]|despacio|pausad/i], ['fast', /rapide|vite|fast|quick|rápid|apresur/i],
+        ['build-intensity', /excit|enthous|passion|énergi|energ|emocion/i], ['emphasis', /insist|emphas|énergique|firm|firme|énfasis/i]];
+    const grokToneTag = style => { const m = style && GROK_TONE_TAGS.find(([, re]) => re.test(style)); return m ? m[0] : ''; };
     const XV_LANGS = ['auto', 'fr', 'en', 'es-MX', 'es-ES', 'pt-BR', 'pt-PT', 'de', 'it', 'ja', 'ko', 'zh', 'ru', 'tr', 'hi', 'bn', 'id', 'vi', 'ar-EG', 'ar-SA', 'ar-AE'];
     let xvCache = null, xvLoading = null;    // { builtIn: [{voice_id, name}], mine: [...] } chargé une fois par session
     async function xvGet(path, key) {
@@ -14573,7 +14925,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (provider === 'gemini') return { pcm: await geminiTTS(model, [{ text, voice, style: style || $('gv-style').value.trim() }], null, key, signal) };
         if (provider === 'minimax') return { pcm: pcmOf((await mmTTS(model, text, voice, mmEmotionOf(style), 'pcm', 24000, key, signal)).bytes) };
         if (provider === 'qwen') return { pcm: pcmOf((await qwenTTS(model, qwenInput(text, voice, style, true), key, signal)).bytes) };
-        if (provider === 'grok') return { pcm: pcmOf(await grokTTS(text, voice, true, key, signal)) };
+        if (provider === 'grok') {
+            // Ton de la réplique → balise Grok autour du texte (ex. « (chuchote) » → <whisper>)
+            const tag = grokToneTag(style);
+            return { pcm: pcmOf(await grokTTS(tag ? `<${tag}>${text}</${tag}>` : text, voice, true, key, signal)) };
+        }
         const r = await openaiTTS(model, text, voice, style, true, key, signal);
         return { pcm: pcmOf(r.bytes), words: wordCount(r.transcript) };
     }
@@ -15510,9 +15866,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const params = override ? override.params : {
             model: videoModelSelect.value,
             aspectRatio: videoAspectSelect.value,
-            duration: videoDurationSelect.value
+            duration: videoDurationSelect.value,
+            resolution: provider === 'grok' && $('video-res-select') ? $('video-res-select').value : undefined,
+            refMode: provider === 'grok' && $('grok-vref-select') ? $('grok-vref-select').value : undefined,
+            voice: provider === 'grok' && $('grok-vvoice-select') ? $('grok-vvoice-select').value : undefined
         };
-        if (image && !override) params.image = image;
+        if (image && !override) {
+            if (Array.isArray(image)) params.images = image;   // Grok : photos jointes (1re image, références…)
+            else params.image = image;
+        }
         const shown = (override && override.display) || prompt;
 
         const loadingDiv = addMessage(null, 'ai', provider, params.model, true);
@@ -15676,11 +16038,23 @@ A small follow-up tweak the user asks for can be done right away without a new p
     function fmtTokens(n) {
         return (n || 0).toLocaleString({ fr: 'fr-FR', en: 'en-US', es: 'es-MX' }[currentLang] || 'en-US');
     }
+    // Usage normalisé : tokens en cache (OpenAI, xAI…) et coût exact (xAI : cost_in_usd_ticks, 1 $ = 10^10)
+    function usageOf(input, output, cached, ticks) {
+        const u = { input: input || 0, output: output || 0 };
+        if (cached) u.cached = cached;
+        if (ticks) u.cost = ticks / 1e10;
+        return u;
+    }
+    function fmtUsd(v) {
+        const loc = { fr: 'fr-FR', en: 'en-US', es: 'es-MX' }[currentLang] || 'en-US';
+        return new Intl.NumberFormat(loc, { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: v < 0.01 ? 4 : 3 }).format(v);
+    }
     function formatUsage(usage) {
         if (!usage) return '';
         const word = I18N[currentLang].usageTokens || 'tokens';
         const cached = usage.cached ? ' ' + I18N[currentLang].usageCached.replace('{n}', fmtTokens(usage.cached)) : '';
-        return `↑ ${fmtTokens(usage.input)}${cached} · ↓ ${fmtTokens(usage.output)} ${word}`;
+        const cost = usage.cost ? ` · ${fmtUsd(usage.cost)}` : '';
+        return `↑ ${fmtTokens(usage.input)}${cached} · ↓ ${fmtTokens(usage.output)} ${word}${cost}`;
     }
     // Affiche/rafraîchit la petite ligne de tokens sous une réponse.
     function renderUsageLine(msgDiv, usage) {
@@ -15707,6 +16081,27 @@ A small follow-up tweak the user asks for can be done right away without a new p
         catch (e) { return url; }
     }
 
+    // Libellé lisible d'une URL sans titre : publications / profils / recherches X, sinon dernier
+    // segment du chemin (« mon-article-2026.html » → « mon article 2026 »). '' si rien d'utile.
+    function labelFromUrl(u) {
+        let url;
+        try { url = new URL(u); } catch (e) { return ''; }
+        const t = I18N[currentLang];
+        const host = url.hostname.replace(/^www\./i, '').toLowerCase();
+        const parts = url.pathname.split('/').filter(Boolean);
+        if (/^(x|twitter|mobile\.twitter)\.com$/.test(host)) {
+            if (parts[0] === 'search' && url.searchParams.get('q')) return fmtI18n('srcXSearch', { q: url.searchParams.get('q').slice(0, 60) });
+            if (parts[1] === 'status' && parts[0] !== 'i') return fmtI18n('srcXPost', { h: parts[0] });
+            if (parts[1] === 'status' || (parts[0] === 'i' && parts[1] === 'web')) return t.srcXPostAnon;
+            if (parts.length === 1 && /^\w{1,15}$/.test(parts[0])) return fmtI18n('srcXProfile', { h: parts[0] });
+        }
+        let seg = parts.length ? parts[parts.length - 1] : '';
+        try { seg = decodeURIComponent(seg); } catch (e) { /* tel quel */ }
+        seg = seg.replace(/\.(html?|php|aspx?)$/i, '').replace(/[-_+]+/g, ' ').trim();
+        if (!seg || /^\d+$/.test(seg) || seg.length < 3) return '';
+        return seg.length > 70 ? seg.slice(0, 69) + '…' : seg.charAt(0).toUpperCase() + seg.slice(1);
+    }
+
     function buildSourcesBlock(citations) {
         const seen = new Set();
         const valid = (citations || []).filter(c => {
@@ -15729,7 +16124,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const li = document.createElement('li');
 
             const host = hostnameOf(c.url);
-            const title = (c.title && c.title.trim() && c.title.trim() !== c.url) ? c.title.trim() : '';
+            // Sans titre (ex. citations de Grok = URL seules) : libellé tiré de l'adresse, jamais le seul domaine
+            const title = (c.title && c.title.trim() && c.title.trim() !== c.url) ? c.title.trim() : labelFromUrl(c.url);
 
             // Toute la ligne (numéro + libellé + domaine) est un seul lien cliquable.
             const a = document.createElement('a');
@@ -17230,8 +17626,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     let convIndex = [];
 
     function _serializeHistory(history) {
-        // Strip "images" / "pdfs" (base64 blobs blow the localStorage budget quickly)
-        return JSON.stringify(history.map(({ images, pdfs, ...rest }) => rest));
+        // Strip "images" / "pdfs" / réflexion chiffrée de Grok (volumineux ; session seulement)
+        return JSON.stringify(history.map(({ images, pdfs, encReasoning, ...rest }) => rest));
     }
 
     // Persiste la conversation ACTIVE dans sa propre clé + met à jour l'index
@@ -17890,7 +18286,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             }
                             // (Kimi / Moonshot : usage dans choices[0].usage du dernier chunk)
                             const usage = json.usage || json.choices?.[0]?.usage;
-                            if (usage && onMeta) onMeta({ usage: { input: usage.prompt_tokens, output: usage.completion_tokens } });
+                            if (usage && onMeta) onMeta({ usage: usageOf(usage.prompt_tokens, usage.completion_tokens, usage.prompt_tokens_details?.cached_tokens, usage.cost_in_usd_ticks) });
                             const delta = json.choices?.[0]?.delta;
                             // Parse reasoning_content for reasoning models (o3, gpt-5.x)
                             // (variante delta.reasoning : certaines API compatibles, ex. Cohere)
@@ -17931,6 +18327,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             const json = JSON.parse(data);
                             const evt = responsesCurrentEvent || json.type || '';
 
+                            // Réflexion chiffrée (Grok 4.7) : conservée pour le tour suivant
+                            if (evt === 'response.output_item.done' && json.item && json.item.type === 'reasoning' && json.item.encrypted_content && onMeta) {
+                                onMeta({ encReasoning: json.item });
+                            }
                             // Text content delta
                             if (evt === 'response.output_text.delta') {
                                 const text = json.delta;
@@ -17966,7 +18366,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                     }
                                 }
                                 const u = json.response?.usage;
-                                if (u && onMeta) onMeta({ usage: { input: u.input_tokens, output: u.output_tokens } });
+                                if (u && onMeta) onMeta({ usage: usageOf(u.input_tokens, u.output_tokens, u.input_tokens_details?.cached_tokens, u.cost_in_usd_ticks) });
                                 // Sources de la recherche web (xAI Agent Tools). On cherche
                                 // à plusieurs endroits plausibles : tableau top-level
                                 // response.citations, ou annotations url_citation dans les
@@ -18047,7 +18447,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                 if (resp.status === 'incomplete' && resp.incomplete_details?.reason === 'max_output_tokens') {
                                     onChunk('\n\n[TRUNCATED_CONTINUE_BTN]');
                                 }
-                                if (resp.usage && onMeta) onMeta({ usage: { input: resp.usage.input_tokens, output: resp.usage.output_tokens } });
+                                if (resp.usage && onMeta) onMeta({ usage: usageOf(resp.usage.input_tokens, resp.usage.output_tokens, resp.usage.input_tokens_details?.cached_tokens, resp.usage.cost_in_usd_ticks) });
                                 // Filet : sources présentes seulement dans la réponse finale
                                 // (items search_results ou annotations url_citation).
                                 if (onMeta && Array.isArray(resp.output)) {
