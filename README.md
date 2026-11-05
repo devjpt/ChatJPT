@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.34.0
+  Version 1.35.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -27,7 +27,7 @@ FEATURES
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; Image-01; Hailuo video; voice)
-      • Alibaba    (Qwen + Z.ai GLM — chat, image, and voice; International and/or Mainland China key)
+      • Alibaba    (Qwen + Z.ai GLM — chat, image, video, and voice; International, Mainland China, US or Hong Kong key)
       • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
       • Bria       (Israel — images only: licensed, photo retouching, product photos, ads)
@@ -45,7 +45,7 @@ FEATURES
                      Google Gemini (14 formats including panoramic 1:4 to 8:1,
                      resolution up to 4K), Qwen, Grok, Recraft (vector SVG, styles), and Bria
                      (licensed images, retouching, product photos), and MiniMax
-      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
+      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
                      ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni, Grok)
       • Voice      : text-to-speech with MiniMax (emotions, effects, your own
                      designed or cloned voices), Google Gemini (1 or 2 voices, 150+ voices to search, your own designed, remixed or cloned voices),
@@ -120,6 +120,12 @@ FEATURES
     videos from reference photos with a preset voice, expressive tags in Voice
     mode (laugh, whisper…), and the exact cost of each answer under it.
 
+  - Alibaba extras: 🌐 web search with sources and 🔗 link reading (Qwen 3.7 /
+    3.8, GLM-5.2), 📄 PDFs read directly by Qwen 3.8, explicit caching, Wan 2.7
+    (up to 4K) and Z-Image images, 🔬 Qwen Deep Research (mainland China), and
+    Qwen videos (Wan 3.0, HappyHorse) with a Qwen Cloud key from the US or Hong
+    Kong region.
+
   - Read pasted links (optional 🔗 toggle, off by default, separate from web
     search): the model opens and reads the actual content of the URL(s) you paste,
     instead of guessing from the address; the page is shown as a clickable source.
@@ -160,7 +166,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_34_0.html
+  1. Download the file ChatJPT_1_35_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -192,7 +198,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.34.0
+  Version 1.35.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -220,7 +226,7 @@ FONCTIONNALITÉS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat ; Image-01 ; vidéo Hailuo ; voix)
-      • Alibaba    (Qwen + Z.ai GLM — chat, image et voix ; clé International et/ou Chine continentale)
+      • Alibaba    (Qwen + Z.ai GLM — chat, image, vidéo et voix ; clé International, Chine continentale, États-Unis ou Hong Kong)
       • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
       • Bria       (Israël — images seulement : sous licence, retouche photo, photos de produits, pubs)
@@ -238,7 +244,7 @@ FONCTIONNALITÉS
                      Google Gemini (14 formats dont panoramiques 1:4 à 8:1,
                      résolution jusqu'à 4K), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
                      (images sous licence, retouche, photos de produits) et MiniMax
-      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
+      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse) ;
                      ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni, Grok)
       • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
                      voix créées ou clonées), Google Gemini (1 ou 2 voix, 150+ voix à rechercher, tes propres voix créées, remixées ou clonées),
@@ -320,6 +326,12 @@ FONCTIONNALITÉS
     balises expressives en mode Voix (rire, chuchoter…) et coût exact de chaque
     réponse affiché dessous.
 
+  - Bonus Alibaba : 🌐 recherche web avec sources et 🔗 lecture des liens
+    (Qwen 3.7 / 3.8, GLM-5.2), 📄 PDF lus directement par Qwen 3.8, cache
+    explicite, images Wan 2.7 (jusqu'à 4K) et Z-Image, 🔬 Qwen Deep Research
+    (Chine continentale) et vidéos Qwen (Wan 3.0, HappyHorse) avec une clé Qwen
+    Cloud de la région États-Unis ou Hong Kong.
+
   - Lire les liens collés (toggle 🔗 optionnel, désactivé par défaut, distinct de
     la recherche web) : le modèle ouvre et lit le contenu réel de la ou des URL que
     vous collez, au lieu de deviner d'après l'adresse ; la page est affichée comme
@@ -361,7 +373,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_34_0.html
+  1. Téléchargez le fichier ChatJPT_1_35_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -395,7 +407,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.34.0
+  Versión 1.35.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -423,7 +435,7 @@ CARACTERÍSTICAS
       • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; Image-01; video Hailuo; voz)
-      • Alibaba    (Qwen + Z.ai GLM — chat, imagen y voz; clave Internacional y/o China continental)
+      • Alibaba    (Qwen + Z.ai GLM — chat, imagen, video y voz; clave Internacional, China continental, Estados Unidos o Hong Kong)
       • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
       • Bria       (Israel — solo imágenes: con licencia, retoque fotográfico, fotos de productos, anuncios)
@@ -441,7 +453,7 @@ CARACTERÍSTICAS
                      Google Gemini (14 formatos incluidos panorámicos 1:4 a 8:1,
                      resolución hasta 4K), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
-      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
+      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
                      ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni, Grok)
       • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
                      voces creadas o clonadas), Google Gemini (1 o 2 voces, 150+ voces para buscar, tus propias voces creadas, remezcladas o clonadas),
@@ -486,6 +498,12 @@ CARACTERÍSTICAS
     para Grok 4.3, videos a partir de fotos de referencia con una voz
     predefinida, etiquetas expresivas en modo Voz (risa, susurro…) y costo exacto
     de cada respuesta indicado debajo.
+
+  - Extras de Alibaba: 🌐 búsqueda web con fuentes y 🔗 lectura de enlaces
+    (Qwen 3.7 / 3.8, GLM-5.2), 📄 PDF leídos directamente por Qwen 3.8, caché
+    explícita, imágenes Wan 2.7 (hasta 4K) y Z-Image, 🔬 Qwen Deep Research
+    (China continental) y videos de Qwen (Wan 3.0, HappyHorse) con una clave de
+    Qwen Cloud de la región Estados Unidos o Hong Kong.
 
   - Leer enlaces pegados (interruptor 🔗 opcional, desactivado por defecto,
     distinto de la búsqueda web): el modelo abre y lee el contenido real de la(s)
@@ -561,7 +579,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_34_0.html
+  1. Descarga el archivo ChatJPT_1_35_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

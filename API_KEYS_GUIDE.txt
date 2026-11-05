@@ -91,6 +91,13 @@ your plan).
         New Alibaba Cloud accounts usually get a free quota to start.
         The same key also gives access to the Z.ai GLM models
         (GLM-5.3, 5.2, 5.1) served by Alibaba (International region).
+        Qwen VIDEOS (Wan 3.0, HappyHorse) need a key from the United States
+        (Virginia) or Hong Kong region of Qwen Cloud: go to
+        https://home.qwencloud.com, pick the region in the selector at the
+        top right, then create the API key there. Paste it in the matching
+        field (Alibaba · United States or Alibaba · Hong Kong) and choose
+        that region in ChatJPT. Qwen Deep Research needs the Mainland China
+        key.
 
 
 ----------------------------------------------------------------
@@ -285,7 +292,7 @@ your plan).
   HOW TO ENTER YOUR KEYS IN CHATJPT
 ----------------------------------------------------------------
 
-  1. Open ChatJPT_1_34_0.html in your browser.
+  1. Open ChatJPT_1_35_0.html in your browser.
   2. In the keys panel (grouped by country: United States, Canada, France, United Kingdom, Israel, South Korea, China), locate the fields:
        🟢 OpenAI   → paste your sk-proj-... key
        🟠 Claude   → paste your sk-ant-... key
@@ -304,6 +311,7 @@ your plan).
        🟥 MiniMax  → paste your key
        🟣 Alibaba · International → paste your sk-... key
        🟣 Alibaba · Mainland China → paste your sk-... key (optional)
+       🟣 Alibaba · United States / Hong Kong → paste your sk-... key (optional, Qwen video)
   3. Keys are saved locally in your browser.
      They are never sent anywhere other than to the respective service.
 
@@ -418,6 +426,13 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
          gratuit pour démarrer.
          La même clé donne aussi accès aux modèles GLM de Z.ai
          (GLM-5.3, 5.2, 5.1) servis par Alibaba (région International).
+         Les VIDÉOS Qwen (Wan 3.0, HappyHorse) demandent une clé de la
+         région États-Unis (Virginie) ou Hong Kong de Qwen Cloud : allez
+         sur https://home.qwencloud.com, choisissez la région dans le
+         sélecteur en haut à droite, puis créez-y la clé API. Collez-la
+         dans le champ correspondant (Alibaba · États-Unis ou Alibaba ·
+         Hong Kong) et choisissez cette région dans ChatJPT. Qwen Deep
+         Research demande la clé Chine continentale.
 
 
 ----------------------------------------------------------------
@@ -625,7 +640,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
   COMMENT ENTRER VOS CLÉS DANS CHATJPT
 ----------------------------------------------------------------
 
-  1. Ouvrez ChatJPT_1_34_0.html dans votre navigateur.
+  1. Ouvrez ChatJPT_1_35_0.html dans votre navigateur.
   2. Dans le panneau des clés (groupé par pays : États-Unis, Canada, France, Royaume-Uni, Israël, Corée du Sud, Chine), repérez les champs :
        🟢 OpenAI   → collez votre clé sk-proj-...
        🟠 Claude   → collez votre clé sk-ant-...
@@ -644,6 +659,7 @@ d'intelligence artificielle. Chaque clé est personnelle et gratuite
        🟥 MiniMax  → collez votre clé
        🟣 Alibaba · International → collez votre clé sk-...
        🟣 Alibaba · Chine continentale → collez votre clé sk-... (optionnel)
+       🟣 Alibaba · États-Unis / Hong Kong → collez votre clé sk-... (optionnel, vidéo Qwen)
   3. Les clés sont sauvegardées localement dans votre navigateur.
      Elles ne sont jamais envoyées ailleurs que vers le service concerné.
 
@@ -762,6 +778,13 @@ crear (facturación según el uso, dependiendo de tu plan).
         gratuita para empezar.
         La misma clave también da acceso a los modelos GLM de Z.ai
         (GLM-5.3, 5.2, 5.1) servidos por Alibaba (región Internacional).
+        Los VIDEOS de Qwen (Wan 3.0, HappyHorse) requieren una clave de la
+        región Estados Unidos (Virginia) o Hong Kong de Qwen Cloud: ve a
+        https://home.qwencloud.com, elige la región en el selector de
+        arriba a la derecha y crea allí la clave API. Pégala en el campo
+        correspondiente (Alibaba · Estados Unidos o Alibaba · Hong Kong) y
+        elige esa región en ChatJPT. Qwen Deep Research requiere la clave
+        de China continental.
 
 
 ----------------------------------------------------------------
@@ -961,7 +984,7 @@ crear (facturación según el uso, dependiendo de tu plan).
   CÓMO INGRESAR TUS CLAVES EN CHATJPT
 ----------------------------------------------------------------
 
-  1. Abre ChatJPT_1_34_0.html en tu navegador.
+  1. Abre ChatJPT_1_35_0.html en tu navegador.
   2. En el panel de claves (agrupado por país: Estados Unidos, Canadá, Francia, Reino Unido, Israel, Corea del Sur, China), ubica los campos:
        🟢 OpenAI   → pega tu clave sk-proj-...
        🟠 Claude   → pega tu clave sk-ant-...
@@ -980,6 +1003,7 @@ crear (facturación según el uso, dependiendo de tu plan).
        🟥 MiniMax  → pega tu clave
        🟣 Alibaba · Internacional → pega tu clave sk-...
        🟣 Alibaba · China continental → pega tu clave sk-... (opcional)
+       🟣 Alibaba · Estados Unidos / Hong Kong → pega tu clave sk-... (opcional, video de Qwen)
   3. Las claves se guardan localmente en tu navegador.
      Nunca se envían a ningún lugar más que al servicio correspondiente.
 

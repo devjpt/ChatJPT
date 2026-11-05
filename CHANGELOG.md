@@ -8,6 +8,30 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.35.0] — 2026-11-05
+  Added
+    - Alibaba: 🌐 web search with sources and 🔗 link reading for Qwen 3.7,
+      Qwen 3.8 and GLM-5.2 (through the Responses API, the only one that
+      returns the sources).
+    - Alibaba: 📄 PDFs read directly by Qwen 3.8 Max and Flash (same switch as
+      Claude; Qwen also charges $0.0033 per parsed page).
+    - Alibaba: explicit caching — the conversation is reread at about 10% of
+      the price instead of 20%.
+    - Images: Wan 2.7 Image Pro (up to 4K), Wan 2.7 Image and Z-Image Turbo
+      (very fast, low cost); up to 6 images at once; 2K and 4K sizes.
+    - 🎬 Qwen video: new United States (Virginia) and Hong Kong regions of
+      Qwen Cloud, each with its own key field; Wan 3.0 (up to 30 s, with
+      sound), Wan 3.0 Prime (faster) and HappyHorse 1.1; attached photos as
+      first frame, references, or first and last frame.
+    - Video (Grok and Qwen): the "Attached photos (📎)" menu is always shown, with
+      "None — video from the text only" when no photo is attached.
+    - 🔬 Qwen Deep Research (mainland China region): clarifying questions, then
+      a sourced report; progress (plan, queries, sites) in the 🧠 block.
+    - GLM-5.2 Fast (1.5 to 2× faster).
+  Changed
+    - Qwen Max, Plus, Flash and Qwen3 Coder Flash are labeled "older
+      generation" (Qwen Cloud no longer recommends them).
+
 [1.34.0] — 2026-11-05
   Added
     - 𝕏 Search on X (new Grok switch): Grok searches X posts and profiles in
@@ -865,6 +889,31 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.35.0] — 2026-11-05
+  Ajouté
+    - Alibaba : 🌐 recherche web avec sources et 🔗 lecture des liens pour
+      Qwen 3.7, Qwen 3.8 et GLM-5.2 (par l'API Responses, la seule qui renvoie
+      les sources).
+    - Alibaba : 📄 PDF lus directement par Qwen 3.8 Max et Flash (même
+      interrupteur que Claude ; Qwen facture aussi 0,0033 $ par page analysée).
+    - Alibaba : cache explicite — la conversation est relue à environ 10 % du
+      prix au lieu de 20 %.
+    - Images : Wan 2.7 Image Pro (jusqu'à 4K), Wan 2.7 Image et Z-Image Turbo
+      (très rapide, économique) ; jusqu'à 6 images d'un coup ; tailles 2K et
+      4K.
+    - 🎬 Vidéo Qwen : nouvelles régions États-Unis (Virginie) et Hong Kong de
+      Qwen Cloud, chacune avec son champ de clé ; Wan 3.0 (jusqu'à 30 s, avec
+      son), Wan 3.0 Prime (plus rapide) et HappyHorse 1.1 ; photos jointes en
+      1re image, en références ou en 1re et dernière image.
+    - Vidéo (Grok et Qwen) : le menu « Photos jointes (📎) » est toujours affiché,
+      avec « Aucune — vidéo à partir du texte seul » quand aucune photo n'est jointe.
+    - 🔬 Qwen Deep Research (région Chine continentale) : questions de cadrage,
+      puis rapport sourcé ; avancement (plan, requêtes, sites) dans le bloc 🧠.
+    - GLM-5.2 Fast (1,5 à 2× plus rapide).
+  Modifié
+    - Qwen Max, Plus, Flash et Qwen3 Coder Flash sont marqués « ancienne
+      génération » (Qwen Cloud ne les recommande plus).
 
 [1.34.0] — 2026-11-05
   Ajouté
@@ -1792,6 +1841,31 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.35.0] — 2026-11-05
+  Añadido
+    - Alibaba: 🌐 búsqueda web con fuentes y 🔗 lectura de enlaces para Qwen
+      3.7, Qwen 3.8 y GLM-5.2 (mediante la API Responses, la única que
+      devuelve las fuentes).
+    - Alibaba: 📄 PDF leídos directamente por Qwen 3.8 Max y Flash (mismo
+      interruptor que Claude; Qwen cobra además 0,0033 $ por página analizada).
+    - Alibaba: caché explícita — la conversación se relee a cerca del 10 % del
+      precio en lugar del 20 %.
+    - Imágenes: Wan 2.7 Image Pro (hasta 4K), Wan 2.7 Image y Z-Image Turbo
+      (muy rápido, económico); hasta 6 imágenes a la vez; tamaños 2K y 4K.
+    - 🎬 Video de Qwen: nuevas regiones Estados Unidos (Virginia) y Hong Kong
+      de Qwen Cloud, cada una con su campo de clave; Wan 3.0 (hasta 30 s, con
+      sonido), Wan 3.0 Prime (más rápido) y HappyHorse 1.1; fotos adjuntas
+      como primera imagen, referencias o primera y última imagen.
+    - Video (Grok y Qwen): el menú "Fotos adjuntas (📎)" siempre se muestra, con
+      "Ninguna — video solo a partir del texto" cuando no hay foto adjunta.
+    - 🔬 Qwen Deep Research (región China continental): preguntas para
+      acotar, luego un informe con fuentes; avance (plan, consultas, sitios)
+      en el bloque 🧠.
+    - GLM-5.2 Fast (1,5 a 2× más rápido).
+  Cambiado
+    - Qwen Max, Plus, Flash y Qwen3 Coder Flash se marcan como "generación
+      anterior" (Qwen Cloud ya no los recomienda).
 
 [1.34.0] — 2026-11-05
   Añadido

@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.34.0
+  Version 1.35.0
 -->
 
 
@@ -2940,6 +2940,14 @@
                         <label class="qwen-label" title="Qwen, GLM">🟣 Alibaba · <span data-i18n="qwenRegionMainland">Chine continentale</span></label>
                         <input type="password" class="api-key-input" id="key-qwen-cn" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen, GLM) — Chine continentale">
                     </div>
+                    <div class="config-group">
+                        <label class="qwen-label" title="Qwen Cloud — vidéo Qwen" data-i18n-title="qwenRegionVideoTip">🟣 Alibaba · <span data-i18n="qwenRegionUS">États-Unis (Virginie)</span> 🎬</label>
+                        <input type="password" class="api-key-input" id="key-qwen-us" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen Cloud) — États-Unis">
+                    </div>
+                    <div class="config-group">
+                        <label class="qwen-label" title="Qwen Cloud — vidéo Qwen" data-i18n-title="qwenRegionVideoTip">🟣 Alibaba · <span data-i18n="qwenRegionHK">Hong Kong</span> 🎬</label>
+                        <input type="password" class="api-key-input" id="key-qwen-hk" placeholder="sk-..." autocomplete="off" aria-label="Clé API Alibaba (Qwen Cloud) — Hong Kong">
+                    </div>
                 </div>
             </div>
             </section>
@@ -3021,6 +3029,8 @@
             <select id="qwen-region-select" aria-label="Région DashScope (Qwen)">
                 <option value="intl" data-i18n="qwenRegionIntl">International</option>
                 <option value="mainland" data-i18n="qwenRegionMainland">Chine continentale</option>
+                <option value="us" data-i18n="qwenRegionUS">États-Unis (Virginie)</option>
+                <option value="hk" data-i18n="qwenRegionHK">Hong Kong</option>
             </select>
         </div>
         <div class="mode-tabs" id="mode-tabs" role="tablist" aria-label="Mode de génération">
@@ -3115,6 +3125,15 @@
                     <option value="1024*1024" selected data-i18n="imgSizeSquare">Carré (1024×1024)</option>
                     <option value="1536*1024" data-i18n="imgSizeLandscape">Paysage (1536×1024)</option>
                     <option value="1024*1536" data-i18n="imgSizePortrait">Portrait (1024×1536)</option>
+                    <option value="2048*2048" data-i18n="imgSizeSquare2k">Carré 2K (2048×2048)</option>
+                    <option value="4096*4096" data-i18n="imgSizeSquare4k">Carré 4K (4096×4096, Wan 2.7 Pro)</option>
+                </select>
+            </div>
+            <div class="select-group" id="image-qwen-n-group">
+                <label data-i18n="lblMmCount">Images</label>
+                <select id="image-qwen-n-select" aria-label="Nombre d'images Qwen">
+                    <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option>
+                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
                 </select>
             </div>
             <div class="select-group" id="image-grok-aspect-group">
@@ -3408,8 +3427,9 @@
                 </select>
             </div>
             <div class="select-group" id="grok-vref-group">
-                <label data-i18n="lblGrokVref" title="Photos jointes au message (📎)" data-i18n-title="grokVrefTip">Photos jointes</label>
+                <label data-i18n="lblGrokVref" title="Photos jointes au message (📎)" data-i18n-title="grokVrefTip">Photos jointes (📎)</label>
                 <select id="grok-vref-select" aria-label="Usage des photos jointes">
+                    <option value="none" data-i18n="grokVrefNone">Aucune — vidéo à partir du texte seul</option>
                     <option value="first" data-i18n="grokVrefFirst">1re image de la vidéo</option>
                     <option value="refs" data-i18n="grokVrefRefs">Références (personnages, objets)</option>
                     <option value="firstlast" data-i18n="grokVrefFirstLast">1re et dernière image</option>
@@ -3553,11 +3573,11 @@
             <span class="websearch-hint" data-i18n="claudeFastHint">jusqu'à 2,5× plus rapide, 2× le prix</span>
         </div>
         <div class="websearch-mode-container" id="pdfnative-mode-container">
-            <label class="websearch-mode-label" id="pdfnative-mode-label" title="Les PDF joints sont envoyés tels quels à Claude, qui voit chaque page (graphiques, tableaux, mise en page, pages scannées) au lieu du seul texte extrait." data-i18n-title="pdfNativeTitle">
+            <label class="websearch-mode-label" id="pdfnative-mode-label" title="Les PDF joints sont envoyés tels quels à Claude ou à Qwen 3.8, qui voit chaque page (graphiques, tableaux, mise en page, pages scannées) au lieu du seul texte extrait." data-i18n-title="pdfNativeTitle">
                 <input type="checkbox" id="pdfnative-mode-cb">
                 <span class="websearch-label-text" data-i18n="pdfNativeLabel">📄 PDF lus en images</span>
             </label>
-            <span class="websearch-hint" data-i18n="pdfNativeHint">Claude voit les pages · 2 à 4× plus de tokens</span>
+            <span class="websearch-hint" data-i18n="pdfNativeHint">le modèle voit les pages · 2 à 4× plus de tokens</span>
         </div>
         <div class="websearch-mode-container" id="readlinks-mode-container">
             <label class="websearch-mode-label" id="readlinks-mode-label" title="Le modèle ouvre et lit les liens (URL) que vous collez dans votre message." data-i18n-title="readLinksTitle">
@@ -3701,15 +3721,17 @@
         minimax: $('key-minimax'),
         qwen: $('key-qwen'),        // Alibaba, région internationale
         qwen_cn: $('key-qwen-cn'),  // Alibaba, Chine continentale (emplacement de clé, pas un fournisseur)
+        qwen_us: $('key-qwen-us'),  // Alibaba Qwen Cloud, États-Unis (Virginie) — vidéo possible
+        qwen_hk: $('key-qwen-hk'),  // Alibaba Qwen Cloud, Hong Kong — vidéo possible
         upstage: $('key-upstage'),
         recraft: $('key-recraft'),
         bria: $('key-bria')
     };
 
     // Provider → status pill emoji (mirrors the colored labels in the keys panel)
-    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', minimax: '🟥', qwen: '🟣', qwen_cn: '🟣', upstage: '☀️', recraft: '🖌️', bria: '🪄' };
+    const PROVIDER_PILLS = { openai: '🟢', claude: '🟠', gemini: '🔵', grok: '⚫', perplexity: '🔎', meta: '♾️', augure: '🍁', cohere: '🟩', mistral: '🟧', deepseek: '🔷', kimi: '🌙', minimax: '🟥', qwen: '🟣', qwen_cn: '🟣', qwen_us: '🟣', qwen_hk: '🟣', upstage: '☀️', recraft: '🖌️', bria: '🪄' };
     // Noms des emplacements de clé Alibaba dans l'en-tête des clés (une clé par région)
-    const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN' };
+    const KEY_SLOT_NAMES = { qwen: 'Alibaba Intl', qwen_cn: 'Alibaba CN', qwen_us: 'Alibaba US', qwen_hk: 'Alibaba HK' };
     // Provider → nom court affiché à côté de la pastille dans l'en-tête des clés
     const PROVIDER_SHORT_NAMES = { openai: 'OpenAI', claude: 'Claude', gemini: 'Gemini', grok: 'Grok', perplexity: 'Perplexity', meta: 'Meta', augure: 'Augure', cohere: 'Cohere', mistral: 'Mistral', deepseek: 'DeepSeek', kimi: 'Kimi', minimax: 'MiniMax', qwen: 'Alibaba', upstage: 'Upstage', recraft: 'Recraft', bria: 'Bria' };
 
@@ -3846,7 +3868,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.34.0 - Dernière version : ",
+            creditVersion: "Version 1.35.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4053,6 +4075,13 @@
             imgFmt45: "Portrait (4:5)",
             imgFmt219: "Cinéma (21:9)",
             imgFmtAuto: "Automatique (le modèle choisit)",
+            imgSizeSquare2k: "Carré 2K (2048×2048)",
+            imgSizeSquare4k: "Carré 4K (4096×4096, Wan 2.7 Pro)",
+            qwenRegionUS: "États-Unis (Virginie)",
+            qwenRegionHK: "Hong Kong",
+            qwenRegionVideoTip: "Clé Qwen Cloud créée dans cette région (console home.qwencloud.com, sélecteur de région en haut à droite). Seules ces régions permettent la vidéo Qwen dans ChatJPT.",
+            qwenVideoRegion: "Vidéo Qwen : choisis la région États-Unis (Virginie) ou Hong Kong, avec une clé Qwen Cloud créée dans cette région.",
+            qwenDrMainland: "Qwen Deep Research n'est offert qu'en Chine continentale (Pékin) : choisis cette région, avec sa clé.",
             imgFmt21: "Bannière (2:1)",
             imgFmt12: "Bannière verticale (1:2)",
             imgFmt52: "Bannière large (5:2)",
@@ -4093,8 +4122,8 @@
             claudeFastTitle: "Mode rapide de Claude (Opus 5.5, Opus 5, Opus 4.8) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens. Opus 5 et 4.8 : aperçu de recherche, accès parfois requis.",
             claudeFastOff: "⚡ Mode rapide indisponible pour le moment : réponse en vitesse normale.",
             pdfNativeLabel: "📄 PDF lus en images",
-            pdfNativeHint: "Claude voit les pages · 2 à 4× plus de tokens",
-            pdfNativeTitle: "Les PDF joints sont envoyés tels quels à Claude, qui voit chaque page (graphiques, tableaux, mise en page, pages scannées) au lieu du seul texte extrait, et indique la page de chaque passage cité. Environ 2 000 à 4 500 tokens par page, renvoyés à chaque question (en grande partie relus en cache). Les autres fournisseurs reçoivent toujours le texte.",
+            pdfNativeHint: "le modèle voit les pages · 2 à 4× plus de tokens",
+            pdfNativeTitle: "Les PDF joints sont envoyés tels quels à Claude ou à Qwen 3.8, qui voit chaque page (graphiques, tableaux, mise en page, pages scannées) au lieu du seul texte extrait, et indique la page de chaque passage cité. Environ 2 000 à 4 500 tokens par page, renvoyés à chaque question (en grande partie relus en cache). Qwen facture aussi 0,0033 $ par page analysée, à chaque question. Les autres modèles reçoivent toujours le texte.",
             claudeFallbackNote: "↪️ {from} a décliné cette demande (filtre de sécurité) : réponse de {to}.",
             pdfCitePage: "p.",
             ocrOptClaudePdf: "📄 Envoyer le PDF à Claude",
@@ -4192,8 +4221,9 @@
             grokPrioTitle: "Traitement prioritaire de xAI : réponses plus rapides aux heures chargées, 2 fois le prix des tokens. Facturé seulement quand xAI l'accorde.",
             grokAgents4: "4 agents (rapide)",
             grokAgents16: "16 agents (plus complet, bien plus de tokens)",
-            lblGrokVref: "Photos jointes",
-            grokVrefTip: "Ce que Grok fait des photos jointes au message (📎). Références : personnages, objets ou style à reprendre ; dans la consigne, désigne-les par <IMAGE_0>, <IMAGE_1>…",
+            lblGrokVref: "Photos jointes (📎)",
+            grokVrefNone: "Aucune — vidéo à partir du texte seul",
+            grokVrefTip: "Sans photo, la vidéo naît de la consigne seule. Joins une ou plusieurs photos avec 📎 pour choisir ce que le modèle en fait. Références : personnages, objets ou style à reprendre ; dans la consigne, désigne-les par <IMAGE_0>, <IMAGE_1>…",
             grokVrefFirst: "1re image de la vidéo",
             grokVrefRefs: "Références (personnages, objets)",
             grokVrefFirstLast: "1re et dernière image",
@@ -4713,7 +4743,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.34.0 - Latest version: ",
+            creditVersion: "Version 1.35.0 - Latest version: ",
             appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -4920,6 +4950,13 @@
             imgFmt45: "Portrait (4:5)",
             imgFmt219: "Cinema (21:9)",
             imgFmtAuto: "Automatic (the model chooses)",
+            imgSizeSquare2k: "Square 2K (2048×2048)",
+            imgSizeSquare4k: "Square 4K (4096×4096, Wan 2.7 Pro)",
+            qwenRegionUS: "United States (Virginia)",
+            qwenRegionHK: "Hong Kong",
+            qwenRegionVideoTip: "Qwen Cloud key created in this region (home.qwencloud.com console, region selector at the top right). Only these regions allow Qwen video in ChatJPT.",
+            qwenVideoRegion: "Qwen video: choose the United States (Virginia) or Hong Kong region, with a Qwen Cloud key created in that region.",
+            qwenDrMainland: "Qwen Deep Research is only offered in mainland China (Beijing): choose that region, with its key.",
             imgFmt21: "Banner (2:1)",
             imgFmt12: "Vertical banner (1:2)",
             imgFmt52: "Wide banner (5:2)",
@@ -4960,8 +4997,8 @@
             claudeFastTitle: "Claude fast mode (Opus 5.5, Opus 5, Opus 4.8): up to 2.5 times more text per second, 2 times the token price. Opus 5 and 4.8: research preview, access sometimes required.",
             claudeFastOff: "⚡ Fast mode unavailable right now: answering at normal speed.",
             pdfNativeLabel: "📄 PDFs read as images",
-            pdfNativeHint: "Claude sees the pages · 2 to 4× more tokens",
-            pdfNativeTitle: "Attached PDFs are sent as-is to Claude, which sees every page (charts, tables, layout, scanned pages) instead of the extracted text only, and gives the page of each quoted passage. About 2,000 to 4,500 tokens per page, resent with every question (mostly read from cache). Other providers still receive the text.",
+            pdfNativeHint: "the model sees the pages · 2 to 4× more tokens",
+            pdfNativeTitle: "Attached PDFs are sent as-is to Claude or Qwen 3.8, which sees every page (charts, tables, layout, scanned pages) instead of the extracted text only, and gives the page of each quoted passage. About 2,000 to 4,500 tokens per page, resent with every question (mostly read from cache). Qwen also charges $0.0033 per parsed page, for every question. Other models still receive the text.",
             claudeFallbackNote: "↪️ {from} declined this request (safety filter): answer from {to}.",
             pdfCitePage: "p.",
             ocrOptClaudePdf: "📄 Send the PDF to Claude",
@@ -5059,8 +5096,9 @@
             grokPrioTitle: "xAI priority processing: faster answers at busy times, 2 times the token price. Billed only when xAI grants it.",
             grokAgents4: "4 agents (fast)",
             grokAgents16: "16 agents (more thorough, many more tokens)",
-            lblGrokVref: "Attached photos",
-            grokVrefTip: "What Grok does with the photos attached to the message (📎). References: characters, objects or style to reuse; in the prompt, refer to them as <IMAGE_0>, <IMAGE_1>…",
+            lblGrokVref: "Attached photos (📎)",
+            grokVrefNone: "None — video from the text only",
+            grokVrefTip: "Without a photo, the video comes from the prompt alone. Attach one or more photos with 📎 to choose what the model does with them. References: characters, objects or style to reuse; in the prompt, refer to them as <IMAGE_0>, <IMAGE_1>…",
             grokVrefFirst: "First frame of the video",
             grokVrefRefs: "References (characters, objects)",
             grokVrefFirstLast: "First and last frame",
@@ -5580,7 +5618,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.34.0 - Última versión: ",
+            creditVersion: "Versión 1.35.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5787,6 +5825,13 @@
             imgFmt45: "Retrato (4:5)",
             imgFmt219: "Cine (21:9)",
             imgFmtAuto: "Automático (el modelo elige)",
+            imgSizeSquare2k: "Cuadrado 2K (2048×2048)",
+            imgSizeSquare4k: "Cuadrado 4K (4096×4096, Wan 2.7 Pro)",
+            qwenRegionUS: "Estados Unidos (Virginia)",
+            qwenRegionHK: "Hong Kong",
+            qwenRegionVideoTip: "Clave de Qwen Cloud creada en esta región (consola home.qwencloud.com, selector de región arriba a la derecha). Solo estas regiones permiten el video de Qwen en ChatJPT.",
+            qwenVideoRegion: "Video de Qwen: elige la región Estados Unidos (Virginia) o Hong Kong, con una clave de Qwen Cloud creada en esa región.",
+            qwenDrMainland: "Qwen Deep Research solo se ofrece en China continental (Pekín): elige esa región, con su clave.",
             imgFmt21: "Banner (2:1)",
             imgFmt12: "Banner vertical (1:2)",
             imgFmt52: "Banner ancho (5:2)",
@@ -5827,8 +5872,8 @@
             claudeFastTitle: "Modo rápido de Claude (Opus 5.5, Opus 5, Opus 4.8): hasta 2,5 veces más texto por segundo, 2 veces el precio de los tokens. Opus 5 y 4.8: vista previa de investigación, a veces se requiere acceso.",
             claudeFastOff: "⚡ Modo rápido no disponible por ahora: respuesta a velocidad normal.",
             pdfNativeLabel: "📄 PDF leídos como imágenes",
-            pdfNativeHint: "Claude ve las páginas · 2 a 4× más tokens",
-            pdfNativeTitle: "Los PDF adjuntos se envían tal cual a Claude, que ve cada página (gráficos, tablas, diseño, páginas escaneadas) en lugar de solo el texto extraído, e indica la página de cada pasaje citado. Unos 2 000 a 4 500 tokens por página, reenviados en cada pregunta (en gran parte leídos de la caché). Los demás proveedores siguen recibiendo el texto.",
+            pdfNativeHint: "el modelo ve las páginas · 2 a 4× más tokens",
+            pdfNativeTitle: "Los PDF adjuntos se envían tal cual a Claude o a Qwen 3.8, que ve cada página (gráficos, tablas, diseño, páginas escaneadas) en lugar de solo el texto extraído, e indica la página de cada pasaje citado. Unos 2 000 a 4 500 tokens por página, reenviados en cada pregunta (en gran parte leídos de la caché). Qwen cobra además 0,0033 $ por página analizada, en cada pregunta. Los demás modelos siguen recibiendo el texto.",
             claudeFallbackNote: "↪️ {from} rechazó esta solicitud (filtro de seguridad): respuesta de {to}.",
             pdfCitePage: "pág.",
             ocrOptClaudePdf: "📄 Enviar el PDF a Claude",
@@ -5926,8 +5971,9 @@
             grokPrioTitle: "Procesamiento prioritario de xAI: respuestas más rápidas en horas de mucha demanda, 2 veces el precio de los tokens. Se cobra solo cuando xAI lo concede.",
             grokAgents4: "4 agentes (rápido)",
             grokAgents16: "16 agentes (más completo, muchos más tokens)",
-            lblGrokVref: "Fotos adjuntas",
-            grokVrefTip: "Lo que Grok hace con las fotos adjuntas al mensaje (📎). Referencias: personajes, objetos o estilo a retomar; en la instrucción, nómbralas <IMAGE_0>, <IMAGE_1>…",
+            lblGrokVref: "Fotos adjuntas (📎)",
+            grokVrefNone: "Ninguna — video solo a partir del texto",
+            grokVrefTip: "Sin foto, el video nace solo de la instrucción. Adjunta una o varias fotos con 📎 para elegir qué hace el modelo con ellas. Referencias: personajes, objetos o estilo a retomar; en la instrucción, nómbralas <IMAGE_0>, <IMAGE_1>…",
             grokVrefFirst: "Primera imagen del video",
             grokVrefRefs: "Referencias (personajes, objetos)",
             grokVrefFirstLast: "Primera y última imagen",
@@ -6491,17 +6537,21 @@
             { id: 'qwen3.7-plus', name: { fr: 'Qwen3.7 Plus (Équilibré)', en: 'Qwen3.7 Plus (Balanced)', es: 'Qwen3.7 Plus (Equilibrado)' } },
             { id: 'qwen3.8-flash', name: { fr: 'Qwen3.8 Flash (Rapide)', en: 'Qwen3.8 Flash (Fast)', es: 'Qwen3.8 Flash (Rápido)' } },
             { id: 'qwen3.7-flash', name: { fr: 'Qwen3.7 Flash (Très économique)', en: 'Qwen3.7 Flash (Very low cost)', es: 'Qwen3.7 Flash (Muy económico)' } },
-            // Alias stables : pointent toujours vers le dernier snapshot (pas de version à maintenir).
-            // qwen-turbo → remplacé par qwen-flash (catalogue QwenCloud oct. 2026).
-            { id: 'qwen-max', name: { fr: 'Qwen Max (Flagship)', en: 'Qwen Max (Flagship)', es: 'Qwen Max (Insignia)' } },
-            { id: 'qwen-plus', name: { fr: 'Qwen Plus (Équilibré)', en: 'Qwen Plus (Balanced)', es: 'Qwen Plus (Equilibrado)' } },
-            { id: 'qwen-flash', name: { fr: 'Qwen Flash (Rapide)', en: 'Qwen Flash (Fast)', es: 'Qwen Flash (Rápido)' } },
-            // Code (qwen3-coder-plus absent du catalogue → qwen3-coder-flash)
-            { id: 'qwen3-coder-flash', name: { fr: 'Qwen3 Coder Flash (Code)', en: 'Qwen3 Coder Flash (Code)', es: 'Qwen3 Coder Flash (Código)' } },
+            // Alias qwen-max / plus / flash et Qwen3 Coder : classés « Legacy » par Qwen Cloud (nov. 2026),
+            // toujours servis mais déconseillés → signalés dans le libellé.
+            { id: 'qwen-max', name: { fr: 'Qwen Max (ancienne génération)', en: 'Qwen Max (older generation)', es: 'Qwen Max (generación anterior)' } },
+            { id: 'qwen-plus', name: { fr: 'Qwen Plus (ancienne génération)', en: 'Qwen Plus (older generation)', es: 'Qwen Plus (generación anterior)' } },
+            { id: 'qwen-flash', name: { fr: 'Qwen Flash (ancienne génération)', en: 'Qwen Flash (older generation)', es: 'Qwen Flash (generación anterior)' } },
+            { id: 'qwen3-coder-flash', name: { fr: 'Qwen3 Coder Flash (Code, ancienne génération)', en: 'Qwen3 Coder Flash (Code, older generation)', es: 'Qwen3 Coder Flash (Código, generación anterior)' } },
             // GLM (Z.ai) servis par Alibaba Model Studio : l'API directe api.z.ai bloque le CORS
             // navigateur (testé 2026-10-17), le compatible-mode DashScope l'autorise.
+            // Recherche approfondie : questions de cadrage, puis recherche web et rapport sourcé (flux long).
+            // Région Pékin seulement → clé « Chine continentale ».
+            { id: 'qwen-deep-research', name: { fr: '🔬 Qwen Deep Research (rapport sourcé, Chine continentale)', en: '🔬 Qwen Deep Research (cited report, mainland China)', es: '🔬 Qwen Deep Research (informe con fuentes, China continental)' } },
             { id: 'glm-5.3', name: { fr: 'GLM-5.3 (Z.ai, via Alibaba)', en: 'GLM-5.3 (Z.ai, via Alibaba)', es: 'GLM-5.3 (Z.ai, vía Alibaba)' } },
             { id: 'glm-5.2', name: { fr: 'GLM-5.2 (Z.ai, via Alibaba)', en: 'GLM-5.2 (Z.ai, via Alibaba)', es: 'GLM-5.2 (Z.ai, vía Alibaba)' } },
+            // Mode Prime de Qwen Cloud : même modèle, 1,5 à 2 fois plus de texte par seconde (prix plus élevé)
+            { id: 'glm-5.2-fast-preview', name: { fr: 'GLM-5.2 Fast (Z.ai, via Alibaba, 1,5 à 2× plus rapide)', en: 'GLM-5.2 Fast (Z.ai, via Alibaba, 1.5–2× faster)', es: 'GLM-5.2 Fast (Z.ai, vía Alibaba, 1,5 a 2× más rápido)' } },
             { id: 'glm-5.1', name: { fr: 'GLM-5.1 (Z.ai, via Alibaba)', en: 'GLM-5.1 (Z.ai, via Alibaba)', es: 'GLM-5.1 (Z.ai, vía Alibaba)' } },
         ],
         upstage: [
@@ -6545,7 +6595,11 @@
             { id: 'qwen-image-3.0', name: { fr: 'Qwen Image 3.0 (Rapide)', en: 'Qwen Image 3.0 (Fast)', es: 'Qwen Image 3.0 (Rápido)' } },
             { id: 'qwen-image-2.1-pro', name: { fr: 'Qwen Image 2.1 Pro', en: 'Qwen Image 2.1 Pro', es: 'Qwen Image 2.1 Pro' } },
             { id: 'qwen-image-2.1-turbo', name: { fr: 'Qwen Image 2.1 Turbo (Économique)', en: 'Qwen Image 2.1 Turbo (Low cost)', es: 'Qwen Image 2.1 Turbo (Económico)' } },
-            { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } }
+            { id: 'qwen-image-2.0-pro', name: { fr: 'Qwen Image 2.0 Pro', en: 'Qwen Image 2.0 Pro' } },
+            // Wan 2.7 : jusqu'à 4K (Pro), séries d'images ; Z-Image Turbo : génération rapide, ~5× moins chère, 1 image
+            { id: 'wan2.7-image-pro', name: { fr: 'Wan 2.7 Image Pro (jusqu\'à 4K)', en: 'Wan 2.7 Image Pro (up to 4K)', es: 'Wan 2.7 Image Pro (hasta 4K)' } },
+            { id: 'wan2.7-image', name: { fr: 'Wan 2.7 Image', en: 'Wan 2.7 Image', es: 'Wan 2.7 Image' } },
+            { id: 'z-image-turbo', name: { fr: 'Z-Image Turbo (Très rapide, économique)', en: 'Z-Image Turbo (Very fast, low cost)', es: 'Z-Image Turbo (Muy rápido, económico)' } }
         ],
         recraft: [
             // Recraft (Londres) — external.api.recraft.ai/v1 (CORS : origine reflétée, null compris, testé
@@ -6596,6 +6650,14 @@
             // Veo 3.1 retirés (arrêt Google le 22/10/2026, remplacés par Omni) ; Veo 2.0 arrêté le
             // 30/06/2026. La branche Veo de VIDEO_ADAPTERS.gemini reste prête pour un futur Veo.
         ],
+        qwen: [
+            // Qwen Cloud, régions États-Unis / Hong Kong (VIDEO_ADAPTERS.qwen). Wan 3.0 = tout-en-un :
+            // texte, 1re (et dernière) image, références ; HappyHorse 1.1 : modèle t2v / i2v / r2v choisi
+            // selon les photos jointes. Son inclus.
+            { id: 'wan3.0-video', name: { fr: 'Wan 3.0 (jusqu\'à 30 s, avec son)', en: 'Wan 3.0 (up to 30 s, with sound)', es: 'Wan 3.0 (hasta 30 s, con sonido)' } },
+            { id: 'wan3.0-video-prime', name: { fr: 'Wan 3.0 Prime (plus rapide)', en: 'Wan 3.0 Prime (faster)', es: 'Wan 3.0 Prime (más rápido)' } },
+            { id: 'happyhorse-1.1', name: { fr: 'HappyHorse 1.1 (jusqu\'à 15 s, avec son)', en: 'HappyHorse 1.1 (up to 15 s, with sound)', es: 'HappyHorse 1.1 (hasta 15 s, con sonido)' } }
+        ],
         grok: [
             { id: 'grok-imagine-video-1.5', name: { fr: 'Grok Imagine Vidéo 1.5 (Dernier)', en: 'Grok Imagine Video 1.5 (Latest)', es: 'Grok Imagine Video 1.5 (Último)' } },
             { id: 'grok-imagine-video-1.5-lite', name: { fr: 'Grok Imagine Vidéo 1.5 Lite (Rapide)', en: 'Grok Imagine Video 1.5 Lite (Fast)', es: 'Grok Imagine Video 1.5 Lite (Rápido)' } },
@@ -6620,6 +6682,7 @@
     const VIDEO_DURATIONS = {
         gemini: ['8', '6', '4'],
         grok: ['4', '6', '8', '10', '12', '15'],   // 1 à 15 s ; ✏️ Modifier : source ≤ 8,7 s
+        qwen: ['5', '10', '15', '20', '30'],         // Wan 3.0 : 2 à 30 s ; HappyHorse : 3 à 15 s (plafonné)
         minimax: ['6', '10']   // 1080P : 6 s seulement (voir populateVideoDurations)
     };
 
@@ -6771,8 +6834,8 @@ RULES:
             // Envoyé explicitement (true/false) : défaut ON sur 3.x récents, OFF sur les alias.
             // qwen-max / qwen3-coder-flash : pas de mode hybride documenté → hors table.
             // GLM-5.3 : réflexion obligatoire (non désactivable) → natif, aucun enable_thinking envoyé.
-            native: ['glm-5.3'],
-            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.1']
+            native: ['glm-5.3', 'qwen-deep-research'],   // Deep Research : avancement affiché dans le bloc 🧠
+            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1']
         },
         upstage: {
             // Réflexion COUPÉE par défaut (paramètre omis) ; reasoning_effort low → max l'active,
@@ -6814,25 +6877,33 @@ RULES:
     // emplacements de clé (ai_key_qwen = international, ai_key_qwen_cn = Chine continentale) ;
     // le sélecteur « Région » (ai_qwen_region) choisit la clé ET le host : le chat
     // (compatible-mode) et l'image (api/v1/services/aigc) en dérivent.
+    // Qwen Cloud (nov. 2026) : États-Unis (Virginie) et Hong Kong, adresses {région}.maas.qwencloudapi.com,
+    // seules régions où le suivi des tâches (/api/v1/tasks) est ouvert au navigateur → vidéo Qwen.
+    // Singapour / Francfort / Tokyo (nouvelles adresses) bloquent le CORS ; Singapour reste servi par
+    // dashscope-intl (intl). Une clé par région (slot = emplacement dans keyInputs).
     const QWEN_REGIONS = {
-        intl:     { host: 'https://dashscope-intl.aliyuncs.com', label: { fr: 'International', en: 'International', es: 'Internacional' } },
-        mainland: { host: 'https://dashscope.aliyuncs.com',      label: { fr: 'Chine continentale', en: 'Mainland China', es: 'China continental' } }
+        intl:     { host: 'https://dashscope-intl.aliyuncs.com', slot: 'qwen',    label: { fr: 'International', en: 'International', es: 'Internacional' } },
+        mainland: { host: 'https://dashscope.aliyuncs.com',      slot: 'qwen_cn', label: { fr: 'Chine continentale', en: 'Mainland China', es: 'China continental' } },
+        us:       { host: 'https://us-east-1.maas.qwencloudapi.com', slot: 'qwen_us', video: true, label: { fr: 'États-Unis (Virginie)', en: 'United States (Virginia)', es: 'Estados Unidos (Virginia)' } },
+        hk:       { host: 'https://cn-hongkong.maas.qwencloudapi.com', slot: 'qwen_hk', video: true, label: { fr: 'Hong Kong', en: 'Hong Kong', es: 'Hong Kong' } }
     };
     function qwenRegion() {
         return QWEN_REGIONS[localStorage.getItem('ai_qwen_region')] ? localStorage.getItem('ai_qwen_region') : 'intl';
     }
     function qwenKeyFor(region) {
-        const input = keyInputs[region === 'mainland' ? 'qwen_cn' : 'qwen'];
+        const input = keyInputs[(QWEN_REGIONS[region] || QWEN_REGIONS.intl).slot];
         return input ? input.value.trim() : '';
     }
-    // Une seule des deux clés saisie : la région suit cette clé (sélecteur mis à jour),
+    // Région sans clé mais une autre en a une : la région suit cette clé (sélecteur mis à jour),
     // pour ne jamais envoyer une clé au mauvais host.
     function syncQwenRegion() {
         const region = qwenRegion();
-        const other = region === 'intl' ? 'mainland' : 'intl';
-        if (!qwenKeyFor(region) && qwenKeyFor(other)) {
+        if (qwenKeyFor(region)) return;
+        const other = Object.keys(QWEN_REGIONS).find(r => qwenKeyFor(r));
+        if (other) {
             localStorage.setItem('ai_qwen_region', other);
             if (qwenRegionSelect) qwenRegionSelect.value = other;
+            if (typeof updateProviderUI === 'function' && providerSelect.value === 'qwen') updateProviderUI();
         }
     }
     function getQwenHost() {
@@ -6921,7 +6992,10 @@ RULES:
     // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool).
     // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
     // OpenAI (testé), et DeepSeek n'a pas de recherche native.
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true };
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true, qwen: true };
+    // Qwen : outils web_search / web_extractor de l'API Responses (sources dans web_search_call) ;
+    // le Chat Completions ne renvoie pas les sources → seuls ces modèles, routés vers Responses.
+    const QWEN_WEB_MODELS = ['qwen3.8-max', 'qwen3.8-flash', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.7-flash', 'glm-5.2'];
 
     // ===== LECTURE DES LIENS COLLÉS (URL → contenu de la page) =====
     // Toggle séparé de la recherche web : « lis cette page précise » ≠ « explore le web ».
@@ -6929,7 +7003,7 @@ RULES:
     // OpenAI/Grok via l'outil web_search (qui sait aussi ouvrir une URL — ces deux API n'ont
     // pas de primitive de lecture distincte). Mêmes fournisseurs que la recherche web ;
     // DeepSeek/Qwen absents (aucun outil de lecture). Modes texte uniquement.
-    const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true };
+    const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, qwen: true };
 
     const SYSTEM_PROMPTS = {
         // Transcription OCR des PDF scannés (mode interne, jamais affiché : utilisé page par page
@@ -7244,6 +7318,60 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Adapter strategy: each provider exposes submit/poll/finalize. The unified
     // handleVideoGeneration drives the polling loop and UI updates.
     const VIDEO_ADAPTERS = {
+        qwen: {
+            // Qwen Cloud (États-Unis / Hong Kong) : POST video-synthesis (X-DashScope-Async) → task_id ;
+            // suivi GET /api/v1/tasks/{id} → output.task_status, output.video_url (URL OSS temporaire).
+            async submit(prompt, params, key, signal) {
+                const imgs = params.images || (params.image ? [params.image] : []);
+                const mode = params.refMode || 'first';
+                let model = params.model;
+                let media = [];
+                if (model === 'happyhorse-1.1') {
+                    if (imgs.length && mode === 'refs') { model = 'happyhorse-1.1-r2v'; media = imgs.slice(0, 9).map(url => ({ type: 'reference_image', url })); }
+                    else if (imgs.length) { model = 'happyhorse-1.1-i2v'; media = [{ type: 'first_frame', url: imgs[0] }]; }
+                    else model = 'happyhorse-1.1-t2v';
+                } else if (imgs.length) {
+                    if (mode === 'refs') media = imgs.map(url => ({ type: 'reference_image', url }));
+                    else if (mode === 'firstlast' && imgs.length >= 2) media = [{ type: 'first_frame', url: imgs[0] }, { type: 'last_frame', url: imgs[imgs.length - 1] }];
+                    else media = [{ type: 'first_frame', url: imgs[0] }];
+                }
+                let duration = parseInt(params.duration, 10) || 5;
+                if (model.startsWith('happyhorse')) duration = Math.min(15, Math.max(3, duration));
+                const parameters = { resolution: String(params.resolution || '720p').toUpperCase(), duration, watermark: false };
+                // Avec une 1re image, le format suit l'image (HappyHorse i2v n'a pas de format)
+                if (!media.some(m => m.type === 'first_frame')) parameters.ratio = params.aspectRatio || '16:9';
+                const input = { prompt };
+                if (media.length) input.media = media;
+                const res = await fetchWithRetry(getQwenHost() + '/api/v1/services/aigc/video-generation/video-synthesis', {
+                    method: 'POST', signal,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'X-DashScope-Async': 'enable' },
+                    body: JSON.stringify({ model, input, parameters })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.output?.task_id) throw new Error(data.message || data.code || `HTTP Error ${res.status}`);
+                return { handle: data.output.task_id };
+            },
+            async poll(handle, key, signal) {
+                const res = await fetch(`${getQwenHost()}/api/v1/tasks/${handle}`, { method: 'GET', signal, headers: { 'Authorization': `Bearer ${key}` } });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) return { httpError: data.message || data.code || `HTTP Error ${res.status}` };
+                const st = data.output?.task_status;
+                return {
+                    done: st === 'SUCCEEDED',
+                    failed: st === 'FAILED' || st === 'CANCELED' || st === 'UNKNOWN',
+                    error: data.output?.message || data.output?.code || null,
+                    progress: null,
+                    _videoUrl: data.output?.video_url
+                };
+            },
+            async finalize(handle, key, signal, lastStatus) {
+                const url = lastStatus && lastStatus._videoUrl;
+                if (!url) throw new Error("Video was generated but no download URL was found.");
+                return { src: url, filename: `qwen_video_${Date.now()}.mp4`, openInNewTab: true };
+            },
+            pollIntervalMs: 10000,
+            maxPolls: 180
+        },
         gemini: {
             // Deux familles : Veo (predictLongRunning → opération) et Omni (Interactions API en
             // mode background → interaction à interroger). Même contrat submit/poll/finalize.
@@ -7878,14 +8006,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== RECHERCHE WEB — UI =====
-    function supportsWebSearch(provider, mode) {
+    function supportsWebSearch(provider, mode, model) {
+        if (provider === 'qwen' && model !== undefined && !QWEN_WEB_MODELS.includes(model)) return false;
         return !!WEB_SEARCH_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
     }
 
     // Lecture des liens : mêmes modes texte que la recherche web.
     // Gemma 4 : l'API refuse url_context (« Url Context as tool is not enabled for this model »).
     function supportsReadLinks(provider, mode, model) {
-        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model) && !DR_AGENTS.includes(model);
+        return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model) && !DR_AGENTS.includes(model)
+            && (provider !== 'qwen' || QWEN_WEB_MODELS.includes(model));
     }
 
     function updateWebSearchUI() {
@@ -7896,9 +8026,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 // supporte (chaque flux l'applique ou non selon son fournisseur).
                 const a = parseCompareValue(compareModelA ? compareModelA.value : '');
                 const b = parseCompareValue(compareModelB ? compareModelB.value : '');
-                show = supportsWebSearch(a.provider, currentMode) || supportsWebSearch(b.provider, currentMode);
+                show = supportsWebSearch(a.provider, currentMode, a.model) || supportsWebSearch(b.provider, currentMode, b.model);
             } else {
-                show = supportsWebSearch(providerSelect.value, currentMode) && !DR_AGENTS.includes(modelSelect.value);
+                show = supportsWebSearch(providerSelect.value, currentMode, modelSelect.value) && !DR_AGENTS.includes(modelSelect.value);
             }
             webSearchModeContainer.classList.toggle('show', show);
         }
@@ -7943,7 +8073,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return textMode && test(providerSelect.value, modelSelect.value);
         };
         $('claudefast-mode-container')?.classList.toggle('show', either((p, m) => p === 'claude' && CLAUDE_FAST_MODELS.includes(m)));
-        $('pdfnative-mode-container')?.classList.toggle('show', either(p => p === 'claude'));
+        $('pdfnative-mode-container')?.classList.toggle('show', either((p, m) => p === 'claude' || (p === 'qwen' && QWEN_PDF_MODELS.includes(m))));
         $('xsearch-mode-container')?.classList.toggle('show', either(p => p === 'grok'));
         $('grokprio-mode-container')?.classList.toggle('show', either(p => p === 'grok'));
     }
@@ -8316,11 +8446,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // s'il a une entrée dans IMAGE_MODELS / VIDEO_MODELS.
         // (ex. OpenAI/Qwen = image seule ; Claude/DeepSeek = texte seul ; Gemini/Grok = les deux.)
         const supportsImage = !!IMAGE_MODELS[provider];
-        const supportsVideo = !!VIDEO_MODELS[provider];
+        // Qwen : vidéo seulement dans les régions où le suivi des tâches passe (États-Unis, Hong Kong)
+        const supportsVideo = !!VIDEO_MODELS[provider] && (provider !== 'qwen' || !!QWEN_REGIONS[qwenRegion()].video);
         const supportsVoice = !!VOICE_MODELS[provider];
 
         imageTab.classList.toggle('disabled', !supportsImage);
         videoTab.classList.toggle('disabled', !supportsVideo);
+        videoTab.title = (provider === 'qwen' && !supportsVideo) ? I18N[currentLang].qwenVideoRegion : '';
         if (voiceTab) voiceTab.classList.toggle('disabled', !supportsVoice);
         // Fournisseur sans chat (absent de MODELS, ex. Recraft) : Chat / Vibe Coder / Code grisés,
         // sélecteur de modèle texte masqué (le modèle se choisit dans le panneau Image).
@@ -8577,8 +8709,26 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
     // Rebuild the duration dropdown with the values the active provider's API accepts,
     // preserving the current selection when it is still valid.
+    const QWEN_VIDEO_RATIOS = [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait'], ['1:1', 'imgFmtSquare'], ['4:3', 'imgFmtClassic'],
+        ['3:4', 'imgFmtClassicPortrait'], ['21:9', 'imgFmt219']];
     const GROK_VIDEO_RATIOS = [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait'], ['1:1', 'imgFmtSquare'], ['4:3', 'imgFmtClassic'],
         ['3:4', 'imgFmtClassicPortrait'], ['3:2', 'imgFmt32'], ['2:3', 'imgFmt23'], ['21:9', 'imgFmt219'], ['5:2', 'imgFmt52']];
+    function hasPhotoAttached() { return uploadedFiles.some(f => f.base64); }
+    // Après un ajout / retrait de pièces jointes : affiche ou masque « Utiliser les photos comme » (vidéo Grok / Qwen)
+    // Menu « Photos jointes (📎) » (vidéo Grok / Qwen), toujours visible : sans photo, « Aucune » est choisi
+    // et les usages sont grisés (on voit ce qu'une photo permettrait) ; avec photo, « Aucune » est grisé et
+    // le menu reprend le dernier usage choisi (1re image par défaut).
+    function syncVideoPhotoUse() {
+        const g = $('grok-vref-group'), sel = $('grok-vref-select'); if (!g || !sel) return;
+        const p = providerSelect.value, m = (videoModelSelect && videoModelSelect.value) || '';
+        g.style.display = (p === 'grok' || p === 'qwen') ? '' : 'none';
+        const has = hasPhotoAttached();
+        const firstLastOk = m === 'grok-imagine-video-1.5' || (p === 'qwen' && /^wan3\.0/.test(m));
+        [...sel.options].forEach(o => { o.disabled = o.value === 'none' ? has : (!has || (o.value === 'firstlast' && !firstLastOk)); });
+        if (!has) { sel.value = 'none'; return; }
+        const saved = localStorage.getItem('ai_grok_vref') || 'first';
+        sel.value = (saved === 'none' || (saved === 'firstlast' && !firstLastOk)) ? 'first' : saved;
+    }
     function populateVideoDurations() {
         if (!videoDurationSelect) return;
         let list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
@@ -8597,7 +8747,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // Formats : 9 pour Grok, 16:9 / 9:16 ailleurs (libellés traduits)
         if (videoAspectSelect) {
             const t = I18N[currentLang];
-            const ratios = providerSelect.value === 'grok' ? GROK_VIDEO_RATIOS : [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait']];
+            const ratios = providerSelect.value === 'grok' ? GROK_VIDEO_RATIOS : providerSelect.value === 'qwen' ? QWEN_VIDEO_RATIOS : [['16:9', 'imgFmtLandscape'], ['9:16', 'imgFmtPortrait']];
             const prevA = videoAspectSelect.value;
             videoAspectSelect.innerHTML = '';
             ratios.forEach(([v, k]) => { const o = document.createElement('option'); o.value = v; o.textContent = t[k] || v; videoAspectSelect.appendChild(o); });
@@ -8605,19 +8755,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         // Résolution (Grok) : 1080p pour Imagine Vidéo 1.5 / 1.5 Lite ; 720p au plus pour l'ancien modèle
         const resGroup = $('video-res-group'), resSel = $('video-res-select');
-        if (resGroup) resGroup.style.display = providerSelect.value === 'grok' ? '' : 'none';
+        if (resGroup) resGroup.style.display = (providerSelect.value === 'grok' || providerSelect.value === 'qwen') ? '' : 'none';
         // Grok : usage des photos jointes ; voix et 1re + dernière image = Imagine Vidéo 1.5 seulement
         const isGrokV = providerSelect.value === 'grok';
+        const isQwenV = providerSelect.value === 'qwen';
         const is15 = ((videoModelSelect && videoModelSelect.value) || '') === 'grok-imagine-video-1.5';
+        const firstLastOk = is15 || (isQwenV && /^wan3\.0/.test((videoModelSelect && videoModelSelect.value) || ''));
         const vrefGroup = $('grok-vref-group'), vvGroup = $('grok-vvoice-group'), vref = $('grok-vref-select'), vv = $('grok-vvoice-select');
-        if (vrefGroup) vrefGroup.style.display = isGrokV ? '' : 'none';
+        // Usage des photos : affiché seulement quand une photo est jointe (sinon il laisse croire qu'il en faut une)
         if (vvGroup) vvGroup.style.display = isGrokV && is15 ? '' : 'none';
-        if (vref) {
-            const fl = [...vref.options].find(o => o.value === 'firstlast');
-            if (fl) fl.disabled = !is15;
-            const savedRef = localStorage.getItem('ai_grok_vref') || 'first';
-            vref.value = (savedRef === 'firstlast' && !is15) ? 'first' : savedRef;
-        }
+        syncVideoPhotoUse();
         if (vv && isGrokV) {
             const t = I18N[currentLang];
             const voices = (xvCache && xvCache.builtIn && xvCache.builtIn.length) ? xvCache.builtIn.map(v => [v.voice_id, v.name || v.voice_id]) : XV_FALLBACK.map(v => [v, v.charAt(0).toUpperCase() + v.slice(1)]);
@@ -8625,6 +8772,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
             [['', t.grokVvoiceNone], ...voices].forEach(([id, name]) => { const o = document.createElement('option'); o.value = id; o.textContent = name; vv.appendChild(o); });
             const savedV = localStorage.getItem('ai_grok_vvoice') || '';
             vv.value = [...vv.options].some(o => o.value === savedV) ? savedV : '';
+        }
+        if (resSel && providerSelect.value === 'qwen') {
+            [...resSel.options].forEach(o => { o.disabled = false; });
+            resSel.value = localStorage.getItem('ai_qwen_video_res') || '720p';
         }
         if (resSel && providerSelect.value === 'grok') {
             const hd = /^grok-imagine-video-1\.5/.test((videoModelSelect && videoModelSelect.value) || '');
@@ -8660,6 +8811,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (imageFormatGroup) imageFormatGroup.style.display = isGemini ? '' : 'none';
         if (imageResolutionGroup) imageResolutionGroup.style.display = isGemini ? '' : 'none';
         if (imageQwenSizeGroup) imageQwenSizeGroup.style.display = isQwen ? '' : 'none';
+        if ($('image-qwen-n-group')) $('image-qwen-n-group').style.display = isQwen ? '' : 'none';
         if (imageGrokAspectGroup) imageGrokAspectGroup.style.display = isGrok ? '' : 'none';
         if (imageGrokResolutionGroup) imageGrokResolutionGroup.style.display = isGrok ? '' : 'none';
         if ($('image-grok-n-group')) $('image-grok-n-group').style.display = isGrok ? '' : 'none';
@@ -8676,6 +8828,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         restore(imageResolutionSelect, 'ai_image_resolution');
         updateGeminiImageOptions();
         restore(imageQwenSizeSelect, 'ai_qwen_image_size');
+        restore($('image-qwen-n-select'), 'ai_qwen_image_n');
+        updateQwenImageOptions();
         updateGrokImageOptions();
         restore(imageGrokResolutionSelect, 'ai_grok_image_resolution');
         restore(imageGrokQualitySelect, 'ai_grok_image_quality');
@@ -8691,7 +8845,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             keyInputs[provider].addEventListener('input', () => {
                 saveKey(provider);
                 updateKeysStatus();
-                if (provider === 'qwen' || provider === 'qwen_cn') syncQwenRegion();
+                if (provider.startsWith('qwen')) syncQwenRegion();
             });
         });
 
@@ -8708,6 +8862,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (qwenRegionSelect) {
             qwenRegionSelect.addEventListener('change', () => {
                 localStorage.setItem('ai_qwen_region', qwenRegionSelect.value);
+                updateProviderUI();   // onglet Vidéo : régions États-Unis / Hong Kong seulement
                 if (voiceConfigPanel && voiceConfigPanel.classList.contains('show')) populateVoicePanel();
                 // Région sans clé : on prévient tout de suite (sinon échec au prochain envoi)
                 if (!qwenKeyFor(qwenRegionSelect.value)) showToast(I18N[currentLang].qwenRegionNoKey, 'error');
@@ -8797,6 +8952,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         if (imageQwenSizeSelect) {
+            if ($('image-qwen-n-select')) $('image-qwen-n-select').addEventListener('change', e => localStorage.setItem('ai_qwen_image_n', e.target.value));
             imageQwenSizeSelect.addEventListener('change', () => {
                 localStorage.setItem('ai_qwen_image_size', imageQwenSizeSelect.value);
             });
@@ -8828,8 +8984,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
-        if ($('video-res-select')) $('video-res-select').addEventListener('change', e => localStorage.setItem('ai_grok_video_res', e.target.value));
-        if ($('grok-vref-select')) $('grok-vref-select').addEventListener('change', e => localStorage.setItem('ai_grok_vref', e.target.value));
+        if ($('video-res-select')) $('video-res-select').addEventListener('change', e => localStorage.setItem(providerSelect.value === 'qwen' ? 'ai_qwen_video_res' : 'ai_grok_video_res', e.target.value));
+        if ($('grok-vref-select')) $('grok-vref-select').addEventListener('change', e => { if (e.target.value !== 'none') localStorage.setItem('ai_grok_vref', e.target.value); });
         if ($('xv-tags')) $('xv-tags').addEventListener('change', e => insertXvTag(e.target));
         if ($('grok-vvoice-select')) $('grok-vvoice-select').addEventListener('change', e => localStorage.setItem('ai_grok_vvoice', e.target.value));
 
@@ -9378,6 +9534,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         fileInput.value = '';
+        syncVideoPhotoUse();
         const ready = `${uploadedFiles.length} ${I18N[currentLang].filesReady}`;
         const blind = uploadedFiles.some(f => f.base64) ? textTargetsWithoutVision() : [];
         if (problems.length) showToast(`${problems.join(' · ')} — ${ready}`, 'error', 8000);
@@ -9432,7 +9589,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Modèles sans entrée image (texte seul) : ni OCR ni images.
     const NO_VISION = {
         deepseek: 'all',
-        qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.1'],
+        qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1', 'z-image-turbo', 'qwen-deep-research'],
         grok: ['grok-build-0.1'],
         mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
         cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025'],
@@ -10088,6 +10245,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             uploadedFiles = [];
             const badge = document.querySelector('.file-badge');
             if (badge) badge.remove();
+            syncVideoPhotoUse();
         }
 
         addMessage(displayText, 'user');
@@ -10127,7 +10285,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } else if (currentMode === 'video') {
             await handleVideoGeneration(fullPrompt, key, null,
                 provider === 'minimax' && pendingImages.length ? `data:${pendingImages[0].mimeType};base64,${pendingImages[0].base64}`
-                : provider === 'grok' && pendingImages.length ? pendingImages.map(im => `data:${im.mimeType};base64,${im.base64}`) : null);
+                : (provider === 'grok' || provider === 'qwen') && pendingImages.length ? pendingImages.map(im => `data:${im.mimeType};base64,${im.base64}`) : null);
         } else {
             // P1-2: Store images with conversation entry for multimodal support
             const historyEntry = { role: 'user', content: fullPrompt };
@@ -10186,7 +10344,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // 3 $ (Max : 3 à 7 $). L'en-tête Api-Revision de la doc est refusé par la pré-requête CORS → omis.
     // La recherche lancée est inscrite dans l'historique (type 'research', status 'running') : le suivi
     // reprend au rechargement ; à la fin, l'entrée devient une réponse normale (rapport + sources + images).
-    const DR_AGENTS = ['deep-research-preview-04-2026', 'deep-research-max-preview-04-2026'];
+    const DR_AGENTS = ['qwen-deep-research', 'deep-research-preview-04-2026', 'deep-research-max-preview-04-2026'];
     const DR_API = 'https://generativelanguage.googleapis.com/v1beta/interactions';
     async function drCall(path, key, body, signal) {
         const res = await fetchWithRetry(DR_API + path, {
@@ -10922,6 +11080,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
         }
 
+        // Qwen 3.8 : 📄 PDF lus directement (élément « file ») ; Qwen : cache explicite (marqueur sur le
+        // dernier message → relu à ~10 % du prix au tour suivant, au lieu de ~20 % en cache implicite)
+        if (MODELS.qwen.some(m => m.id === model)) {
+            if (QWEN_PDF_MODELS.includes(model)) attachPdfDocs(messages, conversationHistory, 256, 1,
+                d => ({ type: 'file', file: { file_data: `data:application/pdf;base64,${d.base64}`, filename: d.name } }));
+            if (QWEN_CACHE_MODELS.includes(model) && currentMode !== 'ocr' && currentMode !== 'podcast') {
+                const lastMsg = messages[messages.length - 1];
+                if (lastMsg) {
+                    if (!Array.isArray(lastMsg.content)) lastMsg.content = [{ type: 'text', text: String(lastMsg.content || '') }];
+                    const lastText = [...lastMsg.content].reverse().find(b => b.type === 'text');
+                    if (lastText) lastText.cache_control = { type: 'ephemeral' };
+                }
+            }
+        }
         const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
         // xAI : même conversation → même serveur (cache automatique plus efficace) ; 🚀 prioritaire
         if (/api\.x\.ai/.test(endpoint) && currentConvId) headers['x-grok-conv-id'] = currentConvId;
@@ -11077,6 +11249,48 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
     }
 
+    // ===== 🔬 Qwen Deep Research — DashScope text-generation en SSE (Pékin) =====
+    // 1er tour : le modèle pose des questions de cadrage ; la réponse de l'utilisateur lance la recherche
+    // (planification, recherches web, rapport). Avancement → bloc 🧠 ; références → Sources.
+    async function callQwenDeepResearch(model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        if (qwenRegion() !== 'mainland') throw new Error(I18N[currentLang].qwenDrMainland);
+        const messages = formatHistory(conversationHistory, 'openai').map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : (m.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n') }));
+        await postStream({
+            url: getQwenHost() + '/api/v1/services/aigc/text-generation/generation',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'X-DashScope-SSE': 'enable' },
+            body: { model, input: { messages } },
+            signal, onChunk, onThinkingChunk, parser: 'qwen-dr', onMeta
+        });
+    }
+
+    // ===== Qwen Cloud + 🌐 / 🔗 — API Responses (compatible-mode/v1/responses) =====
+    // Outils serveur web_search (sources : web_search_call.action.sources) et web_extractor (lecture
+    // des liens collés). Réflexion : enable_thinking (+ thinking_budget), reasoning_text en flux.
+    async function callQwenResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
+        const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
+        const tools = [];
+        if (webSearchEnabled) tools.push({ type: 'web_search' });
+        if (readLinksEnabled) tools.push({ type: 'web_extractor' });
+        const body = {
+            model,
+            instructions: systemPrompt,
+            input: formatHistory(conversationHistory, 'openai-responses'),
+            stream: true,
+            tools
+        };
+        if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
+            // qwen3.7-max : la doc exige la réflexion avec web_extractor
+            const think = !!onThinkingChunk || (readLinksEnabled && model === 'qwen3.7-max');
+            body.enable_thinking = think;
+            if (think) body.thinking_budget = parseInt(thinkingBudgetSelect?.value) || 10000;
+        }
+        await postStream({
+            url: getQwenHost() + '/compatible-mode/v1/responses',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body, signal, onChunk, onThinkingChunk, parser: 'openai-responses', onMeta
+        });
+    }
+
     // ===== Meta (Muse Spark / Wonder) — API Responses (api.meta.ai/v1) =====
     // Responses plutôt que Chat Completions : seul format qui renvoie un résumé de la réflexion
     // (reasoning.summary ; la chaîne de pensée brute reste privée) et qui offre la recherche web
@@ -11165,6 +11379,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return callMiniMaxResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'perplexity') {
             return callPerplexityStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'qwen' && model === 'qwen-deep-research') {
+            return callQwenDeepResearch(model, key, onChunk, onThinkingChunk, signal, onMeta);
+        } else if (provider === 'qwen' && QWEN_WEB_MODELS.includes(model) && WEB_SEARCH_MODES.includes(currentMode) && (webSearchEnabled || readLinksEnabled)) {
+            // Qwen + 🌐 / 🔗 : API Responses (seule à renvoyer les sources)
+            return callQwenResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
             return callOpenAICompatibleStream(OPENAI_COMPATIBLE_ENDPOINTS[provider](), model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'claude') {
@@ -11360,22 +11579,33 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // par le PDF lui-même (Claude voit les pages). Interrupteur 📄, ou PDF scanné envoyé à Claude.
     // Plafond de pages par requête : on garde les PDF les plus récents, les autres restent en texte.
     function attachClaudePdfs(messages, history, model) {
-        let budget = claudePdfPageLimit(model);
+        attachPdfDocs(messages, history, claudePdfPageLimit(model), 0, d => {
+            const doc = { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: d.base64 }, title: d.name };
+            // Citations : Claude indique la page de chaque passage cité (PDF à texte ; les scans
+            // ne sont pas citables). Désactivées pour la session si l'API les refuse.
+            if (!claudeNoPdfCitations) doc.citations = { enabled: true };
+            return doc;
+        });
+    }
+    // Qwen 3.8 (Max, Flash) : PDF en élément « file » (Chat Completions), 256 pages au plus
+    const QWEN_PDF_MODELS = ['qwen3.8-max', 'qwen3.8-flash'];
+    // Qwen : modèles à cache explicite (liste Singapour de la doc Qwen Cloud)
+    const QWEN_CACHE_MODELS = ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-flash', 'qwen3-coder-flash'];
+    // Commun : PDF des messages utilisateur (les plus récents d'abord, plafond de pages), texte extrait
+    // remplacé par un repère ; offset = messages placés avant l'historique (ex. message système).
+    function attachPdfDocs(messages, history, pageLimit, offset, makeDoc) {
+        let budget = pageLimit;
         for (let i = history.length - 1; i >= 0; i--) {
             const h = history[i];
-            if (h.role !== 'user' || !Array.isArray(h.pdfs) || !h.pdfs.length || !messages[i]) continue;
-            const msg = messages[i];
+            if (h.role !== 'user' || !Array.isArray(h.pdfs) || !h.pdfs.length || !messages[i + offset]) continue;
+            const msg = messages[i + offset];
             const blocks = Array.isArray(msg.content) ? msg.content : [{ type: 'text', text: msg.content }];
             const textBlock = blocks.find(b => b.type === 'text');
             const docs = [];
             h.pdfs.forEach(d => {
                 if (!d.base64 || !(d.scanned || pdfNativeEnabled) || d.pages > budget) return;
                 budget -= d.pages;
-                const doc = { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: d.base64 }, title: d.name };
-                // Citations : Claude indique la page de chaque passage cité (PDF à texte ; les scans
-                // ne sont pas citables). Désactivées pour la session si l'API les refuse.
-                if (!claudeNoPdfCitations) doc.citations = { enabled: true };
-                docs.push(doc);
+                docs.push(makeDoc(d));
                 // Le texte extrait de ce PDF n'est plus envoyé (Claude lit le document)
                 if (textBlock) {
                     const head = `\n--- FILE: ${d.name} ---\n`;
@@ -11624,7 +11854,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Modèle d'édition : celui choisi dans le panneau Image s'il appartient à ce fournisseur.
     function editModelFor(p) {
         if (p === 'openai') return openAIEditModel();
-        const sel = providerSelect.value === p && imageModelSelect ? imageModelSelect.value : '';
+        let sel = providerSelect.value === p && imageModelSelect ? imageModelSelect.value : '';
+        if (p === 'qwen' && /^(wan|z-image)/.test(sel)) sel = '';   // retouche par Qwen Image (négatif, extension)
         return IMAGE_MODELS[p].some(m => m.id === sel) ? sel : IMAGE_MODELS[p][0].id;
     }
 
@@ -12341,6 +12572,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
     if (imageModelSelect) imageModelSelect.addEventListener('change', updateGrokImageOptions);
 
+    // Qwen Cloud : 4K pour Wan 2.7 Pro seulement ; nombre d'images 1–6 (Qwen Image), 1–4 (Wan 2.7), 1 (Z-Image)
+    const QWEN_IMG_MAX_N = model => model === 'z-image-turbo' ? 1 : /^wan2\.7/.test(model) ? 4 : 6;
+    function updateQwenImageOptions() {
+        if (!imageQwenSizeSelect || providerSelect.value !== 'qwen') return;
+        const model = (imageModelSelect && imageModelSelect.value) || '';
+        const o4k = [...imageQwenSizeSelect.options].find(o => o.value === '4096*4096');
+        if (o4k) o4k.disabled = model !== 'wan2.7-image-pro';
+        if (o4k && o4k.disabled && imageQwenSizeSelect.value === '4096*4096') imageQwenSizeSelect.value = '2048*2048';
+        const nSel = $('image-qwen-n-select'); if (!nSel) return;
+        const max = QWEN_IMG_MAX_N(model);
+        [...nSel.options].forEach(o => { o.disabled = parseInt(o.value, 10) > max; });
+        if (parseInt(nSel.value, 10) > max) nSel.value = String(max);
+    }
+    if (imageModelSelect) imageModelSelect.addEventListener('change', updateQwenImageOptions);
+
     function updateGeminiImageOptions() {
         if (!imageFormatSelect || providerSelect.value !== 'gemini') return;
         const t = I18N[currentLang];
@@ -12813,7 +13059,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             body: JSON.stringify({
                 model: selectedModel,
                 input: { messages: [{ role: 'user', content: [{ text: prompt }] }] },
-                parameters: { n: 1, size, watermark: false }
+                parameters: { n: Math.min(QWEN_IMG_MAX_N(selectedModel), parseInt($('image-qwen-n-select')?.value, 10) || 1), size, watermark: false }
             })
         });
 
@@ -12824,11 +13070,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res.json();
-        const content = data.output?.choices?.[0]?.message?.content;
-        if (Array.isArray(content)) {
-            const imgItem = content.find(c => c.image);
-            if (imgItem?.image) return imgItem.image;  // URL OSS
-        }
+        // Plusieurs images (n > 1) : une par choix ou plusieurs dans le contenu → une bulle chacune
+        const urls = (data.output?.choices || []).flatMap(ch => (Array.isArray(ch.message?.content) ? ch.message.content : []).filter(c => c.image).map(c => c.image));
+        if (urls.length) return urls.length === 1 ? urls[0] : urls;  // URL OSS
         throw new Error(data.message || "No image generated. Check your prompt and API key.");
     }
 
@@ -15207,6 +15451,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 uploadedFiles = [];
                 const badge = document.querySelector('.file-badge');
                 if (badge) badge.remove();
+                syncVideoPhotoUse();
             }
             if (provider === 'gemini') await handleGeminiVoice(script, getKeyForProvider('gemini'), { dialogue: !solo, title });
             else await handlePodcastTurns(provider, script, getKeyForProvider(provider), { solo, title, ...voices });
@@ -15867,8 +16112,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
             model: videoModelSelect.value,
             aspectRatio: videoAspectSelect.value,
             duration: videoDurationSelect.value,
-            resolution: provider === 'grok' && $('video-res-select') ? $('video-res-select').value : undefined,
-            refMode: provider === 'grok' && $('grok-vref-select') ? $('grok-vref-select').value : undefined,
+            resolution: (provider === 'grok' || provider === 'qwen') && $('video-res-select') ? $('video-res-select').value : undefined,
+            // Pièces jointes déjà retirées à l'envoi (menu revenu sur « Aucune ») → dernier usage choisi
+            refMode: (provider === 'grok' || provider === 'qwen') && $('grok-vref-select')
+                ? ($('grok-vref-select').value === 'none' ? (localStorage.getItem('ai_grok_vref') || 'first') : $('grok-vref-select').value) : undefined,
             voice: provider === 'grok' && $('grok-vvoice-select') ? $('grok-vvoice-select').value : undefined
         };
         if (image && !override) {
@@ -18231,6 +18478,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         let claudeCachedTokens = 0;
         // Blocs complets de la réponse (par index) : renvoyés tels quels si stop_reason = pause_turn
         const claudeBlocks = [];
+        const qdrSeen = new Set();    // Qwen Deep Research : requêtes et sites déjà affichés
         let claudeTextSeen = false;   // texte déjà affiché (pour placer la note de repli)
         const claudePageCites = {};   // index de bloc → citations de pages (PDF)
         let claudeContainer = null;   // conteneur d'exécution (filtrage dynamique) à reprendre
@@ -18382,6 +18630,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
                                     if (Array.isArray(top)) top.forEach(pushCite);
                                     const out = json.response?.output;
                                     if (Array.isArray(out)) {
+                                        // Qwen Cloud : sources de la recherche, et URL des pages lues
+                                        out.forEach(item => {
+                                            if (item && item.type === 'web_search_call') (item.action?.sources || []).forEach(src => pushCite(typeof src === 'string' ? src : { title: src.title, url: src.url }));
+                                            if (item && item.type === 'web_extractor_call') (String(item.goal || '').match(/https?:\/\/[^\s"'<>)\]]+/g) || []).forEach(u => pushCite(u));
+                                        });
                                         out.forEach(item => (item.content || []).forEach(block => {
                                             (block.annotations || []).forEach(a => {
                                                 if (a && (a.type === 'url_citation' || a.url)) pushCite({ title: a.title, url: a.url });
@@ -18464,6 +18717,36 @@ A small follow-up tweak the user asks for can be done right away without a new p
                         } catch (e) { /* ignore parse errors */ }
                         responsesCurrentEvent = null;
                     }
+                }
+                else if (provider === 'qwen-dr') {
+                    // DashScope SSE : lignes « data:{json} » (id: / event: / :HTTP_STATUS ignorés)
+                    if (!line.startsWith('data:')) continue;
+                    let json; try { json = JSON.parse(line.slice(5).trim()); } catch (e) { continue; }
+                    if (json.code && !json.output) { onChunk(`\n\n❌ ${json.message || json.code}`); continue; }
+                    const msg = json.output?.message || {};
+                    const dr = msg.extra?.deep_research || {};
+                    const think = t => { if (t && onThinkingChunk) onThinkingChunk(t); };
+                    if (msg.phase === 'ResearchPlanning' && msg.content) think(msg.content);
+                    if (msg.phase === 'WebResearch') {
+                        const q = dr.query || dr.research || {};
+                        const id = q.id != null ? q.id : (q.researchGoal || '') + (q.query || '');
+                        if ((q.researchGoal || q.query) && !qdrSeen.has('q' + id)) {
+                            qdrSeen.add('q' + id);
+                            think(`\n🎯 ${q.researchGoal || ''}${q.query ? `\n🔎 ${q.query}` : ''}\n`);
+                        }
+                        const sites = dr.research?.webSites || dr.webSites || q.webSites;
+                        if (Array.isArray(sites) && sites.length) {
+                            const fresh = sites.filter(w => w && w.url && !qdrSeen.has(w.url));
+                            fresh.forEach(w => qdrSeen.add(w.url));
+                            if (fresh.length) think(fresh.map(w => `🌐 ${w.title || w.url}`).join('\n') + '\n');
+                        }
+                    }
+                    if (msg.phase === 'answer') {
+                        if (msg.content) onChunk(msg.content);
+                        const refs = dr.references;
+                        if (Array.isArray(refs) && refs.length && onMeta) onMeta({ citations: refs.filter(r => r && r.url).map(r => ({ title: r.title || r.url, url: r.url })) });
+                    }
+                    if (json.usage && onMeta) onMeta({ usage: usageOf(json.usage.input_tokens, json.usage.output_tokens) });
                 }
                 else if (provider === 'claude') {
                     if (line.startsWith("event: ")) {
