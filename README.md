@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.30.0
+  Version 1.31.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -48,7 +48,7 @@ FEATURES
       • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni)
       • Voice      : text-to-speech with MiniMax (emotions, effects, your own
-                     designed or cloned voices), Google Gemini (1 or 2 voices, 150+ voices to search),
+                     designed or cloned voices), Google Gemini (1 or 2 voices, 150+ voices to search, your own designed, remixed or cloned voices),
                      Alibaba Qwen (120+ voices, 50+ languages, your own designed
                      or cloned voices), xAI Grok (expressive tags) and OpenAI
                      GPT-Audio; long texts joined
@@ -143,7 +143,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_30_0.html
+  1. Download the file ChatJPT_1_31_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -175,7 +175,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.30.0
+  Version 1.31.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -224,7 +224,7 @@ FONCTIONNALITÉS
       • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo) ;
                      ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni)
       • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
-                     voix créées ou clonées), Google Gemini (1 ou 2 voix, 150+ voix à rechercher),
+                     voix créées ou clonées), Google Gemini (1 ou 2 voix, 150+ voix à rechercher, tes propres voix créées, remixées ou clonées),
                      Alibaba Qwen (120+ voix, 50+ langues, tes propres voix
                      créées ou clonées), xAI Grok (balises expressives) et
                      OpenAI GPT-Audio ; textes longs réunis en
@@ -325,7 +325,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_30_0.html
+  1. Téléchargez le fichier ChatJPT_1_31_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -359,7 +359,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.30.0
+  Versión 1.31.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -408,7 +408,7 @@ CARACTERÍSTICAS
       • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo);
                      ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni)
       • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
-                     voces creadas o clonadas), Google Gemini (1 o 2 voces, 150+ voces para buscar),
+                     voces creadas o clonadas), Google Gemini (1 o 2 voces, 150+ voces para buscar, tus propias voces creadas, remezcladas o clonadas),
                      Alibaba Qwen (120+ voces, 50+ idiomas, tus propias voces
                      creadas o clonadas), xAI Grok (etiquetas expresivas) y
                      OpenAI GPT-Audio; textos largos
@@ -505,7 +505,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_30_0.html
+  1. Descarga el archivo ChatJPT_1_31_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

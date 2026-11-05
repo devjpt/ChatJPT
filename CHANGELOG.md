@@ -8,6 +8,27 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.31.0] — 2026-11-05
+  Added
+    - Your own Gemini voices (🎙️ Voice tab, "＋ Create a voice" and
+      "🎤 Clone a voice" buttons):
+      • Create: describe a new voice (English recommended), with an
+        optional name, main language and gender; Google returns a sample
+        to listen to and the voice is selected.
+      • 🔀 Remix: start from an existing voice ("older", "British
+        accent"…), from the Create window or from any card in
+        🔎 Browse voices.
+      • Clone: two recordings of the same person, from a file or the
+        🎙️ microphone: a 10 to 30 s sample and the consent sentence read
+        word for word (shown in the chosen language, 30 languages). They
+        are converted to 24 kHz mono WAV, as Google recommends. Paid
+        Google accounts only; consent box required.
+      • "My voices" in the Voice menu and in 🔎 Browse voices, with
+        🗑️ delete. Google keeps them in your project (200 at most, deleted
+        after 1 year without use).
+    - A two-voice dialogue (or 🎧 Podcast) using one of your voices is read
+      line by line and joined, as Google requires for these voices.
+
 [1.30.0] — 2026-11-05
   Added
     - 🔎 Browse voices (Gemini, 🎙️ Voice tab): Google's library of 150+
@@ -762,6 +783,27 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.31.0] — 2026-11-05
+  Ajouté
+    - Tes propres voix Gemini (onglet 🎙️ Voix, boutons « ＋ Créer une voix »
+      et « 🎤 Cloner une voix ») :
+      • Créer : décris une voix nouvelle (anglais conseillé), avec nom,
+        langue principale et genre facultatifs ; Google renvoie un extrait
+        à écouter et la voix est choisie.
+      • 🔀 Remixer : pars d'une voix existante (« plus âgée », « accent
+        britannique »…), depuis la fenêtre Créer ou depuis n'importe quelle
+        carte de 🔎 Parcourir les voix.
+      • Cloner : deux enregistrements de la même personne, par fichier ou au
+        🎙️ micro : un extrait de 10 à 30 s et la phrase de consentement lue
+        mot pour mot (affichée dans la langue choisie, 30 langues). Ils sont
+        convertis en WAV 24 kHz mono, comme le recommande Google. Comptes
+        Google payants seulement ; case de consentement obligatoire.
+      • « Mes voix » dans le menu Voix et dans 🔎 Parcourir les voix, avec
+        🗑️ suppression. Google les garde dans ton projet (200 au plus,
+        effacées après 1 an sans usage).
+    - Un dialogue à 2 voix (ou un 🎧 Podcast) avec une de tes voix est lu
+      réplique par réplique puis réuni, comme Google l'exige pour ces voix.
 
 [1.30.0] — 2026-11-05
   Ajouté
@@ -1575,6 +1617,28 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.31.0] — 2026-11-05
+  Añadido
+    - Tus propias voces de Gemini (pestaña 🎙️ Voz, botones "＋ Crear una
+      voz" y "🎤 Clonar una voz"):
+      • Crear: describe una voz nueva (se recomienda inglés), con nombre,
+        idioma principal y género opcionales; Google devuelve un fragmento
+        para escuchar y la voz queda elegida.
+      • 🔀 Remezclar: parte de una voz existente ("más mayor", "acento
+        británico"…), desde la ventana Crear o desde cualquier tarjeta de
+        🔎 Explorar voces.
+      • Clonar: dos grabaciones de la misma persona, desde un archivo o el
+        🎙️ micrófono: un fragmento de 10 a 30 s y la frase de
+        consentimiento leída palabra por palabra (mostrada en el idioma
+        elegido, 30 idiomas). Se convierten a WAV 24 kHz mono, como
+        recomienda Google. Solo cuentas de Google de pago; casilla de
+        consentimiento obligatoria.
+      • "Mis voces" en el menú Voz y en 🔎 Explorar voces, con 🗑️ eliminar.
+        Google las guarda en tu proyecto (200 como máximo, se borran tras 1
+        año sin uso).
+    - Un diálogo a 2 voces (o un 🎧 Pódcast) con una de tus voces se lee
+      línea por línea y luego se une, como Google exige para esas voces.
 
 [1.30.0] — 2026-11-05
   Añadido
