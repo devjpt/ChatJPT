@@ -8,6 +8,12 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.35.2] — 2026-11-05
+  Changed
+    - API keys bar (collapsed panel): one rounded pill per provider, evenly
+      spaced; missing keys are dimmed. The four Alibaba regions share a
+      single "Alibaba ✓ n/4" pill, with the detail per region on hover.
+
 [1.35.1] — 2026-11-05
   Added
     - Cohere North Small Translate: translation model for more than 50
@@ -895,6 +901,13 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.35.2] — 2026-11-05
+  Modifié
+    - Ligne des clés API (panneau replié) : une pastille arrondie par
+      fournisseur, espacement régulier ; clés absentes atténuées. Les quatre
+      régions Alibaba partagent une seule pastille « Alibaba ✓ n/4 », avec le
+      détail par région au survol.
 
 [1.35.1] — 2026-11-05
   Ajouté
@@ -1853,6 +1866,13 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.35.2] — 2026-11-05
+  Cambiado
+    - Barra de claves API (panel plegado): una pastilla redondeada por
+      proveedor, espaciado regular; las claves que faltan se atenúan. Las
+      cuatro regiones de Alibaba comparten una sola pastilla "Alibaba ✓ n/4",
+      con el detalle por región al pasar el cursor.
 
 [1.35.1] — 2026-11-05
   Añadido

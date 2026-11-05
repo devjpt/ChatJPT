@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.35.1
+  Version 1.35.2
 -->
 
 
@@ -373,14 +373,24 @@
         .keys-toggle-title { white-space: nowrap; }
         .keys-status {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex: 1;
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
+            font-size: 0.76rem;
+            letter-spacing: 0.02em;
             flex-wrap: wrap;
+            align-items: center;
         }
-        .keys-status .key-pill { white-space: nowrap; }
-        .keys-status .key-pill.unset { opacity: 0.4; }
+        /* Pastilles d'état des clés : fond léger, coins arrondis ; clé absente = discrète */
+        .keys-status .key-pill {
+            white-space: nowrap;
+            padding: 2px 9px;
+            border-radius: 999px;
+            background: var(--surface-hover);
+            border: 1px solid var(--border);
+            line-height: 1.55;
+        }
+        .keys-status .key-pill.unset { opacity: 0.45; background: transparent; }
+        .keys-status .key-pill small { color: var(--text-muted); font-weight: 500; margin-left: 3px; }
         .keys-chevron { transition: transform 0.2s ease; color: var(--text-muted); }
         .keys-panel.collapsed .keys-chevron { transform: rotate(-90deg); }
         .keys-body {
@@ -3868,7 +3878,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.1 - Dernière version : ",
+            creditVersion: "Version 1.35.2 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 5 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4743,7 +4753,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.1 - Latest version: ",
+            creditVersion: "Version 1.35.2 - Latest version: ",
             appUpdated: "📅 Updated: November 5, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5618,7 +5628,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.35.1 - Última versión: ",
+            creditVersion: "Versión 1.35.2 - Última versión: ",
             appUpdated: "📅 Actualizado: 5 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -8404,12 +8414,22 @@ A small follow-up tweak the user asks for can be done right away without a new p
     function updateKeysStatus() {
         if (!keysStatusEl) return;
         keysStatusEl.innerHTML = '';
+        const has = p => keyInputs[p].value.trim().length > 5;
+        // Les 4 emplacements Alibaba (régions) = une seule pastille « Alibaba ✓ n/4 », détail au survol
+        const qwenSlots = Object.keys(keyInputs).filter(p => p.startsWith('qwen'));
         Object.keys(keyInputs).forEach(provider => {
-            const isSet = keyInputs[provider].value.trim().length > 5;
+            if (provider.startsWith('qwen') && provider !== 'qwen') return;
+            const alibaba = provider === 'qwen';
+            const setSlots = alibaba ? qwenSlots.filter(has) : [];
+            const isSet = alibaba ? setSlots.length > 0 : has(provider);
             const pill = document.createElement('span');
             pill.className = 'key-pill' + (isSet ? '' : ' unset');
-            const name = KEY_SLOT_NAMES[provider] || PROVIDER_SHORT_NAMES[provider] || provider;
+            const name = alibaba ? PROVIDER_SHORT_NAMES.qwen : (KEY_SLOT_NAMES[provider] || PROVIDER_SHORT_NAMES[provider] || provider);
             pill.textContent = `${PROVIDER_PILLS[provider] || '⚪'} ${name} ${isSet ? '✓' : '—'}`;
+            if (alibaba) {
+                if (isSet) { const n = document.createElement('small'); n.textContent = `${setSlots.length}/${qwenSlots.length}`; pill.appendChild(n); }
+                pill.title = qwenSlots.map(p => `${KEY_SLOT_NAMES[p] || p} ${has(p) ? '✓' : '—'}`).join(' · ');
+            }
             keysStatusEl.appendChild(pill);
         });
     }
