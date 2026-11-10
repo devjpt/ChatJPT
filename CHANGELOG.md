@@ -8,6 +8,14 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.35.3] — 2026-11-10
+  Added
+    - Claude Fable 5.2, Anthropic's new most capable model, now the default
+      Claude model: always-on reasoning with its summary, five effort levels,
+      automatic fallback, recent web tools, PDFs with citations. Cheaper than
+      Fable 5.1 ($8 / $40 per million tokens instead of $10 / $50).
+    - ⚡ Claude fast mode now also works with Fable 5.2 (2× the price).
+
 [1.35.2] — 2026-11-05
   Changed
     - API keys bar (collapsed panel): one rounded pill per provider, evenly
@@ -901,6 +909,15 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.35.3] — 2026-11-10
+  Ajouté
+    - Claude Fable 5.2, le nouveau modèle le plus performant d'Anthropic,
+      désormais le modèle Claude par défaut : réflexion toujours active avec
+      son résumé, cinq niveaux d'effort, repli automatique, outils web récents,
+      PDF avec citations. Moins cher que Fable 5.1 (8 $ / 40 $ par million de
+      tokens au lieu de 10 $ / 50 $).
+    - ⚡ Le mode rapide de Claude fonctionne aussi avec Fable 5.2 (2× le prix).
 
 [1.35.2] — 2026-11-05
   Modifié
@@ -1866,6 +1883,16 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.35.3] — 2026-11-10
+  Añadido
+    - Claude Fable 5.2, el nuevo modelo más capaz de Anthropic, ahora el
+      modelo Claude predeterminado: razonamiento siempre activo con su
+      resumen, cinco niveles de esfuerzo, respaldo automático, herramientas
+      web recientes, PDF con citas. Más barato que Fable 5.1 (8 $ / 40 $ por
+      millón de tokens en lugar de 10 $ / 50 $).
+    - ⚡ El modo rápido de Claude ahora también funciona con Fable 5.2
+      (2× el precio).
 
 [1.35.2] — 2026-11-05
   Cambiado
