@@ -8,6 +8,35 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.36.0] — 2026-11-17
+  Added
+    - OpenAI GPT-6.2 Astra (most capable, now the default) and GPT-6.2 Sol
+      (balanced, everyday work): reasoning with its summary, ⚡ Ultrafast
+      (3× the price until February 28, 2027, then 6×).
+    - Google Gemini 4 Hydrogen (fast, free tier, now the default) with the
+      new "Extra high" reasoning level, and Gemini 4 Carbon (Google's most
+      capable reasoning model).
+    - Gemini Omni 1.2 video (now the default): duration from 4 to 15 s,
+      resolution from 360p to 4K, and attached photos used as the first
+      frame, first and last frames (10 s at most) or up to 6 references.
+  Changed
+    - Gemini no longer keeps your requests: ChatJPT asks Google not to store
+      chat and image requests (store: false).
+    - Retirement dates shown in the model names: GPT-5, GPT-5 mini, GPT-5
+      nano and o3 (Dec 11, 2026), GPT-4o, GPT-4o mini, GPT-4.1 and GPT-4.1
+      mini (Jan 14, 2027), GPT Image 2 (Feb 10, 2027), GPT-5.1 and GPT-5.4
+      nano (Apr 1, 2027), Original Nano Banana (Mar 15, 2027), Gemini 3.1
+      Flash Lite (May 7, 2027); Gemini Omni 1.1 moves to 1.2 on Dec 3, 2026.
+    - The "Minimal" reasoning level is no longer offered for Gemini 4 and
+      Gemini 3.1 Pro, which do not accept it.
+  Fixed
+    - Mistral Large 4 with reasoning turned off: Mistral now refuses the
+      "none" effort, so ChatJPT sends "low", its minimum.
+    - GPT Image 2.6 SVG: OpenAI now requires the text model that writes the
+      SVG ("SVG generation requires 'svg.model'"). New "SVG author" menu
+      (GPT-6.2 Sol by default, GPT-6.2 Astra, GPT-6.1 Terra, GPT-6 Luna);
+      accounts without author selection are retried automatically without it.
+
 [1.35.3] — 2026-11-10
   Added
     - Claude Fable 5.2, Anthropic's new most capable model, now the default
@@ -909,6 +938,37 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.36.0] — 2026-11-17
+  Ajouté
+    - OpenAI GPT-6.2 Astra (le plus puissant, désormais par défaut) et
+      GPT-6.2 Sol (équilibré, usage courant) : réflexion avec son résumé,
+      ⚡ Ultrafast (3× le prix jusqu'au 28 février 2027, puis 6×).
+    - Google Gemini 4 Hydrogen (rapide, offre gratuite, désormais par défaut)
+      avec le nouveau niveau de réflexion « Très profond », et Gemini 4 Carbon
+      (le modèle de raisonnement le plus puissant de Google).
+    - Vidéo Gemini Omni 1.2 (désormais par défaut) : durée de 4 à 15 s,
+      résolution de 360p à 4K, et photos jointes utilisées comme 1re image,
+      1re et dernière image (10 s au plus) ou jusqu'à 6 références.
+  Modifié
+    - Gemini ne conserve plus vos requêtes : ChatJPT demande à Google de ne
+      pas stocker les requêtes de chat et d'image (store: false).
+    - Dates d'arrêt affichées dans le nom des modèles : GPT-5, GPT-5 mini,
+      GPT-5 nano et o3 (11 déc. 2026), GPT-4o, GPT-4o mini, GPT-4.1 et
+      GPT-4.1 mini (14 janv. 2027), GPT Image 2 (10 févr. 2027), GPT-5.1 et
+      GPT-5.4 nano (1er avr. 2027), Nano Banana original (15 mars 2027),
+      Gemini 3.1 Flash Lite (7 mai 2027) ; Gemini Omni 1.1 passe à 1.2 le
+      3 déc. 2026.
+    - Le niveau de réflexion « Minimal » n'est plus proposé pour Gemini 4 et
+      Gemini 3.1 Pro, qui ne l'acceptent pas.
+  Corrigé
+    - Mistral Large 4 avec la réflexion coupée : Mistral refuse maintenant
+      l'effort « none », ChatJPT envoie donc « low », son minimum.
+    - SVG de GPT Image 2.6 : OpenAI exige maintenant le modèle de texte qui
+      écrit le SVG (« SVG generation requires 'svg.model' »). Nouveau menu
+      « Auteur du SVG » (GPT-6.2 Sol par défaut, GPT-6.2 Astra, GPT-6.1 Terra,
+      GPT-6 Luna) ; sans sélection d'auteur sur le compte, nouvel essai
+      automatique sans ce paramètre.
 
 [1.35.3] — 2026-11-10
   Ajouté
@@ -1883,6 +1943,37 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.36.0] — 2026-11-17
+  Añadido
+    - OpenAI GPT-6.2 Astra (el más potente, ahora predeterminado) y
+      GPT-6.2 Sol (equilibrado, uso diario): razonamiento con su resumen,
+      ⚡ Ultrafast (3× el precio hasta el 28 de febrero de 2027, luego 6×).
+    - Google Gemini 4 Hydrogen (rápido, nivel gratuito, ahora
+      predeterminado) con el nuevo nivel de razonamiento "Muy alto", y
+      Gemini 4 Carbon (el modelo de razonamiento más potente de Google).
+    - Video Gemini Omni 1.2 (ahora predeterminado): duración de 4 a 15 s,
+      resolución de 360p a 4K, y fotos adjuntas usadas como primer fotograma,
+      primer y último fotograma (10 s como máximo) o hasta 6 referencias.
+  Cambiado
+    - Gemini ya no guarda tus solicitudes: ChatJPT pide a Google no
+      almacenar las solicitudes de chat e imagen (store: false).
+    - Fechas de retiro en el nombre de los modelos: GPT-5, GPT-5 mini,
+      GPT-5 nano y o3 (11 de dic. de 2026), GPT-4o, GPT-4o mini, GPT-4.1 y
+      GPT-4.1 mini (14 de ene. de 2027), GPT Image 2 (10 de feb. de 2027),
+      GPT-5.1 y GPT-5.4 nano (1 de abr. de 2027), Nano Banana original
+      (15 de mar. de 2027), Gemini 3.1 Flash Lite (7 de may. de 2027);
+      Gemini Omni 1.1 pasa a 1.2 el 3 de dic. de 2026.
+    - El nivel de razonamiento "Mínimo" ya no se ofrece para Gemini 4 y
+      Gemini 3.1 Pro, que no lo aceptan.
+  Corregido
+    - Mistral Large 4 con el razonamiento desactivado: Mistral ahora rechaza
+      el esfuerzo "none", así que ChatJPT envía "low", su mínimo.
+    - SVG de GPT Image 2.6: OpenAI ahora exige el modelo de texto que
+      escribe el SVG ("SVG generation requires 'svg.model'"). Nuevo menú
+      "Autor del SVG" (GPT-6.2 Sol por defecto, GPT-6.2 Astra, GPT-6.1 Terra,
+      GPT-6 Luna); sin selección de autor en la cuenta, se reintenta
+      automáticamente sin ese parámetro.
 
 [1.35.3] — 2026-11-10
   Añadido

@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.35.3
+  Version 1.36.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -15,9 +15,9 @@ from your browser — no installation required.
 FEATURES
 --------
   - Multi-provider support:
-      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
+      • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, video, and voice; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
       • Meta       (Muse Spark 1.3, Muse Wonder — reasoning summary, web search)
@@ -45,7 +45,7 @@ FEATURES
                      Google Gemini (14 formats including panoramic 1:4 to 8:1,
                      resolution up to 4K), Qwen, Grok, Recraft (vector SVG, styles), and Bria
                      (licensed images, retouching, product photos), and MiniMax
-      • Video      : video generation (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
+      • Video      : video generation (Google Gemini Omni 1.2 — 4 to 15 s, up to 4K, from photos —, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
                      ⏩ extend a video (Omni up to 40 s, Grok up to 20 s), ✏️ edit it (Omni, Grok)
       • Voice      : text-to-speech with MiniMax (emotions, effects, your own
                      designed or cloned voices), Google Gemini (1 or 2 voices, 150+ voices to search, your own designed, remixed or cloned voices),
@@ -166,7 +166,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_35_3.html
+  1. Download the file ChatJPT_1_36_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -198,7 +198,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.35.3
+  Version 1.36.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -214,9 +214,9 @@ votre navigateur, sans installation requise.
 FONCTIONNALITÉS
 ---------------
   - Support multi-fournisseurs :
-      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
+      • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, vidéo et voix ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
       • Meta       (Muse Spark 1.3, Muse Wonder — résumé de la réflexion, recherche web)
@@ -244,7 +244,7 @@ FONCTIONNALITÉS
                      Google Gemini (14 formats dont panoramiques 1:4 à 8:1,
                      résolution jusqu'à 4K), Qwen, Grok, Recraft (SVG vectoriel, styles) et Bria
                      (images sous licence, retouche, photos de produits) et MiniMax
-      • Vidéo      : génération de vidéos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse) ;
+      • Vidéo      : génération de vidéos (Google Gemini Omni 1.2 — 4 à 15 s, jusqu'à 4K, à partir de photos —, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse) ;
                      ⏩ prolonger une vidéo (Omni jusqu'à 40 s, Grok jusqu'à 20 s), ✏️ la modifier (Omni, Grok)
       • Voix       : synthèse vocale avec MiniMax (émotions, effets, tes propres
                      voix créées ou clonées), Google Gemini (1 ou 2 voix, 150+ voix à rechercher, tes propres voix créées, remixées ou clonées),
@@ -373,7 +373,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_35_3.html
+  1. Téléchargez le fichier ChatJPT_1_36_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -407,7 +407,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.35.3
+  Versión 1.36.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -423,9 +423,9 @@ navegador, sin necesidad de instalación.
 CARACTERÍSTICAS
 ---------------
   - Soporte multiproveedor:
-      • OpenAI     (GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
+      • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, imagen, video y voz; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
       • Meta       (Muse Spark 1.3, Muse Wonder — resumen del razonamiento, búsqueda web)
@@ -453,7 +453,7 @@ CARACTERÍSTICAS
                      Google Gemini (14 formatos incluidos panorámicos 1:4 a 8:1,
                      resolución hasta 4K), Qwen, Grok, Recraft (SVG vectorial, estilos) y Bria
                      (imágenes con licencia, retoque, fotos de productos) y MiniMax
-      • Video      : generación de videos (Google Gemini Omni, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
+      • Video      : generación de videos (Google Gemini Omni 1.2 — 4 a 15 s, hasta 4K, a partir de fotos —, xAI Grok Imagine, MiniMax Hailuo, Alibaba Wan / HappyHorse);
                      ⏩ extender un video (Omni hasta 40 s, Grok hasta 20 s), ✏️ editarlo (Omni, Grok)
       • Voz        : síntesis de voz con MiniMax (emociones, efectos, tus propias
                      voces creadas o clonadas), Google Gemini (1 o 2 voces, 150+ voces para buscar, tus propias voces creadas, remezcladas o clonadas),
@@ -579,7 +579,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_35_3.html
+  1. Descarga el archivo ChatJPT_1_36_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

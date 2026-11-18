@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.35.3
+  Version 1.36.0
 -->
 
 
@@ -2833,7 +2833,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 10 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 17 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -3106,6 +3106,15 @@
             <div class="select-group oai26-only oai-gif-only" id="oai-speed-group">
                 <label data-i18n="lblGifSpeed">Vitesse</label>
                 <select id="oai-speed" aria-label="Vitesse du GIF"></select>
+            </div>
+            <div class="select-group oai26-only oai-svg-only" id="oai-svgmodel-group">
+                <label data-i18n="lblSvgAuthor" title="Modèle de texte d'OpenAI qui écrit le code SVG à partir de l'image de référence (ses tokens sont facturés en plus)." data-i18n-title="svgAuthorTip">Auteur du SVG</label>
+                <select id="oai-svgmodel" aria-label="Auteur du SVG">
+                    <option value="gpt-6.2-sol">GPT-6.2 Sol</option>
+                    <option value="gpt-6.2-astra">GPT-6.2 Astra</option>
+                    <option value="gpt-6.1-terra">GPT-6.1 Terra</option>
+                    <option value="gpt-6-luna">GPT-6 Luna</option>
+                </select>
             </div>
             <div class="select-group oai26-only" id="oai-complexity-group">
                 <label data-i18n="lblComplexity">Complexité</label>
@@ -3452,9 +3461,11 @@
             <div class="select-group" id="video-res-group">
                 <label data-i18n="lblImageResolution">Résolution</label>
                 <select id="video-res-select" aria-label="Résolution vidéo">
+                    <option value="360p">360p</option>
                     <option value="480p">480p</option>
                     <option value="720p" selected>720p</option>
                     <option value="1080p">1080p</option>
+                    <option value="4k">4K</option>
                 </select>
             </div>
             <div class="select-group">
@@ -3569,11 +3580,11 @@
             <span class="websearch-hint" data-i18n="grokPrioHint">plus rapide aux heures chargées, 2× le prix</span>
         </div>
         <div class="websearch-mode-container" id="ultrafast-mode-container">
-            <label class="websearch-mode-label" id="ultrafast-mode-label" title="Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide, 6 fois le prix normal." data-i18n-title="ultrafastTitle">
+            <label class="websearch-mode-label" id="ultrafast-mode-label" title="Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide, 3 à 6 fois le prix normal." data-i18n-title="ultrafastTitle">
                 <input type="checkbox" id="ultrafast-mode-cb">
                 <span class="websearch-label-text" data-i18n="ultrafastLabel">⚡ Ultrafast</span>
             </label>
-            <span class="websearch-hint" data-i18n="ultrafastHint">réponse plus rapide, 6× le prix</span>
+            <span class="websearch-hint" data-i18n="ultrafastHint">réponse plus rapide, 3× à 6× le prix</span>
         </div>
         <div class="websearch-mode-container" id="claudefast-mode-container">
             <label class="websearch-mode-label" id="claudefast-mode-label" title="Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens." data-i18n-title="claudeFastTitle">
@@ -3878,8 +3889,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.3 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 10 novembre 2026",
+            creditVersion: "Version 1.36.0 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 17 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -4119,14 +4130,16 @@
             gifSpeedOpt: "{ms} ms / image",
             gifLoop: "≈ {s} s par boucle",
             lblComplexity: "Complexité",
+            lblSvgAuthor: "Auteur du SVG",
+            svgAuthorTip: "Modèle de texte d'OpenAI qui écrit le code SVG à partir de l'image de référence (ses tokens sont facturés en plus).",
             cplxAuto: "Auto (élevée)",
             cplxLow: "Faible",
             cplxMedium: "Moyenne",
             cplxHigh: "Élevée",
             imgDownloadGifTip: "Enregistre le GIF animé sur ton ordinateur.",
             ultrafastLabel: "⚡ Ultrafast",
-            ultrafastHint: "réponse plus rapide, 6× le prix",
-            ultrafastTitle: "Traitement Ultrafast d'OpenAI (GPT-6 Astra et GPT-6.1 Sol) : réponse beaucoup plus rapide, 6 fois le prix normal des tokens.",
+            ultrafastHint: "réponse plus rapide, 3× à 6× le prix",
+            ultrafastTitle: "Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide. GPT-6.2 Astra et Sol : 3 fois le prix normal des tokens jusqu'au 28 février 2027, puis 6 fois. GPT-6 Astra et GPT-6.1 Sol : 6 fois.",
             claudeFastLabel: "⚡ Mode rapide",
             claudeFastHint: "jusqu'à 2,5× plus rapide, 2× le prix",
             claudeFastTitle: "Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens. Opus 5 et 4.8 : aperçu de recherche, accès parfois requis.",
@@ -4753,8 +4766,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.35.3 - Latest version: ",
-            appUpdated: "📅 Updated: November 10, 2026",
+            creditVersion: "Version 1.36.0 - Latest version: ",
+            appUpdated: "📅 Updated: November 17, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -4994,14 +5007,16 @@
             gifSpeedOpt: "{ms} ms / frame",
             gifLoop: "≈ {s} s per loop",
             lblComplexity: "Complexity",
+            lblSvgAuthor: "SVG author",
+            svgAuthorTip: "OpenAI text model that writes the SVG code from the reference image (its tokens are billed on top).",
             cplxAuto: "Auto (high)",
             cplxLow: "Low",
             cplxMedium: "Medium",
             cplxHigh: "High",
             imgDownloadGifTip: "Save the animated GIF to your computer.",
             ultrafastLabel: "⚡ Ultrafast",
-            ultrafastHint: "faster answer, 6× the price",
-            ultrafastTitle: "OpenAI Ultrafast processing (GPT-6 Astra and GPT-6.1 Sol): much faster answers, 6 times the normal token price.",
+            ultrafastHint: "faster answer, 3× to 6× the price",
+            ultrafastTitle: "OpenAI Ultrafast processing: much faster answers. GPT-6.2 Astra and Sol: 3 times the normal token price until February 28, 2027, then 6 times. GPT-6 Astra and GPT-6.1 Sol: 6 times.",
             claudeFastLabel: "⚡ Fast mode",
             claudeFastHint: "up to 2.5× faster, 2× the price",
             claudeFastTitle: "Claude fast mode (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8): up to 2.5 times more text per second, 2 times the token price. Opus 5 and 4.8: research preview, access sometimes required.",
@@ -5628,8 +5643,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.35.3 - Última versión: ",
-            appUpdated: "📅 Actualizado: 10 de noviembre de 2026",
+            creditVersion: "Versión 1.36.0 - Última versión: ",
+            appUpdated: "📅 Actualizado: 17 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -5869,14 +5884,16 @@
             gifSpeedOpt: "{ms} ms / cuadro",
             gifLoop: "≈ {s} s por ciclo",
             lblComplexity: "Complejidad",
+            lblSvgAuthor: "Autor del SVG",
+            svgAuthorTip: "Modelo de texto de OpenAI que escribe el código SVG a partir de la imagen de referencia (sus tokens se cobran aparte).",
             cplxAuto: "Auto (alta)",
             cplxLow: "Baja",
             cplxMedium: "Media",
             cplxHigh: "Alta",
             imgDownloadGifTip: "Guarda el GIF animado en tu computadora.",
             ultrafastLabel: "⚡ Ultrafast",
-            ultrafastHint: "respuesta más rápida, 6× el precio",
-            ultrafastTitle: "Procesamiento Ultrafast de OpenAI (GPT-6 Astra y GPT-6.1 Sol): respuestas mucho más rápidas, 6 veces el precio normal de los tokens.",
+            ultrafastHint: "respuesta más rápida, 3× a 6× el precio",
+            ultrafastTitle: "Procesamiento Ultrafast de OpenAI: respuestas mucho más rápidas. GPT-6.2 Astra y Sol: 3 veces el precio normal de los tokens hasta el 28 de febrero de 2027, luego 6 veces. GPT-6 Astra y GPT-6.1 Sol: 6 veces.",
             claudeFastLabel: "⚡ Modo rápido",
             claudeFastHint: "hasta 2,5× más rápido, 2× el precio",
             claudeFastTitle: "Modo rápido de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8): hasta 2,5 veces más texto por segundo, 2 veces el precio de los tokens. Opus 5 y 4.8: vista previa de investigación, a veces se requiere acceso.",
@@ -6396,8 +6413,10 @@
     // ===== MODÈLES DISPONIBLES =====
     const MODELS = {
         openai: [
-            { id: 'gpt-6-astra', name: { fr: 'GPT-6 Astra (Dernier, le plus puissant)', en: 'GPT-6 Astra (Latest, most capable)', es: 'GPT-6 Astra (Último, el más potente)' } },
-            { id: 'gpt-6.1-sol', name: { fr: 'GPT-6.1 Sol (Équilibré)', en: 'GPT-6.1 Sol (Balanced)', es: 'GPT-6.1 Sol (Equilibrado)' } },
+            { id: 'gpt-6.2-astra', name: { fr: 'GPT-6.2 Astra (Dernier, le plus puissant)', en: 'GPT-6.2 Astra (Latest, most capable)', es: 'GPT-6.2 Astra (Último, el más potente)' } },
+            { id: 'gpt-6.2-sol', name: { fr: 'GPT-6.2 Sol (Équilibré, usage courant)', en: 'GPT-6.2 Sol (Balanced, everyday work)', es: 'GPT-6.2 Sol (Equilibrado, uso diario)' } },
+            { id: 'gpt-6-astra', name: { fr: 'GPT-6 Astra', en: 'GPT-6 Astra', es: 'GPT-6 Astra' } },
+            { id: 'gpt-6.1-sol', name: { fr: 'GPT-6.1 Sol', en: 'GPT-6.1 Sol', es: 'GPT-6.1 Sol' } },
             { id: 'gpt-6.1-terra', name: { fr: 'GPT-6.1 Terra (Rapide, images, rédaction)', en: 'GPT-6.1 Terra (Fast, images, writing)', es: 'GPT-6.1 Terra (Rápido, imágenes, redacción)' } },
             { id: 'gpt-6-luna', name: { fr: 'GPT-6 Luna (Rapide, économique)', en: 'GPT-6 Luna (Fast, low cost)', es: 'GPT-6 Luna (Rápido, económico)' } },
             { id: 'gpt-6-sol', name: { fr: 'GPT-6 Sol (Code, agents)', en: 'GPT-6 Sol (Coding, agents)', es: 'GPT-6 Sol (Código, agentes)' } },
@@ -6410,17 +6429,17 @@
             { id: 'gpt-5.4', name: { fr: 'GPT-5.4', en: 'GPT-5.4' } },
             { id: 'gpt-5.4-pro', name: { fr: 'GPT-5.4 Pro (Lent, Précis)', en: 'GPT-5.4 Pro (Slow, Precise)', es: 'GPT-5.4 Pro (Lento, Preciso)' } },
             { id: 'gpt-5.4-mini', name: { fr: 'GPT-5.4 mini', en: 'GPT-5.4 mini' } },
-            { id: 'gpt-5.4-nano', name: { fr: 'GPT-5.4 nano', en: 'GPT-5.4 nano' } },
+            { id: 'gpt-5.4-nano', name: { fr: 'GPT-5.4 nano (arrêt le 1er avr. 2027)', en: 'GPT-5.4 nano (retiring Apr 1, 2027)', es: 'GPT-5.4 nano (retiro el 1 de abr. de 2027)' } },
             { id: 'gpt-5.2', name: { fr: 'GPT-5.2', en: 'GPT-5.2' } },
-            { id: 'gpt-5.1', name: { fr: 'GPT-5.1', en: 'GPT-5.1' } },
-            { id: 'gpt-5', name: { fr: 'GPT-5', en: 'GPT-5' } },
-            { id: 'gpt-5-mini', name: { fr: 'GPT-5 mini', en: 'GPT-5 mini' } },
-            { id: 'gpt-5-nano', name: { fr: 'GPT-5 nano', en: 'GPT-5 nano' } },
-            { id: 'gpt-4.1', name: { fr: 'GPT-4.1', en: 'GPT-4.1' } },
-            { id: 'gpt-4.1-mini', name: { fr: 'GPT-4.1 mini', en: 'GPT-4.1 mini' } },
-            { id: 'gpt-4o', name: { fr: 'GPT-4o', en: 'GPT-4o' } },
-            { id: 'gpt-4o-mini', name: { fr: 'GPT-4o mini', en: 'GPT-4o mini' } },
-            { id: 'o3', name: { fr: 'o3 (Raisonnement)', en: 'o3 (Reasoning)', es: 'o3 (Razonamiento)' } },
+            { id: 'gpt-5.1', name: { fr: 'GPT-5.1 (arrêt le 1er avr. 2027)', en: 'GPT-5.1 (retiring Apr 1, 2027)', es: 'GPT-5.1 (retiro el 1 de abr. de 2027)' } },
+            { id: 'gpt-5', name: { fr: 'GPT-5 (arrêt le 11 déc. 2026)', en: 'GPT-5 (retiring Dec 11, 2026)', es: 'GPT-5 (retiro el 11 de dic. de 2026)' } },
+            { id: 'gpt-5-mini', name: { fr: 'GPT-5 mini (arrêt le 11 déc. 2026)', en: 'GPT-5 mini (retiring Dec 11, 2026)', es: 'GPT-5 mini (retiro el 11 de dic. de 2026)' } },
+            { id: 'gpt-5-nano', name: { fr: 'GPT-5 nano (arrêt le 11 déc. 2026)', en: 'GPT-5 nano (retiring Dec 11, 2026)', es: 'GPT-5 nano (retiro el 11 de dic. de 2026)' } },
+            { id: 'gpt-4.1', name: { fr: 'GPT-4.1 (arrêt le 14 janv. 2027)', en: 'GPT-4.1 (retiring Jan 14, 2027)', es: 'GPT-4.1 (retiro el 14 de ene. de 2027)' } },
+            { id: 'gpt-4.1-mini', name: { fr: 'GPT-4.1 mini (arrêt le 14 janv. 2027)', en: 'GPT-4.1 mini (retiring Jan 14, 2027)', es: 'GPT-4.1 mini (retiro el 14 de ene. de 2027)' } },
+            { id: 'gpt-4o', name: { fr: 'GPT-4o (arrêt le 14 janv. 2027)', en: 'GPT-4o (retiring Jan 14, 2027)', es: 'GPT-4o (retiro el 14 de ene. de 2027)' } },
+            { id: 'gpt-4o-mini', name: { fr: 'GPT-4o mini (arrêt le 14 janv. 2027)', en: 'GPT-4o mini (retiring Jan 14, 2027)', es: 'GPT-4o mini (retiro el 14 de ene. de 2027)' } },
+            { id: 'o3', name: { fr: 'o3 (Raisonnement, arrêt le 11 déc. 2026)', en: 'o3 (Reasoning, retiring Dec 11, 2026)', es: 'o3 (Razonamiento, retiro el 11 de dic. de 2026)' } },
         ],
         claude: [
             { id: 'claude-fable-5-2', name: { fr: 'Claude Fable 5.2 (Dernier)', en: 'Claude Fable 5.2 (Latest)', es: 'Claude Fable 5.2 (Último)' } },
@@ -6441,13 +6460,15 @@
             { id: 'claude-opus-4-5-20251101', name: { fr: 'Claude Opus 4.5', en: 'Claude Opus 4.5' } },
         ],
         gemini: [
-            { id: 'gemini-4-argon', name: { fr: 'Gemini 4 Argon (Dernier, raisonnement)', en: 'Gemini 4 Argon (Latest, reasoning)', es: 'Gemini 4 Argon (Último, razonamiento)' } },
+            { id: 'gemini-4-hydrogen', name: { fr: 'Gemini 4 Hydrogen (Dernier, rapide, offre gratuite)', en: 'Gemini 4 Hydrogen (Latest, fast, free tier)', es: 'Gemini 4 Hydrogen (Último, rápido, nivel gratuito)' } },
+            { id: 'gemini-4-carbon', name: { fr: 'Gemini 4 Carbon (Le plus puissant, raisonnement)', en: 'Gemini 4 Carbon (Most capable, reasoning)', es: 'Gemini 4 Carbon (El más potente, razonamiento)' } },
+            { id: 'gemini-4-argon', name: { fr: 'Gemini 4 Argon (Raisonnement efficace)', en: 'Gemini 4 Argon (Efficient reasoning)', es: 'Gemini 4 Argon (Razonamiento eficiente)' } },
             { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash', en: 'Gemini 3.8 Flash', es: 'Gemini 3.8 Flash' } },
             { id: 'gemini-3.1-pro-preview', name: { fr: 'Gemini 3.1 Pro (Preview)', en: 'Gemini 3.1 Pro (Preview)', es: 'Gemini 3.1 Pro (Preview)' } },
             { id: 'gemini-3.6-flash', name: { fr: 'Gemini 3.6 Flash', en: 'Gemini 3.6 Flash', es: 'Gemini 3.6 Flash' } },
             { id: 'gemini-3-flash-preview', name: { fr: 'Gemini 3 Flash', en: 'Gemini 3 Flash', es: 'Gemini 3 Flash' } },
             { id: 'gemini-3.5-flash-lite', name: { fr: 'Gemini 3.5 Flash Lite (Économique)', en: 'Gemini 3.5 Flash Lite (Low cost)', es: 'Gemini 3.5 Flash Lite (Económico)' } },
-            { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite', en: 'Gemini 3.1 Flash Lite', es: 'Gemini 3.1 Flash Lite' } },
+            { id: 'gemini-3.1-flash-lite', name: { fr: 'Gemini 3.1 Flash Lite (arrêt le 7 mai 2027)', en: 'Gemini 3.1 Flash Lite (retiring May 7, 2027)', es: 'Gemini 3.1 Flash Lite (retiro el 7 de may. de 2027)' } },
             // Gemini 3.7 Flash et 3.5 Flash retirés (08/10/2026) : Google les redirigeait déjà vers 3.8 / 3.6 Flash.
             // 2.5 Pro / 2.5 Flash : redirigés vers 3.8 Flash / 3.5 Flash-Lite dès le 01/12/2026 (date dans le libellé).
             { id: 'gemini-2.5-pro', name: { fr: 'Gemini 2.5 Pro (arrêt le 1er déc. 2026)', en: 'Gemini 2.5 Pro (retiring Dec 1, 2026)', es: 'Gemini 2.5 Pro (retiro el 1 de dic. de 2026)' } },
@@ -6586,7 +6607,7 @@
             { id: 'gpt-image-2.6-flare', name: { fr: 'GPT Image 2.6 Flare (Rapide · GIF, SVG)', en: 'GPT Image 2.6 Flare (Fast · GIF, SVG)', es: 'GPT Image 2.6 Flare (Rápido · GIF, SVG)' } },
             { id: 'gpt-image-2.5-sunburst', name: { fr: 'GPT Image 2.5 Sunburst (Qualité)', en: 'GPT Image 2.5 Sunburst (Quality)', es: 'GPT Image 2.5 Sunburst (Calidad)' } },
             { id: 'gpt-image-2.5-flare', name: { fr: 'GPT Image 2.5 Flare (Rapide)', en: 'GPT Image 2.5 Flare (Fast)', es: 'GPT Image 2.5 Flare (Rápido)' } },
-            { id: 'gpt-image-2', name: { fr: 'GPT Image 2', en: 'GPT Image 2', es: 'GPT Image 2' } }
+            { id: 'gpt-image-2', name: { fr: 'GPT Image 2 (arrêt le 10 févr. 2027)', en: 'GPT Image 2 (retiring Feb 10, 2027)', es: 'GPT Image 2 (retiro el 10 de feb. de 2027)' } }
         ],
         gemini: [
             // Versions stables (les *-preview ont été arrêtées le 25/06/2026, Imagen 4 le 17/08/2026).
@@ -6594,7 +6615,7 @@
             { id: 'gemini-3-pro-image', name: { fr: 'Nano Banana Pro (Qualité)', en: 'Nano Banana Pro (Quality)', es: 'Nano Banana Pro (Calidad)' } },
             { id: 'gemini-3.1-flash-image', name: { fr: 'Nano Banana 2 (remplacé par 2.1)', en: 'Nano Banana 2 (replaced by 2.1)', es: 'Nano Banana 2 (reemplazado por 2.1)' } },
             { id: 'gemini-3.1-flash-lite-image', name: { fr: 'Nano Banana 2 Lite (Rapide, 1K)', en: 'Nano Banana 2 Lite (Fast, 1K)', es: 'Nano Banana 2 Lite (Rápido, 1K)' } },
-            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original)', en: 'Nano Banana (Original)', es: 'Nano Banana (Original)' } }
+            { id: 'gemini-2.5-flash-image', name: { fr: 'Nano Banana (Original, arrêt le 15 mars 2027)', en: 'Nano Banana (Original, retiring Mar 15, 2027)', es: 'Nano Banana (Original, retiro el 15 de mar. de 2027)' } }
         ],
         grok: [
             // Synchrone via /v1/images/generations (format OpenAI ; renvoie data[0].url)
@@ -6659,7 +6680,8 @@
     const VIDEO_MODELS = {
         gemini: [
             // Omni : Interactions API (background + polling), audio inclus, durée fixée par le modèle.
-            { id: 'gemini-omni-1.1-flash', name: { fr: 'Gemini Omni 1.1 Flash (avec audio)', en: 'Gemini Omni 1.1 Flash (with audio)', es: 'Gemini Omni 1.1 Flash (con audio)' } }
+            { id: 'gemini-omni-1.2-flash', name: { fr: 'Gemini Omni 1.2 Flash (Dernier, 4 à 15 s, jusqu\'à 4K, avec audio)', en: 'Gemini Omni 1.2 Flash (Latest, 4 to 15 s, up to 4K, with audio)', es: 'Gemini Omni 1.2 Flash (Último, 4 a 15 s, hasta 4K, con audio)' } },
+            { id: 'gemini-omni-1.1-flash', name: { fr: 'Gemini Omni 1.1 Flash (redirigé vers 1.2 le 3 déc. 2026)', en: 'Gemini Omni 1.1 Flash (moves to 1.2 on Dec 3, 2026)', es: 'Gemini Omni 1.1 Flash (pasa a 1.2 el 3 de dic. de 2026)' } }
             // Veo 3.1 retirés (arrêt Google le 22/10/2026, remplacés par Omni) ; Veo 2.0 arrêté le
             // 30/06/2026. La branche Veo de VIDEO_ADAPTERS.gemini reste prête pour un futur Veo.
         ],
@@ -6689,6 +6711,33 @@
 
     // Gemini Omni (vidéo via Interactions API) : pas de durée réglable → sélecteur masqué.
     function isOmniVideoModel(model) { return /^gemini-omni-/.test(model || ''); }
+    // Omni 1.2 : durée réglable (« 3s » à « 15s »), résolution 360p → 4K, photos jointes (1re image,
+    // 1re + dernière, jusqu'à 6 références) passées comme parties image de input ; leur rôle est
+    // décrit dans la consigne (la doc n'a pas de champ de rôle).
+    const OMNI_FLEX = ['gemini-omni-1.2-flash'];
+    const OMNI_DURATIONS = ['4', '6', '8', '10', '12', '15'];
+    function isOmniFlex(model) { return OMNI_FLEX.includes(model || ''); }
+    function omniFormat(params) {
+        const fmt = { type: 'video', aspect_ratio: params.aspectRatio, resolution: '720p' };
+        if (!isOmniFlex(params.model)) return fmt;
+        const imgs = params.images || [];
+        const firstLast = imgs.length >= 2 && params.refMode === 'firstlast';
+        const d = Math.min(firstLast ? 10 : 15, Math.max(3, parseInt(params.duration, 10) || 8));   // 1re + dernière : 10 s au plus
+        fmt.duration = d + 's';
+        fmt.resolution = params.resolution || '720p';
+        return fmt;
+    }
+    function omniInput(prompt, params) {
+        const imgs = isOmniFlex(params.model) ? (params.images || []) : [];
+        if (!imgs.length) return prompt;
+        const mode = params.refMode || 'first';
+        const pick = mode === 'refs' ? imgs.slice(0, 6) : (mode === 'firstlast' && imgs.length >= 2) ? [imgs[0], imgs[imgs.length - 1]] : [imgs[0]];
+        const role = mode === 'refs' ? 'Use the attached images as references for the characters and objects in the video.'
+            : pick.length === 2 ? 'Use the first image as the first frame and the second image as the last frame of the video.'
+            : 'Use the attached image as the first frame of the video.';
+        const parts = pick.map(u => { const m = /^data:([^;]+);base64,(.*)$/.exec(u) || []; return { type: 'image', data: m[2] || '', mime_type: m[1] || 'image/jpeg' }; });
+        return [...parts, { type: 'text', text: role + '\n\n' + prompt }];
+    }
 
     // Allowed clip durations (seconds) per provider. Mismatched values are rejected by the API.
     // Grok Imagine : 10 s documenté (on élargira si d'autres durées sont confirmées).
@@ -6773,7 +6822,7 @@ RULES:
     const THINKING_SUPPORT = {
         openai: {
             native: ['o3'],  // Thinking intégré, toujours actif
-            configurable: ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
+            configurable: ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna', 'gpt-5.5', 'gpt-5.5-pro', 'gpt-5.4', 'gpt-5.4-pro', 'gpt-5.4-mini', 'gpt-5.4-nano', 'gpt-5.2', 'gpt-5.1', 'gpt-5', 'gpt-5-mini']  // GPT-5.x : reasoning_effort configurable
         },
         claude: {
             // Thinking adaptatif toujours actif : seul { type: 'adaptive' } est accepté
@@ -6794,6 +6843,8 @@ RULES:
         gemini: {
             native: ['gemini-3.1-pro-preview'],  // Gemini 3.1 Pro: thinking toujours actif (high par défaut)
             configurable: [
+                'gemini-4-hydrogen',           // Gemini 4 Hydrogen : niveaux low/medium/high/xhigh (défaut high)
+                'gemini-4-carbon',             // Gemini 4 Carbon : niveaux low/medium/high (défaut medium)
                 'gemini-4-argon',              // Gemini 4 Argon : niveaux low/medium/high (défaut medium)
                 'gemini-3.8-flash',            // Gemini 3.6+ / 3.5 : thinking non désactivable, niveau réglable
                 'gemini-3.6-flash',
@@ -6819,7 +6870,8 @@ RULES:
             configurable: ['command-a-plus-05-2026', 'command-a-reasoning-08-2025']
         },
         mistral: {
-            // Raisonnement par reasoning_effort : 'high' (bloc de réflexion) ou 'none'.
+            // Raisonnement par reasoning_effort : 'high' (bloc de réflexion) ou 'none'
+            // (Large 4 refuse 'none' → 'low', son minimum : voir MISTRAL_NO_NONE).
             // Pas de budget : simple interrupteur (sélecteur masqué, voir NO_BUDGET_PROVIDERS).
             native: [],
             configurable: ['mistral-large-4', 'mistral-medium-3-5', 'mistral-small-latest']
@@ -6882,8 +6934,9 @@ RULES:
     // GPT-6 et GPT-5.6 : routés aussi vers Responses pour le résumé de réflexion (Chat Completions
     // ne le streame pas). Astra / 6.1 Sol refusent reasoning.effort 'none' → 'low' quand la réflexion
     // est coupée (OPENAI_NO_NONE) ; les autres acceptent 'none'.
-    const GPT6_MODELS = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'];
-    const OPENAI_NO_NONE = ['gpt-6-astra', 'gpt-6.1-sol'];
+    const GPT6_MODELS = ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna', 'gpt-6-sol', 'gpt-5.6-sol', 'gpt-5.6-terra', 'gpt-5.6-luna'];
+    const MISTRAL_NO_NONE = ['mistral-large-4'];   // reasoning_effort 'none' refusé
+    const OPENAI_NO_NONE = ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6-astra', 'gpt-6.1-sol'];
     const RESPONSES_API_MODELS = ['gpt-5.5-pro', 'gpt-5.4-pro', ...GPT6_MODELS];
 
     // Qwen (Alibaba DashScope) expose 2 régions ; une clé est liée à UNE région. Deux
@@ -6951,7 +7004,8 @@ RULES:
         { id: 'minimal', label: { fr: 'Minimal', en: 'Minimal', es: 'Mínimo' } },
         { id: 'low', label: { fr: 'Léger', en: 'Low', es: 'Bajo' } },
         { id: 'medium', label: { fr: 'Modéré', en: 'Medium', es: 'Medio' } },
-        { id: 'high', label: { fr: 'Profond', en: 'High', es: 'Alto' } }
+        { id: 'high', label: { fr: 'Profond', en: 'High', es: 'Alto' } },
+        { id: 'xhigh', label: { fr: 'Très profond', en: 'Extra high', es: 'Muy alto' } }   // GEMINI_XHIGH seulement
     ];
 
     // Effort pour les modèles à raisonnement natif réglable (Claude adaptatif, Grok 4.5+).
@@ -6985,12 +7039,21 @@ RULES:
     }
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
-    const GEMINI3_MODELS = ['gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
+    const GEMINI3_MODELS = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
     // Gemini 3 qui refusent thinkingLevel 'minimal' (erreur API) → retiré du menu, ramené à 'low'
-    const GEMINI_NO_MINIMAL = ['gemini-4-argon', 'gemini-3.8-flash'];
+    const GEMINI_NO_MINIMAL = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.8-flash', 'gemini-3.1-pro-preview'];
+    // Niveau « xhigh » (au-dessus de high) : Gemini 4 Hydrogen seulement (Carbon et Argon plafonnent à high)
+    const GEMINI_XHIGH = ['gemini-4-hydrogen'];
+    // Niveau enregistré, ramené à un niveau accepté par le modèle (minimal → low, xhigh → high)
+    function geminiLevelFor(model) {
+        const saved = localStorage.getItem('ai_thinking_level') || 'high';
+        if (saved === 'minimal' && GEMINI_NO_MINIMAL.includes(model)) return 'low';
+        if (saved === 'xhigh' && !GEMINI_XHIGH.includes(model)) return 'high';
+        return saved;
+    }
     // Gemini dont la réflexion (souvent longue) compte dans maxOutputTokens → plafond large
     // (TOKEN_LIMITS.adaptive*), sinon une réflexion « Profonde » peut tout consommer.
-    const GEMINI_LONG_THINKERS = ['gemini-4-argon'];
+    const GEMINI_LONG_THINKERS = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon'];
     // Gemma 4 (open source) via l'API Gemini : réflexion = thinkingLevel 'high' ou 'minimal'
     // seulement → simple interrupteur (sélecteur de niveau masqué).
     const GEMMA_MODELS = ['gemma-4-31b-it', 'gemma-4-26b-a4b-it'];
@@ -7398,12 +7461,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 model: params.model,
-                                input: prompt,
+                                input: params.previousId ? prompt : omniInput(prompt, params),
                                 background: true,
                                 store: true,   // requis par le mode background (et par les tours suivants)
                                 // ⏩ Prolonger / ✏️ Modifier : tour suivant de la même interaction
                                 ...(params.previousId ? { previous_interaction_id: params.previousId, response_format: { type: 'video', resolution: '720p' } }
-                                    : { response_format: { type: 'video', aspect_ratio: params.aspectRatio, resolution: '720p' } })
+                                    : { response_format: omniFormat(params) })
                             })
                         }
                     );
@@ -7985,12 +8048,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
             });
         } else if (provider === 'gemini' && isGemini3) {
             // Gemini 3: use thinking levels ('minimal' masqué pour les modèles qui le refusent)
-            const levels = GEMINI_NO_MINIMAL.includes(model) ? THINKING_LEVELS.filter(l => l.id !== 'minimal') : THINKING_LEVELS;
+            const levels = THINKING_LEVELS.filter(l => (l.id !== 'minimal' || !GEMINI_NO_MINIMAL.includes(model)) && (l.id !== 'xhigh' || GEMINI_XHIGH.includes(model)));
+            const lv = geminiLevelFor(model);
             levels.forEach(l => {
                 const opt = document.createElement('option');
                 opt.value = l.id;
                 opt.textContent = l.label[currentLang] || l.label.fr;
-                if (l.id === (localStorage.getItem('ai_thinking_level') || 'high')) opt.selected = true;
+                if (l.id === lv) opt.selected = true;
                 thinkingBudgetSelect.appendChild(opt);
             });
         } else {
@@ -8063,7 +8127,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         updateUltrafastUI();
     }
     // ⚡ Ultrafast (service_tier d'OpenAI, GPT-6 Astra et GPT-6.1 Sol, 6× le prix) : modes texte seulement
-    const ULTRAFAST_MODELS = ['gpt-6-astra', 'gpt-6.1-sol'];
+    const ULTRAFAST_MODELS = ['gpt-6.2-astra', 'gpt-6.2-sol', 'gpt-6-astra', 'gpt-6.1-sol'];
     let ultrafastEnabled = false;
     const ultrafastFor = (provider, model) => provider === 'openai' && ULTRAFAST_MODELS.includes(model);
     function updateUltrafastUI() {
@@ -8744,9 +8808,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     function syncVideoPhotoUse() {
         const g = $('grok-vref-group'), sel = $('grok-vref-select'); if (!g || !sel) return;
         const p = providerSelect.value, m = (videoModelSelect && videoModelSelect.value) || '';
-        g.style.display = (p === 'grok' || p === 'qwen') ? '' : 'none';
+        g.style.display = (p === 'grok' || p === 'qwen' || (p === 'gemini' && isOmniFlex(m))) ? '' : 'none';
         const has = hasPhotoAttached();
-        const firstLastOk = m === 'grok-imagine-video-1.5' || (p === 'qwen' && /^wan3\.0/.test(m));
+        const firstLastOk = m === 'grok-imagine-video-1.5' || (p === 'qwen' && /^wan3\.0/.test(m)) || (p === 'gemini' && isOmniFlex(m));
         [...sel.options].forEach(o => { o.disabled = o.value === 'none' ? has : (!has || (o.value === 'firstlast' && !firstLastOk)); });
         if (!has) { sel.value = 'none'; return; }
         const saved = localStorage.getItem('ai_grok_vref') || 'first';
@@ -8755,6 +8819,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     function populateVideoDurations() {
         if (!videoDurationSelect) return;
         let list = VIDEO_DURATIONS[providerSelect.value] || VIDEO_DURATIONS.gemini;
+        if (isOmniFlex(videoModelSelect && videoModelSelect.value)) list = OMNI_DURATIONS;   // Omni 1.2 : 3 à 15 s
         if (/@1080P$/.test((videoModelSelect && videoModelSelect.value) || '')) list = ['6'];
         const prev = videoDurationSelect.value;
         const unit = { fr: 'secondes', en: 'seconds', es: 'segundos' }[currentLang] || 'seconds';
@@ -8778,7 +8843,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
         // Résolution (Grok) : 1080p pour Imagine Vidéo 1.5 / 1.5 Lite ; 720p au plus pour l'ancien modèle
         const resGroup = $('video-res-group'), resSel = $('video-res-select');
-        if (resGroup) resGroup.style.display = (providerSelect.value === 'grok' || providerSelect.value === 'qwen') ? '' : 'none';
+        const omniFlex = providerSelect.value === 'gemini' && isOmniFlex(videoModelSelect && videoModelSelect.value);
+        if (resGroup) resGroup.style.display = (providerSelect.value === 'grok' || providerSelect.value === 'qwen' || omniFlex) ? '' : 'none';
+        // Résolutions offertes : Omni 1.2 = 360p → 4K (1080p et 4K agrandies) ; Grok / Alibaba = 480p → 1080p
+        if (resSel) [...resSel.options].forEach(o => { o.hidden = omniFlex ? o.value === '480p' : (o.value === '360p' || o.value === '4k'); o.disabled = o.hidden; });
+        if (resSel && omniFlex) { const s = localStorage.getItem('ai_gemini_video_res') || '720p'; resSel.value = [...resSel.options].some(o => o.value === s && !o.hidden) ? s : '720p'; }
         // Grok : usage des photos jointes ; voix et 1re + dernière image = Imagine Vidéo 1.5 seulement
         const isGrokV = providerSelect.value === 'grok';
         const isQwenV = providerSelect.value === 'qwen';
@@ -8797,7 +8866,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             vv.value = [...vv.options].some(o => o.value === savedV) ? savedV : '';
         }
         if (resSel && providerSelect.value === 'qwen') {
-            [...resSel.options].forEach(o => { o.disabled = false; });
+            [...resSel.options].forEach(o => { o.disabled = o.hidden; });
             resSel.value = localStorage.getItem('ai_qwen_video_res') || '720p';
         }
         if (resSel && providerSelect.value === 'grok') {
@@ -8808,7 +8877,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             resSel.value = (!hd && saved === '1080p') ? '720p' : saved;
         }
         const durationGroup = videoDurationSelect.closest('.select-group');
-        if (durationGroup) durationGroup.style.display = isOmniVideoModel(videoModelSelect && videoModelSelect.value) ? 'none' : '';
+        if (durationGroup) durationGroup.style.display = (isOmniVideoModel(videoModelSelect && videoModelSelect.value) && !isOmniFlex(videoModelSelect && videoModelSelect.value)) ? 'none' : '';
         // Hailuo (API v1) : pas de format réglable (fixé par le modèle, ou par l'image de départ)
         const aspectGroup = videoAspectSelect && videoAspectSelect.closest('.select-group');
         if (aspectGroup) aspectGroup.style.display = providerSelect.value === 'minimax' ? 'none' : '';
@@ -9007,7 +9076,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         // Changer de modèle vidéo peut masquer/afficher la durée (Omni n'en a pas)
         if (videoModelSelect) videoModelSelect.addEventListener('change', populateVideoDurations);
-        if ($('video-res-select')) $('video-res-select').addEventListener('change', e => localStorage.setItem(providerSelect.value === 'qwen' ? 'ai_qwen_video_res' : 'ai_grok_video_res', e.target.value));
+        if ($('video-res-select')) $('video-res-select').addEventListener('change', e => localStorage.setItem(providerSelect.value === 'qwen' ? 'ai_qwen_video_res' : providerSelect.value === 'gemini' ? 'ai_gemini_video_res' : 'ai_grok_video_res', e.target.value));
         if ($('grok-vref-select')) $('grok-vref-select').addEventListener('change', e => { if (e.target.value !== 'none') localStorage.setItem('ai_grok_vref', e.target.value); });
         if ($('xv-tags')) $('xv-tags').addEventListener('change', e => insertXvTag(e.target));
         if ($('grok-vvoice-select')) $('grok-vvoice-select').addEventListener('change', e => localStorage.setItem('ai_grok_vvoice', e.target.value));
@@ -10308,7 +10377,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } else if (currentMode === 'video') {
             await handleVideoGeneration(fullPrompt, key, null,
                 provider === 'minimax' && pendingImages.length ? `data:${pendingImages[0].mimeType};base64,${pendingImages[0].base64}`
-                : (provider === 'grok' || provider === 'qwen') && pendingImages.length ? pendingImages.map(im => `data:${im.mimeType};base64,${im.base64}`) : null);
+                : (provider === 'grok' || provider === 'qwen' || (provider === 'gemini' && isOmniFlex(videoModelSelect.value))) && pendingImages.length ? pendingImages.map(im => `data:${im.mimeType};base64,${im.base64}`) : null);
         } else {
             // P1-2: Store images with conversation entry for multimodal support
             const historyEntry = { role: 'user', content: fullPrompt };
@@ -11062,8 +11131,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (MODELS.mistral.some(m => m.id === model)) {
             delete body.stream_options;
             if (THINKING_SUPPORT.mistral.configurable.includes(model)) {
-                body.reasoning_effort = onThinkingChunk ? 'high' : 'none';
-                if (onThinkingChunk) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
+                // Large 4 n'accepte que low | medium | high (erreur réelle du 17/11/2026) → 'low' quand coupée
+                const noNone = MISTRAL_NO_NONE.includes(model);
+                body.reasoning_effort = onThinkingChunk ? 'high' : (noNone ? 'low' : 'none');
+                if (onThinkingChunk || noNone) body.max_tokens = isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal;
             }
         }
 
@@ -11669,8 +11740,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (isGemini3) {
                 // Gemini 3: use thinkingLevel
                 if (isConfigurableThinking) {
-                    const savedLevel = localStorage.getItem('ai_thinking_level') || 'high';
-                    thinkingConfig.thinkingLevel = (savedLevel === 'minimal' && GEMINI_NO_MINIMAL.includes(model)) ? 'low' : savedLevel;
+                    thinkingConfig.thinkingLevel = geminiLevelFor(model);
                 }
                 // For native (gemini-3-pro), default is 'high' — no need to set explicitly
             } else {
@@ -11681,7 +11751,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             generationConfig.thinkingConfig = thinkingConfig;
         }
 
-        const body = { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig };
+        const body = { system_instruction: { parts: [{ text: systemPrompt }] }, contents, generationConfig, store: false };
 
         // Recherche web (grounding Google Search) + lecture des liens collés (url_context).
         // url_context fait lire au serveur Google les URL présentes dans le prompt (zéro CORS) ;
@@ -12650,7 +12720,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (opts.ratio) imageConfig.aspectRatio = opts.ratio;
         const res = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
             method: 'POST', signal, headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts }], generationConfig: { responseModalities: ['IMAGE'], imageConfig } })
+            body: JSON.stringify({ contents: [{ parts }], generationConfig: { responseModalities: ['IMAGE'], imageConfig }, store: false })
         });
         if (!res.ok) throw await editApiError(res);
         const data = await res.json();
@@ -12954,7 +13024,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             body.frame_count = parseInt($('oai-frames').value, 10) || 9;
             body.frame_duration_ms = parseInt($('oai-speed').value, 10) || 200;
             body.size = OAI_GIF_SIZES[size] || 'auto';
-        } else if (out === 'svg') body.output_format = 'svg';
+        } else if (out === 'svg') {
+            body.output_format = 'svg';
+            // svg.model exigé quand la sélection du modèle auteur est activée sur le compte (« SVG generation
+            // requires 'svg.model' », 17/11/2026) ; sinon l'API demande d'omettre l'objet → repli dans generateImageOpenAI
+            body.svg = { model: ($('oai-svgmodel') && $('oai-svgmodel').value) || 'gpt-6.2-sol' };
+        }
         return body;
     }
     // Réglages visibles seulement avec un modèle 2.6 ; images et vitesse seulement en GIF
@@ -12964,6 +13039,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const gif = on && $('oai-output').value === 'gif';
         document.querySelectorAll('#image-config-panel .oai26-only').forEach(el => { el.style.display = on ? '' : 'none'; });
         document.querySelectorAll('#image-config-panel .oai-gif-only').forEach(el => { el.style.display = gif ? '' : 'none'; });
+        document.querySelectorAll('#image-config-panel .oai-svg-only').forEach(el => { el.style.display = on && $('oai-output').value === 'svg' ? '' : 'none'; });
         const frames = $('oai-frames'), speed = $('oai-speed');
         if (!frames.options.length) {
             for (let n = 2; n <= 16; n++) { const o = document.createElement('option'); o.value = String(n); o.textContent = String(n); frames.appendChild(o); }
@@ -12977,7 +13053,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const loc = { fr: 'fr-CA', en: 'en-US', es: 'es-MX' }[currentLang];
         $('oai-speed-group').title = t.gifLoop.replace('{s}', (Math.round(+frames.value * +speed.value / 100) / 10).toLocaleString(loc));
     }
-    [['oai-output', 'ai_openai_image_output'], ['oai-frames', 'ai_gif_frames'], ['oai-speed', 'ai_gif_ms'], ['oai-complexity', 'ai_openai_complexity']].forEach(([id, k]) => {
+    [['oai-output', 'ai_openai_image_output'], ['oai-frames', 'ai_gif_frames'], ['oai-speed', 'ai_gif_ms'], ['oai-complexity', 'ai_openai_complexity'], ['oai-svgmodel', 'ai_openai_svg_model']].forEach(([id, k]) => {
         const el = $(id); if (!el) return;
         const v = localStorage.getItem(k);
         if (v !== null && [...el.options].some(o => o.value === v)) el.value = v;
@@ -12996,13 +13072,24 @@ A small follow-up tweak the user asks for can be done right away without a new p
             },
             body: JSON.stringify(openAIImageBody(selectedModel, prompt))
         });
-
+        let res2 = res;
         if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            throw new Error(err.error?.message || `HTTP Error ${res.status}`);
+            const msg = err.error?.message || `HTTP Error ${res.status}`;
+            const body = openAIImageBody(selectedModel, prompt);
+            // Sélection du modèle auteur non activée pour ce compte → nouvel essai sans l'objet svg
+            if (body.svg && res.status === 400 && /svg/i.test(msg) && !/requires/i.test(msg) && /(not enabled|disabled|omit|selection|not available|not allowed|unknown|unrecognized)/i.test(msg)) {
+                delete body.svg;
+                res2 = await fetchWithRetry('https://api.openai.com/v1/images/generations', {
+                    method: 'POST', signal: currentAbortController.signal,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                    body: JSON.stringify(body)
+                });
+                if (!res2.ok) { const e2 = await res2.json().catch(() => ({})); throw new Error(e2.error?.message || `HTTP Error ${res2.status}`); }
+            } else throw new Error(msg);
         }
 
-        const data = await res.json();
+        const data = await res2.json();
         if (data.data[0].b64_json) {
             // GPT Image 2.6 : GIF animé ou SVG → type porté jusqu'à l'affichage et au téléchargement
             const out = openAIImageOutput(selectedModel);
@@ -13033,6 +13120,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 signal: currentAbortController.signal,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    store: false,   // pas de conservation chez Google
                     contents: [{
                         parts: [{ text: prompt }]
                     }],
@@ -16135,9 +16223,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             model: videoModelSelect.value,
             aspectRatio: videoAspectSelect.value,
             duration: videoDurationSelect.value,
-            resolution: (provider === 'grok' || provider === 'qwen') && $('video-res-select') ? $('video-res-select').value : undefined,
+            resolution: (provider === 'grok' || provider === 'qwen' || provider === 'gemini') && $('video-res-select') ? $('video-res-select').value : undefined,
             // Pièces jointes déjà retirées à l'envoi (menu revenu sur « Aucune ») → dernier usage choisi
-            refMode: (provider === 'grok' || provider === 'qwen') && $('grok-vref-select')
+            refMode: (provider === 'grok' || provider === 'qwen' || provider === 'gemini') && $('grok-vref-select')
                 ? ($('grok-vref-select').value === 'none' ? (localStorage.getItem('ai_grok_vref') || 'first') : $('grok-vref-select').value) : undefined,
             voice: provider === 'grok' && $('grok-vvoice-select') ? $('grok-vvoice-select').value : undefined
         };
