@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.36.1
+  Version 1.37.0
 -->
 
 
@@ -3890,7 +3890,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.36.1 - Dernière version : ",
+            creditVersion: "Version 1.37.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 20 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4230,6 +4230,9 @@
             ratio916: "9:16 (Portrait)",
             aiDisclaimer: "Les IA peuvent faire des erreurs. Pensez à vérifier les informations importantes.",
             usageTokens: "tokens",
+            usageImages: "🖼️ {n} image(s)",
+            usageSeconds: "🎬 {n} s de vidéo",
+            usageCredits: "{n} crédits Recraft ({usd})",
             usageCached: "(dont {n} lus en cache)",
             usageTitle: "Tokens consommés (↑ entrée / ↓ sortie), rapportés par l'API",
             tokenTotalLabel: "Total",
@@ -4768,7 +4771,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.36.1 - Latest version: ",
+            creditVersion: "Version 1.37.0 - Latest version: ",
             appUpdated: "📅 Updated: November 20, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5108,6 +5111,9 @@
             ratio916: "9:16 (Portrait)",
             aiDisclaimer: "AI can make mistakes. Please verify important information.",
             usageTokens: "tokens",
+            usageImages: "🖼️ {n} image(s)",
+            usageSeconds: "🎬 {n} s of video",
+            usageCredits: "{n} Recraft credits ({usd})",
             usageCached: "({n} read from cache)",
             usageTitle: "Tokens used (↑ input / ↓ output), reported by the API",
             tokenTotalLabel: "Total",
@@ -5646,7 +5652,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.36.1 - Última versión: ",
+            creditVersion: "Versión 1.37.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 20 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5986,6 +5992,9 @@
             ratio916: "9:16 (Vertical)",
             aiDisclaimer: "La IA puede cometer errores. Verifica la información importante.",
             usageTokens: "tokens",
+            usageImages: "🖼️ {n} imagen(es)",
+            usageSeconds: "🎬 {n} s de video",
+            usageCredits: "{n} créditos de Recraft ({usd})",
             usageCached: "({n} leídos de la caché)",
             usageTitle: "Tokens consumidos (↑ entrada / ↓ salida), reportados por la API",
             tokenTotalLabel: "Total",
@@ -7440,7 +7449,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     failed: st === 'FAILED' || st === 'CANCELED' || st === 'UNKNOWN',
                     error: data.output?.message || data.output?.code || null,
                     progress: null,
-                    _videoUrl: data.output?.video_url
+                    _videoUrl: data.output?.video_url,
+                    _usage: data.usage ? { seconds: data.usage.output_video_duration || data.usage.duration || 0 } : null
                 };
             },
             async finalize(handle, key, signal, lastStatus) {
@@ -7525,7 +7535,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                         failed: data.status === 'failed' || data.status === 'cancelled',
                         error: data.error?.message || null,
                         progress: null,
-                        _video: out || null
+                        _video: out || null,
+                        _usage: usageFromInteraction(data.usage)
                     };
                 }
                 const res = await fetch(
@@ -7666,7 +7677,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                     failed: st === 'failed' || st === 'expired',
                     error: st === 'expired' ? 'Video request expired.' : (data.error?.message || data.error || null),
                     progress: null,
-                    _videoUrl: data.video?.url
+                    _videoUrl: data.video?.url,
+                    _usage: usageFromTokens(data.usage)   // tokens + coût exact (cost_in_usd_ticks)
                 };
             },
             async finalize(handle, key, signal, lastStatus) {
@@ -12554,6 +12566,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             throw new Error(err.error?.message || `HTTP Error ${res.status}`);
         }
         const data = await res.json();
+        addMediaUsage(usageFromTokens(data.usage));
         if (data.data && data.data[0] && data.data[0].b64_json) return data.data[0].b64_json;
         throw new Error("Unexpected response format from OpenAI.");
     }
@@ -12764,6 +12777,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         if (!res.ok) throw await editApiError(res);
         const data = await res.json();
+        addMediaUsage(usageFromGemini(data.usageMetadata));
         const outParts = data.candidates?.[0]?.content?.parts || [];
         const imgPart = outParts.find(p => p.inlineData && p.inlineData.data);
         if (imgPart) return imgPart.inlineData.data;
@@ -12802,6 +12816,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         if (!res.ok) throw await editApiError(res);
         const data = await res.json();
+        addMediaUsage({ images: (data.usage && (data.usage.image_count || data.usage.output_image_count)) || 0 });
         const out = data.output?.choices?.[0]?.message?.content;
         const imgItem = Array.isArray(out) ? out.find(c => c.image) : null;
         if (imgItem) return imgItem.image;
@@ -12824,6 +12839,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         if (!res.ok) throw await editApiError(res);
         const data = await res.json();
+        addMediaUsage(usageFromTokens(data.usage));
         const d0 = data.data?.[0];
         if (d0?.b64_json) return d0.b64_json;
         if (d0?.url) return d0.url;
@@ -12833,6 +12849,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Crée la bulle IA, édite, affiche et persiste le résultat. Suppose l'état « occupé » géré
     // par l'appelant (handleSend ou runImageEdit). sources = blobs OU srcs (URL / data / blob:).
     async function performImageEdit(job, provider, key) {
+        resetMediaUsage();
         const caps = EDIT_CAPS[provider];
         const model = editModelFor(provider);
         const loadingDiv = addMessage(null, 'ai', provider, model, true);
@@ -12971,6 +12988,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
         buildGeneratedImageUI(content, displaySrc, prompt, edited, (blob && blob.type) || mime);
         removeLoader(loadingDiv);
+        const usage = takeMediaUsage();   // la 1re bulle porte l'usage de toute la requête (variantes)
+        if (usage) renderUsageLine(loadingDiv, usage);
 
         const imageId = genImageId();
         try {
@@ -12982,8 +13001,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         } catch (e) { /* IndexedDB indispo → image affichée mais non persistée */ }
         const entry = { role: 'assistant', type: 'image', imageId, prompt, content: (edited ? '✏️ ' : '🎨 ') + prompt, provider, model };
         if (edited) entry.edited = true;
+        if (usage) entry.usage = usage;
         conversationHistory.push(entry);
         saveHistory();
+        if (usage) updateTokenTotals();
     }
 
     // Chargement async d'une image persistée (au rendu d'une conversation).
@@ -13008,6 +13029,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     async function handleImageGeneration(prompt, provider, key, source) {  // source : photo jointe (Recraft)
+        resetMediaUsage();
         const imgModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : (IMAGE_MODELS[provider] ? IMAGE_MODELS[provider][0].id : IMAGE_MODELS.openai[0].id);
         const loadingDiv = addMessage(null, 'ai', provider, imgModel, true);
 
@@ -13130,6 +13152,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res2.json();
+        addMediaUsage(usageFromTokens(data.usage)); addMediaUsage(usageFromTokens(data.svg_usage));
         if (data.data[0].b64_json) {
             // GPT Image 2.6 : GIF animé ou SVG → type porté jusqu'à l'affichage et au téléchargement
             const out = openAIImageOutput(selectedModel);
@@ -13179,6 +13202,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         const data = await res.json();
         
+        addMediaUsage(usageFromGemini(data.usageMetadata));
         // Parse Nano Banana response: look for inlineData in parts
         const candidates = data.candidates;
         if (candidates && candidates[0] && candidates[0].content && candidates[0].content.parts) {
@@ -13221,6 +13245,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res.json();
+        addMediaUsage({ images: (data.usage && (data.usage.image_count || data.usage.output_image_count)) || 0 });
         // Plusieurs images (n > 1) : une par choix ou plusieurs dans le contenu → une bulle chacune
         const urls = (data.output?.choices || []).flatMap(ch => (Array.isArray(ch.message?.content) ? ch.message.content : []).filter(c => c.image).map(c => c.image));
         if (urls.length) return urls.length === 1 ? urls[0] : urls;  // URL OSS
@@ -13257,6 +13282,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         const data = await res.json();
+        addMediaUsage(usageFromTokens(data.usage));
         // Plusieurs images (n > 1) → tableau : une bulle par image (handleImageGeneration)
         const all = (data.data || []).map(d => d.b64_json || d.url).filter(Boolean);   // URL : repli (affichage direct)
         if (!all.length) throw new Error("Unexpected response format from xAI.");
@@ -13290,6 +13316,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         });
         if (!res.ok) throw new Error(await recraftError(res));
         const data = await res.json();
+        addMediaUsage({ credits: data.credits || 0 });
         const out = (data.data || []).map(item => item.b64_json ? { b64: item.b64_json, mime: vector ? 'image/svg+xml' : 'image/png' } : item.url).filter(Boolean);
         if (!out.length) throw new Error('Unexpected response format from Recraft.');
         return out;  // repli URL : temporaire (affichage direct)
@@ -13884,6 +13911,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 });
                 if (!res.ok) throw new Error(await recraftError(res));
                 const data = await res.json();
+                resetMediaUsage(); addMediaUsage({ credits: data.credits || 0 });
                 const items = data.image ? [data.image] : (data.data || []);
                 const svgOut = tool.svg || (svgIn && (op === 'removeBackground' || tool.prompt));
                 const results = items.map(item => item.b64_json ? { b64: item.b64_json, mime: svgOut ? 'image/svg+xml' : 'image/png' } : item.url).filter(Boolean);
@@ -14169,6 +14197,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     ];
     const mmEmotionOf = style => { const m = style && MM_EMOTION_WORDS.find(([, re]) => re.test(style)); return m ? m[0] : ''; };
     async function handleVoiceGeneration(text, key) {
+        resetMediaUsage();
         if (providerSelect.value === 'gemini') return handleGeminiVoice(text, key);
         if (providerSelect.value === 'qwen') return handleQwenVoice(text, key);
         if (providerSelect.value === 'grok') return handleGrokVoice(text, key);
@@ -14219,10 +14248,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const content = loadingDiv.querySelector('.msg-content') || loadingDiv;
         buildAudioUI(content, URL.createObjectURL(blob), prompt, info);
         removeLoader(loadingDiv);
+        const usage = takeMediaUsage();   // Gemini / OpenAI : tokens ; script du 🎧 Podcast compris
+        if (usage) renderUsageLine(loadingDiv, usage);
         const audioId = genImageId();
         try { await ImageStore.put({ id: audioId, convId: currentConvId, blob, url: null, mime: blob.type, prompt, createdAt: Date.now() }); } catch (e) { /* IndexedDB indisponible : audio non persisté */ }
-        conversationHistory.push({ role: 'assistant', type: 'audio', audioId, prompt, info, content: (info && info.title ? '🎧 ' : '🎙️ ') + (prompt || '').slice(0, 200), provider, model });
+        const aEntry = { role: 'assistant', type: 'audio', audioId, prompt, info, content: (info && info.title ? '🎧 ' : '🎙️ ') + (prompt || '').slice(0, 200), provider, model };
+        if (usage) aEntry.usage = usage;
+        conversationHistory.push(aEntry);
         saveHistory();
+        if (usage) updateTokenTotals();
     }
     async function loadAndDisplayAudio(content, audioId, prompt, info) {
         let rec = null;
@@ -14379,6 +14413,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         let audio = null;
         (j.steps || []).forEach(st => (st.content || []).forEach(c => { if (c && c.type === 'audio' && c.data) audio = c; }));
         if (!audio) throw new Error('No audio in the Gemini response.');
+        addMediaUsage(usageFromInteraction(j.usage));
         return pcmOf(b64ToBytes(audio.data));
     }
     async function handleGeminiVoice(text, key, opts = {}) {
@@ -14914,6 +14949,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (!res.ok || j.error) throw new Error((j.error && j.error.message) || 'HTTP Error ' + res.status);
         const audio = j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.audio;
         if (!audio || !audio.data) throw new Error('No audio in the OpenAI response.');
+        addMediaUsage(usageFromTokens(j.usage));
         return { bytes: b64ToBytes(audio.data), transcript: audio.transcript };
     }
     async function handleOpenAIVoice(text, key) {
@@ -15439,6 +15475,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return L.join('\n');
     }
     const cleanScript = x => x.replace(/\s*\[TRUNCATED_CONTINUE_BTN\]/g, '').replace(/^\s*```[a-z]*\s*$/gim, '').replace(/\*\*/g, '').replace(/\n{3,}/g, '\n\n').trim();
+    let podScriptUsage = null;   // tokens du script, ajoutés à la bulle audio du 🎧 Podcast
     async function writePodcastScript(provider, model, brief, onText, signal) {
         let text = '';
         const saved = [conversationHistory, currentMode, webSearchEnabled, readLinksEnabled, thinkingEnabled];
@@ -15447,7 +15484,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         webSearchEnabled = readLinksEnabled = thinkingEnabled = false;
         let pending;
         try {
-            pending = dispatchStream(provider, model, getKeyForProvider(provider), (c) => { text += c; onText(text); }, null, signal, () => {});
+            pending = dispatchStream(provider, model, getKeyForProvider(provider), (c) => { text += c; onText(text); }, null, signal, (m) => { if (m && m.usage) podScriptUsage = m.usage; });
         } finally {
             [conversationHistory, currentMode, webSearchEnabled, readLinksEnabled, thinkingEnabled] = saved;
         }
@@ -15587,6 +15624,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function runPodcastAudio(provider, script, title, clearFiles, solo, voices) {
         const t = I18N[currentLang];
         if (isProcessing) return;
+        resetMediaUsage(); addMediaUsage(podScriptUsage); podScriptUsage = null;
         if (pendingCompareChoice) { showToast(t.compareMustChoose, 'error'); return; }
         if (welcome) welcome.style.display = 'none';
         isProcessing = true;
@@ -15771,6 +15809,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const fail = miniMaxFail(j, res.status);
         if (fail) throw new Error(fail);
         const list = (j.data && j.data.image_base64) || [];
+        addMediaUsage({ images: parseInt(j.metadata && j.metadata.success_count, 10) || list.length });
         const blocked = parseInt(j.metadata && j.metadata.failed_count, 10) || 0;
         if (blocked) showToast(t.mmBlocked.replace('{n}', blocked), 'error', 6000);
         if (!list.length) throw new Error(blocked ? t.mmBlocked.replace('{n}', blocked) : 'Unexpected response format from MiniMax.');
@@ -16363,6 +16402,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const result = await adapter.finalize(handle, key, signal, lastStatus);
             if (params.loop) result.loop = true;  // lecture en continu dans le lecteur
             renderVideoResult(contentDiv, shown, result, params.model, dimensions, params.duration, { provider, handle, model: params.model });
+            if (lastStatus._usage) renderUsageLine(contentDiv, lastStatus._usage);   // vidéos hors historique : ligne seulement
             // Boucle approximative : l'avertissement remplace le toast de succès
             showToast(params.loopApprox ? I18N[currentLang].animLoopApprox : I18N[currentLang].videoReady, params.loopApprox ? 'error' : 'success');
         } catch (error) {
@@ -16447,17 +16487,62 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const loc = { fr: 'fr-FR', en: 'en-US', es: 'es-MX' }[currentLang] || 'en-US';
         return new Intl.NumberFormat(loc, { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: v < 0.01 ? 4 : 3 }).format(v);
     }
+    // Usage étendu (1.37) : tokens et coût, plus les unités des générations sans tokens —
+    // images (Alibaba, MiniMax), secondes de vidéo (Alibaba), crédits Recraft (1 000 = 1 $).
+    const USAGE_KEYS = ['input', 'output', 'cached', 'cost', 'images', 'seconds', 'credits'];
+    function hasUsage(u) { return !!u && ['input', 'output', 'cost', 'images', 'seconds', 'credits'].some(k => u[k]); }
+    function mergeUsage(a, b) {
+        if (!b) return a;
+        const r = a ? { ...a } : {};
+        USAGE_KEYS.forEach(k => { if (b[k]) r[k] = (r[k] || 0) + b[k]; });
+        return r;
+    }
     function formatUsage(usage) {
         if (!usage) return '';
-        const word = I18N[currentLang].usageTokens || 'tokens';
-        const cached = usage.cached ? ' ' + I18N[currentLang].usageCached.replace('{n}', fmtTokens(usage.cached)) : '';
-        const cost = usage.cost ? ` · ${fmtUsd(usage.cost)}` : '';
-        return `↑ ${fmtTokens(usage.input)}${cached} · ↓ ${fmtTokens(usage.output)} ${word}${cost}`;
+        const t = I18N[currentLang];
+        const parts = [];
+        if (usage.input || usage.output) {
+            const cached = usage.cached ? ' ' + t.usageCached.replace('{n}', fmtTokens(usage.cached)) : '';
+            parts.push(`↑ ${fmtTokens(usage.input)}${cached} · ↓ ${fmtTokens(usage.output)} ${t.usageTokens || 'tokens'}`);
+        }
+        if (usage.images) parts.push(t.usageImages.replace('{n}', fmtTokens(usage.images)));
+        if (usage.seconds) parts.push(t.usageSeconds.replace('{n}', (Math.round(usage.seconds * 10) / 10).toLocaleString({ fr: 'fr-FR', en: 'en-US', es: 'es-MX' }[currentLang] || 'en-US')));
+        if (usage.credits) parts.push(t.usageCredits.replace('{n}', fmtTokens(usage.credits)).replace('{usd}', fmtUsd(usage.credits / 1000)));
+        if (usage.cost) parts.push(fmtUsd(usage.cost));
+        return parts.join(' · ');
     }
-    // Affiche/rafraîchit la petite ligne de tokens sous une réponse.
+    // Collecteur des générations d'images / retouches / voix : chaque appel d'API y ajoute ce
+    // qu'il rapporte ; la bulle affichée ensuite le reprend (ligne + historique). Remis à zéro au
+    // début de chaque génération ; une valeur de plus de 15 min est ignorée (reste d'un échec).
+    let mediaUsage = null, mediaUsageAt = 0;
+    function resetMediaUsage() { mediaUsage = null; }
+    function addMediaUsage(u) {
+        if (!hasUsage(u)) return;
+        if (Date.now() - mediaUsageAt > 15 * 60000) mediaUsage = null;
+        mediaUsage = mergeUsage(mediaUsage, u); mediaUsageAt = Date.now();
+    }
+    function takeMediaUsage() {
+        const u = (mediaUsage && Date.now() - mediaUsageAt <= 15 * 60000) ? mediaUsage : null;
+        mediaUsage = null;
+        return u;
+    }
+    // Usages rapportés par les API d'images, de vidéo et de voix (champs vérifiés dans les docs le 20/11/2026)
+    function usageFromTokens(u) {   // OpenAI / xAI : input_tokens, output_tokens, cost_in_usd_ticks
+        if (!u) return null;
+        return usageOf(u.input_tokens || u.prompt_tokens, u.output_tokens || u.completion_tokens, null, u.cost_in_usd_ticks);
+    }
+    function usageFromGemini(m) {   // generateContent : usageMetadata
+        if (!m) return null;
+        return usageOf(m.promptTokenCount, (m.candidatesTokenCount || 0) + (m.thoughtsTokenCount || 0));
+    }
+    function usageFromInteraction(u) {   // Interactions API (Omni, voix) : usage.total_*
+        if (!u) return null;
+        return usageOf(u.total_input_tokens, (u.total_output_tokens || 0) + (u.total_thought_tokens || 0));
+    }
+    // Affiche/rafraîchit la petite ligne d'usage sous une réponse (texte, image, vidéo, voix).
     function renderUsageLine(msgDiv, usage) {
         if (!msgDiv || !usage) return;
-        if (!usage.input && !usage.output) return;
+        if (!hasUsage(usage)) return;
         const contentDiv = msgDiv.querySelector('.msg-content') || msgDiv;
         let line = contentDiv.querySelector('.msg-usage');
         if (!line) {
@@ -18120,12 +18205,12 @@ A small follow-up tweak the user asks for can be done right away without a new p
             } else if (msg.role === 'assistant' && msg.type === 'audio') {
                 const div = addMessage('', 'ai', msg.provider, msg.model, false);
                 const c = div.querySelector('.msg-content');
-                if (c) loadAndDisplayAudio(c, msg.audioId, msg.prompt, msg.info);
+                if (c) Promise.resolve(loadAndDisplayAudio(c, msg.audioId, msg.prompt, msg.info)).then(() => { if (msg.usage) renderUsageLine(div, msg.usage); });
             } else if (msg.role === 'assistant' && msg.type === 'image') {
                 // Tour image : on recharge le blob depuis IndexedDB (async).
                 const div = addMessage('', 'ai', msg.provider, msg.model, false);
                 const imgContent = div.querySelector('.msg-content');
-                if (imgContent) loadAndDisplayImage(imgContent, msg.imageId, msg.prompt, msg.edited);
+                if (imgContent) loadAndDisplayImage(imgContent, msg.imageId, msg.prompt, msg.edited).then(() => { if (msg.usage) renderUsageLine(div, msg.usage); });
             } else if (msg.role === 'assistant') {
                 const div = addMessage(msg.content, 'ai', msg.provider, msg.model, false);
                 const copyBtn = div.querySelector('.msg-copy-btn');
@@ -18341,18 +18426,16 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const sep = $('token-total-sep');
         const el = $('token-total');
         if (!el || !sep) return;
-        let inTok = 0, outTok = 0;
-        for (const m of conversationHistory) {
-            if (m && m.usage) { inTok += m.usage.input || 0; outTok += m.usage.output || 0; }
-        }
-        if (!inTok && !outTok) {
+        let sum = null;
+        for (const m of conversationHistory) if (m && m.usage) sum = mergeUsage(sum, m.usage);
+        if (!hasUsage(sum)) {
             el.classList.add('dp-hidden');
             sep.classList.add('dp-hidden');
             return;
         }
+        delete sum.cached;   // le total reste lisible : entrée / sortie, unités, coût
         const label = I18N[currentLang].tokenTotalLabel || 'Total';
-        const word = I18N[currentLang].usageTokens || 'tokens';
-        el.textContent = `${label} : ↑ ${fmtTokens(inTok)} · ↓ ${fmtTokens(outTok)} ${word}`;
+        el.textContent = `${label} : ${formatUsage(sum)}`;
         el.title = I18N[currentLang].tokenTotalTitle || '';
         el.classList.remove('dp-hidden');
         sep.classList.remove('dp-hidden');

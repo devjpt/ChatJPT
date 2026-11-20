@@ -8,6 +8,18 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.37.0] — 2026-11-20
+  Added
+    - Usage shown everywhere: under each image, edit, video and voice, the same
+      line as for text answers, in the best unit each provider returns —
+      tokens (OpenAI, Gemini, Grok), exact cost (Grok), images (Alibaba,
+      MiniMax), video seconds (Alibaba), Recraft credits (1,000 = $1). The
+      🎧 Podcast line also counts the tokens used to write the script.
+    - The conversation total now adds image and voice tokens, images, Recraft
+      credits and the cost; lines come back when a conversation is reopened.
+      Bria, Grok voices and MiniMax videos return no usage, so no line is
+      shown for them; videos are not saved, so they are not in the total.
+
 [1.36.1] — 2026-11-20
   Fixed
     - API keys no longer disappear after a restart: their encryption depended
@@ -947,6 +959,20 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.37.0] — 2026-11-20
+  Ajouté
+    - Usage affiché partout : sous chaque image, retouche, vidéo et voix, la
+      même ligne que pour les réponses texte, dans la meilleure unité donnée
+      par chaque fournisseur — tokens (OpenAI, Gemini, Grok), coût exact
+      (Grok), images (Alibaba, MiniMax), secondes de vidéo (Alibaba), crédits
+      Recraft (1 000 = 1 $). La ligne du 🎧 Podcast compte aussi les tokens de
+      l'écriture du script.
+    - Le total de la conversation additionne maintenant les tokens des images
+      et des voix, les images, les crédits Recraft et le coût ; les lignes
+      reviennent à la réouverture d'une conversation. Bria, les voix Grok et
+      les vidéos MiniMax ne renvoient aucun usage : pas de ligne pour eux ;
+      les vidéos ne sont pas enregistrées, donc absentes du total.
 
 [1.36.1] — 2026-11-20
   Corrigé
@@ -1962,6 +1988,20 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.37.0] — 2026-11-20
+  Añadido
+    - Uso mostrado en todas partes: bajo cada imagen, retoque, video y voz, la
+      misma línea que para las respuestas de texto, en la mejor unidad que da
+      cada proveedor — tokens (OpenAI, Gemini, Grok), costo exacto (Grok),
+      imágenes (Alibaba, MiniMax), segundos de video (Alibaba), créditos de
+      Recraft (1000 = 1 $). La línea del 🎧 Podcast también cuenta los tokens
+      de la escritura del guion.
+    - El total de la conversación suma ahora los tokens de imágenes y voces,
+      las imágenes, los créditos de Recraft y el costo; las líneas vuelven al
+      reabrir una conversación. Bria, las voces de Grok y los videos de
+      MiniMax no devuelven uso: no se muestra línea para ellos; los videos no
+      se guardan, así que no entran en el total.
 
 [1.36.1] — 2026-11-20
   Corregido

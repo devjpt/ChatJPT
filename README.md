@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.36.1
+  Version 1.37.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -135,7 +135,9 @@ FEATURES
 
   - Token counter: each response shows its exact usage (↑ input / ↓ output)
     and a per-conversation total in the footer bar — so you can see what each
-    turn really costs.
+    turn really costs. Images, edits, videos and voices show it too: tokens,
+    images, video seconds, Recraft credits, and the exact cost when the
+    provider returns it.
 
   - Image editor (OpenAI, Gemini, Qwen, Grok, Recraft, Bria): under each image, ✏️ Edit
     (describe a change in your next message), ✂️ Remove background
@@ -166,7 +168,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_36_1.html
+  1. Download the file ChatJPT_1_37_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -198,7 +200,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.36.1
+  Version 1.37.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -341,7 +343,9 @@ FONCTIONNALITÉS
 
   - Compteur de tokens : chaque réponse affiche sa consommation exacte
     (↑ entrée / ↓ sortie) et un total par conversation dans la barre du bas —
-    pour voir ce que coûte réellement chaque échange.
+    pour voir ce que coûte réellement chaque échange. Images, retouches, vidéos
+    et voix l'affichent aussi : tokens, images, secondes de vidéo, crédits
+    Recraft, et le coût exact quand le fournisseur le donne.
 
   - Éditeur d'image (OpenAI, Gemini, Qwen, Grok, Recraft, Bria) : sous chaque image, ✏️ Modifier
     (décrivez le changement dans le message suivant), ✂️ Retirer le fond (PNG
@@ -373,7 +377,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_36_1.html
+  1. Téléchargez le fichier ChatJPT_1_37_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -407,7 +411,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.36.1
+  Versión 1.37.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -514,7 +518,9 @@ CARACTERÍSTICAS
 
   - Contador de tokens: cada respuesta muestra su consumo exacto
     (↑ entrada / ↓ salida) y un total por conversación en la barra inferior —
-    para ver lo que cuesta realmente cada intercambio.
+    para ver lo que cuesta realmente cada intercambio. Imágenes, retoques,
+    videos y voces también lo muestran: tokens, imágenes, segundos de video,
+    créditos de Recraft, y el costo exacto cuando el proveedor lo da.
 
   - Búsqueda en la conversación: una barra 🔍 que resalta las coincidencias y
     permite navegar entre ellas (sin distinción de mayúsculas ni acentos).
@@ -579,7 +585,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_36_1.html
+  1. Descarga el archivo ChatJPT_1_37_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo
