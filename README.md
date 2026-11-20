@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.37.0
+  Version 1.38.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -17,17 +17,17 @@ FEATURES
   - Multi-provider support:
       • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Neon / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, video, and voice; Grok Imagine)
       • Perplexity (web-grounded answers with sources, up to deep research)
-      • Meta       (Muse Spark 1.3, Muse Wonder — reasoning summary, web search)
+      • Meta       (Muse Spark 1.3, Muse Wonder, Muse Ember — reasoning summary, web search; Muse Image)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — web search and link reading on Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
-      • MiniMax    (M3.1 Flash, M3 — chat; Image-01; Hailuo video; voice)
-      • Alibaba    (Qwen + Z.ai GLM — chat, image, video, and voice; International, Mainland China, US or Hong Kong key)
+      • MiniMax    (M3.1 Flash, M3 — chat; H3-Image up to 4K, Image-01; Hailuo video; voice)
+      • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, video, and voice; International, Mainland China, US or Hong Kong key)
       • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
       • Bria       (Israel — images only: licensed, photo retouching, product photos, ads)
@@ -168,7 +168,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_37_0.html
+  1. Download the file ChatJPT_1_38_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -200,7 +200,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.37.0
+  Version 1.38.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -218,17 +218,17 @@ FONCTIONNALITÉS
   - Support multi-fournisseurs :
       • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Neon / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, image, vidéo et voix ; Grok Imagine)
       • Perplexity (réponses ancrées sur le web avec sources, jusqu'à la recherche approfondie)
-      • Meta       (Muse Spark 1.3, Muse Wonder — résumé de la réflexion, recherche web)
+      • Meta       (Muse Spark 1.3, Muse Wonder, Muse Ember — résumé de la réflexion, recherche web ; Muse Image)
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — recherche web et lecture des liens avec Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
-      • MiniMax    (M3.1 Flash, M3 — chat ; Image-01 ; vidéo Hailuo ; voix)
-      • Alibaba    (Qwen + Z.ai GLM — chat, image, vidéo et voix ; clé International, Chine continentale, États-Unis ou Hong Kong)
+      • MiniMax    (M3.1 Flash, M3 — chat ; H3-Image jusqu'à 4K, Image-01 ; vidéo Hailuo ; voix)
+      • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, vidéo et voix ; clé International, Chine continentale, États-Unis ou Hong Kong)
       • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
       • Bria       (Israël — images seulement : sous licence, retouche photo, photos de produits, pubs)
@@ -377,7 +377,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_37_0.html
+  1. Téléchargez le fichier ChatJPT_1_38_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -411,7 +411,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.37.0
+  Versión 1.38.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -429,17 +429,17 @@ CARACTERÍSTICAS
   - Soporte multiproveedor:
       • OpenAI     (GPT-6.2 Astra / Sol, GPT-6 Astra / Sol / Terra / Luna, GPT-5.6, GPT-5.x, etc.)
       • Anthropic  (Claude Fable 5.2, Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5, etc.)
-      • Google     (Gemini 4 Hydrogen / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
+      • Google     (Gemini 4 Hydrogen / Neon / Carbon / Argon, Gemini 3.x, Gemini 2.5, Gemma 4, 🔬 Deep Research, etc.)
       • Grok       (xAI — chat, imagen, video y voz; Grok Imagine)
       • Perplexity (respuestas basadas en la web con fuentes, hasta investigación profunda)
-      • Meta       (Muse Spark 1.3, Muse Wonder — resumen del razonamiento, búsqueda web)
+      • Meta       (Muse Spark 1.3, Muse Wonder, Muse Ember — resumen del razonamiento, búsqueda web; Muse Image)
       • Augure     (Canadá — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canadá — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (Francia — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — búsqueda web y lectura de enlaces con Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
-      • MiniMax    (M3.1 Flash, M3 — chat; Image-01; video Hailuo; voz)
-      • Alibaba    (Qwen + Z.ai GLM — chat, imagen, video y voz; clave Internacional, China continental, Estados Unidos o Hong Kong)
+      • MiniMax    (M3.1 Flash, M3 — chat; H3-Image hasta 4K, Image-01; video Hailuo; voz)
+      • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, imagen, video y voz; clave Internacional, China continental, Estados Unidos o Hong Kong)
       • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
       • Bria       (Israel — solo imágenes: con licencia, retoque fotográfico, fotos de productos, anuncios)
@@ -585,7 +585,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_37_0.html
+  1. Descarga el archivo ChatJPT_1_38_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

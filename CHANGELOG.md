@@ -8,6 +8,29 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.38.0] — 2026-11-20
+  Added
+    - Google Gemini 4 Neon (coding and agents, paid tier): reasoning up to
+      "Extra high".
+    - Alibaba Qwen4 Max, now the default Alibaba model: reasoning, cache and
+      🌐 web search (link reading is not documented for it).
+    - Meta Muse Ember 1.0 (fast, very low cost) and Muse Image 1.0: Meta now
+      has an Image mode ($0.01 per image, 1 to 4 images, an attached photo is
+      edited).
+    - MiniMax H3-Image and H3-Image Highspeed: 1K / 2K / 4K, an attached photo
+      is edited; never retried automatically (each request is billed).
+    - DeepSeek Flash: 🌐 web search and 🔗 link reading, with their sources.
+    - Perplexity "Ultra" effort (Claude Opus 5.5, most thorough, very long).
+    - Bria: "Remove background (RMBG 3)" for the cleanest cutouts.
+  Changed
+    - Recraft V4.1 Flash V2 replaces V4.1 Flash.
+    - Bria "Replace background" uses Fibo 2 and keeps the subject's pixels.
+    - Perplexity: the request now sends "effort" (renamed from "preset").
+    - Mistral Medium 3.5 shows its retirement date (Apr 30, 2027).
+  Removed
+    - Claude Sonnet 4.5 (retired by Anthropic on Nov 30, 2026) and ⚡ fast
+      mode for Claude Opus 4.8 (removed the same day).
+
 [1.37.0] — 2026-11-20
   Added
     - Usage shown everywhere: under each image, edit, video and voice, the same
@@ -959,6 +982,34 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.38.0] — 2026-11-20
+  Ajouté
+    - Google Gemini 4 Neon (code et agents, offre payante) : réflexion
+      jusqu'à « Très profond ».
+    - Alibaba Qwen4 Max, désormais le modèle Alibaba par défaut : réflexion,
+      cache et 🌐 recherche web (la lecture des liens n'est pas documentée
+      pour lui).
+    - Meta Muse Ember 1.0 (rapide, très économique) et Muse Image 1.0 : Meta a
+      maintenant un mode Image (0,01 $ l'image, 1 à 4 images, une photo jointe
+      est modifiée).
+    - MiniMax H3-Image et H3-Image Highspeed : 1K / 2K / 4K, une photo jointe
+      est modifiée ; jamais relancé automatiquement (chaque requête est
+      facturée).
+    - DeepSeek Flash : 🌐 recherche web et 🔗 lecture des liens, avec leurs
+      sources.
+    - Effort « Ultra » de Perplexity (Claude Opus 5.5, le plus complet, très
+      long).
+    - Bria : « Retirer le fond (RMBG 3) » pour les détourages les plus nets.
+  Modifié
+    - Recraft V4.1 Flash V2 remplace V4.1 Flash.
+    - « Remplacer le fond » de Bria utilise Fibo 2 et conserve les pixels du
+      sujet.
+    - Perplexity : la requête envoie maintenant « effort » (ancien « preset »).
+    - Mistral Medium 3.5 affiche sa date d'arrêt (30 avr. 2027).
+  Retiré
+    - Claude Sonnet 4.5 (retiré par Anthropic le 30 nov. 2026) et le ⚡ mode
+      rapide de Claude Opus 4.8 (supprimé le même jour).
 
 [1.37.0] — 2026-11-20
   Ajouté
@@ -1988,6 +2039,33 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.38.0] — 2026-11-20
+  Añadido
+    - Google Gemini 4 Neon (código y agentes, plan de pago): razonamiento
+      hasta "Muy alto".
+    - Alibaba Qwen4 Max, ahora el modelo Alibaba predeterminado:
+      razonamiento, caché y 🌐 búsqueda web (la lectura de enlaces no está
+      documentada para él).
+    - Meta Muse Ember 1.0 (rápido, muy económico) y Muse Image 1.0: Meta tiene
+      ahora un modo Imagen (0,01 $ por imagen, de 1 a 4 imágenes, una foto
+      adjunta se modifica).
+    - MiniMax H3-Image y H3-Image Highspeed: 1K / 2K / 4K, una foto adjunta se
+      modifica; nunca se reintenta automáticamente (cada solicitud se cobra).
+    - DeepSeek Flash: 🌐 búsqueda web y 🔗 lectura de enlaces, con sus
+      fuentes.
+    - Esfuerzo "Ultra" de Perplexity (Claude Opus 5.5, el más completo, muy
+      largo).
+    - Bria: "Quitar el fondo (RMBG 3)" para los recortes más nítidos.
+  Cambiado
+    - Recraft V4.1 Flash V2 reemplaza a V4.1 Flash.
+    - "Reemplazar el fondo" de Bria usa Fibo 2 y conserva los píxeles del
+      sujeto.
+    - Perplexity: la solicitud envía ahora "effort" (antes "preset").
+    - Mistral Medium 3.5 muestra su fecha de retiro (30 de abr. de 2027).
+  Eliminado
+    - Claude Sonnet 4.5 (retirado por Anthropic el 30 de nov. de 2026) y el
+      ⚡ modo rápido de Claude Opus 4.8 (eliminado el mismo día).
 
 [1.37.0] — 2026-11-20
   Añadido

@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.37.0
+  Version 1.38.0
 -->
 
 
@@ -3216,12 +3216,40 @@
                     <option value="7">7</option><option value="8">8</option><option value="9">9</option>
                 </select>
             </div>
-            <div class="select-group">
+            <div class="select-group" id="mm-area-group">
+                <label data-i18n="lblImageResolution">Résolution</label>
+                <select id="mm-area" aria-label="Résolution MiniMax H3">
+                    <option value="1K">1K</option><option value="2K" selected>2K</option><option value="4K">4K</option>
+                </select>
+            </div>
+            <div class="select-group" id="mm-seed-group">
                 <label data-i18n="lblBrSeed">Graine</label>
                 <input type="number" class="rc-input rc-seed" id="mm-seed" min="0" step="1" aria-label="Graine MiniMax">
             </div>
             <span class="rc-bg-toggle"><input type="checkbox" id="mm-optimizer" aria-label="Optimiser la consigne"><span data-i18n="mmOptimizer">Optimiser la consigne</span></span>
             <span class="rc-balance" data-i18n="mmNote">Une photo de personne jointe sert de référence : son visage est conservé.</span>
+        </div>
+        <!-- Options Meta (Muse Image) : visibles seulement avec Meta (populateImageModels) -->
+        <div class="video-config-row" id="meta-img-options">
+            <div class="select-group">
+                <label data-i18n="lblImageFormat">Format</label>
+                <select id="meta-ratio" aria-label="Format image Meta">
+                    <option value="1024x1024" selected data-i18n="imgFmtSquare">Carré (1:1)</option>
+                    <option value="1792x1024" data-i18n="imgFmtLandscape">Paysage (16:9)</option>
+                    <option value="1024x1792" data-i18n="imgFmtPortrait">Portrait (9:16)</option>
+                    <option value="1536x1152" data-i18n="imgFmtClassic">Classique (4:3)</option>
+                    <option value="1152x1536" data-i18n="imgFmtClassicPortrait">Portrait (3:4)</option>
+                    <option value="1536x1024">3:2</option>
+                    <option value="1024x1536">2:3</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label data-i18n="lblMmCount">Images</label>
+                <select id="meta-n" aria-label="Nombre d'images Meta">
+                    <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                </select>
+            </div>
+            <span class="rc-balance" data-i18n="metaImgNote">0,01 $ l'image. Une photo jointe est modifiée selon ta consigne.</span>
         </div>
         <!-- Options Bria : visibles seulement avec Bria (populateImageModels / updateBriaOptions) -->
         <div class="video-config-row" id="bria-options">
@@ -3587,7 +3615,7 @@
             <span class="websearch-hint" data-i18n="ultrafastHint">réponse plus rapide, 3× à 6× le prix</span>
         </div>
         <div class="websearch-mode-container" id="claudefast-mode-container">
-            <label class="websearch-mode-label" id="claudefast-mode-label" title="Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens." data-i18n-title="claudeFastTitle">
+            <label class="websearch-mode-label" id="claudefast-mode-label" title="Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens." data-i18n-title="claudeFastTitle">
                 <input type="checkbox" id="claudefast-mode-cb">
                 <span class="websearch-label-text" data-i18n="claudeFastLabel">⚡ Mode rapide</span>
             </label>
@@ -3890,7 +3918,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.37.0 - Dernière version : ",
+            creditVersion: "Version 1.38.0 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 20 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4143,7 +4171,7 @@
             ultrafastTitle: "Traitement Ultrafast d'OpenAI : réponse beaucoup plus rapide. GPT-6.2 Astra et Sol : 3 fois le prix normal des tokens jusqu'au 28 février 2027, puis 6 fois. GPT-6 Astra et GPT-6.1 Sol : 6 fois.",
             claudeFastLabel: "⚡ Mode rapide",
             claudeFastHint: "jusqu'à 2,5× plus rapide, 2× le prix",
-            claudeFastTitle: "Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens. Opus 5 et 4.8 : aperçu de recherche, accès parfois requis.",
+            claudeFastTitle: "Mode rapide de Claude (Fable 5.2, Opus 5.5, Opus 5) : jusqu'à 2,5 fois plus de texte par seconde, 2 fois le prix des tokens. Opus 5 : aperçu de recherche, accès parfois requis.",
             claudeFastOff: "⚡ Mode rapide indisponible pour le moment : réponse en vitesse normale.",
             pdfNativeLabel: "📄 PDF lus en images",
             pdfNativeHint: "le modèle voit les pages · 2 à 4× plus de tokens",
@@ -4462,6 +4490,9 @@
             brRemoveBg: "✂️ Retirer le fond",
             brRemoveBgTip: "Détoure le sujet (PNG transparent).",
             brRemoveBgGuided: "✂️ Détourer en précisant…",
+            brRemoveBg3: "✂️ Retirer le fond (RMBG 3, cheveux nets)",
+            brRemoveBg3Tip: "Détourage le plus précis (cheveux, fourrure, verre), quelques secondes ; facturé à part.",
+            metaImgNote: "0,01 $ l'image. Une photo jointe est modifiée selon ta consigne.",
             brRemoveBgGuidedTip: "Dis en mots ce que le détourage garde (ex. « la femme et sa chaise », « seulement la lampe »), dans le message suivant.",
             brReplaceBg: "🏞️ Remplacer le fond…",
             brReplaceBgTip: "Garde le sujet et redessine le décor selon ta consigne (message suivant).",
@@ -4771,7 +4802,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.37.0 - Latest version: ",
+            creditVersion: "Version 1.38.0 - Latest version: ",
             appUpdated: "📅 Updated: November 20, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5024,7 +5055,7 @@
             ultrafastTitle: "OpenAI Ultrafast processing: much faster answers. GPT-6.2 Astra and Sol: 3 times the normal token price until February 28, 2027, then 6 times. GPT-6 Astra and GPT-6.1 Sol: 6 times.",
             claudeFastLabel: "⚡ Fast mode",
             claudeFastHint: "up to 2.5× faster, 2× the price",
-            claudeFastTitle: "Claude fast mode (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8): up to 2.5 times more text per second, 2 times the token price. Opus 5 and 4.8: research preview, access sometimes required.",
+            claudeFastTitle: "Claude fast mode (Fable 5.2, Opus 5.5, Opus 5): up to 2.5 times more text per second, 2 times the token price. Opus 5: research preview, access sometimes required.",
             claudeFastOff: "⚡ Fast mode unavailable right now: answering at normal speed.",
             pdfNativeLabel: "📄 PDFs read as images",
             pdfNativeHint: "the model sees the pages · 2 to 4× more tokens",
@@ -5343,6 +5374,9 @@
             brRemoveBg: "✂️ Remove background",
             brRemoveBgTip: "Cuts out the subject (transparent PNG).",
             brRemoveBgGuided: "✂️ Cut out, with details…",
+            brRemoveBg3: "✂️ Remove background (RMBG 3, crisp hair)",
+            brRemoveBg3Tip: "Most precise cutout (hair, fur, glass), a few seconds; billed separately.",
+            metaImgNote: "$0.01 per image. An attached photo is edited following your prompt.",
             brRemoveBgGuidedTip: "Say in words what the cutout keeps (e.g. \"the woman and her chair\", \"only the lamp\"), in your next message.",
             brReplaceBg: "🏞️ Replace background…",
             brReplaceBgTip: "Keeps the subject and redraws the scene from your prompt (next message).",
@@ -5652,7 +5686,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.37.0 - Última versión: ",
+            creditVersion: "Versión 1.38.0 - Última versión: ",
             appUpdated: "📅 Actualizado: 20 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -5905,7 +5939,7 @@
             ultrafastTitle: "Procesamiento Ultrafast de OpenAI: respuestas mucho más rápidas. GPT-6.2 Astra y Sol: 3 veces el precio normal de los tokens hasta el 28 de febrero de 2027, luego 6 veces. GPT-6 Astra y GPT-6.1 Sol: 6 veces.",
             claudeFastLabel: "⚡ Modo rápido",
             claudeFastHint: "hasta 2,5× más rápido, 2× el precio",
-            claudeFastTitle: "Modo rápido de Claude (Fable 5.2, Opus 5.5, Opus 5, Opus 4.8): hasta 2,5 veces más texto por segundo, 2 veces el precio de los tokens. Opus 5 y 4.8: vista previa de investigación, a veces se requiere acceso.",
+            claudeFastTitle: "Modo rápido de Claude (Fable 5.2, Opus 5.5, Opus 5): hasta 2,5 veces más texto por segundo, 2 veces el precio de los tokens. Opus 5: vista previa de investigación, a veces se requiere acceso.",
             claudeFastOff: "⚡ Modo rápido no disponible por ahora: respuesta a velocidad normal.",
             pdfNativeLabel: "📄 PDF leídos como imágenes",
             pdfNativeHint: "el modelo ve las páginas · 2 a 4× más tokens",
@@ -6224,6 +6258,9 @@
             brRemoveBg: "✂️ Quitar el fondo",
             brRemoveBgTip: "Recorta el sujeto (PNG transparente).",
             brRemoveBgGuided: "✂️ Recortar, precisando…",
+            brRemoveBg3: "✂️ Quitar el fondo (RMBG 3, cabello nítido)",
+            brRemoveBg3Tip: "El recorte más preciso (cabello, pelaje, vidrio), unos segundos; se cobra aparte.",
+            metaImgNote: "0,01 $ por imagen. Una foto adjunta se modifica según tu instrucción.",
             brRemoveBgGuidedTip: "Di con palabras qué conserva el recorte (ej. \"la mujer y su silla\", \"solo la lámpara\"), en el mensaje siguiente.",
             brReplaceBg: "🏞️ Reemplazar el fondo…",
             brReplaceBgTip: "Conserva el sujeto y redibuja el escenario según tu instrucción (mensaje siguiente).",
@@ -6468,11 +6505,11 @@
             { id: 'claude-sonnet-4-6', name: { fr: 'Claude Sonnet 4.6', en: 'Claude Sonnet 4.6' } },
             { id: 'claude-haiku-4-5-20251001', name: { fr: 'Claude Haiku 4.5', en: 'Claude Haiku 4.5' } },
             // Sonnet 4.5 retiré par Anthropic le 30/11/2026 (date dans le libellé) ; Sonnet 4 / Opus 4 (…-20250514) retirés le 15/06/2026.
-            { id: 'claude-sonnet-4-5-20250929', name: { fr: 'Claude Sonnet 4.5 (arrêt le 30 nov. 2026)', en: 'Claude Sonnet 4.5 (retiring Nov 30, 2026)', es: 'Claude Sonnet 4.5 (retiro el 30 de nov. de 2026)' } },
             { id: 'claude-opus-4-5-20251101', name: { fr: 'Claude Opus 4.5', en: 'Claude Opus 4.5' } },
         ],
         gemini: [
             { id: 'gemini-4-hydrogen', name: { fr: 'Gemini 4 Hydrogen (Dernier, rapide, offre gratuite)', en: 'Gemini 4 Hydrogen (Latest, fast, free tier)', es: 'Gemini 4 Hydrogen (Último, rápido, nivel gratuito)' } },
+            { id: 'gemini-4-neon', name: { fr: 'Gemini 4 Neon (Code et agents, payant)', en: 'Gemini 4 Neon (Coding and agents, paid)', es: 'Gemini 4 Neon (Código y agentes, de pago)' } },
             { id: 'gemini-4-carbon', name: { fr: 'Gemini 4 Carbon (Le plus puissant, raisonnement)', en: 'Gemini 4 Carbon (Most capable, reasoning)', es: 'Gemini 4 Carbon (El más potente, razonamiento)' } },
             { id: 'gemini-4-argon', name: { fr: 'Gemini 4 Argon (Raisonnement efficace)', en: 'Gemini 4 Argon (Efficient reasoning)', es: 'Gemini 4 Argon (Razonamiento eficiente)' } },
             { id: 'gemini-3.8-flash', name: { fr: 'Gemini 3.8 Flash', en: 'Gemini 3.8 Flash', es: 'Gemini 3.8 Flash' } },
@@ -6513,6 +6550,8 @@
             { id: 'medium', name: { fr: 'Recherche multi-sources (Medium)', en: 'Multi-source research (Medium)', es: 'Investigación multifuente (Medium)' } },
             { id: 'high', name: { fr: 'Recherche approfondie (High, lent)', en: 'Deep research (High, slow)', es: 'Investigación profunda (High, lenta)' } },
             { id: 'xhigh', name: { fr: 'Agent de recherche avancé (X-High, très lent, coûteux)', en: 'Advanced research agent (X-High, very slow, costly)', es: 'Agente de investigación avanzado (X-High, muy lento, costoso)' } },
+            // « ultra » (05/11/2026) : Claude Opus 5.5, recherches les plus larges, très longues
+            { id: 'ultra', name: { fr: 'Agent Ultra (Claude Opus 5.5, le plus complet, très long et le plus coûteux)', en: 'Ultra agent (Claude Opus 5.5, most thorough, very long and most costly)', es: 'Agente Ultra (Claude Opus 5.5, el más completo, muy largo y el más costoso)' } },
         ],
         meta: [
             // Meta Model API (api.meta.ai/v1, CORS « * » même sur les erreurs, testé 2026-11-03),
@@ -6521,6 +6560,8 @@
             // échanges pour entraîner les modèles de Meta (dit dans le libellé).
             { id: 'muse-spark-1.3', name: { fr: 'Muse Spark 1.3 (Dernier, recommandé)', en: 'Muse Spark 1.3 (Latest, recommended)', es: 'Muse Spark 1.3 (Último, recomendado)' } },
             { id: 'muse-wonder-1.0', name: { fr: 'Muse Wonder (Aperçu, le plus puissant, coûteux)', en: 'Muse Wonder (Preview, most capable, costly)', es: 'Muse Wonder (Vista previa, el más potente, costoso)' } },
+            // Muse Ember 1.0 : modèle d'exécution rapide et très économique (0,10 $ / 0,50 $), réflexion toujours active
+            { id: 'muse-ember-1.0', name: { fr: 'Muse Ember 1.0 (Rapide, très économique)', en: 'Muse Ember 1.0 (Fast, very low cost)', es: 'Muse Ember 1.0 (Rápido, muy económico)' } },
             { id: 'muse-spark-1.3-contributor', name: { fr: 'Muse Spark 1.3 Contributor (Très économique — vos échanges entraînent Meta)', en: 'Muse Spark 1.3 Contributor (Very low cost — your chats train Meta)', es: 'Muse Spark 1.3 Contributor (Muy económico — tus chats entrenan a Meta)' } }
         ],
         augure: [
@@ -6552,7 +6593,7 @@
             // « mistral-large-4-0 » → modèle introuvable). Magistral, Devstral, Pixtral, Medium 3.1 retirés.
             // Public Preview : refusé au forfait gratuit (« not available in your subscription tier », testé 2026-10-25)
             { id: 'mistral-large-4', name: { fr: 'Mistral Large 4 (Aperçu, forfait payant)', en: 'Mistral Large 4 (Preview, paid plan)', es: 'Mistral Large 4 (Vista previa, plan de pago)' } },
-            { id: 'mistral-medium-3-5', name: { fr: 'Mistral Medium 3.5 (Agents, code)', en: 'Mistral Medium 3.5 (Agents, code)', es: 'Mistral Medium 3.5 (Agentes, código)' } },
+            { id: 'mistral-medium-3-5', name: { fr: 'Mistral Medium 3.5 (Agents, code, arrêt le 30 avr. 2027)', en: 'Mistral Medium 3.5 (Agents, code, retiring Apr 30, 2027)', es: 'Mistral Medium 3.5 (Agentes, código, retiro el 30 de abr. de 2027)' } },
             { id: 'mistral-small-latest', name: { fr: 'Mistral Small 4 (Rapide, économique)', en: 'Mistral Small 4 (Fast, low cost)', es: 'Mistral Small 4 (Rápido, económico)' } },
             { id: 'codestral-latest', name: { fr: 'Codestral (Code)', en: 'Codestral (Code)', es: 'Codestral (Código)' } }
         ],
@@ -6578,7 +6619,10 @@
         ],
         qwen: [
             // Gamme Qwen3.8 / 3.7 (thinking hybride, actif par défaut → piloté par le toggle 🧠)
-            { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max (Dernier)', en: 'Qwen3.8 Max (Latest)', es: 'Qwen3.8 Max (Último)' } },
+            // Qwen4 Max : texte, image et vidéo en entrée, réflexion active par défaut (enable_thinking),
+            // recherche web par l'API Responses ; 6 régions dont Singapour, Pékin, Virginie et Hong Kong.
+            { id: 'qwen4-max', name: { fr: 'Qwen4 Max (Dernier, le plus puissant)', en: 'Qwen4 Max (Latest, most capable)', es: 'Qwen4 Max (Último, el más potente)' } },
+            { id: 'qwen3.8-max', name: { fr: 'Qwen3.8 Max', en: 'Qwen3.8 Max', es: 'Qwen3.8 Max' } },
             { id: 'qwen3.7-max', name: { fr: 'Qwen3.7 Max', en: 'Qwen3.7 Max', es: 'Qwen3.7 Max' } },
             { id: 'qwen3.7-plus', name: { fr: 'Qwen3.7 Plus (Équilibré)', en: 'Qwen3.7 Plus (Balanced)', es: 'Qwen3.7 Plus (Equilibrado)' } },
             { id: 'qwen3.8-flash', name: { fr: 'Qwen3.8 Flash (Rapide)', en: 'Qwen3.8 Flash (Fast)', es: 'Qwen3.8 Flash (Rápido)' } },
@@ -6611,6 +6655,11 @@
     };
 
     const IMAGE_MODELS = {
+        // Meta Muse Image 1.0 (POST /v1/images/generations et /edits, CORS « * », testé le 20/11/2026) :
+        // 0,01 $ l'image, n ≤ 10, format déduit de size (WxH), photo jointe → édition (images[]).
+        meta: [
+            { id: 'muse-image-1.0', name: { fr: 'Muse Image 1.0 (0,01 $ l\'image)', en: 'Muse Image 1.0 ($0.01 per image)', es: 'Muse Image 1.0 (0,01 $ por imagen)' } }
+        ],
         openai: [
             // GPT Image 2.5 (sept. 2026) : Sunburst = qualité / précision, Flare = ~2× plus rapide, même prix.
             // gpt-image-1.5 et gpt-image-1-mini retirés (arrêt OpenAI le 01/12/2026) ; gpt-image-1 arrêté le 23/10/2026.
@@ -6652,7 +6701,7 @@
             // 2026-11-03). Fournisseur SANS chat (absent de MODELS) : seul l'onglet Image est actif.
             // Les modèles « Vector » produisent un SVG. Prix par image entre parenthèses.
             { id: 'recraftv4_1', name: { fr: "Recraft V4.1 (Par défaut, 0,035 $)", en: "Recraft V4.1 (Default, $0.035)", es: "Recraft V4.1 (Predeterminado, 0,035 $)" } },
-            { id: 'recraftv4_1_flash', name: { fr: "Recraft V4.1 Flash (Le moins cher, 0,007 $)", en: "Recraft V4.1 Flash (Cheapest, $0.007)", es: "Recraft V4.1 Flash (El más barato, 0,007 $)" } },
+            { id: 'recraftv4_1_flash_v2', name: { fr: "Recraft V4.1 Flash V2 (Le plus rapide, 0,007 $)", en: "Recraft V4.1 Flash V2 (Fastest, $0.007)", es: "Recraft V4.1 Flash V2 (El más rápido, 0,007 $)" } },
             { id: 'recraftv4_1_pro', name: { fr: "Recraft V4.1 Pro (2K, 0,21 $)", en: "Recraft V4.1 Pro (2K, $0.21)", es: "Recraft V4.1 Pro (2K, 0,21 $)" } },
             { id: 'recraftv4_1_vector', name: { fr: "Recraft V4.1 Vector (SVG, 0,08 $)", en: "Recraft V4.1 Vector (SVG, $0.08)", es: "Recraft V4.1 Vector (SVG, 0,08 $)" } },
             { id: 'recraftv4_1_pro_vector', name: { fr: "Recraft V4.1 Pro Vector (SVG détaillé, 0,30 $)", en: "Recraft V4.1 Pro Vector (Detailed SVG, $0.30)", es: "Recraft V4.1 Pro Vector (SVG detallado, 0,30 $)" } },
@@ -6676,6 +6725,11 @@
         minimax: [
             // MiniMax image-01 (synchrone ; base64 demandé — les URL expirent en 24 h). Erreurs en HTTP 200
             // avec base_resp.status_code ≠ 0. Photo jointe = référence de personnage (subject_reference).
+            // H3-Image (10/11/2026) : POST /v1/images/generations et /v1/images/edits (CORS « * », testé
+            // le 20/11/2026), 1K / 2K / 4K, n ≤ 10, photo jointe → édition (1 à 16 références). Facturé
+            // au token (≈ 0,02 à 0,07 $ l'image) ; requête non idempotente → pas de nouvel essai automatique.
+            { id: 'MiniMax-H3-Image', name: { fr: 'MiniMax H3-Image (Dernier, jusqu\'à 4K)', en: 'MiniMax H3-Image (Latest, up to 4K)', es: 'MiniMax H3-Image (Último, hasta 4K)' } },
+            { id: 'MiniMax-H3-Image-Highspeed', name: { fr: 'MiniMax H3-Image Highspeed (Rapide)', en: 'MiniMax H3-Image Highspeed (Fast)', es: 'MiniMax H3-Image Highspeed (Rápido)' } },
             { id: 'image-01', name: { fr: 'MiniMax Image-01 (0,0035 $ l\'image)', en: 'MiniMax Image-01 ($0.0035 per image)', es: 'MiniMax Image-01 (0,0035 $ por imagen)' } }
         ],
         bria: [
@@ -6848,7 +6902,6 @@ RULES:
                 'claude-opus-4-6',
                 'claude-sonnet-4-6',
                 'claude-haiku-4-5-20251001',
-                'claude-sonnet-4-5-20250929',
                 'claude-opus-4-5-20251101'
             ]
         },
@@ -6856,6 +6909,7 @@ RULES:
             native: ['gemini-3.1-pro-preview'],  // Gemini 3.1 Pro: thinking toujours actif (high par défaut)
             configurable: [
                 'gemini-4-hydrogen',           // Gemini 4 Hydrogen : niveaux low/medium/high/xhigh (défaut high)
+                'gemini-4-neon',               // Gemini 4 Neon : niveaux low/medium/high/xhigh (défaut high)
                 'gemini-4-carbon',             // Gemini 4 Carbon : niveaux low/medium/high (défaut medium)
                 'gemini-4-argon',              // Gemini 4 Argon : niveaux low/medium/high (défaut medium)
                 'gemini-3.8-flash',            // Gemini 3.6+ / 3.5 : thinking non désactivable, niveau réglable
@@ -6912,7 +6966,7 @@ RULES:
             // qwen-max / qwen3-coder-flash : pas de mode hybride documenté → hors table.
             // GLM-5.3 : réflexion obligatoire (non désactivable) → natif, aucun enable_thinking envoyé.
             native: ['glm-5.3', 'qwen-deep-research'],   // Deep Research : avancement affiché dans le bloc 🧠
-            configurable: ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1']
+            configurable: ['qwen4-max', 'qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-plus', 'qwen-flash', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1']
         },
         upstage: {
             // Réflexion COUPÉE par défaut (paramètre omis) ; reasoning_effort low → max l'active,
@@ -6931,13 +6985,13 @@ RULES:
         meta: {
             // Réflexion toujours active (« none » refusé) ; seul un résumé est visible (chaîne de
             // pensée brute privée). Effort minimal → max (max absent du Contributor).
-            native: ['muse-spark-1.3', 'muse-wonder-1.0', 'muse-spark-1.3-contributor'],
+            native: ['muse-spark-1.3', 'muse-wonder-1.0', 'muse-ember-1.0', 'muse-spark-1.3-contributor'],
             configurable: []
         },
         perplexity: {
             // Tous les presets : la progression de la recherche (pensées, requêtes, pages lues)
             // arrive en événements response.reasoning.* → affichée dans le bloc 🧠.
-            native: ['fast', 'low', 'medium', 'high', 'xhigh'],
+            native: ['fast', 'low', 'medium', 'high', 'xhigh', 'ultra'],
             configurable: []
         }
     };
@@ -7051,11 +7105,11 @@ RULES:
     }
 
     // Modèles Gemini 3 qui utilisent thinkingLevel au lieu de thinkingBudget
-    const GEMINI3_MODELS = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
+    const GEMINI3_MODELS = ['gemini-4-hydrogen', 'gemini-4-neon', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.1-pro-preview', 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'];
     // Gemini 3 qui refusent thinkingLevel 'minimal' (erreur API) → retiré du menu, ramené à 'low'
-    const GEMINI_NO_MINIMAL = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.8-flash', 'gemini-3.1-pro-preview'];
+    const GEMINI_NO_MINIMAL = ['gemini-4-hydrogen', 'gemini-4-neon', 'gemini-4-carbon', 'gemini-4-argon', 'gemini-3.8-flash', 'gemini-3.1-pro-preview'];
     // Niveau « xhigh » (au-dessus de high) : Gemini 4 Hydrogen seulement (Carbon et Argon plafonnent à high)
-    const GEMINI_XHIGH = ['gemini-4-hydrogen'];
+    const GEMINI_XHIGH = ['gemini-4-hydrogen', 'gemini-4-neon'];
     // Niveau enregistré, ramené à un niveau accepté par le modèle (minimal → low, xhigh → high)
     function geminiLevelFor(model) {
         const saved = localStorage.getItem('ai_thinking_level') || 'high';
@@ -7065,7 +7119,7 @@ RULES:
     }
     // Gemini dont la réflexion (souvent longue) compte dans maxOutputTokens → plafond large
     // (TOKEN_LIMITS.adaptive*), sinon une réflexion « Profonde » peut tout consommer.
-    const GEMINI_LONG_THINKERS = ['gemini-4-hydrogen', 'gemini-4-carbon', 'gemini-4-argon'];
+    const GEMINI_LONG_THINKERS = ['gemini-4-hydrogen', 'gemini-4-neon', 'gemini-4-carbon', 'gemini-4-argon'];
     // Gemma 4 (open source) via l'API Gemini : réflexion = thinkingLevel 'high' ou 'minimal'
     // seulement → simple interrupteur (sélecteur de niveau masqué).
     const GEMMA_MODELS = ['gemma-4-31b-it', 'gemma-4-26b-a4b-it'];
@@ -7080,10 +7134,13 @@ RULES:
     // Gemini (grounding) + Grok (Agent Tools) + Claude/OpenAI (web_search tool).
     // Qwen/DeepSeek absents : DashScope n'expose pas les sources en mode compatible
     // OpenAI (testé), et DeepSeek n'a pas de recherche native.
-    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true, qwen: true };
+    const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true, qwen: true, deepseek: true };
     // Qwen : outils web_search / web_extractor de l'API Responses (sources dans web_search_call) ;
     // le Chat Completions ne renvoie pas les sources → seuls ces modèles, routés vers Responses.
-    const QWEN_WEB_MODELS = ['qwen3.8-max', 'qwen3.8-flash', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.7-flash', 'glm-5.2'];
+    const QWEN_NO_EXTRACTOR = ['qwen4-max'];   // web_extractor non documenté pour ce modèle (20/11/2026)
+    // DeepSeek : outils serveur deepseek_web_search / deepseek_read_url (13/11/2026), deepseek-flash seulement
+    const DEEPSEEK_WEB_MODELS = ['deepseek-flash'];
+    const QWEN_WEB_MODELS = ['qwen4-max', 'qwen3.8-max', 'qwen3.8-flash', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.7-flash', 'glm-5.2'];
 
     // ===== LECTURE DES LIENS COLLÉS (URL → contenu de la page) =====
     // Toggle séparé de la recherche web : « lis cette page précise » ≠ « explore le web ».
@@ -7091,7 +7148,7 @@ RULES:
     // OpenAI/Grok via l'outil web_search (qui sait aussi ouvrir une URL — ces deux API n'ont
     // pas de primitive de lecture distincte). Mêmes fournisseurs que la recherche web ;
     // DeepSeek/Qwen absents (aucun outil de lecture). Modes texte uniquement.
-    const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, qwen: true };
+    const READ_LINK_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, qwen: true, deepseek: true };
 
     const SYSTEM_PROMPTS = {
         // Transcription OCR des PDF scannés (mode interne, jamais affiché : utilisé page par page
@@ -8100,6 +8157,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // ===== RECHERCHE WEB — UI =====
     function supportsWebSearch(provider, mode, model) {
         if (provider === 'qwen' && model !== undefined && !QWEN_WEB_MODELS.includes(model)) return false;
+        if (provider === 'deepseek' && model !== undefined && !DEEPSEEK_WEB_MODELS.includes(model)) return false;
         return !!WEB_SEARCH_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode);
     }
 
@@ -8107,7 +8165,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Gemma 4 : l'API refuse url_context (« Url Context as tool is not enabled for this model »).
     function supportsReadLinks(provider, mode, model) {
         return !!READ_LINK_SUPPORT[provider] && WEB_SEARCH_MODES.includes(mode) && !GEMMA_MODELS.includes(model) && !DR_AGENTS.includes(model)
-            && (provider !== 'qwen' || QWEN_WEB_MODELS.includes(model));
+            && (provider !== 'qwen' || (QWEN_WEB_MODELS.includes(model) && !QWEN_NO_EXTRACTOR.includes(model)))
+            && (provider !== 'deepseek' || DEEPSEEK_WEB_MODELS.includes(model));
     }
 
     function updateWebSearchUI() {
@@ -8170,7 +8229,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         $('grokprio-mode-container')?.classList.toggle('show', either(p => p === 'grok'));
     }
     // ⚡ Mode rapide de Claude (speed: 'fast', 2× le prix) ; 📄 PDF envoyés en documents à Claude
-    const CLAUDE_FAST_MODELS = ['claude-fable-5-2', 'claude-opus-5-5', 'claude-opus-5', 'claude-opus-4-8'];
+    const CLAUDE_FAST_MODELS = ['claude-fable-5-2', 'claude-opus-5-5', 'claude-opus-5'];   // Opus 4.8 : mode rapide supprimé le 30/11/2026
     let claudeFastEnabled = false;
     let pdfNativeEnabled = false;
     // 𝕏 Recherche sur X (Grok, outil x_search) ; jamais pour l'OCR ni le podcast (currentMode)
@@ -8949,6 +9008,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const isBria = providerSelect.value === 'bria';
         if (briaOptions) briaOptions.style.display = isBria ? '' : 'none';
         if (mmOptions) mmOptions.style.display = providerSelect.value === 'minimax' ? '' : 'none';
+        if ($('meta-img-options')) $('meta-img-options').style.display = providerSelect.value === 'meta' ? '' : 'none';
+        updateMiniMaxImageOptions();
         if (imageQualityGroup) imageQualityGroup.style.display = isOpenAI ? '' : 'none';
         if (imageSizeGroup) imageSizeGroup.style.display = isOpenAI ? '' : 'none';
         updateOpenAIImageOptions();
@@ -9761,7 +9822,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const PDF_NATIVE_TOKENS_PER_PAGE = 3000;
     const PDF_NATIVE_MAX_BYTES = 32 * 1024 * 1024;
     // Pages par requête : 600, mais 100 pour les modèles dont le contexte est inférieur à 1M
-    const CLAUDE_PDF_100 = ['claude-haiku-4-5-20251001', 'claude-sonnet-4-5-20250929', 'claude-opus-4-5-20251101'];
+    const CLAUDE_PDF_100 = ['claude-haiku-4-5-20251001', 'claude-opus-4-5-20251101'];
     const claudePdfPageLimit = model => CLAUDE_PDF_100.includes(model) ? 100 : 600;  // estimation : une page en image, renvoyée à CHAQUE question
     const OCR_CONCURRENCY = 3;           // pages transcrites en parallèle
 
@@ -10415,7 +10476,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             if (displayText !== fullPrompt) uEntry.display = displayText;
             conversationHistory.push(uEntry);
             saveHistory();
-            if ((provider === 'recraft' || provider === 'bria' || provider === 'minimax') && pendingImages.length > 0) {
+            if ((provider === 'recraft' || provider === 'bria' || provider === 'minimax' || provider === 'meta') && pendingImages.length > 0) {
                 // Recraft / Bria : nouvelle image à partir de la (première) photo jointe
                 await handleImageGeneration(fullPrompt, provider, key, b64ToBlob(pendingImages[0].base64, pendingImages[0].mimeType));
             } else if (EDIT_CAPS[provider] && pendingImages.length > 0) {
@@ -11163,6 +11224,15 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 body.thinking = { type: 'disabled' };
             }
         }
+        // DeepSeek Flash : recherche web et lecture des liens par les outils serveur (sans CORS ni frais
+        // d'outil depuis le 18/11/2026 : résultats facturés en tokens). Citations : delta.annotations
+        // du dernier chunk (url_citation), lues par le parser 'openai'. Aucun autre outil possible avec eux.
+        if (MODELS.deepseek.some(m => m.id === model) && DEEPSEEK_WEB_MODELS.includes(model) && WEB_SEARCH_MODES.includes(currentMode)) {
+            const dsTools = [];
+            if (webSearchEnabled) dsTools.push({ type: 'deepseek_web_search' });
+            if (readLinksEnabled) dsTools.push({ type: 'deepseek_read_url' });
+            if (dsTools.length) body.tools = dsTools;
+        }
 
         // Qwen (DashScope) : enable_thinking explicite selon le toggle ; budget UI → thinking_budget.
         if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
@@ -11416,7 +11486,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const tools = [];
         if (webSearchEnabled) tools.push({ type: 'web_search' });
-        if (readLinksEnabled) tools.push({ type: 'web_extractor' });
+        if (readLinksEnabled && supportsReadLinks('qwen', currentMode, model)) tools.push({ type: 'web_extractor' });
         const body = {
             model,
             instructions: systemPrompt,
@@ -11527,7 +11597,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return callPerplexityStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (provider === 'qwen' && model === 'qwen-deep-research') {
             return callQwenDeepResearch(model, key, onChunk, onThinkingChunk, signal, onMeta);
-        } else if (provider === 'qwen' && QWEN_WEB_MODELS.includes(model) && WEB_SEARCH_MODES.includes(currentMode) && (webSearchEnabled || readLinksEnabled)) {
+        } else if (provider === 'qwen' && QWEN_WEB_MODELS.includes(model) && WEB_SEARCH_MODES.includes(currentMode) && (webSearchEnabled || (readLinksEnabled && supportsReadLinks('qwen', currentMode, model)))) {
             // Qwen + 🌐 / 🔗 : API Responses (seule à renvoyer les sources)
             return callQwenResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta);
         } else if (OPENAI_COMPATIBLE_ENDPOINTS[provider]) {
@@ -11548,7 +11618,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
             url: 'https://api.perplexity.ai/v1/agent',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
             body: {
-                preset: model,
+                effort: model,   // « preset » renommé « effort » (octobre 2026 ; preset = alias déprécié)
                 input: formatHistory(conversationHistory, 'perplexity'),
                 stream: true,
                 max_output_tokens: isBigOutputMode() ? TOKEN_LIMITS.responsesBig : TOKEN_LIMITS.responsesNormal
@@ -11736,7 +11806,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // Qwen 3.8 (Max, Flash) : PDF en élément « file » (Chat Completions), 256 pages au plus
     const QWEN_PDF_MODELS = ['qwen3.8-max', 'qwen3.8-flash'];
     // Qwen : modèles à cache explicite (liste Singapour de la doc Qwen Cloud)
-    const QWEN_CACHE_MODELS = ['qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-flash', 'qwen3-coder-flash'];
+    const QWEN_CACHE_MODELS = ['qwen4-max', 'qwen3.8-max', 'qwen3.7-max', 'qwen3.7-plus', 'qwen-plus', 'qwen3.8-flash', 'qwen3.7-flash', 'qwen-flash', 'qwen3-coder-flash'];
     // Commun : PDF des messages utilisateur (les plus récents d'abord, plafond de pages), texte extrait
     // remplacé par un repère ; offset = messages placés avant l'historique (ex. message système).
     function attachPdfDocs(messages, history, pageLimit, offset, makeDoc) {
@@ -13049,6 +13119,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 imageData = await generateImageBria(prompt, key, source);
             } else if (provider === 'minimax') {
                 imageData = await generateImageMiniMax(prompt, key, source);
+            } else if (provider === 'meta') {
+                imageData = await generateImageMeta(prompt, key, source);
             } else {
                 throw new Error("Image generation is not available for this provider.");
             }
@@ -13122,6 +13194,33 @@ A small follow-up tweak the user asks for can be done right away without a new p
         el.addEventListener('change', () => { localStorage.setItem(k, el.value); updateOpenAIImageOptions(); });
     });
     if (imageModelSelect) imageModelSelect.addEventListener('change', updateOpenAIImageOptions);
+    if (imageModelSelect) imageModelSelect.addEventListener('change', () => updateMiniMaxImageOptions());
+
+    // ----- Meta Muse Image 1.0 -----
+    // Génération : POST /v1/images/generations ; photo jointe : POST /v1/images/edits (JSON, images[]).
+    // size (WxH) ne fixe que le format ; facturé 0,01 $ l'image (usage en tokens indicatif seulement).
+    async function generateImageMeta(prompt, key, source) {
+        const body = { model: 'muse-image-1.0', prompt, n: parseInt($('meta-n').value, 10) || 1, size: $('meta-ratio').value || '1024x1024', output_format: 'png', response_format: 'b64_json' };
+        let path = '/v1/images/generations';
+        if (source) { path = '/v1/images/edits'; body.images = [{ image_url: await recraftImageInput(source) }]; }
+        const res = await fetchWithRetry('https://api.meta.ai' + path, {
+            method: 'POST', signal: currentAbortController.signal,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify(body)
+        });
+        const j = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error((j.error && (j.error.message || String(j.error))) || `HTTP Error ${res.status}`);
+        const out = (j.data || []).map(d => d.b64_json ? { b64: d.b64_json, mime: b64Mime(d.b64_json) } : d.url).filter(Boolean);
+        addMediaUsage({ images: out.length });
+        if (!out.length) throw new Error('Unexpected response format from Meta.');
+        return out.length === 1 ? out[0] : out;
+    }
+    [['meta-ratio', 'ai_meta_ratio'], ['meta-n', 'ai_meta_n']].forEach(([id, k]) => {
+        const el = $(id); if (!el) return;
+        const v = localStorage.getItem(k);
+        if (v && [...el.options].some(o => o.value === v)) el.value = v;
+        el.addEventListener('change', () => localStorage.setItem(k, el.value));
+    });
 
     async function generateImageOpenAI(prompt, key) {
         const selectedModel = imageModelSelect && imageModelSelect.value ? imageModelSelect.value : IMAGE_MODELS.openai[0].id;
@@ -15787,7 +15886,43 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
     const b64Mime = b => b.startsWith('/9j/') ? 'image/jpeg' : b.startsWith('UklGR') ? 'image/webp' : 'image/png';
     const mmSeedValue = () => { const v = parseInt($('mm-seed').value, 10); return Number.isFinite(v) && v >= 0 ? v : undefined; };
+    // H3 : résolution (area) au lieu de la graine (absente de l'API H3)
+    function updateMiniMaxImageOptions() {
+        const h3 = /^MiniMax-H3/.test((imageModelSelect && imageModelSelect.value) || '');
+        if ($('mm-area-group')) $('mm-area-group').style.display = h3 ? '' : 'none';
+        if ($('mm-seed-group')) $('mm-seed-group').style.display = h3 ? 'none' : '';
+    }
+    async function generateImageMiniMaxH3(prompt, key, source, model) {
+        const t = I18N[currentLang];
+        const body = {
+            model, prompt: prompt.slice(0, 32000),
+            n: parseInt($('mm-n').value, 10) || 1,
+            aspect_ratio: $('mm-ratio').value || '1:1',
+            area: $('mm-area').value || '2K',
+            output_format: 'png', response_format: 'b64_json'
+        };
+        let path = '/v1/images/generations';
+        if (source) { path = '/v1/images/edits'; body.images = [{ image_url: await recraftImageInput(source) }]; }
+        else if (!$('mm-optimizer').checked) body.disable_prompt_enhanced = true;
+        // fetch simple : la doc demande de ne pas relancer (chaque requête est facturée)
+        const res = await fetch('https://api.minimax.io' + path, {
+            method: 'POST', signal: currentAbortController.signal,
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify(body)
+        });
+        const j = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error((j.error && (j.error.message || j.error.type)) || miniMaxFail(j, res.status) || `HTTP Error ${res.status}`);
+        const items = Array.isArray(j.data) ? j.data : [];
+        const ok = items.filter(d => d && d.b64_json);
+        const failed = items.length - ok.length;
+        addMediaUsage({ images: (j.usage && j.usage.generated_images) || ok.length });
+        if (failed) showToast(t.mmBlocked.replace('{n}', failed), 'error', 6000);
+        if (!ok.length) throw new Error((items.find(d => d && d.error) || {}).error?.message || 'Unexpected response format from MiniMax.');
+        return ok.map(d => ({ b64: d.b64_json, mime: b64Mime(d.b64_json) }));
+    }
     async function generateImageMiniMax(prompt, key, source) {
+        const mmModel = (imageModelSelect && imageModelSelect.value) || 'image-01';
+        if (/^MiniMax-H3/.test(mmModel)) return generateImageMiniMaxH3(prompt, key, source, mmModel);
         const t = I18N[currentLang];
         const body = {
             model: 'image-01',
@@ -15817,7 +15952,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
     function setupMiniMaxOptions() {
         if (!mmOptions) return;
-        [['mm-ratio', 'ai_minimax_ratio'], ['mm-n', 'ai_minimax_n']].forEach(([id, k]) => {
+        [['mm-ratio', 'ai_minimax_ratio'], ['mm-n', 'ai_minimax_n'], ['mm-area', 'ai_minimax_area']].forEach(([id, k]) => {
             const el = $(id); const v = localStorage.getItem(k);
             if (v && [...el.options].some(o => o.value === v)) el.value = v;
             el.addEventListener('change', () => localStorage.setItem(k, el.value));
@@ -15942,8 +16077,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
     // réglages ; images : l'image va dans images[] (et non image) ; seed : la graine du panneau s'applique.
     const BRIA_TOOLS = {
         removeBg: { path: 'remove_background', label: 'brRemoveBg' },
+        removeBg3: { path: 'remove_background', label: 'brRemoveBg3', body: { model: 'RMBG3' }, async: true },   // RMBG 3 : asynchrone conseillé
         removeBgGuided: { path: 'remove_background', label: 'brRemoveBgGuided', text: 'prompt' },
-        replaceBg: { path: 'replace_background', label: 'brReplaceBg', text: 'prompt', seed: true },
+        replaceBg: { path: 'replace_background', label: 'brReplaceBg', text: 'prompt', seed: true, body: { mode: 'fibo2' } },   // Fibo 2 + pixels du sujet conservés
         blurBg: { path: 'blur_background', label: 'brBlurBg', dialog: 'blur' },
         eraseFg: { path: 'erase_foreground', label: 'brEraseFg' },
         erase: { path: 'erase', label: 'brErase', editor: 'bria-erase' },
@@ -15965,7 +16101,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         expand: { path: 'expand', label: 'brExpand', dialog: 'expand', seed: true },
         crop: { path: 'crop_foreground', label: 'brCrop' }
     };
-    const BRIA_RETOUCH_OPS = ['removeBg', 'removeBgGuided', 'replaceBg', 'blurBg', 'eraseFg', 'erase', 'removeObject', 'genFill', 'addObject', 'replaceObject', 'rewriteText', 'edit', 'blend'];
+    const BRIA_RETOUCH_OPS = ['removeBg', 'removeBg3', 'removeBgGuided', 'replaceBg', 'blurBg', 'eraseFg', 'erase', 'removeObject', 'genFill', 'addObject', 'replaceObject', 'rewriteText', 'edit', 'blend'];
     const BRIA_STYLE_OPS = ['restore', 'colorize', 'restyle', 'relight', 'reseason', 'sketch', 'enhance', 'upscale', 'expand', 'crop'];
     // Libellés des choix proposés par les fenêtres de réglages (valeurs = celles de l'API)
     const BRIA_CHOICES = {
@@ -15995,11 +16131,11 @@ A small follow-up tweak the user asks for can be done right away without a new p
             const loadingDiv = addMessage(null, 'ai', 'bria', op, true);
             try {
                 const image = await briaImageInput(src);
-                const body = { ...(tool.images ? { images: [image] } : { image }), ...(opts.params || {}) };
+                const body = { ...(tool.images ? { images: [image] } : { image }), ...(tool.body || {}), ...(opts.params || {}) };
                 if (tool.text && opts.text) body[tool.text] = opts.text;
                 if (opts.mask) body.mask = (await blobToDataUrl(opts.mask)).split(',')[1];
                 if (tool.seed && brSeedValue() !== undefined) body.seed = brSeedValue();
-                const result = await briaRequest('/image/edit' + (tool.path ? '/' + tool.path : ''), body, key, currentAbortController.signal);
+                const result = await briaRequest('/image/edit' + (tool.path ? '/' + tool.path : ''), body, key, currentAbortController.signal, tool.async ? { sync: false } : {});
                 if (!result.image_url) throw new Error('Unexpected response format from Bria.');
                 await displayAndStoreImage(loadingDiv, result.image_url, display, 'bria', op, true);
             } catch (error) {
@@ -18775,6 +18911,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
                             const reasoningDelta = delta?.reasoning_content || (typeof delta?.reasoning === 'string' ? delta.reasoning : '');
                             if (reasoningDelta && onThinkingChunk) {
                                 onThinkingChunk(reasoningDelta);
+                            }
+                            // Citations (DeepSeek : url_citation dans delta.annotations du dernier chunk ; pages lues
+                            // par deepseek_read_url dans delta.server_tool_calls[].calls[].page)
+                            if (onMeta && (Array.isArray(delta?.annotations) || Array.isArray(delta?.server_tool_calls))) {
+                                const cites = (delta.annotations || []).filter(a => a && a.type === 'url_citation' && a.url_citation?.url)
+                                    .map(a => ({ title: a.url_citation.title || a.url_citation.url, url: a.url_citation.url }));
+                                (delta.server_tool_calls || []).forEach(s => (s.calls || []).forEach(c => { if (c.page?.url) cites.push({ title: c.page.title || c.page.url, url: c.page.url }); }));
+                                if (cites.length) onMeta({ citations: cites });
                             }
                             const content = delta?.content;
                             if (Array.isArray(content)) {
