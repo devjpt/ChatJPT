@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.36.0
+  Version 1.36.1
 -->
 
 
@@ -2833,7 +2833,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 17 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 20 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -3880,6 +3880,7 @@
             toastHistoryRestored: "💾 Conversation précédente restaurée.",
             toastRetrying: "🔄 Nouvelle tentative ({attempt}) dans {sec}s...",
             toastStorageFull: "⚠️ Mémoire du navigateur pleine — impossible de sauvegarder.",
+            keysUnreadable: "🔑 {n} clé(s) API enregistrée(s) n'ont pas pu être relues (navigateur différent ou données abîmées). Saisis-les de nouveau : elles resteront ensuite enregistrées.",
             errNetwork: "Connexion impossible — vérifiez votre Internet.",
             errInvalidKey: "Clé API invalide — vérifiez votre clé dans l'en-tête.",
             errQuota: "Crédit insuffisant sur votre compte {provider}.",
@@ -3889,8 +3890,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.36.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 17 novembre 2026",
+            creditVersion: "Version 1.36.1 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 20 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -4757,6 +4758,7 @@
             toastHistoryRestored: "💾 Previous conversation restored.",
             toastRetrying: "🔄 Retry attempt ({attempt}) in {sec}s...",
             toastStorageFull: "⚠️ Browser storage full — cannot save.",
+            keysUnreadable: "🔑 {n} saved API key(s) could not be read (different browser or damaged data). Enter them again: they will then stay saved.",
             errNetwork: "Connection failed — check your Internet.",
             errInvalidKey: "Invalid API key — check your key in the header.",
             errQuota: "Insufficient credit on your {provider} account.",
@@ -4766,8 +4768,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.36.0 - Latest version: ",
-            appUpdated: "📅 Updated: November 17, 2026",
+            creditVersion: "Version 1.36.1 - Latest version: ",
+            appUpdated: "📅 Updated: November 20, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -5634,6 +5636,7 @@
             toastHistoryRestored: "💾 Conversación anterior restaurada.",
             toastRetrying: "🔄 Reintentando ({attempt}) en {sec}s...",
             toastStorageFull: "⚠️ Memoria del navegador llena — no se puede guardar.",
+            keysUnreadable: "🔑 {n} clave(s) API guardada(s) no se pudieron leer (otro navegador o datos dañados). Ingrésalas de nuevo: luego quedarán guardadas.",
             errNetwork: "No se pudo conectar — verifica tu Internet.",
             errInvalidKey: "Clave API inválida — verifica tu clave en el encabezado.",
             errQuota: "Crédito insuficiente en tu cuenta {provider}.",
@@ -5643,8 +5646,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.36.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 17 de noviembre de 2026",
+            creditVersion: "Versión 1.36.1 - Última versión: ",
+            appUpdated: "📅 Actualizado: 20 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -8353,9 +8356,17 @@ A small follow-up tweak the user asks for can be done right away without a new p
     }
 
     // ===== CRYPTO MODULE (P0-1 FIX: AES-GCM encryption for API keys) =====
+    // Chiffrement des clés API dans le navigateur (AES-GCM, PBKDF2 + sel aléatoire du stockage).
+    // ⚠️ Avant la 1.36.1, la phrase contenait navigator.userAgent : chaque mise à jour du navigateur
+    // (souvent appliquée au redémarrage) changeait la clé de chiffrement → clés illisibles, champs vides.
+    // Format actuel « enc2: » : phrase stable (origine seulement). Les anciennes valeurs « enc: » sont
+    // relues avec l'identité actuelle du navigateur, puis avec ses versions précédentes, et réécrites
+    // en enc2: par loadKeys. Une valeur illisible n'est jamais effacée (seul l'utilisateur la remplace).
     const CryptoKeys = (() => {
         const SALT_KEY = 'ai_crypto_salt';
         const ENC_PREFIX = 'enc:';
+        const ENC2_PREFIX = 'enc2:';
+        const keyCache = new Map();   // phrase → Promise<CryptoKey> (PBKDF2 coûteux : une seule dérivation par phrase)
 
         async function _getSalt() {
             let salt = localStorage.getItem(SALT_KEY);
@@ -8367,8 +8378,26 @@ A small follow-up tweak the user asks for can be done right away without a new p
             return Uint8Array.from(atob(salt), c => c.charCodeAt(0));
         }
 
+        // Identité du navigateur avec un autre numéro de version majeure (Chrome / Edge / Firefox…)
+        function _uaVariants() {
+            const ua = navigator.userAgent;
+            const m = /(?:Chrome|Firefox|CriOS|FxiOS)\/(\d+)/.exec(ua);
+            if (!m) return [ua];
+            const cur = parseInt(m[1], 10);
+            const re = new RegExp('((?:Chrome|Edg|EdgA|EdgiOS|CriOS|Firefox|FxiOS)\\/|rv:)' + cur + '(?=\\.)', 'g');
+            const out = [ua];
+            for (let d = 1; d <= 24; d++) out.push(ua.replace(re, '$1' + (cur - d)));   // ~2 ans de mises à jour
+            for (let d = 1; d <= 2; d++) out.push(ua.replace(re, '$1' + (cur + d)));    // retour à une version antérieure
+            return [...new Set(out)];
+        }
+        function _keyFor(passphrase, salt) {
+            if (!keyCache.has(passphrase)) keyCache.set(passphrase, _deriveFrom(passphrase, salt));
+            return keyCache.get(passphrase);
+        }
         async function _deriveKey(salt) {
-            const passphrase = `${location.origin}::${navigator.userAgent}`;
+            return _keyFor(`${location.origin}::chatjpt-keys-v2`, salt);
+        }
+        async function _deriveFrom(passphrase, salt) {
             const enc = new TextEncoder();
             const baseKey = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
             return crypto.subtle.deriveKey(
@@ -8390,34 +8419,45 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 iv: btoa(String.fromCharCode(...iv)),
                 ct: btoa(String.fromCharCode(...new Uint8Array(cipherBuf)))
             });
-            return ENC_PREFIX + btoa(payload);
+            return ENC2_PREFIX + btoa(payload);
+        }
+        async function _open(stored, prefix, key) {
+            const payload = JSON.parse(atob(stored.slice(prefix.length)));
+            const iv = Uint8Array.from(atob(payload.iv), c => c.charCodeAt(0));
+            const ct = Uint8Array.from(atob(payload.ct), c => c.charCodeAt(0));
+            const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+            return new TextDecoder().decode(dec);
         }
 
         async function decrypt(stored) {
-            if (!stored.startsWith(ENC_PREFIX)) return stored;  // plaintext migration
             try {
-                const payload = JSON.parse(atob(stored.slice(ENC_PREFIX.length)));
-                const iv = Uint8Array.from(atob(payload.iv), c => c.charCodeAt(0));
-                const ct = Uint8Array.from(atob(payload.ct), c => c.charCodeAt(0));
                 const salt = await _getSalt();
-                const key = await _deriveKey(salt);
-                const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
-                return new TextDecoder().decode(dec);
-            } catch (e) {
-                console.warn('Decryption failed, returning empty string:', e);
-                return '';
-            }
+                if (stored.startsWith(ENC2_PREFIX)) return await _open(stored, ENC2_PREFIX, await _deriveKey(salt));
+                if (!stored.startsWith(ENC_PREFIX)) return stored;  // ancienne clé en clair → migrée par loadKeys
+                // Ancien format : identité actuelle du navigateur, puis ses versions précédentes
+                for (const ua of _uaVariants()) {
+                    try { return await _open(stored, ENC_PREFIX, await _keyFor(`${location.origin}::${ua}`, salt)); }
+                    catch (e) { /* version suivante */ }
+                }
+            } catch (e) { /* valeur abîmée */ }
+            console.warn('Clé API illisible (conservée telle quelle).');
+            return '';
         }
 
         function isEncrypted(stored) {
-            return stored && stored.startsWith(ENC_PREFIX);
+            return !!stored && (stored.startsWith(ENC2_PREFIX) || stored.startsWith(ENC_PREFIX));
+        }
+        // À réécrire au format actuel : clé en clair ou ancien format dépendant de la version du navigateur
+        function needsUpgrade(stored) {
+            return !!stored && !stored.startsWith(ENC2_PREFIX);
         }
 
-        return { encrypt, decrypt, isEncrypted };
+        return { encrypt, decrypt, isEncrypted, needsUpgrade };
     })();
 
     // ===== GESTION DES CLÉS API =====
     async function loadKeys() {
+        let unreadable = 0;
         for (const provider of Object.keys(keyInputs)) {
             const saved = localStorage.getItem(`ai_key_${provider}`);
             if (saved) {
@@ -8425,14 +8465,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 if (plainKey) {
                     keyInputs[provider].value = plainKey;
                     keyInputs[provider].classList.add('valid');
-                    // Migrate plaintext keys to encrypted on first load
-                    if (!CryptoKeys.isEncrypted(saved)) {
-                        const encrypted = await CryptoKeys.encrypt(plainKey);
-                        localStorage.setItem(`ai_key_${provider}`, encrypted);
+                    // Clé en clair ou ancien format (lié à la version du navigateur) → format stable enc2:
+                    if (CryptoKeys.needsUpgrade(saved)) {
+                        try { localStorage.setItem(`ai_key_${provider}`, await CryptoKeys.encrypt(plainKey)); } catch (e) { /* stockage plein */ }
                     }
-                }
+                } else unreadable++;
             }
         }
+        if (unreadable) showToast((I18N[currentLang] || I18N.fr).keysUnreadable.replace('{n}', unreadable), 'error', 9000);
         const savedProvider = localStorage.getItem('ai_provider');
         if (savedProvider) providerSelect.value = savedProvider;
         const savedModel = localStorage.getItem('ai_model');

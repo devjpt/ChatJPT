@@ -8,6 +8,15 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.36.1] — 2026-11-20
+  Fixed
+    - API keys no longer disappear after a restart: their encryption depended
+      on the browser version, which changes with each browser update (often
+      applied at restart). Keys now use a stable format; keys saved by older
+      versions are recovered automatically (up to about two years of browser
+      updates) and converted. A key that still cannot be read is kept and a
+      message asks you to enter it again.
+
 [1.36.0] — 2026-11-17
   Added
     - OpenAI GPT-6.2 Astra (most capable, now the default) and GPT-6.2 Sol
@@ -938,6 +947,16 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.36.1] — 2026-11-20
+  Corrigé
+    - Les clés API ne disparaissent plus après un redémarrage : leur
+      chiffrement dépendait de la version du navigateur, qui change à chaque
+      mise à jour (souvent appliquée au redémarrage). Les clés utilisent
+      maintenant un format stable ; celles enregistrées par les versions
+      précédentes sont récupérées automatiquement (jusqu'à environ deux ans de
+      mises à jour du navigateur) puis converties. Une clé encore illisible
+      est conservée et un message demande de la saisir de nouveau.
 
 [1.36.0] — 2026-11-17
   Ajouté
@@ -1943,6 +1962,16 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.36.1] — 2026-11-20
+  Corregido
+    - Las claves API ya no desaparecen después de reiniciar: su cifrado
+      dependía de la versión del navegador, que cambia con cada actualización
+      (a menudo aplicada al reiniciar). Las claves usan ahora un formato
+      estable; las guardadas por versiones anteriores se recuperan
+      automáticamente (hasta unos dos años de actualizaciones del navegador)
+      y se convierten. Una clave que sigue sin poder leerse se conserva y un
+      mensaje pide ingresarla de nuevo.
 
 [1.36.0] — 2026-11-17
   Añadido
