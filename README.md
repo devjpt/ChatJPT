@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.38.0
+  Version 1.38.1
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -28,7 +28,7 @@ FEATURES
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; H3-Image up to 4K, Image-01; Hailuo video; voice)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, video, and voice; International, Mainland China, US or Hong Kong key)
-      • Upstage    (South Korea — Solar Pro 4, Solar Mini 4; very low cost, English)
+      • Upstage    (South Korea — Solar Pro 4, Solar Mini 4.5, Solar Mini 4; very low cost, English)
       • Recraft    (United Kingdom — images only: vector SVG, styles, cutout, upscaling)
       • Bria       (Israel — images only: licensed, photo retouching, product photos, ads)
 
@@ -168,7 +168,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_38_0.html
+  1. Download the file ChatJPT_1_38_1.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -200,7 +200,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.38.0
+  Version 1.38.1
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -229,7 +229,7 @@ FONCTIONNALITÉS
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat ; H3-Image jusqu'à 4K, Image-01 ; vidéo Hailuo ; voix)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, vidéo et voix ; clé International, Chine continentale, États-Unis ou Hong Kong)
-      • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4 ; très économique, anglais)
+      • Upstage    (Corée du Sud — Solar Pro 4, Solar Mini 4.5, Solar Mini 4 ; très économique, anglais)
       • Recraft    (Royaume-Uni — images seulement : SVG vectoriel, styles, détourage, agrandissement)
       • Bria       (Israël — images seulement : sous licence, retouche photo, photos de produits, pubs)
 
@@ -377,7 +377,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_38_0.html
+  1. Téléchargez le fichier ChatJPT_1_38_1.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -411,7 +411,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.38.0
+  Versión 1.38.1
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -440,7 +440,7 @@ CARACTERÍSTICAS
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; H3-Image hasta 4K, Image-01; video Hailuo; voz)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, imagen, video y voz; clave Internacional, China continental, Estados Unidos o Hong Kong)
-      • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4; muy económico, inglés)
+      • Upstage    (Corea del Sur — Solar Pro 4, Solar Mini 4.5, Solar Mini 4; muy económico, inglés)
       • Recraft    (Reino Unido — solo imágenes: SVG vectorial, estilos, recorte, ampliación)
       • Bria       (Israel — solo imágenes: con licencia, retoque fotográfico, fotos de productos, anuncios)
 
@@ -585,7 +585,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_38_0.html
+  1. Descarga el archivo ChatJPT_1_38_1.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

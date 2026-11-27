@@ -8,6 +8,24 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.38.1] — 2026-11-27
+  Fixed
+    - Alibaba Qwen4 Max no longer spins without answering: its output limit
+      counts the reasoning and the answer together, and ChatJPT sent a
+      reasoning budget larger than that limit. The limit now adds the
+      reasoning budget to the room for the answer.
+    - Safety net for every provider: if an answer sends nothing for 5
+      minutes, the request is stopped with a clear message instead of
+      spinning forever.
+  Added
+    - Upstage Solar Mini 4.5 (preview, 90% off) and Solar Pro 4 Contributor
+      (70% off, your chats are used to train Solar; the account owner must
+      enable it).
+  Changed
+    - Claude Opus 4.5 shows its retirement date (Jan 22, 2027).
+  Removed
+    - Grok Build 0.1 (end of life at xAI on Nov 19, 2026).
+
 [1.38.0] — 2026-11-20
   Added
     - Google Gemini 4 Neon (coding and agents, paid tier): reasoning up to
@@ -982,6 +1000,24 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.38.1] — 2026-11-27
+  Corrigé
+    - Alibaba Qwen4 Max ne tourne plus sans répondre : sa limite de sortie
+      compte la réflexion et la réponse ensemble, et ChatJPT envoyait un
+      budget de réflexion plus grand que cette limite. La limite ajoute
+      maintenant le budget de réflexion à la place prévue pour la réponse.
+    - Garde-fou pour tous les fournisseurs : si une réponse n'envoie plus
+      rien pendant 5 minutes, la requête s'arrête avec un message clair au
+      lieu de tourner sans fin.
+  Ajouté
+    - Upstage Solar Mini 4.5 (aperçu, −90 %) et Solar Pro 4 Contributor
+      (−70 %, vos échanges servent à entraîner Solar ; le propriétaire du
+      compte doit l'activer).
+  Modifié
+    - Claude Opus 4.5 affiche sa date d'arrêt (22 janv. 2027).
+  Retiré
+    - Grok Build 0.1 (fin de vie chez xAI le 19 nov. 2026).
 
 [1.38.0] — 2026-11-20
   Ajouté
@@ -2039,6 +2075,24 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.38.1] — 2026-11-27
+  Corregido
+    - Alibaba Qwen4 Max ya no gira sin responder: su límite de salida cuenta
+      el razonamiento y la respuesta juntos, y ChatJPT enviaba un
+      presupuesto de razonamiento mayor que ese límite. El límite ahora suma
+      el presupuesto de razonamiento al espacio para la respuesta.
+    - Salvaguarda para todos los proveedores: si una respuesta no envía nada
+      durante 5 minutos, la solicitud se detiene con un mensaje claro en
+      lugar de girar sin fin.
+  Añadido
+    - Upstage Solar Mini 4.5 (vista previa, −90 %) y Solar Pro 4 Contributor
+      (−70 %, tus chats se usan para entrenar Solar; el propietario de la
+      cuenta debe activarlo).
+  Cambiado
+    - Claude Opus 4.5 muestra su fecha de retiro (22 de ene. de 2027).
+  Eliminado
+    - Grok Build 0.1 (fin de vida en xAI el 19 de nov. de 2026).
 
 [1.38.0] — 2026-11-20
   Añadido

@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.38.0
+  Version 1.38.1
 -->
 
 
@@ -2833,7 +2833,7 @@
 <div class="config-header">
     <div class="app-title-block">
         <h1 class="app-title">🤖 ChatJPT</h1>
-        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 20 novembre 2026</span>
+        <span class="app-updated" data-i18n="appUpdated">📅 Mis à jour : 27 novembre 2026</span>
     </div>
     <div class="keys-panel" id="keys-panel">
         <button type="button" class="keys-toggle" id="keys-toggle" aria-expanded="true" aria-controls="keys-body">
@@ -3908,6 +3908,7 @@
             toastHistoryRestored: "💾 Conversation précédente restaurée.",
             toastRetrying: "🔄 Nouvelle tentative ({attempt}) dans {sec}s...",
             toastStorageFull: "⚠️ Mémoire du navigateur pleine — impossible de sauvegarder.",
+            streamIdle: "⏳ Aucune donnée reçue depuis 5 minutes : requête arrêtée. Réessaie, ou choisis une réflexion moins profonde.",
             keysUnreadable: "🔑 {n} clé(s) API enregistrée(s) n'ont pas pu être relues (navigateur différent ou données abîmées). Saisis-les de nouveau : elles resteront ensuite enregistrées.",
             errNetwork: "Connexion impossible — vérifiez votre Internet.",
             errInvalidKey: "Clé API invalide — vérifiez votre clé dans l'en-tête.",
@@ -3918,8 +3919,8 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.0 - Dernière version : ",
-            appUpdated: "📅 Mis à jour : 20 novembre 2026",
+            creditVersion: "Version 1.38.1 - Dernière version : ",
+            appUpdated: "📅 Mis à jour : 27 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
             creditCoffee: "☕ Offrez-moi un café",
@@ -4792,6 +4793,7 @@
             toastHistoryRestored: "💾 Previous conversation restored.",
             toastRetrying: "🔄 Retry attempt ({attempt}) in {sec}s...",
             toastStorageFull: "⚠️ Browser storage full — cannot save.",
+            streamIdle: "⏳ No data received for 5 minutes: request stopped. Try again, or choose a lighter reasoning level.",
             keysUnreadable: "🔑 {n} saved API key(s) could not be read (different browser or damaged data). Enter them again: they will then stay saved.",
             errNetwork: "Connection failed — check your Internet.",
             errInvalidKey: "Invalid API key — check your key in the header.",
@@ -4802,8 +4804,8 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.0 - Latest version: ",
-            appUpdated: "📅 Updated: November 20, 2026",
+            creditVersion: "Version 1.38.1 - Latest version: ",
+            appUpdated: "📅 Updated: November 27, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
             creditCoffee: "☕ Buy me a coffee",
@@ -5676,6 +5678,7 @@
             toastHistoryRestored: "💾 Conversación anterior restaurada.",
             toastRetrying: "🔄 Reintentando ({attempt}) en {sec}s...",
             toastStorageFull: "⚠️ Memoria del navegador llena — no se puede guardar.",
+            streamIdle: "⏳ No se recibieron datos en 5 minutos: solicitud detenida. Inténtalo de nuevo o elige un razonamiento más ligero.",
             keysUnreadable: "🔑 {n} clave(s) API guardada(s) no se pudieron leer (otro navegador o datos dañados). Ingrésalas de nuevo: luego quedarán guardadas.",
             errNetwork: "No se pudo conectar — verifica tu Internet.",
             errInvalidKey: "Clave API inválida — verifica tu clave en el encabezado.",
@@ -5686,8 +5689,8 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.38.0 - Última versión: ",
-            appUpdated: "📅 Actualizado: 20 de noviembre de 2026",
+            creditVersion: "Versión 1.38.1 - Última versión: ",
+            appUpdated: "📅 Actualizado: 27 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
             creditCoffee: "☕ Invítame un café",
@@ -6505,7 +6508,7 @@
             { id: 'claude-sonnet-4-6', name: { fr: 'Claude Sonnet 4.6', en: 'Claude Sonnet 4.6' } },
             { id: 'claude-haiku-4-5-20251001', name: { fr: 'Claude Haiku 4.5', en: 'Claude Haiku 4.5' } },
             // Sonnet 4.5 retiré par Anthropic le 30/11/2026 (date dans le libellé) ; Sonnet 4 / Opus 4 (…-20250514) retirés le 15/06/2026.
-            { id: 'claude-opus-4-5-20251101', name: { fr: 'Claude Opus 4.5', en: 'Claude Opus 4.5' } },
+            { id: 'claude-opus-4-5-20251101', name: { fr: 'Claude Opus 4.5 (arrêt le 22 janv. 2027)', en: 'Claude Opus 4.5 (retiring Jan 22, 2027)', es: 'Claude Opus 4.5 (retiro el 22 de ene. de 2027)' } },
         ],
         gemini: [
             { id: 'gemini-4-hydrogen', name: { fr: 'Gemini 4 Hydrogen (Dernier, rapide, offre gratuite)', en: 'Gemini 4 Hydrogen (Latest, fast, free tier)', es: 'Gemini 4 Hydrogen (Último, rápido, nivel gratuito)' } },
@@ -6539,7 +6542,6 @@
             { id: 'grok-4.20-0309-non-reasoning', name: { fr: 'Grok 4.20 (Rapide)', en: 'Grok 4.20 (Fast)', es: 'Grok 4.20 (Rápido)' } },
             // Bêta : 4 ou 16 agents qui cherchent et débattent, le chef rédige la réponse (API Responses)
             { id: 'grok-4.20-multi-agent-0309', name: { fr: 'Grok 4.20 Multi-agents (recherche approfondie)', en: 'Grok 4.20 Multi-agent (deep research)', es: 'Grok 4.20 Multiagente (investigación profunda)' } },
-            { id: 'grok-build-0.1', name: { fr: 'Grok Build 0.1 (Léger)', en: 'Grok Build 0.1 (Light)', es: 'Grok Build 0.1 (Ligero)' } },
         ],
         // Perplexity Agent API : l'id est un PRESET (recherche web toujours active, sources
         // automatiques). Du plus rapide au plus approfondi ; high/xhigh = recherche approfondie
@@ -6650,6 +6652,11 @@
             // japonais. Alias stables (solar-pro4 → solar-pro4-260806, solar-mini4 → solar-mini4-260922).
             // Solar Pro 3 / Pro 2 / Mini / Syn arrêtés le 30/10/2026 ; Syn Pro (japonais) écarté.
             { id: 'solar-pro4', name: { fr: 'Solar Pro 4 (Phare, contexte 512k)', en: 'Solar Pro 4 (Flagship, 512k context)', es: 'Solar Pro 4 (Insignia, contexto 512k)' } },
+            // Contributor : même modèle que Solar Pro 4 à −70 %, échanges utilisés pour entraîner Solar
+            // (activation par le propriétaire de l'organisation). Mini 4.5 : aperçu à −90 %, renvoyé
+            // automatiquement vers solar-mini-4-5 le 03/12/2026.
+            { id: 'solar-pro-4-contributor', name: { fr: 'Solar Pro 4 Contributor (−70 % — vos échanges entraînent Upstage)', en: 'Solar Pro 4 Contributor (−70% — your chats train Upstage)', es: 'Solar Pro 4 Contributor (−70 % — tus chats entrenan a Upstage)' } },
+            { id: 'solar-mini-4-5-preview', name: { fr: 'Solar Mini 4.5 (Aperçu, −90 %)', en: 'Solar Mini 4.5 (Preview, −90%)', es: 'Solar Mini 4.5 (Vista previa, −90 %)' } },
             { id: 'solar-mini4', name: { fr: 'Solar Mini 4 (Rapide, très économique)', en: 'Solar Mini 4 (Fast, very low cost)', es: 'Solar Mini 4 (Rápido, muy económico)' } }
         ]
     };
@@ -6972,7 +6979,7 @@ RULES:
             // Réflexion COUPÉE par défaut (paramètre omis) ; reasoning_effort low → max l'active,
             // none la coupe. Réflexion streamée en delta.reasoning (lue par le parser openai).
             native: [],
-            configurable: ['solar-pro4', 'solar-mini4']
+            configurable: ['solar-pro4', 'solar-pro-4-contributor', 'solar-mini-4-5-preview', 'solar-mini4']
         },
         grok: {
             // Grok 4.5+ : raisonnement toujours actif, effort réglable (reasoning.effort). La réflexion
@@ -7138,6 +7145,8 @@ RULES:
     // Qwen : outils web_search / web_extractor de l'API Responses (sources dans web_search_call) ;
     // le Chat Completions ne renvoie pas les sources → seuls ces modèles, routés vers Responses.
     const QWEN_NO_EXTRACTOR = ['qwen4-max'];   // web_extractor non documenté pour ce modèle (20/11/2026)
+    // Modèles Qwen dont max_tokens couvre la réflexion ET la réponse (doc Qwen4 Max, 25/11/2026)
+    const QWEN_THINK_IN_OUTPUT = ['qwen4-max'];
     // DeepSeek : outils serveur deepseek_web_search / deepseek_read_url (13/11/2026), deepseek-flash seulement
     const DEEPSEEK_WEB_MODELS = ['deepseek-flash'];
     const QWEN_WEB_MODELS = ['qwen4-max', 'qwen3.8-max', 'qwen3.8-flash', 'qwen3.7-max', 'qwen3.7-plus', 'qwen3.7-flash', 'glm-5.2'];
@@ -9795,7 +9804,6 @@ A small follow-up tweak the user asks for can be done right away without a new p
     const NO_VISION = {
         deepseek: 'all',
         qwen: ['qwen3.7-max', 'qwen-max', 'qwen-plus', 'qwen-flash', 'qwen3-coder-flash', 'glm-5.3', 'glm-5.2', 'glm-5.2-fast-preview', 'glm-5.1', 'z-image-turbo', 'qwen-deep-research'],
-        grok: ['grok-build-0.1'],
         mistral: ['mistral-small-latest', 'codestral-latest'],  // Small 4 : entrée image non documentée
         cohere: ['command-a-reasoning-08-2025', 'command-a-03-2025', 'north-mini-code-1.0', 'command-r7b-12-2024', 'command-a-translate-08-2025', 'north-small-translate-1.0'],
         upstage: 'all',  // Solar Pro 4 / Mini 4 : texte seul
@@ -11238,6 +11246,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
         if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
             body.enable_thinking = !!onThinkingChunk;
             if (onThinkingChunk) body.thinking_budget = parseInt(thinkingBudgetSelect?.value) || 10000;
+            // Qwen4 Max : max_tokens = réflexion + réponse → budget de réflexion + place pour la réponse
+            if (onThinkingChunk && QWEN_THINK_IN_OUTPUT.includes(model)) body.max_tokens = body.thinking_budget + maxOut();
         }
 
         // Augure : modèles à réflexion → pas de max_tokens (la doc demande de l'omettre) ; réflexion
@@ -18835,6 +18845,20 @@ A small follow-up tweak the user asks for can be done right away without a new p
     init();
 
     // ===== STREAMING UTILS =====
+    // Lecture d'un morceau de flux avec garde-fou : rien reçu pendant STREAM_IDLE_MS → flux annulé et
+    // erreur claire, au lieu d'une bulle qui tourne sans fin (les fournisseurs envoient des données ou
+    // des « keep-alive » bien plus souvent ; la recherche approfondie et la vidéo ont leur propre suivi).
+    const STREAM_IDLE_MS = 5 * 60 * 1000;
+    function readWithIdleGuard(reader) {
+        let timer;
+        const idle = new Promise((_, reject) => {
+            timer = setTimeout(() => {
+                reader.cancel().catch(() => {});
+                reject(new Error((I18N[currentLang] || I18N.fr).streamIdle));
+            }, STREAM_IDLE_MS);
+        });
+        return Promise.race([reader.read(), idle]).finally(() => clearTimeout(timer));
+    }
     async function readStream(response, onChunk, provider, onThinkingChunk, onMeta) {
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
@@ -19304,7 +19328,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         }
 
         while (true) {
-            const { done, value } = await reader.read();
+            const { done, value } = await readWithIdleGuard(reader);
             
             if (done) {
                 if (buffer.trim().length > 0) {
