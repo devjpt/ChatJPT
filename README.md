@@ -1,6 +1,6 @@
 ================================================================
   ChatJPT — Multi-Model AI Agent
-  Version 1.38.3
+  Version 1.39.0
   By Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -24,7 +24,7 @@ FEATURES
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — web search and link reading on Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — images, web search and link reading on Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; H3-Image up to 4K, Image-01; Hailuo video; voice)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, video, and voice; International, Mainland China, US or Hong Kong key)
@@ -168,7 +168,7 @@ INSTALLATION
 ------------
   No installation required.
 
-  1. Download the file ChatJPT_1_38_3.html
+  1. Download the file ChatJPT_1_39_0.html
   2. Open it in your browser (Chrome, Firefox, Edge, Safari)
   3. Enter your API keys in the configuration panel (left side)
   4. Choose your provider and model
@@ -200,7 +200,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agent IA Multi-Modèles
-  Version 1.38.3
+  Version 1.39.0
   Par Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -225,7 +225,7 @@ FONCTIONNALITÉS
       • Augure     (Canada — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canada — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (France — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — recherche web et lecture des liens avec Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — images, recherche web et lecture des liens avec Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat ; H3-Image jusqu'à 4K, Image-01 ; vidéo Hailuo ; voix)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, image, vidéo et voix ; clé International, Chine continentale, États-Unis ou Hong Kong)
@@ -377,7 +377,7 @@ INSTALLATION
 ------------
   Aucune installation requise.
 
-  1. Téléchargez le fichier ChatJPT_1_38_3.html
+  1. Téléchargez le fichier ChatJPT_1_39_0.html
   2. Ouvrez-le dans votre navigateur (Chrome, Firefox, Edge, Safari)
   3. Entrez vos clés API dans le panneau de configuration (côté gauche)
   4. Choisissez votre fournisseur et votre modèle
@@ -411,7 +411,7 @@ SUPPORT & CONTACT
 
 ================================================================
   ChatJPT — Agente de IA Multimodelo
-  Versión 1.38.3
+  Versión 1.39.0
   Por Jean-Philippe Theriault — https://www.devjpt.com/
 ================================================================
 
@@ -436,7 +436,7 @@ CARACTERÍSTICAS
       • Augure     (Canadá — Ossington 5, Rosedale One, Tofino 3, Ossington 4.1)
       • Cohere     (Canadá — Command A+, A Reasoning, A Vision, North Mini Code, North Small Translate, etc.)
       • Mistral    (Francia — Mistral Large 4, Medium 3.5, Small 4, Codestral)
-      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — búsqueda web y lectura de enlaces con Flash)
+      • DeepSeek   (DeepSeek V4 Pro, DeepSeek Flash — imágenes, búsqueda web y lectura de enlaces con Flash)
       • Kimi       (Moonshot AI — Kimi K3.1 Pro, K3.1 Pro Highspeed, K3)
       • MiniMax    (M3.1 Flash, M3 — chat; H3-Image hasta 4K, Image-01; video Hailuo; voz)
       • Alibaba    (Qwen4 Max, Qwen + Z.ai GLM — chat, imagen, video y voz; clave Internacional, China continental, Estados Unidos o Hong Kong)
@@ -585,7 +585,7 @@ INSTALACIÓN
 -----------
   No requiere instalación.
 
-  1. Descarga el archivo ChatJPT_1_38_3.html
+  1. Descarga el archivo ChatJPT_1_39_0.html
   2. Ábrelo en tu navegador (Chrome, Firefox, Edge, Safari)
   3. Ingresa tus claves API en el panel de configuración (lado izquierdo)
   4. Elige tu proveedor y modelo

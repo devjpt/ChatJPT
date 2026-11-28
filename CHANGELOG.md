@@ -8,6 +8,26 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.39.0] — 2026-11-27
+  Added
+    - Kimi K3.1 Pro Prime (Moonshot, through your Alibaba key): same
+      abilities as K3.1 Pro (reasoning, images), faster.
+    - DeepSeek Flash now reads attached images (V4 Pro stays text only).
+    - Recraft "Vectorize Pro": finer, more faithful SVG tracing ($0.04).
+    - Bria Product: "Cut out the product (RMBG 3)", the most precise cutout
+      (hair, fur, glass), a few seconds.
+  Changed
+    - OpenAI GPT-6.2 Astra and Sol: the system prompt is sent as the first
+      "developer" message, so OpenAI can read it from cache (cheaper on
+      long chats).
+    - Mistral Large 4 is out of preview (general availability).
+  Fixed
+    - Grok 4.3 now offers only the effort levels it accepts (low, medium;
+      low by default).
+  Removed
+    - Gemini 2.5 Pro and 2.5 Flash: from Dec 1, 2026, Google redirects them
+      to models that would reject ChatJPT's requests.
+
 [1.38.3] — 2026-11-27
   Added
     - Alibaba Qwen4 Max can now read pasted links (🔗), now documented by
@@ -1021,6 +1041,28 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.39.0] — 2026-11-27
+  Ajouté
+    - Kimi K3.1 Pro Prime (Moonshot, avec votre clé Alibaba) : mêmes
+      capacités que K3.1 Pro (réflexion, images), plus rapide.
+    - DeepSeek Flash lit maintenant les images jointes (V4 Pro reste en
+      texte seul).
+    - Recraft « Vectoriser Pro » : tracé SVG plus fin et plus fidèle
+      (0,04 $).
+    - Bria Produit : « Détourer le produit (RMBG 3) », le détourage le plus
+      précis (cheveux, fourrure, verre), quelques secondes.
+  Modifié
+    - OpenAI GPT-6.2 Astra et Sol : la consigne système part en premier
+      message « développeur », pour qu'OpenAI la relise en cache (moins
+      cher sur les longues conversations).
+    - Mistral Large 4 n'est plus en aperçu (disponibilité générale).
+  Corrigé
+    - Grok 4.3 ne propose plus que les niveaux d'effort qu'il accepte
+      (bas, moyen ; bas par défaut).
+  Retiré
+    - Gemini 2.5 Pro et 2.5 Flash : dès le 1er déc. 2026, Google les
+      redirige vers des modèles qui refuseraient les requêtes de ChatJPT.
 
 [1.38.3] — 2026-11-27
   Ajouté
@@ -2120,6 +2162,27 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.39.0] — 2026-11-27
+  Añadido
+    - Kimi K3.1 Pro Prime (Moonshot, con tu clave de Alibaba): mismas
+      capacidades que K3.1 Pro (razonamiento, imágenes), más rápido.
+    - DeepSeek Flash ahora lee las imágenes adjuntas (V4 Pro sigue solo con
+      texto).
+    - Recraft "Vectorizar Pro": trazado SVG más fino y más fiel (0,04 $).
+    - Bria Producto: "Recortar el producto (RMBG 3)", el recorte más
+      preciso (cabello, pelaje, vidrio), unos segundos.
+  Cambiado
+    - OpenAI GPT-6.2 Astra y Sol: la instrucción del sistema se envía como
+      primer mensaje "developer", para que OpenAI la lea en caché (más
+      barato en conversaciones largas).
+    - Mistral Large 4 ya no está en vista previa (disponibilidad general).
+  Corregido
+    - Grok 4.3 solo ofrece los niveles de esfuerzo que acepta (bajo, medio;
+      bajo por defecto).
+  Eliminado
+    - Gemini 2.5 Pro y 2.5 Flash: desde el 1 de dic. de 2026, Google los
+      redirige a modelos que rechazarían las solicitudes de ChatJPT.
 
 [1.38.3] — 2026-11-27
   Añadido
