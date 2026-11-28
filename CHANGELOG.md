@@ -8,6 +8,18 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.38.3] — 2026-11-27
+  Added
+    - Alibaba Qwen4 Max can now read pasted links (🔗), now documented by
+      Alibaba. It reads the page directly instead of searching the web
+      many times for traces of it, which is much faster.
+  Fixed
+    - Alibaba (all models): 🔗 link reading on its own was refused by Qwen;
+      web search and reasoning, required with it, are now added
+      automatically.
+    - Sources: Google redirect links ("Url google.com") now show the real
+      address; lists of more than 20 sources start collapsed.
+
 [1.38.2] — 2026-11-27
   Fixed
     - Alibaba Qwen4 Max answers again: its stream lines start with "data:"
@@ -1009,6 +1021,20 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.38.3] — 2026-11-27
+  Ajouté
+    - Alibaba Qwen4 Max lit maintenant les liens collés (🔗), désormais
+      documenté par Alibaba. Il lit la page directement au lieu de lancer
+      de nombreuses recherches pour en trouver des traces : beaucoup plus
+      rapide.
+  Corrigé
+    - Alibaba (tous les modèles) : la lecture de lien 🔗 seule était
+      refusée par Qwen ; la recherche web et la réflexion, exigées avec
+      elle, sont maintenant ajoutées d'office.
+    - Sources : les liens de redirection Google (« Url google.com »)
+      affichent la vraie adresse ; au-delà de 20 sources, la liste est
+      repliée par défaut.
 
 [1.38.2] — 2026-11-27
   Corrigé
@@ -2094,6 +2120,19 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.38.3] — 2026-11-27
+  Añadido
+    - Alibaba Qwen4 Max ahora lee los enlaces pegados (🔗), ya documentado
+      por Alibaba. Lee la página directamente en lugar de hacer muchas
+      búsquedas para encontrar rastros de ella: mucho más rápido.
+  Corregido
+    - Alibaba (todos los modelos): Qwen rechazaba la lectura de enlaces 🔗
+      sola; la búsqueda web y el razonamiento, exigidos con ella, ahora se
+      añaden automáticamente.
+    - Fuentes: los enlaces de redirección de Google ("Url google.com")
+      muestran la dirección real; con más de 20 fuentes, la lista empieza
+      plegada.
 
 [1.38.2] — 2026-11-27
   Corregido

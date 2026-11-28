@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.38.2
+  Version 1.38.3
 -->
 
 
@@ -3922,7 +3922,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.2 - Dernière version : ",
+            creditVersion: "Version 1.38.3 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 27 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4810,7 +4810,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.2 - Latest version: ",
+            creditVersion: "Version 1.38.3 - Latest version: ",
             appUpdated: "📅 Updated: November 27, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5698,7 +5698,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.38.2 - Última versión: ",
+            creditVersion: "Versión 1.38.3 - Última versión: ",
             appUpdated: "📅 Actualizado: 27 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -7153,7 +7153,8 @@ RULES:
     const WEB_SEARCH_SUPPORT = { gemini: true, grok: true, claude: true, openai: true, meta: true, minimax: true, qwen: true, deepseek: true };
     // Qwen : outils web_search / web_extractor de l'API Responses (sources dans web_search_call) ;
     // le Chat Completions ne renvoie pas les sources → seuls ces modèles, routés vers Responses.
-    const QWEN_NO_EXTRACTOR = ['qwen4-max'];   // web_extractor non documenté pour ce modèle (20/11/2026)
+    // Modèles Qwen sans web_extractor (🔗 masqué). Qwen4 Max retiré le 27/11/2026 : la doc le recommande désormais.
+    const QWEN_NO_EXTRACTOR = [];
     // Modèles Qwen dont max_tokens couvre la réflexion ET la réponse (doc Qwen4 Max, 25/11/2026)
     const QWEN_THINK_IN_OUTPUT = ['qwen4-max'];
     // DeepSeek : outils serveur deepseek_web_search / deepseek_read_url (13/11/2026), deepseek-flash seulement
@@ -11513,8 +11514,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
     async function callQwenResponsesStream(model, key, onChunk, onThinkingChunk, signal, onMeta) {
         const systemPrompt = SYSTEM_PROMPTS[currentMode] || SYSTEM_PROMPTS.chat;
         const tools = [];
-        if (webSearchEnabled) tools.push({ type: 'web_search' });
-        if (readLinksEnabled && supportsReadLinks('qwen', currentMode, model)) tools.push({ type: 'web_extractor' });
+        const extract = readLinksEnabled && supportsReadLinks('qwen', currentMode, model);
+        // Doc : « web_extractor » doit être accompagné de « web_search » (sinon erreur 400)
+        if (webSearchEnabled || extract) tools.push({ type: 'web_search' });
+        if (extract) tools.push({ type: 'web_extractor' });
         const body = {
             model,
             instructions: systemPrompt,
@@ -11523,8 +11526,8 @@ A small follow-up tweak the user asks for can be done right away without a new p
             tools
         };
         if (THINKING_SUPPORT.qwen.configurable.includes(model)) {
-            // qwen3.7-max : la doc exige la réflexion avec web_extractor
-            const think = !!onThinkingChunk || (readLinksEnabled && model === 'qwen3.7-max');
+            // Doc : la réflexion est obligatoire avec web_extractor (tous les modèles)
+            const think = !!onThinkingChunk || extract;
             body.enable_thinking = think;
             if (think) body.thinking_budget = parseInt(thinkingBudgetSelect?.value) || 10000;
         }
@@ -16749,8 +16752,21 @@ A small follow-up tweak the user asks for can be done right away without a new p
         return seg.length > 70 ? seg.slice(0, 69) + '…' : seg.charAt(0).toUpperCase() + seg.slice(1);
     }
 
+    // Lien de redirection (google.com/url?q=…, /goto?url=…) → adresse réelle, sinon l'adresse telle quelle
+    function unwrapRedirect(u) {
+        try {
+            const url = new URL(u);
+            if (/(^|\.)google\.[a-z.]+$/i.test(url.hostname) && /^\/(url|goto)$/.test(url.pathname)) {
+                const target = url.searchParams.get('q') || url.searchParams.get('url');
+                if (target && /^https?:\/\//i.test(target)) return target;
+            }
+        } catch (e) { /* adresse invalide : filtrée plus bas */ }
+        return u;
+    }
+
     function buildSourcesBlock(citations) {
         const seen = new Set();
+        citations = (citations || []).map(c => (c && c.url) ? { ...c, url: unwrapRedirect(c.url) } : c);
         const valid = (citations || []).filter(c => {
             if (!c || !c.url || !/^https?:\/\//i.test(c.url) || seen.has(c.url)) return false;
             seen.add(c.url); return true;
@@ -16759,7 +16775,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         const details = document.createElement('details');
         details.className = 'sources-block';
-        details.open = true;
+        details.open = valid.length <= 20;   // longue liste (recherche en plusieurs tours) : repliée
         const summary = document.createElement('summary');
         summary.className = 'sources-summary';
         summary.textContent = `🔗 ${I18N[currentLang].sourcesTitle || 'Sources'} (${valid.length})`;
