@@ -8,6 +8,15 @@
   ENGLISH
 ----------------------------------------------------------------
 
+[1.38.2] — 2026-11-27
+  Fixed
+    - Alibaba Qwen4 Max answers again: its stream lines start with "data:"
+      without the space that ChatJPT expected (the space is optional in
+      the standard). Both forms are now read, for every provider.
+    - An answer that ends without any text no longer spins forever: a clear
+      message says the model only reasoned, or shows the start of what was
+      received when it could not be read.
+
 [1.38.1] — 2026-11-27
   Fixed
     - Alibaba Qwen4 Max no longer spins without answering: its output limit
@@ -1000,6 +1009,16 @@
 ----------------------------------------------------------------
   FRANÇAIS
 ----------------------------------------------------------------
+
+[1.38.2] — 2026-11-27
+  Corrigé
+    - Alibaba Qwen4 Max répond de nouveau : ses lignes de flux commencent
+      par « data: » sans l'espace qu'attendait ChatJPT (l'espace est
+      facultatif dans la norme). Les deux formes sont maintenant lues, pour
+      tous les fournisseurs.
+    - Une réponse qui se termine sans aucun texte ne tourne plus sans fin :
+      un message clair indique que le modèle a seulement réfléchi, ou montre
+      le début de ce qui a été reçu quand c'est illisible.
 
 [1.38.1] — 2026-11-27
   Corrigé
@@ -2075,6 +2094,16 @@
 ----------------------------------------------------------------
   ESPAÑOL
 ----------------------------------------------------------------
+
+[1.38.2] — 2026-11-27
+  Corregido
+    - Alibaba Qwen4 Max responde de nuevo: sus líneas de flujo empiezan con
+      "data:" sin el espacio que esperaba ChatJPT (el espacio es opcional
+      en el estándar). Ahora se leen ambas formas, para todos los
+      proveedores.
+    - Una respuesta que termina sin ningún texto ya no gira sin fin: un
+      mensaje claro indica que el modelo solo razonó, o muestra el inicio
+      de lo recibido cuando no se puede leer.
 
 [1.38.1] — 2026-11-27
   Corregido

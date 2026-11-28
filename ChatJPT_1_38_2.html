@@ -2,7 +2,7 @@
   Développé par Jean-Philippe Theriault
   Site : https://www.devjpt.com/
   Licence : Gratuit / Freeware (utilisation libre)
-  Version 1.38.1
+  Version 1.38.2
 -->
 
 
@@ -3909,6 +3909,9 @@
             toastRetrying: "🔄 Nouvelle tentative ({attempt}) dans {sec}s...",
             toastStorageFull: "⚠️ Mémoire du navigateur pleine — impossible de sauvegarder.",
             streamIdle: "⏳ Aucune donnée reçue depuis 5 minutes : requête arrêtée. Réessaie, ou choisis une réflexion moins profonde.",
+            emptyAnswer: "Réponse vide : le fournisseur n'a renvoyé aucun texte.",
+            emptyAnswerThinking: "Le modèle a réfléchi mais n'a écrit aucune réponse (limite atteinte pendant la réflexion ?). Essaie une réflexion moins profonde.",
+            emptyAnswerRaw: "Réponse illisible pour ChatJPT. Début de ce qui a été reçu : {raw}",
             keysUnreadable: "🔑 {n} clé(s) API enregistrée(s) n'ont pas pu être relues (navigateur différent ou données abîmées). Saisis-les de nouveau : elles resteront ensuite enregistrées.",
             errNetwork: "Connexion impossible — vérifiez votre Internet.",
             errInvalidKey: "Clé API invalide — vérifiez votre clé dans l'en-tête.",
@@ -3919,7 +3922,7 @@
             errContentPolicy: "Contenu refusé par le filtre de sécurité du fournisseur.",
             errCors: "Requête bloquée par le navigateur (CORS).",
             creditDev: "🤖 Développé par Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.1 - Dernière version : ",
+            creditVersion: "Version 1.38.2 - Dernière version : ",
             appUpdated: "📅 Mis à jour : 27 novembre 2026",
             creditLicense: "Licence : Gratuit / Freeware (utilisation libre)",
             creditBug: "🐛 Signaler un bug",
@@ -4794,6 +4797,9 @@
             toastRetrying: "🔄 Retry attempt ({attempt}) in {sec}s...",
             toastStorageFull: "⚠️ Browser storage full — cannot save.",
             streamIdle: "⏳ No data received for 5 minutes: request stopped. Try again, or choose a lighter reasoning level.",
+            emptyAnswer: "Empty answer: the provider returned no text.",
+            emptyAnswerThinking: "The model reasoned but wrote no answer (limit reached while reasoning?). Try a lighter reasoning level.",
+            emptyAnswerRaw: "Answer ChatJPT could not read. Start of what was received: {raw}",
             keysUnreadable: "🔑 {n} saved API key(s) could not be read (different browser or damaged data). Enter them again: they will then stay saved.",
             errNetwork: "Connection failed — check your Internet.",
             errInvalidKey: "Invalid API key — check your key in the header.",
@@ -4804,7 +4810,7 @@
             errContentPolicy: "Content rejected by provider's safety filter.",
             errCors: "Request blocked by the browser (CORS).",
             creditDev: "🤖 Developed by Jean-Philippe Theriault",
-            creditVersion: "Version 1.38.1 - Latest version: ",
+            creditVersion: "Version 1.38.2 - Latest version: ",
             appUpdated: "📅 Updated: November 27, 2026",
             creditLicense: "License: Free / Freeware (open use)",
             creditBug: "🐛 Report a bug",
@@ -5679,6 +5685,9 @@
             toastRetrying: "🔄 Reintentando ({attempt}) en {sec}s...",
             toastStorageFull: "⚠️ Memoria del navegador llena — no se puede guardar.",
             streamIdle: "⏳ No se recibieron datos en 5 minutos: solicitud detenida. Inténtalo de nuevo o elige un razonamiento más ligero.",
+            emptyAnswer: "Respuesta vacía: el proveedor no devolvió ningún texto.",
+            emptyAnswerThinking: "El modelo razonó pero no escribió ninguna respuesta (¿límite alcanzado durante el razonamiento?). Prueba un razonamiento más ligero.",
+            emptyAnswerRaw: "Respuesta que ChatJPT no pudo leer. Inicio de lo recibido: {raw}",
             keysUnreadable: "🔑 {n} clave(s) API guardada(s) no se pudieron leer (otro navegador o datos dañados). Ingrésalas de nuevo: luego quedarán guardadas.",
             errNetwork: "No se pudo conectar — verifica tu Internet.",
             errInvalidKey: "Clave API inválida — verifica tu clave en el encabezado.",
@@ -5689,7 +5698,7 @@
             errContentPolicy: "Contenido rechazado por el filtro de seguridad del proveedor.",
             errCors: "Solicitud bloqueada por el navegador (CORS).",
             creditDev: "🤖 Desarrollado por Jean-Philippe Theriault",
-            creditVersion: "Versión 1.38.1 - Última versión: ",
+            creditVersion: "Versión 1.38.2 - Última versión: ",
             appUpdated: "📅 Actualizado: 27 de noviembre de 2026",
             creditLicense: "Licencia: Gratis / Freeware (uso libre)",
             creditBug: "🐛 Reportar un error",
@@ -10887,8 +10896,10 @@ A small follow-up tweak the user asks for can be done right away without a new p
         // recherche web. Usage : on garde le dernier (Gemini cumulatif). Citations :
         // on accumule en dédupliquant par URL (peuvent arriver sur plusieurs chunks).
         let encReasoning = null;   // Grok 4.7 : éléments de réflexion chiffrés
+        let rawHead = '';          // début brut du flux (readStream), montré si rien de lisible n'arrive
         const onMeta = (meta) => {
             if (!meta) return;
+            if (typeof meta.rawHead === 'string') rawHead = meta.rawHead;
             if (meta.encReasoning) (encReasoning = encReasoning || []).push(meta.encReasoning);
             if (meta.usage) usage = meta.usage;
             if (meta.citations && meta.citations.length) {
@@ -11044,6 +11055,13 @@ A small follow-up tweak the user asks for can be done right away without a new p
 
         try {
             await dispatchStream(provider, model, key, onChunk, isThinkingActive ? onThinkingChunk : null, signal, onMeta);
+            // Flux terminé sans aucun texte de réponse : on ne laisse jamais l'indicateur tourner.
+            // Erreur explicite (réflexion seule, ou extrait de ce qui a été reçu pour le diagnostic).
+            if (!fullResponse && !signal?.aborted) {
+                const t = I18N[currentLang];
+                const head = (rawHead || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+                throw new Error(fullThinking ? t.emptyAnswerThinking : (head ? t.emptyAnswerRaw.replace('{raw}', head) : t.emptyAnswer));
+            }
 
             // Final render — cancel any pending RAF before to avoid race condition
             cancelStreamRender();
@@ -18863,6 +18881,7 @@ A small follow-up tweak the user asks for can be done right away without a new p
         const reader = response.body.getReader();
         const decoder = new TextDecoder("utf-8");
         let buffer = "";
+        let rawHead = "";   // début brut du flux (diagnostic d'une réponse illisible)
         let streamDone = false;
         // Track current content block type for Claude thinking
         let claudeCurrentBlockType = null;
@@ -18909,6 +18928,9 @@ A small follow-up tweak the user asks for can be done right away without a new p
             for (let line of lines) {
                 line = line.trim();
                 if (!line) continue;
+                // Norme SSE : l'espace après « data: » / « event: » est facultatif (certaines passerelles,
+                // ex. Qwen4 Max, peuvent l'omettre) → forme avec espace attendue par les parsers ci-dessous
+                if (/^(data|event):[^ ]/.test(line)) line = line.replace(/^(data|event):/, '$1: ');
 
                 if (provider === 'openai') {
                     if (line.startsWith("data: ")) {
@@ -19338,11 +19360,14 @@ A small follow-up tweak the user asks for can be done right away without a new p
                 break;
             }
             
-            buffer += decoder.decode(value, { stream: true });
+            const piece = decoder.decode(value, { stream: true });
+            if (rawHead.length < 600) { rawHead += piece; if (onMeta && rawHead.length >= 600) onMeta({ rawHead: rawHead.slice(0, 600) }); }
+            buffer += piece;
             processBuffer();
             
             if (streamDone) break;
         }
+        if (onMeta && rawHead.length < 600) onMeta({ rawHead });
         // Perplexity : vider le texte retenu si le flux s'est terminé sans response.completed
         if (provider === 'perplexity') pplxEmit('', true);
 
